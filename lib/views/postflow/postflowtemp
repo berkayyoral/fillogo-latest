@@ -1,0 +1,451 @@
+import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
+import 'package:fillogo/controllers/user/user_state_controller.dart';
+import 'package:fillogo/export.dart';
+import 'package:fillogo/models/post/get_home_post.dart';
+import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/postflow/components/new_post_create_button.dart';
+import 'package:fillogo/views/postflow/components/only_route_widget.dart';
+import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
+import 'package:fillogo/views/testFolder/test19/route_api_services.dart';
+import 'package:fillogo/widgets/navigation_drawer.dart';
+import 'package:fillogo/widgets/share_post_progressbar_widget.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
+import '../route_calculate_view/components/create_route_controller.dart';
+
+class PostFlowView extends StatelessWidget {
+  PostFlowView({Key? key}) : super(key: key);
+
+  final PostService postService = PostService();
+  GeneralDrawerController postFlowDrawerController =
+      Get.find<GeneralDrawerController>();
+
+  GetPollylineRequest getPollylineRequest = GetPollylineRequest();
+
+  CreateRouteController createRouteController = Get.find();
+
+  DateFormat inputFormat = DateFormat('dd.MM.yyyy');
+
+  final HomeController homeContoller = Get.put(HomeController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: postFlowDrawerController.postFlowPageScaffoldKey,
+      appBar: AppBarGenel(
+        leading: GestureDetector(
+          onTap: () {
+            postFlowDrawerController.openPostFlowScaffoldDrawer();
+          },
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 20.w,
+              right: 5.h,
+            ),
+            child: SvgPicture.asset(
+              height: 25.h,
+              width: 25.w,
+              'assets/icons/open-drawer-icon.svg',
+              color: AppConstants().ltLogoGrey,
+            ),
+          ),
+        ),
+        title: Image.asset(
+          'assets/logo/logo-1.png',
+          height: 45,
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(NavigationConstants.notifications);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: 5.w,
+              ),
+              child: SvgPicture.asset(
+                height: 25.h,
+                width: 25.w,
+                'assets/icons/notification-icon.svg',
+                color: AppConstants().ltLogoGrey,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              Get.toNamed(NavigationConstants.message);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 5.w,
+                right: 20.w,
+              ),
+              child: SvgPicture.asset(
+                'assets/icons/message-icon.svg',
+                height: 25.h,
+                width: 25.w,
+                color: const Color(0xff3E3E3E),
+              ),
+            ),
+          ),
+        ],
+      ),
+      drawer: NavigationDrawerWidget(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            NewPostCreateButtonView(),
+            const StoryFlowWiew(),
+            Divider(
+              color: AppConstants().ltLogoGrey,
+              height: 2.h,
+            ),
+            10.h.spaceY,
+            Obx(() {
+              return postFlowDrawerController.isLoading
+                  ? const SharePostProgressBarWidget(
+                      widget: Text(""),
+                    )
+                  : const SizedBox();
+            }),
+            GetBuilder<HomeController>(
+                id: "homePage",
+                builder: (controller) {
+                  return RefreshIndicator(onRefresh: () async {
+                    homeContoller.currentPage.value = 1;
+                    homeContoller.scrollOffset.value = 600;
+                    homeContoller.snapshotList.clear();
+                    homeContoller.fillList(1);
+                  }, child: Obx(() {
+                    return GetBuilder<UserStateController>(
+                      id: 'comment',
+                      builder: (controller) {
+                        return GetBuilder<UserStateController>(
+                          id: 'like',
+                          builder: (controller) {
+                            return FutureBuilder<GetHomePostResponse?>(
+                              future: GeneralServicesTemp().makeGetRequest(
+                                  "/posts/get-home-posts?page=1", {
+                                "Content-type": "application/json",
+                                'Authorization':
+                                    'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                              }).then((value) {
+                                if (value != null) {
+                                  return GetHomePostResponse.fromJson(
+                                      json.decode(value));
+                                }
+                              }),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        snapshot.data!.data![0].result!.length,
+                                    itemBuilder: (context, index) {
+                                      return (snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .media!
+                                                  .isNotEmpty ||
+                                              snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .text !=
+                                                  "default text")
+                                          ? PostFlowWidget(
+                                              didILiked: snapshot.data!.data![0]
+                                                  .result![index].didILiked!,
+                                              postId: snapshot.data!.data![0]
+                                                  .result![index].post!.id!,
+                                              onlyPost: snapshot.data!.data![0]
+                                                  .result![index].onlyPost!,
+                                              centerImageUrl: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .media!,
+                                              subtitle: snapshot.data!.data![0]
+                                                  .result![index].post!.text!,
+                                              name:
+                                                  "${snapshot.data!.data![0].result![index].post!.user!.name!} ${snapshot.data!.data![0].result![index].post!.user!.surname!}",
+                                              userId: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .user!
+                                                  .id!,
+                                              userProfilePhoto: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .user!
+                                                  .profilePicture!,
+                                              locationName: snapshot
+                                                          .data!
+                                                          .data![0]
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute !=
+                                                      null
+                                                  ? "${snapshot.data!.data![0].result![index].post!.postroute!.startingCity} - ${snapshot.data!.data![0].result![index].post!.postroute!.endingCity!}"
+                                                  : "",
+                                              beforeHours: timeago.format(
+                                                  DateTime.parse(snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .createdAt!
+                                                      .toString()),
+                                                  locale: "tr"),
+                                              commentCount: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .commentNum!
+                                                  .toString(),
+                                              firstCommentName: "",
+                                              firstCommentTitle: "",
+                                              firstLikeName: "",
+                                              firstLikeUrl: "",
+                                              othersLikeCount: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .likedNum!
+                                                  .toString(),
+                                              secondLikeUrl: "",
+                                              thirdLikeUrl: "",
+                                              haveTag: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels!
+                                                  .isNotEmpty,
+                                              usersTagged: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels!,
+                                              haveEmotion: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postemojis!
+                                                  .isNotEmpty,
+                                              emotion: snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .emoji!
+                                                  : "",
+                                              emotionContent: snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .name!
+                                                  : "",
+                                              likedStatus: 1,
+                                            )
+                                          : OnlyRouteWidget(
+                                              didILiked: snapshot.data!.data![0]
+                                                  .result![index].didILiked!,
+                                              routeContent:
+                                                  "${snapshot.data!.data![0].result![index].post!.postroute!.startingCity!} -> ${snapshot.data!.data![0].result![index].post!.postroute!.endingCity!}",
+                                              routeStartDate: inputFormat
+                                                  .format(DateTime.parse(
+                                                      snapshot
+                                                          .data!
+                                                          .data![0]
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute!
+                                                          .departureDate!
+                                                          .toString()))
+                                                  .toString(),
+                                              routeEndDate: inputFormat
+                                                  .format(DateTime.parse(
+                                                      snapshot
+                                                          .data!
+                                                          .data![0]
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute!
+                                                          .arrivalDate!
+                                                          .toString()))
+                                                  .toString(),
+                                              postId: snapshot.data!.data![0]
+                                                  .result![index].post!.id!,
+                                              onlyPost: snapshot.data!.data![0]
+                                                  .result![index].onlyPost!,
+                                              centerImageUrl: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .media!,
+                                              subtitle: snapshot.data!.data![0]
+                                                  .result![index].post!.text!,
+                                              name:
+                                                  "${snapshot.data!.data![0].result![index].post!.user!.name!} ${snapshot.data!.data![0].result![index].post!.user!.surname!}",
+                                              userId: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .user!
+                                                  .id!,
+                                              userProfilePhoto: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .user!
+                                                  .profilePicture!,
+                                              locationName: snapshot
+                                                          .data!
+                                                          .data![0]
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute !=
+                                                      null
+                                                  ? "${snapshot.data!.data![0].result![index].post!.postroute!.startingCity} - ${snapshot.data!.data![0].result![index].post!.postroute!.endingCity!}"
+                                                  : "",
+                                              beforeHours: timeago.format(
+                                                  DateTime.parse(snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .createdAt!
+                                                      .toString()),
+                                                  locale: "tr"),
+                                              commentCount: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .commentNum!
+                                                  .toString(),
+                                              firstCommentName: "",
+                                              firstCommentTitle: "",
+                                              firstLikeName: "",
+                                              firstLikeUrl: "",
+                                              othersLikeCount: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .likedNum!
+                                                  .toString(),
+                                              secondLikeUrl: "",
+                                              thirdLikeUrl: "",
+                                              haveTag: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels!
+                                                  .isNotEmpty,
+                                              usersTagged: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels!,
+                                              haveEmotion: snapshot
+                                                  .data!
+                                                  .data![0]
+                                                  .result![index]
+                                                  .post!
+                                                  .postemojis!
+                                                  .isNotEmpty,
+                                              emotion: snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .emoji!
+                                                  : "",
+                                              emotionContent: snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data![0]
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .name!
+                                                  : "",
+                                              likedStatus: 1,
+                                            );
+                                    },
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }));
+                })
+          ],
+        ),
+      ),
+    );
+  }
+}

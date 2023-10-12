@@ -1,0 +1,31 @@
+LoginServicesRequestModel loginServicesRequestModel =
+      LoginServicesRequestModel(
+    phoneNumberOrMail: "sadik@gmail.com",
+    password: "111111",
+  );
+
+  LoginServicesResponseModel loginServicesResponseModel =
+      LoginServicesResponseModel();
+
+
+
+
+String? accessToken = LocaleManager.instance.getString(PreferencesKeys.accessToken);
+LoginServicesResponseModel loginResponseBody;
+await GeneralServicesTemp().makePostRequest(
+    "/users/login",
+    loginServicesRequestModel,
+    {
+    "Content-type": "application/json",
+    'Authorization': 'Bearer $accessToken',
+    },
+    ).then(
+        (value) {
+        if (value != null) {
+            loginResponseBody =
+                LoginServicesResponseModel.fromJson(
+                    jsonDecode(value));
+            log("sonunda oldu  ${loginResponseBody.success}");
+        }
+    },
+);
