@@ -49,6 +49,7 @@ class LikeListView extends StatelessWidget {
           if (value != null) {
             return PostLikeListResponse.fromJson(json.decode(value));
           }
+          return null;
         }),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

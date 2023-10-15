@@ -1,6 +1,4 @@
-import 'package:fillogo/controllers/map/route_calculate_view_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PreviousRotasView extends StatefulWidget {
@@ -12,8 +10,8 @@ class PreviousRotasView extends StatefulWidget {
 
 class _PreviousRotasViewState extends State<PreviousRotasView> {
 
-  String _startAddress = '';
-  String _destinationAddress = '';
+  final String _startAddress = '';
+  final String _destinationAddress = '';
   String? _placeDistance;
   // RouteCalculatesViewController currentDirectionsController =
   //     Get.put(RouteCalculatesViewController());
@@ -158,7 +156,7 @@ class _PreviousRotasViewState extends State<PreviousRotasView> {
               color: AppConstants().ltLogoGrey,
               fontSize: 28),
         ),
-        actions: [],
+        actions: const [],
         leading: const SizedBox(),
       ),
       body: Container(
@@ -180,7 +178,7 @@ class _PreviousRotasViewState extends State<PreviousRotasView> {
                 Row(
                   children: [
                     25.w.spaceX,
-                    Text(
+                    const Text(
                       'Rotanız',
                       style: TextStyle(fontFamily: 'Sflight'),
                     ),
@@ -189,7 +187,7 @@ class _PreviousRotasViewState extends State<PreviousRotasView> {
                 Row(
                   children: [
                     25.w.spaceX,
-                    Text(
+                    const Text(
                       'Samsun -> Ankara',
                       style: TextStyle(fontFamily: 'Sfsemibold'),
                     ),
@@ -198,17 +196,17 @@ class _PreviousRotasViewState extends State<PreviousRotasView> {
                 Row(
                   children: [
                     25.w.spaceX,
-                    Text(
+                    const Text(
                       'Tahmini 412 km ve 4 Saat 23 Dakika',
                       style: TextStyle(fontSize: 12),
                     ),
                   ],
                 ),
                 const DummyBox15(),
-                Container(
+                SizedBox(
                   height: Get.height * 0.6,
                   width: Get.width * 0.9,
-                  child: GoogleMap(
+                  child: const GoogleMap(
                       initialCameraPosition: CameraPosition(
                           target: LatLng(39.929591, 32.853197), zoom: 10)),
                 )

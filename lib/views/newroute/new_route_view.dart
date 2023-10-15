@@ -17,7 +17,7 @@ class NewRouteView extends StatelessWidget {
       body: Container(
         width: Get.width,
         height: Get.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage('assets/images/world-bg-1.png'), fit: BoxFit.fitHeight),
         ),
         child: Theme(
@@ -62,7 +62,7 @@ class NewRouteView extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       postController.currentStep == 1 ? 'Paylaş' : 'İleri',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Sfbold',
                                       ),
@@ -75,7 +75,7 @@ class NewRouteView extends StatelessWidget {
                               width: Get.width * 0.05,
                             ),
                             postController.currentStep == 0
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : GestureDetector(
                                     onTap: () {
                                       postController.azalt();
@@ -177,7 +177,7 @@ class NewRouteView extends StatelessWidget {
                 fillColor: AppConstants().ltWhite,
                 filled: true,
                 hintText: 'Yeni rotanız hakkında arkadaşlarınıza ne söylemek istersiniz?',
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: const TextStyle(fontSize: 14),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: AppConstants().ltWhite,
@@ -214,7 +214,7 @@ class NewRouteView extends StatelessWidget {
           width: Get.width * 0.6,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.7),
-            boxShadow: [],
+            boxShadow: const [],
             borderRadius: BorderRadius.circular(5),
             border: RDottedLineBorder.all(
               dottedLength: 15,

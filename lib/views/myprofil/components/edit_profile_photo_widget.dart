@@ -11,11 +11,9 @@ import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart' as parser;
 
 class EditProfilePhoto extends StatefulWidget {
-  EditProfilePhoto({
+  const EditProfilePhoto({
     super.key,
   });
 

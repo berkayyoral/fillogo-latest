@@ -6,7 +6,6 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/user/welcome_login/route_login_or_register_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/widgets/custom_red_button.dart';
-import 'package:fillogo/widgets/popup_view_widget.dart';
 
 class RouteLoginOrRegister extends StatelessWidget {
   RouteLoginOrRegister({

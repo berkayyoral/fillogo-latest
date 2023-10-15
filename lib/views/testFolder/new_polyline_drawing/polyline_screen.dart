@@ -56,8 +56,8 @@ class _PolylineScreenState extends State<PolylineScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Total Distance: " + totalDistance),
-                Text("Total Time: " + totalTime),
+                Text("Total Distance: $totalDistance"),
+                Text("Total Time: $totalTime"),
               ],
             ),
           ),
@@ -73,17 +73,7 @@ class _PolylineScreenState extends State<PolylineScreen> {
   }
 
   void drawPolyline() async {
-    var response = await http.post(Uri.parse("https://maps.googleapis.com/maps/api/directions/json?key=" +
-        apiKey +
-        "&units=metric&origin=" +
-        origin.latitude.toString() +
-        "," +
-        origin.longitude.toString() +
-        "&destination=" +
-        destination.latitude.toString() +
-        "," +
-        destination.longitude.toString() +
-        "&mode=driving"));
+    var response = await http.post(Uri.parse("https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&units=metric&origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&mode=driving"));
 
     //print(response.body);
 

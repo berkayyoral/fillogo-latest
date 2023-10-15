@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:fillogo/controllers/notification/notification_controller.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../export.dart';

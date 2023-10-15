@@ -10,19 +10,19 @@ class ChatMessageResponseModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -36,15 +36,15 @@ class Data {
     if (json['chat'] != null) {
       chat = <Chat>[];
       json['chat'].forEach((v) {
-        chat!.add(new Chat.fromJson(v));
+        chat!.add(Chat.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.chat != null) {
-      data['chat'] = this.chat!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (chat != null) {
+      data['chat'] = chat!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -62,25 +62,25 @@ class Chat {
     if (json['users'] != null) {
       users = <ChatUsers>[];
       json['users'].forEach((v) {
-        users!.add(new ChatUsers.fromJson(v));
+        users!.add(ChatUsers.fromJson(v));
       });
     }
     if (json['messages'] != null) {
       messages = <Messages>[];
       json['messages'].forEach((v) {
-        messages!.add(new Messages.fromJson(v));
+        messages!.add(Messages.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.users != null) {
-      data['users'] = this.users!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    if (users != null) {
+      data['users'] = users!.map((v) => v.toJson()).toList();
     }
-    if (this.messages != null) {
-      data['messages'] = this.messages!.map((v) => v.toJson()).toList();
+    if (messages != null) {
+      data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -109,19 +109,19 @@ class ChatUsers {
     username = json['username'];
     profilePicture = json['profilePicture'];
     userChats = json['UserChats'] != null
-        ? new UserChats.fromJson(json['UserChats'])
+        ? UserChats.fromJson(json['UserChats'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['username'] = this.username;
-    data['profilePicture'] = this.profilePicture;
-    if (this.userChats != null) {
-      data['UserChats'] = this.userChats!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['surname'] = surname;
+    data['username'] = username;
+    data['profilePicture'] = profilePicture;
+    if (userChats != null) {
+      data['UserChats'] = userChats!.toJson();
     }
     return data;
   }
@@ -141,10 +141,10 @@ class UserChats {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userID'] = this.userID;
-    data['chatID'] = this.chatID;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userID'] = userID;
+    data['chatID'] = chatID;
+    data['createdAt'] = createdAt;
     return data;
   }
 }
@@ -160,15 +160,15 @@ class Messages {
     text = json['text'];
     createdAt = json['createdAt'];
     sender =
-        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
+        json['sender'] != null ? Sender.fromJson(json['sender']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['text'] = this.text;
-    data['createdAt'] = this.createdAt;
-    if (this.sender != null) {
-      data['sender'] = this.sender!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['text'] = text;
+    data['createdAt'] = createdAt;
+    if (sender != null) {
+      data['sender'] = sender!.toJson();
     }
     return data;
   }
@@ -193,12 +193,12 @@ class Sender {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['profilePicture'] = this.profilePicture;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['username'] = username;
+    data['name'] = name;
+    data['surname'] = surname;
+    data['profilePicture'] = profilePicture;
     return data;
   }
 }

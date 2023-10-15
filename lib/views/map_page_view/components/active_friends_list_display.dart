@@ -112,7 +112,7 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(),
+                              padding: const EdgeInsets.only(),
                               child: Text(
                                 '-',
                                 style: TextStyle(

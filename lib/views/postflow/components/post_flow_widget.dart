@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:fillogo/controllers/search/search_user_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/models/chat/chats/create_chat/chat_request_model.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:fillogo/models/post/get_home_post.dart';
 import 'package:fillogo/models/post/post_like_response.dart';
@@ -12,9 +11,7 @@ import 'package:fillogo/models/search/user/search_user_response.dart';
 import 'package:fillogo/models/stories/user_stories.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
-import 'package:fillogo/views/chat/chats_view/chat_controller.dart';
 import 'package:fillogo/widgets/post_video_player_widget.dart';
-import 'package:fillogo/models/chat/chats/chat_response_model.dart';
 
 import '../../../controllers/bottom_navigation_bar_controller.dart';
 import '../../../widgets/popup_post_details.dart';
@@ -125,7 +122,7 @@ class PostFlowWidget extends StatelessWidget {
                     onTap: () async {
                       UserStoriesResponse? response =
                           await GeneralServicesTemp().makeGetRequest(
-                              "/stories/user-stories/${userId}?page=${1}", {
+                              "/stories/user-stories/$userId?page=${1}", {
                         "Content-type": "application/json",
                         'Authorization':
                             'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
@@ -134,6 +131,7 @@ class PostFlowWidget extends StatelessWidget {
                           return UserStoriesResponse.fromJson(
                               json.decode(value));
                         }
+                        return null;
                       });
                       if (response == null) {
                         return;
@@ -540,7 +538,7 @@ class PostFlowWidget extends StatelessWidget {
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Container(
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             width: Get.width,
             height: Get.height * 0.65,
             child: Stack(
@@ -691,19 +689,17 @@ class PostFlowWidget extends StatelessWidget {
                                                 .profilePicture,
                                           ),
                                           title: Text(
-                                            snapshot
+                                            "${snapshot
                                                     .data!
                                                     .data![0]
                                                     .searchResult!
                                                     .result![index]
-                                                    .name! +
-                                                " " +
-                                                snapshot
+                                                    .name!} ${snapshot
                                                     .data!
                                                     .data![0]
                                                     .searchResult!
                                                     .result![index]
-                                                    .surname!,
+                                                    .surname!}",
                                             style: TextStyle(
                                               fontFamily: 'Sfsemibold',
                                               fontSize: 12.sp,
@@ -765,7 +761,7 @@ class PostFlowWidget extends StatelessWidget {
                                     ),
                                   );
                                 } else {
-                                  return CircularProgressIndicator();
+                                  return const CircularProgressIndicator();
                                 }
                               });
                         },
@@ -955,7 +951,7 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "${name}   ",
+                    text: "$name   ",
                     style: TextStyle(
                         fontFamily: "Sfbold",
                         fontSize: 16.sp,
@@ -1110,7 +1106,7 @@ class EmotionAndTagStringCreate extends StatelessWidget {
           Visibility(
             visible: haveEmotion,
             child: Text(
-              "  ${emotionContent}",
+              "  $emotionContent",
               style: TextStyle(
                 fontFamily: "Sflight",
                 fontSize: 13.sp,

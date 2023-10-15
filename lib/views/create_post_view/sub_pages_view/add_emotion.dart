@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/emoji/emoji_response_model.dart';
@@ -29,6 +28,7 @@ class CreatePostAddEmotionPageView extends StatelessWidget {
             if (value != null) {
               return EmojiResponseModel.fromJson(json.decode(value));
             }
+            return null;
           }),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

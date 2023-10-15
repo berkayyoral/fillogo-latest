@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fillogo/export.dart';
@@ -29,9 +28,9 @@ class FirstOpenIsActiveRoute extends GetxController {
             .data![0].allRoutes!.activeRoutes![0].arrivalDate!;
       },
     );
-    log("Aktif rota: " + isActiveRoute.toString());
-    log("Aktif rota bitiş tarihi: " + routeFinishDate.toString());
-    log("Aktif DateTime.now() : " + DateTime.now().toString());
+    log("Aktif rota: $isActiveRoute");
+    log("Aktif rota bitiş tarihi: $routeFinishDate");
+    log("Aktif DateTime.now() : ${DateTime.now()}");
     if (routeFinishDate.millisecondsSinceEpoch >
         DateTime.now().millisecondsSinceEpoch + 300000) {
       Get.dialog(
@@ -39,23 +38,23 @@ class FirstOpenIsActiveRoute extends GetxController {
           Dialog(
             backgroundColor: AppConstants().ltWhite,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(20)),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Center(
+                  const Center(
                     child: Text("Rotanızın bitiş saati geldi."),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 24),
                     child: Text(
                       "Rotayı sonlandırmak ister misiniz?",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   Row(
@@ -94,7 +93,7 @@ class FirstOpenIsActiveRoute extends GetxController {
                                 color: AppConstants().ltWhiteGrey,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(10))),
-                            child: Text(
+                            child: const Text(
                               "Hayır",
                             ),
                           ),

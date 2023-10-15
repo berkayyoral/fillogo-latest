@@ -11,7 +11,7 @@ import '../../../export.dart';
 import '../../../widgets/popup_view_widget.dart';
 
 class VehicleSettings extends StatefulWidget {
-  VehicleSettings({Key? key}) : super(key: key);
+  const VehicleSettings({Key? key}) : super(key: key);
 
   @override
   State<VehicleSettings> createState() => _VehicleSettingsState();
@@ -83,8 +83,8 @@ class _VehicleSettingsState extends State<VehicleSettings> {
 
         print(carId);
       } else {
-        print("Response Hata = " + response.message.toString());
-        print("Response Hata = " + response.succes.toString());
+        print("Response Hata = ${response.message}");
+        print("Response Hata = ${response.succes}");
       }
     });
     super.initState();

@@ -1,7 +1,7 @@
 import 'package:fillogo/export.dart';
 
 class EmotionAndTagStringCreatePost extends StatelessWidget {
-  EmotionAndTagStringCreatePost({
+  const EmotionAndTagStringCreatePost({
     super.key,
     required this.name,
     required this.usersTagged,
@@ -29,7 +29,7 @@ class EmotionAndTagStringCreatePost extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "${name}   ",
+                  text: "$name   ",
                   style: TextStyle(
                       fontFamily: "Sfbold",
                       fontSize: 16.sp,
@@ -45,7 +45,7 @@ class EmotionAndTagStringCreatePost extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: ((haveTag == 1) && (usersTagged.length > 0))
+                    text: ((haveTag == 1) && (usersTagged.isNotEmpty))
                         ? usersTagged[0].name
                         : '',
                     style: TextStyle(
@@ -127,7 +127,7 @@ class EmotionAndTagStringCreatePost extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: (usersTagged.length > 0),
+            visible: (usersTagged.isNotEmpty),
             child: RichText(
               textAlign: TextAlign.left,
               text: TextSpan(
@@ -144,7 +144,7 @@ class EmotionAndTagStringCreatePost extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: (usersTagged.length > 0),
+            visible: (usersTagged.isNotEmpty),
             child: RichText(
               textAlign: TextAlign.left,
               text: TextSpan(
@@ -181,7 +181,7 @@ class EmotionAndTagStringCreatePost extends StatelessWidget {
           Visibility(
             visible: (haveEmotion),
             child: Text(
-              "  ${emotionContent}",
+              "  $emotionContent",
               style: TextStyle(
                 fontFamily: "Sflight",
                 fontSize: 13.sp,

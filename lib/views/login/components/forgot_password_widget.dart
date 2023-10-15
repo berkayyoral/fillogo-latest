@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:fillogo/controllers/login/login_controller.dart';
 import 'package:fillogo/export.dart';

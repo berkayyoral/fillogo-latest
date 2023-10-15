@@ -191,7 +191,7 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json["id"],
         text: json["text"],
-        media: json["media"] == null ? "" : json["media"],
+        media: json["media"] ?? "",
         routeId: json["routeID"],
         createdAt: json["createdAt"] == null
             ? null

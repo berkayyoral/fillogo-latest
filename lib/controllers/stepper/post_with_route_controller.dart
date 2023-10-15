@@ -1,14 +1,14 @@
 import 'package:fillogo/export.dart';
 
 class PostWithRouteController extends GetxController {
-  var _currentStep = 0.obs;
-  var _cikisText = 'Lütfen tarih ve saat seçiniz.'.obs;
-  var _varisText = 'Lütfen tarih ve saat seçiniz.'.obs;
-  var _aciklamaText = ''.obs;
-  var _isCikisSelected = false.obs;
-  var _isVarisSelected = false.obs;
-  var _isAciklamaFilled = false.obs;
-  var _buttonColor = AppConstants().ltDarkGrey.obs;
+  final _currentStep = 0.obs;
+  final _cikisText = 'Lütfen tarih ve saat seçiniz.'.obs;
+  final _varisText = 'Lütfen tarih ve saat seçiniz.'.obs;
+  final _aciklamaText = ''.obs;
+  final _isCikisSelected = false.obs;
+  final _isVarisSelected = false.obs;
+  final _isAciklamaFilled = false.obs;
+  final _buttonColor = AppConstants().ltDarkGrey.obs;
 
   get currentStep {
     return _currentStep.value;

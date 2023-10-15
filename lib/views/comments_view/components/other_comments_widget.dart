@@ -3,7 +3,7 @@ import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:flutter/gestures.dart';
 
 class OtherComments extends StatelessWidget {
-  OtherComments(
+  const OtherComments(
       {Key? key,
       required this.url,
       required this.beforeHours,
@@ -69,7 +69,7 @@ class OtherComments extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "${beforeHours}",
+                beforeHours,
                 style: TextStyle(
                   fontFamily: "Sfmedium",
                   fontSize: 12.sp,

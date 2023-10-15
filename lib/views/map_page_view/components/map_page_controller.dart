@@ -5,7 +5,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
 import '../../../controllers/map/get_current_location_and_listen.dart';
@@ -73,8 +72,8 @@ class MapPageController extends GetxController {
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
-  PolylineId generalPolylineId = PolylineId('1');
-  PolylineId generalPolylineId2 = PolylineId('2');
+  PolylineId generalPolylineId = const PolylineId('1');
+  PolylineId generalPolylineId2 = const PolylineId('2');
   var selectedPolyline = 1.obs;
 
   PolylinePoints polylinePoints = PolylinePoints();
@@ -107,9 +106,9 @@ class MapPageController extends GetxController {
   var mapPageRouteFinishLongitude2 = 0.0.obs;
 
   var startCity = "".obs;
-  var startLatLong = LatLng(0.0, 0.0);
+  var startLatLong = const LatLng(0.0, 0.0);
   var finishCity = "".obs;
-  var finishLatLong = LatLng(0.0, 0.0);
+  var finishLatLong = const LatLng(0.0, 0.0);
 
   late StreamSubscription<Position> streamSubscriptionForMyMarker;
 
@@ -145,8 +144,8 @@ class MapPageController extends GetxController {
     mapPageRouteFinishLatitude2.value = 0.0;
     mapPageRouteFinishLongitude2.value = 0.0;
 
-    startLatLong = LatLng(0.0, 0.0);
-    finishLatLong = LatLng(0.0, 0.0);
+    startLatLong = const LatLng(0.0, 0.0);
+    finishLatLong = const LatLng(0.0, 0.0);
 
     calculatedRouteDistance.value = "";
     calculatedRouteTime.value = "";
@@ -158,21 +157,21 @@ class MapPageController extends GetxController {
     generalPolylineEncode2.value = "";
 
     addMarkerFunctionForMapPageWithoutOnTap2(
-      MarkerId("myLocationMarker"),
+      const MarkerId("myLocationMarker"),
       LatLng(
         getMyCurrentLocationController.myLocationLatitudeDo.value,
         getMyCurrentLocationController.myLocationLongitudeDo.value,
       ),
-      "${mapPageRouteStartAddress2.value}",
+      mapPageRouteStartAddress2.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
     );
     addMarkerFunctionForMapPageWithoutOnTap(
-      MarkerId("myLocationMarker"),
+      const MarkerId("myLocationMarker"),
       LatLng(
         getMyCurrentLocationController.myLocationLatitudeDo.value,
         getMyCurrentLocationController.myLocationLongitudeDo.value,
       ),
-      "${mapPageRouteStartAddress2.value}",
+      mapPageRouteStartAddress2.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
     );
     update(["mapPageController"]);
@@ -194,14 +193,12 @@ class MapPageController extends GetxController {
         GetMyFriendsMatchingRoutesResponse response =
             GetMyFriendsMatchingRoutesResponse.fromJson(
                 convert.json.decode(value!));
-        print("Matching Success = " + response.success.toString());
-        print("Matching Message = " + response.message.toString());
+        print("Matching Success = ${response.success}");
+        print("Matching Message = ${response.message}");
 
-        print("Matching response data = " + response.data!.length.toString());
-        print("Matching response data = " +
-            response.data![0].matching.toString());
-        print("Matching" +
-            response.data![0].matching![0].followed!.name.toString());
+        print("Matching response data = ${response.data!.length}");
+        print("Matching response data = ${response.data![0].matching}");
+        print("Matching${response.data![0].matching![0].followed!.name}");
         myFriendsLocationsMatching = response.data!;
         
         for (var i = 0; i < myFriendsLocations.length; i++) {     
@@ -399,7 +396,7 @@ class MapPageController extends GetxController {
       //log("marker myLocationMarker2 silindi: ${newMarker2.markerId.value}");
 
       addMarkerFunctionForMapPageWithoutOnTap2(
-        MarkerId("myLocationMarker"),
+        const MarkerId("myLocationMarker"),
         LatLng(
           position.latitude,
           position.longitude,
@@ -410,7 +407,7 @@ class MapPageController extends GetxController {
       //log("marker myLocationMarker2 eklendi");
 
       addMarkerFunctionForMapPageWithoutOnTap(
-        MarkerId("myLocationMarker"),
+        const MarkerId("myLocationMarker"),
         LatLng(
           position.latitude,
           position.longitude,
@@ -606,32 +603,32 @@ class MapPageController extends GetxController {
     addPointIntoPolylineList2(generalPolylineEncode2.value);
 
     addMarkerFunctionForMapPageWithoutOnTap2(
-      MarkerId("myLocationMarker"),
+      const MarkerId("myLocationMarker"),
       LatLng(
         getMyCurrentLocationController.myLocationLatitudeDo.value,
         getMyCurrentLocationController.myLocationLongitudeDo.value,
       ),
-      "${mapPageRouteStartAddress2.value}",
+      mapPageRouteStartAddress2.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
     );
 
     addMarkerFunctionForMapPageWithoutOnTap2(
-      MarkerId("myRouteStartMarker2"),
+      const MarkerId("myRouteStartMarker2"),
       LatLng(
         mapPageRouteStartLatitude2.value,
         mapPageRouteStartLongitude2.value,
       ),
-      "${mapPageRouteStartAddress2.value}",
+      mapPageRouteStartAddress2.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteStartIcon!),
     );
 
     addMarkerFunctionForMapPageWithoutOnTap2(
-      MarkerId("myRouteFinishMarker2"),
+      const MarkerId("myRouteFinishMarker2"),
       LatLng(
         mapPageRouteFinishLatitude2.value,
         mapPageRouteFinishLongitude2.value,
       ),
-      "${mapPageRouteFinishAddress2.value}",
+      mapPageRouteFinishAddress2.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteFinishIcon!),
     );
 

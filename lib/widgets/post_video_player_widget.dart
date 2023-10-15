@@ -2,7 +2,7 @@ import 'package:fillogo/export.dart';
 import 'package:video_player/video_player.dart';
 
 class PostVideoPlayerWidget extends StatefulWidget {
-  PostVideoPlayerWidget({Key? key, required this.path}) : super(key: key);
+  const PostVideoPlayerWidget({Key? key, required this.path}) : super(key: key);
 
   final String path;
 

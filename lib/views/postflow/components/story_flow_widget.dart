@@ -32,10 +32,11 @@ class StoryFlowWiew extends StatelessWidget {
                       'Content-Type': 'application/json',
                     },
                   ).then((value2) {
-                    print("value2" + value2.toString());
+                    print("value2$value2");
                     if (value2 != null) {
                       return HaveIStory.fromJson(json.decode(value2));
                     }
+                    return null;
                   }),
                   builder: (context, snapshot2) {
                     if (snapshot2.hasData) {
@@ -52,10 +53,10 @@ class StoryFlowWiew extends StatelessWidget {
                               .data!.data![0].stories!.result![0].stories!.id!,
                         );
                       }
-                      return SizedBox();
+                      return const SizedBox();
                     }
                     {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                   }),
               FutureBuilder<GetUsersWithStories?>(
@@ -70,6 +71,7 @@ class StoryFlowWiew extends StatelessWidget {
                     if (value != null) {
                       return GetUsersWithStories.fromJson(json.decode(value));
                     }
+                    return null;
                   }),
                   builder: (context, snapshot) {
                     FutureBuilder<HaveIStory?>(
@@ -81,22 +83,23 @@ class StoryFlowWiew extends StatelessWidget {
                             'Content-Type': 'application/json',
                           },
                         ).then((value2) {
-                          print("value2" + value2.toString());
+                          print("value2$value2");
                           if (value2 != null) {
                             return HaveIStory.fromJson(json.decode(value2));
                           }
+                          return null;
                         }),
                         builder: (context, snapshot2) {
                           if (snapshot2.hasData) {
                             if (snapshot2.data!.success == 1) {
                               haveIStory.value = true;
                               
-                              return SizedBox();
+                              return const SizedBox();
                             }
-                            return SizedBox();
+                            return const SizedBox();
                           }
                           {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           }
                         });
                     if (snapshot.hasData) {

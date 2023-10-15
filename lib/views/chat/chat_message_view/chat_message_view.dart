@@ -101,6 +101,7 @@ class ChatMessageView extends StatelessWidget {
                     return ChatMessageResponseModel.fromJson(
                         json.decode(value));
                   }
+                  return null;
                 }),
                 builder: (context, snapshot) {
                   WidgetsBinding.instance.addPostFrameCallback(

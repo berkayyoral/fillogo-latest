@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/models/post/get_home_post.dart';
@@ -7,7 +6,6 @@ import 'package:fillogo/models/post/post_like_response.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/route_view_widget_new_post.dart';
 import 'package:fillogo/views/like_list_view/components/like_controller.dart';
-import 'package:fillogo/widgets/post_video_player_widget.dart';
 import '../../../controllers/bottom_navigation_bar_controller.dart';
 import '../../../export.dart';
 import '../../../widgets/popup_post_details.dart';
@@ -185,7 +183,7 @@ class OnlyRouteWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(16))),
             child: RouteViewWidgetNewPostPage(
               closeButtonVisible: false,
@@ -421,7 +419,7 @@ class OnlyRouteWidget extends StatelessWidget {
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Container(
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             width: Get.width,
             height: Get.height * 0.65,
             child: Stack(
@@ -592,7 +590,7 @@ class OnlyRouteWidget extends StatelessWidget {
 }
 
 class EmotionAndTagStringCreate extends StatelessWidget {
-  EmotionAndTagStringCreate({
+  const EmotionAndTagStringCreate({
     super.key,
     required this.name,
     required this.usersTagged,
@@ -620,7 +618,7 @@ class EmotionAndTagStringCreate extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "${name}   ",
+                  text: "$name   ",
                   style: TextStyle(
                       fontFamily: "Sfbold",
                       fontSize: 16.sp,
@@ -774,7 +772,7 @@ class EmotionAndTagStringCreate extends StatelessWidget {
           Visibility(
             visible: haveEmotion,
             child: Text(
-              "  ${emotionContent}",
+              "  $emotionContent",
               style: TextStyle(
                 fontFamily: "Sflight",
                 fontSize: 13.sp,
