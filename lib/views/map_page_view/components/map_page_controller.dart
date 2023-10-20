@@ -74,6 +74,7 @@ class MapPageController extends GetxController {
 
   PolylineId generalPolylineId = const PolylineId('1');
   PolylineId generalPolylineId2 = const PolylineId('2');
+  PolylineId rotationPolyline = const PolylineId('3');
   var selectedPolyline = 1.obs;
 
   PolylinePoints polylinePoints = PolylinePoints();
@@ -178,7 +179,6 @@ class MapPageController extends GetxController {
   }
 
   getMyFriendsMatchingRoutes(BuildContext context, polylineEncode) async {
-
     await GeneralServicesTemp().makePostRequest(
       EndPoint.getMyfriendsMatchingRoutes,
       GetMyFriendsMatchingRoutesRequest(
@@ -200,8 +200,8 @@ class MapPageController extends GetxController {
         print("Matching response data = ${response.data![0].matching}");
         print("Matching${response.data![0].matching![0].followed!.name}");
         myFriendsLocationsMatching = response.data!;
-        
-        for (var i = 0; i < myFriendsLocations.length; i++) {     
+
+        for (var i = 0; i < myFriendsLocations.length; i++) {
           addMarkerFunctionForMapPage(
             myFriendsLocations[i]!.followed!.id!,
             MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
@@ -318,14 +318,15 @@ class MapPageController extends GetxController {
     update(["mapPageController"]);
   }
 
+//haritada görünen
   addPointIntoPolylineList(String encodedPolyline) async {
     List<PointLatLng> result = polylinePoints.decodePolyline(encodedPolyline);
-
+    polylineCoordinates.clear();
     for (var point in result) {
       //polylineCoordinatesListForB.add([point.latitude, point.longitude]);
       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
     }
-    //log("polylineCoordinates:  ${polylineCoordinates.toString()}");
+    log("polylineCoordinates1:  ${polylineCoordinates.toString()}");
     var newPolylineCoordinates = polylineCoordinates.toSet().toList();
 
     Polyline polyline = Polyline(
@@ -340,13 +341,14 @@ class MapPageController extends GetxController {
     update(["mapPageController"]);
   }
 
+//rotada görünen
   addPointIntoPolylineList2(String encodedPolyline) async {
     List<PointLatLng> result = polylinePoints2.decodePolyline(encodedPolyline);
 
     for (var point in result) {
       polylineCoordinates2.add(LatLng(point.latitude, point.longitude));
     }
-
+    log("polylineCoordinates2:  ${polylineCoordinates2.toString()}");
     var newPolylineCoordinates = polylineCoordinates2.toSet().toList();
 
     Polyline polyline = Polyline(
@@ -359,6 +361,26 @@ class MapPageController extends GetxController {
     );
     polylines2[generalPolylineId2] = polyline;
     update(["mapPageController"]);
+  }
+
+  updatePolyline(LatLng newPoint) {
+    mapPageRouteFinishLatitude2.value = 41.28103;
+    mapPageRouteFinishLongitude2.value = 36.33734;
+
+    double thresholdDistance = 50.0;
+    // Kullanıcının hedefe olan mesafesini kontrol edin
+    double distanceToDestination = Geolocator.distanceBetween(
+      newPoint.latitude,
+      newPoint.longitude,
+      mapPageRouteFinishLatitude2.value,
+      mapPageRouteFinishLongitude2.value,
+    );
+
+    log("updatePolyLine:  ${distanceToDestination.toString()}");
+    if (distanceToDestination > thresholdDistance) {
+
+      drawIntoMapPolyline2();
+    }
   }
 
   updateMyLocationMarkers() async {
@@ -383,6 +405,11 @@ class MapPageController extends GetxController {
     }
     streamSubscriptionForMyMarker =
         Geolocator.getPositionStream().listen((Position position) async {
+      mapPageRouteStartLatitude2.value = position.latitude;
+      mapPageRouteStartLongitude2.value = position.longitude;
+      if (polylines.isNotEmpty) {
+        updatePolyline(LatLng(position.latitude, position.longitude));
+      }
       Marker newMarker1 = markers.firstWhere(
           (marker) => marker.markerId.value == "myLocationMarker",
           orElse: () => const Marker(markerId: MarkerId("")));
@@ -633,6 +660,66 @@ class MapPageController extends GetxController {
     );
 
     mapDisplayAnimationFuncMap1();
+
+    update(["mapPageController"]);
+  }
+
+  void drawIntoMapPolyline2() async {
+    if (markers2.isNotEmpty) markers2.clear();
+    if (polylines2.isNotEmpty) polylines2.clear();
+    if (polylineCoordinates2.isNotEmpty) polylineCoordinates2.clear();
+    if (calculatedRouteDistance.value != "") calculatedRouteDistance.value = "";
+
+    await getPolylineEncodeRequest(
+      selectedPolyline.value,
+      mapPageRouteStartLatitude2.value,
+      mapPageRouteStartLongitude2.value,
+      mapPageRouteFinishLatitude2.value,
+      mapPageRouteFinishLongitude2.value,
+    ).then((value) async {
+      calculatedRouteDistance.value =
+          "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+      calculatedRouteTime.value =
+          "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
+      generalPolylineEncode2.value =
+          value.routes![0].polyline!.encodedPolyline!;
+
+      update(["mapPageController"]);
+    });
+
+    addPointIntoPolylineList(generalPolylineEncode2.value);
+
+    /*  addMarkerFunctionForMapPageWithoutOnTap2(
+      const MarkerId("myLocationMarker"),
+      LatLng(
+        getMyCurrentLocationController.myLocationLatitudeDo.value,
+        getMyCurrentLocationController.myLocationLongitudeDo.value,
+      ),
+      mapPageRouteStartAddress2.value,
+      BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
+    );
+
+    addMarkerFunctionForMapPageWithoutOnTap2(
+      const MarkerId("myRouteStartMarker2"),
+      LatLng(
+        mapPageRouteStartLatitude2.value,
+        mapPageRouteStartLongitude2.value,
+      ),
+      mapPageRouteStartAddress2.value,
+      BitmapDescriptor.fromBytes(customMarkerIconController.myRouteStartIcon!),
+    );
+
+    addMarkerFunctionForMapPageWithoutOnTap2(
+      const MarkerId("myRouteFinishMarker2"),
+      LatLng(
+        mapPageRouteFinishLatitude2.value,
+        mapPageRouteFinishLongitude2.value,
+      ),
+      mapPageRouteFinishAddress2.value,
+      BitmapDescriptor.fromBytes(customMarkerIconController.myRouteFinishIcon!),
+    );
+*/
+    //   mapDisplayAnimationFuncMap1();
 
     update(["mapPageController"]);
   }

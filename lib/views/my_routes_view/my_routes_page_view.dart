@@ -133,7 +133,8 @@ class MyRoutesPageView extends StatelessWidget {
                               child: mapPageController
                                       .myActivesRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myActivesRoutes!.length,
@@ -148,7 +149,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        const EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -270,7 +272,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: const Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );
@@ -339,7 +342,8 @@ class MyRoutesPageView extends StatelessWidget {
                               child: mapPageController
                                       .mynotStartedRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .mynotStartedRoutes!.length,
@@ -357,7 +361,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        const EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -434,7 +439,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: const Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );
@@ -506,7 +512,8 @@ class MyRoutesPageView extends StatelessWidget {
                               //height: 595.h,
                               child: mapPageController.myPastsRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myPastsRoutes!.length,
@@ -521,7 +528,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        const EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -598,7 +606,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: const Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );

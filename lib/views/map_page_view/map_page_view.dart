@@ -810,7 +810,8 @@ class MapPageView extends GetView<MapPageController> {
                         (Widget child, Animation<double> animation) {
                       return SlideTransition(
                         position: Tween<Offset>(
-                                begin: const Offset(0, 1.2), end: const Offset(0, 0))
+                                begin: const Offset(0, 1.2),
+                                end: const Offset(0, 0))
                             .animate(animation),
                         child: child,
                       );
@@ -993,19 +994,19 @@ class MapPageView extends GetView<MapPageController> {
                                     mapPageController
                                             .myActivesRoutes!.isNotEmpty
                                         ? "${DateFormat('HH:mm').format(DateTime(
-                                              2023,
-                                              1,
-                                              1,
-                                              (mapPageController
-                                                      .myActivesRoutes![0]
-                                                      .arrivalDate!
-                                                      .hour) +
-                                                  3,
-                                              mapPageController
-                                                  .myActivesRoutes![0]
-                                                  .arrivalDate!
-                                                  .minute,
-                                            ))} varış"
+                                            2023,
+                                            1,
+                                            1,
+                                            (mapPageController
+                                                    .myActivesRoutes![0]
+                                                    .arrivalDate!
+                                                    .hour) +
+                                                3,
+                                            mapPageController
+                                                .myActivesRoutes![0]
+                                                .arrivalDate!
+                                                .minute,
+                                          ))} varış"
                                         : "",
                                     style: TextStyle(
                                       color: AppConstants().ltLogoGrey,
@@ -2114,9 +2115,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   secondary:
                                                       AppConstants().ltLogoGrey,
                                                 ),
-                                                buttonTheme: const ButtonThemeData(
-                                                    textTheme: ButtonTextTheme
-                                                        .primary),
+                                                buttonTheme:
+                                                    const ButtonThemeData(
+                                                        textTheme:
+                                                            ButtonTextTheme
+                                                                .primary),
                                               ),
                                               child: child!,
                                             );
@@ -2161,9 +2164,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 pickedDate); //TODO: DB ye bu şekilde gönderilmeli
 
                                         String dateTimeFormatted =
-                                            "$formattedDate1 ${pickedTime
-                                                    .toString()
-                                                    .substring(10, 15)}";
+                                            "$formattedDate1 ${pickedTime.toString().substring(10, 15)}";
 
                                         createRouteController
                                                 .differentTime.value =
@@ -2174,8 +2175,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                     pickedDate.day,
                                                     pickedTime!.hour,
                                                     pickedTime.minute));
-                                        print("DENEME 55 = ${createRouteController
-                                                .differentTime.value}");
+                                        print(
+                                            "DENEME 55 = ${createRouteController.differentTime.value}");
 
                                         /* createRouteController.dateTimeFormatVaris.value =
                                   DateFormat('yyyy-MM-dd HH:mm').format(
@@ -2220,7 +2221,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                             scrollController
                                                     .position.maxScrollExtent +
                                                 1,
-                                            duration: const Duration(microseconds: 1),
+                                            duration:
+                                                const Duration(microseconds: 1),
                                             curve: Curves.bounceOut);
                                       },
                                 controller:
@@ -3033,15 +3035,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                         context2) {
                                                                   return showNewAllertDialog(
                                                                       context,
-                                                                      "${createRouteController
-                                                                              .startCity.value} -> ${createRouteController
-                                                                              .finishCity
-                                                                              .value}",
+                                                                      "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
                                                                       (LocaleManager
                                                                           .instance
-                                                                          .getString(
-                                                                              PreferencesKeys
-                                                                                  .currentUserUserName)),
+                                                                          .getString(PreferencesKeys
+                                                                              .currentUserUserName)),
                                                                       createRouteController
                                                                           .dateTimeFormatCikis
                                                                           .value
@@ -3080,9 +3078,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                               builder: (BuildContext context2) {
                                                 return showNewAllertDialog(
                                                     context,
-                                                    "${createRouteController
-                                                            .startCity.value} -> ${createRouteController
-                                                            .finishCity.value}",
+                                                    "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
                                                     (LocaleManager.instance
                                                         .getString(PreferencesKeys
                                                             .currentUserUserName)),
@@ -3700,8 +3696,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Future _displayPredictionFinishLocation(Prediction placeInfo) async {
-    PlacesDetailsResponse detail = await createRouteController
-        .googleMapsPlaces
+    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 
     var placeId = placeInfo.placeId;
@@ -3717,8 +3712,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
     createRouteController.mapPageRouteFinishLatitude2.value = data.latitude;
 
     createRouteController.mapPageRouteFinishLongitude2.value = data.longitude;
-    createRouteController.finishLatLong =
-        LatLng(data.latitude, data.longitude);
+    createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
 
     log("Finish");
     if ((createRouteController.mapPageRouteStartLatitude2.value != 0.0) &&
@@ -3733,11 +3727,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
       createRouteController.drawIntoMapPolyline();
       createRouteController.changeCalculateLevel(3);
     }
-    }
+  }
 
   Future _displayPredictionStartLocation(Prediction placeInfo) async {
-    PlacesDetailsResponse detail = await createRouteController
-        .googleMapsPlaces
+    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 
     var placeId = placeInfo.placeId;
@@ -3755,8 +3748,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
     createRouteController.startCity.value = data.state;
     createRouteController.mapPageRouteStartLatitude2.value = data.latitude;
     createRouteController.mapPageRouteStartLongitude2.value = data.longitude;
-    createRouteController.startLatLong =
-        LatLng(data.latitude, data.longitude);
+    createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
 
     log("Start");
     if ((createRouteController.mapPageRouteStartLatitude2.value != 0.0) &&
@@ -3771,5 +3763,5 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
       createRouteController.drawIntoMapPolyline();
       createRouteController.changeCalculateLevel(3);
     }
-    }
+  }
 }
