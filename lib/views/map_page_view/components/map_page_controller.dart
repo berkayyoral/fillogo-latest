@@ -20,7 +20,7 @@ import '../../testFolder/test19/route_api_models.dart';
 class MapPageController extends GetxController {
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   GetMyCurrentLocationController getMyCurrentLocationController =
-  Get.find<GetMyCurrentLocationController>();
+      Get.find<GetMyCurrentLocationController>();
 
   @override
   void onInit() async {
@@ -46,9 +46,7 @@ class MapPageController extends GetxController {
   RxString differentTime = "".obs;
   RxString dateTimeFormatCikis = "".obs;
   RxString dateTimeFormatVaris = "".obs;
-  var dateTimeFormatLast = DateTime
-      .now()
-      .obs;
+  var dateTimeFormatLast = DateTime.now().obs;
 
   List<MyRoutesDetails>? myActivesRoutes;
   List<MyRoutesDetails>? myPastsRoutes;
@@ -63,9 +61,7 @@ class MapPageController extends GetxController {
   var selectedDispley = 0.obs;
   var calculateLevel = 1.obs;
   RxString formattedDate = ''.obs;
-  Rx<DateTime?> pickedDate = DateTime
-      .now()
-      .obs;
+  Rx<DateTime?> pickedDate = DateTime.now().obs;
 
   var calculatedRouteDistance = "".obs;
   var calculatedRouteTime = "".obs;
@@ -73,10 +69,10 @@ class MapPageController extends GetxController {
   int calculatedRouteTimeInt = 0;
 
   Completer<GoogleMapController> mapCotroller3 =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
 
   GoogleMapsPlaces googleMapsPlaces =
-  GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
+      GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
   PolylineId generalPolylineId = const PolylineId('1');
   PolylineId generalPolylineId2 = const PolylineId('2');
@@ -192,14 +188,13 @@ class MapPageController extends GetxController {
       {
         "Content-type": "application/json",
         'Authorization':
-        'Bearer ${LocaleManager.instance.getString(
-            PreferencesKeys.accessToken)}',
+            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
       },
     ).then(
-          (value) async {
+      (value) async {
         GetMyFriendsMatchingRoutesResponse response =
-        GetMyFriendsMatchingRoutesResponse.fromJson(
-            convert.json.decode(value!));
+            GetMyFriendsMatchingRoutesResponse.fromJson(
+                convert.json.decode(value!));
         print("Matching Success = ${response.success}");
         print("Matching Message = ${response.message}");
 
@@ -224,8 +219,7 @@ class MapPageController extends GetxController {
             BitmapDescriptor.fromBytes(
                 customMarkerIconController.myFriendsLocation!),
             context,
-            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!
-                .followed!.surname!}",
+            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
             myFriendsLocations[i]!
                 .followed!
                 .userpostroutes![0]
@@ -253,14 +247,13 @@ class MapPageController extends GetxController {
       {
         "Content-type": "application/json",
         'Authorization':
-        'Bearer ${LocaleManager.instance.getString(
-            PreferencesKeys.accessToken)}',
+            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
       },
     ).then(
-          (value) async {
+      (value) async {
         GetMyFriendsRouteResponseModel getMyFriendsRouteResponseModel =
-        GetMyFriendsRouteResponseModel.fromJson(
-            convert.json.decode(value!));
+            GetMyFriendsRouteResponseModel.fromJson(
+                convert.json.decode(value!));
         myFriendsLocations = getMyFriendsRouteResponseModel.data!;
 
         for (var i = 0; i < myFriendsLocations.length; i++) {
@@ -279,8 +272,7 @@ class MapPageController extends GetxController {
             BitmapDescriptor.fromBytes(
                 customMarkerIconController.myFriendsLocation!),
             context,
-            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!
-                .followed!.surname!}",
+            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
             myFriendsLocations[i]!
                 .followed!
                 .userpostroutes![0]
@@ -309,13 +301,12 @@ class MapPageController extends GetxController {
       {
         "Content-type": "application/json",
         'Authorization':
-        'Bearer ${LocaleManager.instance.getString(
-            PreferencesKeys.accessToken)}',
+            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
       },
     ).then(
-          (value) async {
+      (value) async {
         GetMyRouteResponseModel getMyRouteResponseModel =
-        GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
+            GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
 
         //myAllRoutes = getMyRouteResponseModel.data![0].allRoutes;
 
@@ -417,84 +408,98 @@ class MapPageController extends GetxController {
     }
     streamSubscriptionForMyMarker =
         Geolocator.getPositionStream().listen((Position position) async {
-          mapPageRouteStartLatitude2.value = position.latitude;
-          mapPageRouteStartLongitude2.value = position.longitude;
-          if (polylines.isNotEmpty) {
-            updatePolyline(LatLng(position.latitude, position.longitude));
-          }
-          Marker newMarker1 = markers.firstWhere(
-                  (marker) => marker.markerId.value == "myLocationMarker",
-              orElse: () => const Marker(markerId: MarkerId("")));
-          markers.remove(newMarker1);
-          //log("marker myLocationMarker1 silindi: ${newMarker1.markerId.value}");
+      mapPageRouteStartLatitude2.value = position.latitude;
+      mapPageRouteStartLongitude2.value = position.longitude;
+      if (polylines.isNotEmpty) {
+        updatePolyline(LatLng(position.latitude, position.longitude));
+      }
+      Marker newMarker1 = markers.firstWhere(
+          (marker) => marker.markerId.value == "myLocationMarker",
+          orElse: () => const Marker(markerId: MarkerId("")));
+      markers.remove(newMarker1);
+      //log("marker myLocationMarker1 silindi: ${newMarker1.markerId.value}");
 
-          Marker newMarker2 = markers2.firstWhere(
-                  (marker) => marker.markerId.value == "myLocationMarker",
-              orElse: () => const Marker(markerId: MarkerId("")));
-          markers2.remove(newMarker2);
-          //log("marker myLocationMarker2 silindi: ${newMarker2.markerId.value}");
+      Marker newMarker2 = markers2.firstWhere(
+          (marker) => marker.markerId.value == "myLocationMarker",
+          orElse: () => const Marker(markerId: MarkerId("")));
+      markers2.remove(newMarker2);
+      //log("marker myLocationMarker2 silindi: ${newMarker2.markerId.value}");
 
-          addMarkerFunctionForMapPageWithoutOnTap2(
-            const MarkerId("myLocationMarker"),
-            LatLng(
-              position.latitude,
-              position.longitude,
-            ),
-            "",
-            BitmapDescriptor.fromBytes(
-                customMarkerIconController.mayLocationIcon!),
-          );
-          //log("marker myLocationMarker2 eklendi");
+      addMarkerFunctionForMapPageWithoutOnTap2(
+        const MarkerId("myLocationMarker"),
+        LatLng(
+          position.latitude,
+          position.longitude,
+        ),
+        "",
+        BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
+      );
+      //log("marker myLocationMarker2 eklendi");
 
-          addMarkerFunctionForMapPageWithoutOnTap(
-            const MarkerId("myLocationMarker"),
-            LatLng(
-              position.latitude,
-              position.longitude,
-            ),
-            "",
-            BitmapDescriptor.fromBytes(
-                customMarkerIconController.mayLocationIcon!),
-          );
-          //log("marker myLocationMarker1 eklendi");
+      addMarkerFunctionForMapPageWithoutOnTap(
+        const MarkerId("myLocationMarker"),
+        LatLng(
+          position.latitude,
+          position.longitude,
+        ),
+        "",
+        BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
+      );
+      //log("marker myLocationMarker1 eklendi");
 
-          update(["mapPageController"]);
-        });
+      update(["mapPageController"]);
+    });
     update(["mapPageController"]);
   }
 
   getMyFriendsRoutesCircular(LatLng point) async {
-    await GeneralServicesTemp().makePostRequest(
-        EndPoint.getMyFriendsCircular,
-        {"lat": point.latitude, "long": point.longitude},
-        ServicesConstants.appJsonWithToken).then((value) =>
-    {
-    log("Circular request response -> {$value}"),
-    if(value!=null){
-      final test = FriendsRoutesCircular.fromJson(jsonDecode(value))}
-  }
-    );
+    await GeneralServicesTemp()
+        .makePostRequest(
+            EndPoint.getMyFriendsCircular,
+            {"lat": point.latitude, "long": point.longitude},
+            ServicesConstants.appJsonWithToken)
+        .then((value) {
+      log("Circular request response -> {$value}");
+      if (value != null) {
+        final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
+        Marker newMarker1 = markers.firstWhere(
+                (marker) => marker.markerId.value == "myFriendLocation",
+            orElse: () => const Marker(markerId: MarkerId("")));
+        markers.remove(newMarker1);
+
+        addMarkerFunctionForMapPageWithoutOnTap(
+          const MarkerId("myLocationMarker"),
+          LatLng(
+            response.latitude as double,
+            response.longitude as double,
+          ),
+          "",
+          BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
+        );
+      }
+      update(["mapPageController"]);
+    });
   }
 
   void mapDisplayAnimationFuncMap1() async {
     try {
       double miny = (mapPageRouteStartLatitude2.value <=
-          mapPageRouteFinishLatitude2.value)
+              mapPageRouteFinishLatitude2.value)
           ? mapPageRouteStartLatitude2.value
           : mapPageRouteFinishLatitude2.value;
 
       double minx = (mapPageRouteStartLongitude2.value <=
-          mapPageRouteFinishLongitude2.value)
+              mapPageRouteFinishLongitude2.value)
           ? mapPageRouteStartLongitude2.value
           : mapPageRouteFinishLongitude2.value;
 
       double maxy = (mapPageRouteStartLatitude2.value <=
-          mapPageRouteFinishLatitude2.value)
+              mapPageRouteFinishLatitude2.value)
           ? mapPageRouteFinishLatitude2.value
           : mapPageRouteStartLatitude2.value;
 
       double maxx = (mapPageRouteStartLongitude2.value <=
-          mapPageRouteFinishLongitude2.value)
+              mapPageRouteFinishLongitude2.value)
           ? mapPageRouteFinishLongitude2.value
           : mapPageRouteStartLongitude2.value;
 
@@ -521,19 +526,21 @@ class MapPageController extends GetxController {
     }
   }
 
-  bool addMarkerFunctionForMapPage(int userID,
-      MarkerId markerId,
-      LatLng latLng,
-      BitmapDescriptor icon,
-      BuildContext context,
-      String name,
-      String firstDestination,
-      String secondDestination,
-      String vehicleType,
-      String startCity,
-      String endCity,
-      String description,
-      String userProfilePhotoLink,) {
+  bool addMarkerFunctionForMapPage(
+    int userID,
+    MarkerId markerId,
+    LatLng latLng,
+    BitmapDescriptor icon,
+    BuildContext context,
+    String name,
+    String firstDestination,
+    String secondDestination,
+    String vehicleType,
+    String startCity,
+    String endCity,
+    String description,
+    String userProfilePhotoLink,
+  ) {
     try {
       Marker marker = Marker(
         markerId: markerId,
@@ -575,11 +582,13 @@ class MapPageController extends GetxController {
     }
   }
 
-  bool addMarkerFunctionForMapPageWithoutOnTap(MarkerId markerId,
-      LatLng latLng,
-      // String title,
-      String address,
-      BitmapDescriptor icon,) {
+  bool addMarkerFunctionForMapPageWithoutOnTap(
+    MarkerId markerId,
+    LatLng latLng,
+    // String title,
+    String address,
+    BitmapDescriptor icon,
+  ) {
     try {
       Marker marker = Marker(
         markerId: markerId,
@@ -600,11 +609,13 @@ class MapPageController extends GetxController {
     }
   }
 
-  bool addMarkerFunctionForMapPageWithoutOnTap2(MarkerId markerId,
-      LatLng latLng,
-      // String title,
-      String address,
-      BitmapDescriptor icon,) {
+  bool addMarkerFunctionForMapPageWithoutOnTap2(
+    MarkerId markerId,
+    LatLng latLng,
+    // String title,
+    String address,
+    BitmapDescriptor icon,
+  ) {
     try {
       Marker marker = Marker(
         markerId: markerId,
@@ -639,13 +650,11 @@ class MapPageController extends GetxController {
       mapPageRouteFinishLongitude2.value,
     ).then((value) async {
       calculatedRouteDistance.value =
-      "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+          "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
       calculatedRouteTime.value =
-      "${int.parse(value.routes![0].duration!.split("s")[0]) ~/
-          3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) /
-          60) % 60).toInt()} dk";
+          "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
       generalPolylineEncode2.value =
-      value.routes![0].polyline!.encodedPolyline!;
+          value.routes![0].polyline!.encodedPolyline!;
 
       update(["mapPageController"]);
     });
@@ -701,13 +710,11 @@ class MapPageController extends GetxController {
       mapPageRouteFinishLongitude2.value,
     ).then((value) async {
       calculatedRouteDistance.value =
-      "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+          "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
       calculatedRouteTime.value =
-      "${int.parse(value.routes![0].duration!.split("s")[0]) ~/
-          3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) /
-          60) % 60).toInt()} dk";
+          "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
       generalPolylineEncode2.value =
-      value.routes![0].polyline!.encodedPolyline!;
+          value.routes![0].polyline!.encodedPolyline!;
 
       update(["mapPageController"]);
     });
@@ -750,13 +757,14 @@ class MapPageController extends GetxController {
   }
 
   Future<GetPollylineResponseModel> getPolylineEncodeRequest(
-      int selectedPolyline,
-      double lati1,
-      double longi1,
-      double lati2,
-      double longi2,) async {
+    int selectedPolyline,
+    double lati1,
+    double longi1,
+    double lati2,
+    double longi2,
+  ) async {
     GetPollylineResponseModel getPollylineResponseModel =
-    GetPollylineResponseModel();
+        GetPollylineResponseModel();
     // GetPollylineResponseModel getPollylineResponseModel =
     //     GetPollylineResponseModel(
     //   routes: [
@@ -770,7 +778,7 @@ class MapPageController extends GetxController {
     //   ],
     // );
     GetPollylineRequestModel getPollylineRequestModel =
-    GetPollylineRequestModel(
+        GetPollylineRequestModel(
       languageCode: "tr",
       computeAlternativeRoutes: false,
       //departureTime: "2023-10-15T15:01:23.045123456Z",
@@ -805,21 +813,19 @@ class MapPageController extends GetxController {
       ServicesConstants.getPolylineRequestHeader,
     )
         .then(
-          (value) {
+      (value) {
         if (value != null) {
           print("ZAAAAAAAAAAA");
           getPollylineResponseModel =
               GetPollylineResponseModel.fromJson(convert.json.decode(value));
           calculatedRouteDistance.value =
-          "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000)
-              .toStringAsFixed(0)} km";
+              "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
           calculatedRouteDistanceInt =
               getPollylineResponseModel.routes![0].distanceMeters! ~/ 1000;
           int calculatedTime = int.parse(
               getPollylineResponseModel.routes![0].duration!.split("s")[0]);
           calculatedRouteTime.value =
-          "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60)
-              .toInt()} dk";
+              "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
           calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
               ((calculatedTime / 60) % 60).toInt();
           getPollylineResponseModel.routes![0].polyline!.encodedPolyline!;
