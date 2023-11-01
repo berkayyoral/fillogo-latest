@@ -279,40 +279,40 @@ class MapPageView extends GetView<MapPageController> {
           );
         },
         builder: (mapPageController) {
-          //log("AAAAAAAAAAAAAAAAA Builder Update");
+          log("AAAAAAAAAAAAAAAAA Builder Update");
 
-          // mapPageController.myAllRoutes == null
-          //     ? initialLocation = CameraPosition(
-          //         bearing: 90,
-          //         tilt: 45,
-          //         target: LatLng(
-          //           getMyCurrentLocationController.myLocationLatitudeDo.value,
-          //           getMyCurrentLocationController.myLocationLongitudeDo.value,
-          //         ),
-          //         zoom: 14,
-          //       )
-          //     : mapPageController.myAllRoutes!.activeRoutes!.isEmpty
-          //         ? initialLocation = CameraPosition(
-          //             bearing: 90,
-          //             tilt: 45,
-          //             target: LatLng(
-          //               getMyCurrentLocationController
-          //                   .myLocationLatitudeDo.value,
-          //               getMyCurrentLocationController
-          //                   .myLocationLongitudeDo.value,
-          //             ),
-          //             zoom: 14,
-          //           )
-          //         : initialLocation = CameraPosition(
-          //             bearing: 90,
-          //             tilt: 45,
-          //             target: LatLng(
-          //                 mapPageController.myAllRoutes!.activeRoutes![0]
-          //                     .startingCoordinates![0],
-          //                 mapPageController.myAllRoutes!.activeRoutes![0]
-          //                     .startingCoordinates![1]),
-          //             zoom: 15,
-          //           );
+          mapPageController.myAllRoutes == null
+              ? initialLocation = CameraPosition(
+                  bearing: 90,
+                  tilt: 45,
+                  target: LatLng(
+                    getMyCurrentLocationController.myLocationLatitudeDo.value,
+                    getMyCurrentLocationController.myLocationLongitudeDo.value,
+                  ),
+                  zoom: 14,
+                )
+              : mapPageController.myAllRoutes!.activeRoutes!.isEmpty
+                  ? initialLocation = CameraPosition(
+                      bearing: 90,
+                      tilt: 45,
+                      target: LatLng(
+                        getMyCurrentLocationController
+                            .myLocationLatitudeDo.value,
+                        getMyCurrentLocationController
+                            .myLocationLongitudeDo.value,
+                      ),
+                      zoom: 14,
+                    )
+                  : initialLocation = CameraPosition(
+                      bearing: 90,
+                      tilt: 45,
+                      target: LatLng(
+                          mapPageController.myAllRoutes!.activeRoutes![0]
+                              .startingCoordinates![0],
+                          mapPageController.myAllRoutes!.activeRoutes![0]
+                              .startingCoordinates![1]),
+                      zoom: 15,
+                    );
 
           return Stack(
             children: [

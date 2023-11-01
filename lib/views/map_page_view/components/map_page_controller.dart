@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -10,6 +11,7 @@ import 'dart:convert' as convert;
 import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
 import '../../../export.dart';
+import '../../../models/routes_models/get_friends_routes_circular.dart';
 import '../../../models/routes_models/get_my_friends_routes_model.dart';
 import '../../../models/routes_models/get_my_routes_model.dart';
 import '../../../services/general_sevices_template/general_services.dart';
@@ -389,6 +391,7 @@ class MapPageController extends GetxController {
 
     if (distanceToDestination > thresholdDistance) {
       drawIntoMapPolyline2();
+      getMyFriendsRoutesCircular(newPoint);
     }
   }
 
@@ -460,14 +463,17 @@ class MapPageController extends GetxController {
     update(["mapPageController"]);
   }
 
-  getMyFriendsRoutesCircular() async {
+  getMyFriendsRoutesCircular(LatLng point) async {
     await GeneralServicesTemp().makePostRequest(
-        EndPoint.getMyFriendsCircular, requestModel,
+        EndPoint.getMyFriendsCircular,
+        {"lat": point.latitude, "long": point.longitude},
         ServicesConstants.appJsonWithToken).then((value) =>
     {
-    log("Circular request response -> {$value}")
-
-    });
+    log("Circular request response -> {$value}"),
+    if(value!=null){
+      final test = FriendsRoutesCircular.fromJson(jsonDecode(value))}
+  }
+    );
   }
 
   void mapDisplayAnimationFuncMap1() async {
