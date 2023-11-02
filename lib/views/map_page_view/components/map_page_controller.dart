@@ -334,7 +334,7 @@ class MapPageController extends GetxController {
     Polyline polyline = Polyline(
       polylineId: generalPolylineId,
       color: selectedPolyline.value != 3
-          ? AppConstants().ltMainRed
+          ? AppConstants().ltBlue
           : AppConstants().ltLogoGrey,
       points: newPolylineCoordinates,
       width: 4,
@@ -366,8 +366,10 @@ class MapPageController extends GetxController {
   }
 
   updatePolyline(LatLng newPoint) {
-    mapPageRouteFinishLatitude2.value = 41.28103;
-    mapPageRouteFinishLongitude2.value = 36.33734;
+
+   // myAllRoutes!.activeRoutes![0].endingCoordinates![1];
+    mapPageRouteFinishLatitude2.value = finishLatLong.latitude;
+    mapPageRouteFinishLongitude2.value = finishLatLong.longitude;
 
     double thresholdDistance = 30.0;
     // Kullanıcının hedefe olan mesafesini kontrol edin

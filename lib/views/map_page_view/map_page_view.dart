@@ -2789,6 +2789,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               if (response
                                                                       .success ==
                                                                   1) {
+                                                                SharedPreferences sharedPrefs= await SharedPreferences.getInstance();
+
                                                                 await showDialog(
                                                                     context:
                                                                         context,

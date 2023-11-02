@@ -22,6 +22,7 @@ class AppConstants {
   Color ltWhiteGrey = const Color(0xFFEDEDED);
   Color ltMainRed = const Color(0xFFA91916);
   Color ltBlack = const Color(0xFF000000);
+  Color ltBlue = const Color(0xFF62a6ed);
 }
 
 class EndPoint {
