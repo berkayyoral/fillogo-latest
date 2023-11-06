@@ -183,12 +183,12 @@ class MapPageView extends GetView<MapPageController> {
             (value) async {
               GetMyRouteResponseModel getMyRouteResponseModel =
                   GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-
-              mapPageController.getMyFriendsMatchingRoutes(
+            //Anlık arkadaş konumu bağlandı
+             /* mapPageController.getMyFriendsMatchingRoutes(
                   context,
                   getMyRouteResponseModel
                       .data![0].allRoutes!.activeRoutes![0].polylineEncode);
-
+*/
               log("QQQQQQ$value");
 
               mapPageController.myAllRoutes =

@@ -15,12 +15,14 @@ import '../../../models/routes_models/get_friends_routes_circular.dart';
 import '../../../models/routes_models/get_my_friends_routes_model.dart';
 import '../../../models/routes_models/get_my_routes_model.dart';
 import '../../../services/general_sevices_template/general_services.dart';
+import '../../../services/notificaiton_service/local_notification/local_notification_service.dart';
 import '../../testFolder/test19/route_api_models.dart';
 
 class MapPageController extends GetxController {
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
+  late BuildContext context;
 
   @override
   void onInit() async {
@@ -86,6 +88,7 @@ class MapPageController extends GetxController {
 
   PolylinePoints polylinePoints2 = PolylinePoints();
   Set<Marker> markers2 = {};
+  Set<Marker> markers3 = {};
   Map<PolylineId, Polyline> polylines2 = {};
   List<LatLng> polylineCoordinates2 = [];
 
@@ -155,6 +158,7 @@ class MapPageController extends GetxController {
 
     polylinePoints2 = PolylinePoints();
     markers2.clear();
+    markers3.clear();
     polylines2.clear();
     polylineCoordinates2 = [];
     generalPolylineEncode2.value = "";
@@ -242,6 +246,7 @@ class MapPageController extends GetxController {
   }
 
   getMyFriendsRoutesRequestRefreshable(BuildContext context) async {
+    this.context=context;
     await GeneralServicesTemp().makeGetRequest(
       EndPoint.getMyfriendsRoute,
       {
@@ -255,8 +260,8 @@ class MapPageController extends GetxController {
             GetMyFriendsRouteResponseModel.fromJson(
                 convert.json.decode(value!));
         myFriendsLocations = getMyFriendsRouteResponseModel.data!;
-
-        for (var i = 0; i < myFriendsLocations.length; i++) {
+      //Anlık arkadaş konumu bağlandı
+/*        for (var i = 0; i < myFriendsLocations.length; i++) {
           addMarkerFunctionForMapPage(
             myFriendsLocations[i]!.followed!.id!,
             MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
@@ -289,7 +294,7 @@ class MapPageController extends GetxController {
             "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
             myFriendsLocations[i]!.followed!.profilePicture!,
           );
-        }
+        }*/
       },
     );
   }
@@ -366,8 +371,7 @@ class MapPageController extends GetxController {
   }
 
   updatePolyline(LatLng newPoint) {
-
-   // myAllRoutes!.activeRoutes![0].endingCoordinates![1];
+    // myAllRoutes!.activeRoutes![0].endingCoordinates![1];
     mapPageRouteFinishLatitude2.value = finishLatLong.latitude;
     mapPageRouteFinishLongitude2.value = finishLatLong.longitude;
 
@@ -453,7 +457,8 @@ class MapPageController extends GetxController {
     });
     update(["mapPageController"]);
   }
-
+   List<int> friendList = [];
+  //Belirli bir alandaki arkadaşları getiren istek
   getMyFriendsRoutesCircular(LatLng point) async {
     await GeneralServicesTemp()
         .makePostRequest(
@@ -462,22 +467,31 @@ class MapPageController extends GetxController {
             ServicesConstants.appJsonWithToken)
         .then((value) {
       log("Circular request response -> {$value}");
+      Marker newMarker3 = markers3.firstWhere(
+              (marker) => marker.markerId.value == "myFriendsLocationMarker",
+          orElse: () => const Marker(markerId: MarkerId("")));
+      markers3.remove(newMarker3);
       if (value != null) {
         final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
-        Marker newMarker1 = markers.firstWhere(
-                (marker) => marker.markerId.value == "myFriendLocation",
-            orElse: () => const Marker(markerId: MarkerId("")));
-        markers.remove(newMarker1);
 
-        addMarkerFunctionForMapPageWithoutOnTap(
-          const MarkerId("myLocationMarker"),
-          LatLng(
-            response.latitude as double,
-            response.longitude as double,
-          ),
-          "",
-          BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
-        );
+        for (var element in response.data) {
+          if (!friendList.contains(element.userID)) {
+            LocalNotificationService().showNotification(title: "${element.userID} Yakınında", body:  response.message);
+            friendList.add(element.userID!);
+          }
+          customMarkerIconController.setCustomMarkerIcon5(element.profilePic!);
+          addMarkerFunctionForMapPage(
+            element.userID!,
+            const MarkerId("myFriendsLocationMarker"),
+            LatLng(
+              element.latitude as double,
+              element.longitude as double,
+            ),
+            BitmapDescriptor.fromBytes(
+                customMarkerIconController.myFriendsLocation!),
+            context,"test","test","test","test","test","test","test",element.profilePic!
+          );
+        }
       }
       update(["mapPageController"]);
     });
@@ -637,7 +651,32 @@ class MapPageController extends GetxController {
       return false;
     }
   }
-
+  bool addMarkerFunctionForMapPageWithoutOnTap3(
+      MarkerId markerId,
+      LatLng latLng,
+      // String title,
+      String address,
+      BitmapDescriptor icon,
+      ) {
+    try {
+      Marker marker = Marker(
+        markerId: markerId,
+        position: latLng,
+        infoWindow: InfoWindow(
+          //title: title,
+          snippet: address,
+        ),
+        icon: icon,
+      );
+      markers.add(marker);
+      update(["mapPageController"]);
+      return true;
+    } catch (e) {
+      log("marker ekleme hatası!!  ${e.toString()}");
+      update(["mapPageController"]);
+      return false;
+    }
+  }
   void drawIntoMapPolyline() async {
     if (markers2.isNotEmpty) markers2.clear();
     if (polylines2.isNotEmpty) polylines2.clear();

@@ -2,9 +2,11 @@ import 'package:fillogo/widgets/shild_icon_pinned.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'package:fillogo/export.dart';
+import 'package:image_to_byte/image_to_byte.dart';
 
 class SetCustomMarkerIconController extends GetxController {
   Uint8List? myFriendsLocation;
+  Uint8List? myFriendsLocationPic;
   Uint8List? mayLocationIcon;
   Uint8List? myRouteFinishIcon;
   Uint8List? myRouteStartIcon;
@@ -37,14 +39,13 @@ class SetCustomMarkerIconController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+
   }
 
   setCustomMarkerIcon() async {
     myRouteStartIcon =
         await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 100);
   }
-  
-  
   
 
   setCustomMarkerIcon2() async {
@@ -82,5 +83,34 @@ class SetCustomMarkerIconController extends GetxController {
   setCustomMarkerIcon4() async {
     myRouteFinishIcon =
         await getBytesFromAsset('assets/icons/bitisIcon6.png', 200);
+  }
+
+  setCustomMarkerIcon5(String url) async {
+    myFriendsLocationPic =  await imageToByte(url);
+  }
+
+  setCustomMarkerIcon6(String url) async {
+    myLocation = ClipPath(
+      clipper: ShildIconCustomPainter(),
+      child: Container(
+        height: 100,
+        width: 100,
+        color: AppConstants().ltWhite,
+        child: Image.network(url ??
+              'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+
+    mayLocationIcon = (await NetworkAssetBundle(Uri.parse(LocaleManager.instance
+        .getString(PreferencesKeys.currentUserProfilPhoto)!))
+        .load(LocaleManager.instance
+        .getString(PreferencesKeys.currentUserProfilPhoto)!))
+        .buffer
+        .asUint8List();
+
+    mayLocationIcon =
+    await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
   }
 }
