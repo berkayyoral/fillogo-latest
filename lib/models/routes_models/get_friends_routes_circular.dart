@@ -11,8 +11,6 @@ class FriendsRoutesCircular {
   factory FriendsRoutesCircular.fromRawJson(String str) =>
       FriendsRoutesCircular.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   FriendsRoutesCircular.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
@@ -20,13 +18,6 @@ class FriendsRoutesCircular {
         List.from(json['data']).map((e) => FriendsRoutes.fromJson(e)).toList();
   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['success'] = success;
-    _data['message'] = message;
-    _data['data'] = data.map((e) => e.toJson()).toList();
-    return _data;
-  }
 }
 
 class FriendsRoutes {
@@ -34,24 +25,23 @@ class FriendsRoutes {
   String? profilePic;
   double? latitude;
   double? longitude;
+  String? message;
 
-  FriendsRoutes({this.userID, this.profilePic, this.latitude, this.longitude});
+  FriendsRoutes(
+      {this.userID,
+      this.profilePic,
+      this.latitude,
+      this.longitude,
+      this.message});
 
   factory FriendsRoutes.fromRawJson(String str) =>
       FriendsRoutes.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
 
   factory FriendsRoutes.fromJson(Map<String, dynamic> json) => FriendsRoutes(
       userID: json["userID"],
       profilePic: json["profilePic"],
       latitude: json["latitude"],
-      longitude: json["longitude"]);
-
-  Map<String, dynamic> toJson() => {
-        "userID": userID,
-        "profilePic": profilePic,
-        "latitude": latitude,
-        "longitude": longitude
-      };
+      longitude: json["longitude"],
+      message: json["message"]);
 }

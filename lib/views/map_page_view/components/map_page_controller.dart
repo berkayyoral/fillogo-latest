@@ -261,7 +261,7 @@ class MapPageController extends GetxController {
                 convert.json.decode(value!));
         myFriendsLocations = getMyFriendsRouteResponseModel.data!;
       //Anlık arkadaş konumu bağlandı
-/*        for (var i = 0; i < myFriendsLocations.length; i++) {
+        for (var i = 0; i < myFriendsLocations.length; i++) {
           addMarkerFunctionForMapPage(
             myFriendsLocations[i]!.followed!.id!,
             MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
@@ -294,7 +294,7 @@ class MapPageController extends GetxController {
             "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
             myFriendsLocations[i]!.followed!.profilePicture!,
           );
-        }*/
+        }
       },
     );
   }
@@ -474,22 +474,37 @@ class MapPageController extends GetxController {
       if (value != null) {
         final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
 
-        for (var element in response.data) {
-          if (!friendList.contains(element.userID)) {
-            LocalNotificationService().showNotification(title: "${element.userID} Yakınında", body:  response.message);
-            friendList.add(element.userID!);
+        for (int i= 0; i<response.data.length; i++) {
+          if (!friendList.contains(response.data[i].userID)) {
+            LocalNotificationService().showNotification(title: "Arkadaşın Yakınında", body:  response.data[i].message!);
+            friendList.add(response.data[i].userID!);
           }
-          customMarkerIconController.setCustomMarkerIcon5(element.profilePic!);
+          customMarkerIconController.setCustomMarkerIcon5(response.data[i].profilePic!);
           addMarkerFunctionForMapPage(
-            element.userID!,
+              response.data[i].userID!,
             const MarkerId("myFriendsLocationMarker"),
             LatLng(
-              element.latitude as double,
-              element.longitude as double,
+              response.data[i].latitude as double,
+              response.data[i].longitude as double,
             ),
             BitmapDescriptor.fromBytes(
                 customMarkerIconController.myFriendsLocation!),
-            context,"test","test","test","test","test","test","test",element.profilePic!
+            context, "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
+            myFriendsLocations[i]!
+                .followed!
+                .userpostroutes![0]
+                .departureDate
+                .toString(),
+            myFriendsLocations[i]!
+                .followed!
+                .userpostroutes![0]
+                .arrivalDate
+                .toString(),
+            "Tır",
+            myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
+            myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
+            "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+            myFriendsLocations[i]!.followed!.profilePicture!,
           );
         }
       }

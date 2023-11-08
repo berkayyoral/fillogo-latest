@@ -36,6 +36,7 @@ StartEndAdressController startEndAdressController =
     Get.find<StartEndAdressController>();
 
 class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
+  DateTime firstDateTimeController = DateTime.now();
   @override
   void initState() {
     super.initState();
@@ -83,7 +84,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
 
   bool onTapThreePointButton = false;
 
-  DateTime firstDateTimeController = DateTime.now();
+
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +276,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-                        
+
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
@@ -380,7 +381,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-                        
+
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
