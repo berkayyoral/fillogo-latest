@@ -338,7 +338,7 @@ class MapPageView extends GetView<MapPageController> {
                           initialCameraPosition:
                               getMyCurrentLocationController.initialLocation,
                           myLocationEnabled: true,
-                          myLocationButtonEnabled: false,
+                          myLocationButtonEnabled: true,
                           mapType: MapType.normal,
                           zoomGesturesEnabled: true,
                           zoomControlsEnabled: false,
@@ -928,8 +928,8 @@ class MapPageView extends GetView<MapPageController> {
               ),
 
               Visibility(
-                visible: (mapPageController.calculateLevel.value == 1) &&
-                    mapPageController.selectedDispley.value == 0,
+                visible: false/*(mapPageController.calculateLevel.value == 1) &&
+                    mapPageController.selectedDispley.value == 0*/,
                 child: Padding(
                   padding: EdgeInsets.only(left: 16.w, bottom: 68.h),
                   child: Align(
