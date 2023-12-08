@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../../../export.dart';
 
 class GetPollylineRequestModel {
   late OriginMyModel origin;
@@ -38,7 +37,7 @@ class GetPollylineRequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['origin'] = origin.toJson();
     data['destination'] = destination.toJson();
     data['travelMode'] = travelMode;
@@ -64,7 +63,7 @@ class OriginMyModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['location'] = location.toJson();
     return data;
   }

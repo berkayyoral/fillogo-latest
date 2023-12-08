@@ -1,9 +1,7 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
-import 'package:fillogo/core/constants/app_constants.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
-import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../controllers/map/get_current_location_and_listen.dart';
@@ -53,12 +51,12 @@ class NavigationDrawerWidget extends StatelessWidget {
                 mapPageController.iWantTrackerMyLocation.value = 2;
                 mapPageController.changeCalculateLevel(2);
                 mapPageController.addMarkerFunctionForMapPageWithoutOnTap2(
-                  MarkerId("myLocationMarker"),
+                  const MarkerId("myLocationMarker"),
                   LatLng(
                     getMyCurrentLocationController.myLocationLatitudeDo.value,
                     getMyCurrentLocationController.myLocationLongitudeDo.value,
                   ),
-                  "${mapPageController.mapPageRouteStartAddress2.value}",
+                  mapPageController.mapPageRouteStartAddress2.value,
                   BitmapDescriptor.fromBytes(mapPageController
                       .customMarkerIconController.mayLocationIcon!),
                 );

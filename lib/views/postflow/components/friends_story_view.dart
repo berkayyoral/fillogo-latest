@@ -2,7 +2,7 @@ import '../../../export.dart';
 import '../../../widgets/shild_icon_pinned.dart';
 
 class FriendsStoryView extends StatelessWidget {
-  FriendsStoryView({
+  const FriendsStoryView({
     super.key,
     required this.storyImageUrl,
     required this.profileImageUrl,

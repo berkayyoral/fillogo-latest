@@ -26,7 +26,7 @@ import 'components/edit_banner_photo.dart';
 import 'components/edit_profile_photo_widget.dart';
 
 class MyProfilView extends StatefulWidget {
-  MyProfilView({Key? key}) : super(key: key);
+  const MyProfilView({Key? key}) : super(key: key);
 
   @override
   State<MyProfilView> createState() => _MyProfilViewState();
@@ -143,14 +143,14 @@ class _MyProfilViewState extends State<MyProfilView> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        EditProfilePhoto(),
+                                        const EditProfilePhoto(),
                                   );
                                 },
                                 onTapEditCoverPicture: () {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        EditBannerPhoto(),
+                                        const EditBannerPhoto(),
                                   );
                                 },
                               ),
@@ -382,14 +382,14 @@ class _MyProfilViewState extends State<MyProfilView> {
                                     mapPageController.changeCalculateLevel(2);
                                     mapPageController
                                         .addMarkerFunctionForMapPageWithoutOnTap2(
-                                      MarkerId("myLocationMarker"),
+                                      const MarkerId("myLocationMarker"),
                                       LatLng(
                                         getMyCurrentLocationController
                                             .myLocationLatitudeDo.value,
                                         getMyCurrentLocationController
                                             .myLocationLongitudeDo.value,
                                       ),
-                                      "${mapPageController.mapPageRouteStartAddress2.value}",
+                                      mapPageController.mapPageRouteStartAddress2.value,
                                       BitmapDescriptor.fromBytes(
                                           mapPageController
                                               .customMarkerIconController
@@ -685,23 +685,21 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                         .result![index]
                                                         .didILiked ??
                                                     0,
-                                                routeContent: snapshot
+                                                routeContent: "${snapshot
                                                         .data!
                                                         .data!
                                                         .posts!
                                                         .result![index]
                                                         .post!
                                                         .postroute!
-                                                        .startingCity! +
-                                                    " -> " +
-                                                    snapshot
+                                                        .startingCity!} -> ${snapshot
                                                         .data!
                                                         .data!
                                                         .posts!
                                                         .result![index]
                                                         .post!
                                                         .postroute!
-                                                        .endingCity!,
+                                                        .endingCity!}",
                                                 routeEndDate: "",
                                                 routeStartDate: "",
                                                 postId: snapshot

@@ -24,10 +24,8 @@ class _ChatsViewState extends State<ChatsView> {
 
   @override
   Widget build(BuildContext context) {
-    print("Current User Id = " +
-        LocaleManager.instance
-            .getInt(PreferencesKeys.currentUserId)
-            .toString());
+    print("Current User Id = ${LocaleManager.instance
+            .getInt(PreferencesKeys.currentUserId)}");
     currentUserId =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
     return Scaffold(
@@ -59,6 +57,7 @@ class _ChatsViewState extends State<ChatsView> {
                   if (value != null) {
                     return ChatResponseModel.fromJson(json.decode(value));
                   }
+                  return null;
                 }),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

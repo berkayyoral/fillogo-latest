@@ -35,7 +35,7 @@ class PopupPrifilInfo extends StatelessWidget {
       Get.find<BottomNavigationBarController>();
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
       //height: 650.h,
       child: SingleChildScrollView(
@@ -212,7 +212,7 @@ class PopupPrifilInfo extends StatelessWidget {
                         color: AppConstants().ltBlack),
                   ),
                   Text(
-                    "% ${emptyPercent} DOLU",
+                    "% $emptyPercent DOLU",
                     style: TextStyle(
                         fontFamily: "Sfregular",
                         fontSize: 14.sp,

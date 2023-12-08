@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
 import 'package:fillogo/export.dart';

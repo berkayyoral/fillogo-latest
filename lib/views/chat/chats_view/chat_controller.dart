@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
-import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/chat/chats/chat_response_model.dart';
 import 'package:fillogo/models/search/following/search_following_request.dart';

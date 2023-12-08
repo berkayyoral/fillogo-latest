@@ -1,7 +1,6 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
-import 'package:fillogo/views/my_routes_view/my_routes_page_view.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 
@@ -55,7 +54,7 @@ class FindSimilarRoutesPageView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +188,7 @@ class FindSimilarRoutesPageView extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: 16.w, right: 16.w, bottom: 20.h),
-                      child: Column(
+                      child: const Column(
                         children: [
                           // RouteDetailsIntoRoutesWidget(
                           //   startPoint: startAdress.value,

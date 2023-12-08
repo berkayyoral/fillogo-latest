@@ -1,7 +1,5 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/models/routes_models_group/get_routes_response_model.dart';
-import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
@@ -9,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../map_page_view/components/map_page_controller.dart';
-import '../../my_routes_view/my_routes_page_view.dart';
 
 class CreatePostAddRoutePageView extends StatelessWidget {
   CreatePostAddRoutePageView({super.key});
@@ -63,7 +60,7 @@ class CreatePostAddRoutePageView extends StatelessWidget {
           return SizedBox(
             height: Get.height,
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 20.h),
                 child: Column(
@@ -79,14 +76,14 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                         mapPageController.changeCalculateLevel(2);
                         mapPageController
                             .addMarkerFunctionForMapPageWithoutOnTap2(
-                          MarkerId("myLocationMarker"),
+                          const MarkerId("myLocationMarker"),
                           LatLng(
                             getMyCurrentLocationController
                                 .myLocationLatitudeDo.value,
                             getMyCurrentLocationController
                                 .myLocationLongitudeDo.value,
                           ),
-                          "${mapPageController.mapPageRouteStartAddress2.value}",
+                          mapPageController.mapPageRouteStartAddress2.value,
                           BitmapDescriptor.fromBytes(mapPageController
                               .customMarkerIconController.mayLocationIcon!),
                         );
@@ -125,7 +122,7 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                               child: mapPageController
                                       .myActivesRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myActivesRoutes!.length,
@@ -179,7 +176,7 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                               child: mapPageController
                                       .mynotStartedRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .mynotStartedRoutes!.length,
@@ -234,7 +231,7 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                               //height: 595.h,
                               child: mapPageController.myPastsRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myPastsRoutes!.length,

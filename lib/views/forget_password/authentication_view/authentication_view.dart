@@ -27,11 +27,11 @@ class AuthenticationView extends StatelessWidget {
         ),
       ),
       body: Column(children: [
-        Center(child: DummyBox15()),
-        DummyBox15(),
+        const Center(child: DummyBox15()),
+        const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-          child: Text(
+          child: const Text(
             //TODO: SfRegular yok
             "Lütfen e-posta adresinize gelen 6 haneli doğrulama kodunu giriniz.",
             style: TextStyle(fontSize: 14),
@@ -49,8 +49,8 @@ class AuthenticationView extends StatelessWidget {
             ],
           ),
         ),
-        DummyBox15(),
-        DummyBox15(),
+        const DummyBox15(),
+        const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Pinput(
@@ -58,106 +58,111 @@ class AuthenticationView extends StatelessWidget {
             defaultPinTheme: PinTheme(
               width: 50,
               height: 50,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(30, 60, 87, 1),
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
                       spreadRadius: 3,
                       blurRadius: 10,
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                     ),
                   ]),
             ),
             focusedPinTheme: PinTheme(
               width: 50,
               height: 50,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(30, 60, 87, 1),
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
                       spreadRadius: 3,
                       blurRadius: 10,
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                     ),
                   ]),
             ),
             submittedPinTheme: PinTheme(
               width: 50,
               height: 50,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(30, 60, 87, 1),
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
                       spreadRadius: 3,
                       blurRadius: 10,
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                     ),
                   ]),
             ),
             followingPinTheme: PinTheme(
               width: 50,
               height: 50,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(30, 60, 87, 1),
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
                       spreadRadius: 3,
                       blurRadius: 10,
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                     ),
                   ]),
             ),
             disabledPinTheme: PinTheme(
               width: 50,
               height: 50,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(30, 60, 87, 1),
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
                       spreadRadius: 3,
                       blurRadius: 10,
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                     ),
                   ]),
             ),
           ),
         ),
-        DummyBox15(),
+        const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Row(
@@ -176,12 +181,12 @@ class AuthenticationView extends StatelessWidget {
             ],
           ),
         ),
-        DummyBox15(),
+        const DummyBox15(),
         RedButton(
           text: "Doğrula",
           onpressed: () {},
         ),
-        DummyBox15(),
+        const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Row(

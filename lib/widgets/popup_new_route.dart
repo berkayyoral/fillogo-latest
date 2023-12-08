@@ -8,7 +8,7 @@ class PopupNewRoute extends StatelessWidget {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Container(
           width: Get.width,
           height: Get.height * 0.45,
@@ -75,14 +75,14 @@ class PopupNewRoute extends StatelessWidget {
                   child: TextField(
                     cursorColor: AppConstants().ltMainRed,
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.location_on_outlined),
+                      suffixIcon: const Icon(Icons.location_on_outlined),
                       hintText: "Çıkış Noktasını Seçiniz",
                       hintStyle: TextStyle(
                         fontFamily: "Sflight",
                         fontSize: 16,
                         color: AppConstants().ltDarkGrey,
                       ),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10.0),
                         ),
@@ -90,7 +90,7 @@ class PopupNewRoute extends StatelessWidget {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 15),
+                      contentPadding: const EdgeInsets.only(left: 15),
                     ),
                     style: TextStyle(
                       fontFamily: "Sflight",
@@ -120,14 +120,14 @@ class PopupNewRoute extends StatelessWidget {
                   child: TextField(
                     cursorColor: AppConstants().ltMainRed,
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.location_on_outlined),
+                      suffixIcon: const Icon(Icons.location_on_outlined),
                       hintText: "Varış Noktasını Seçiniz",
                       hintStyle: TextStyle(
                         fontFamily: "Sflight",
                         fontSize: 16,
                         color: AppConstants().ltDarkGrey,
                       ),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10.0),
                         ),
@@ -135,7 +135,7 @@ class PopupNewRoute extends StatelessWidget {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 15),
+                      contentPadding: const EdgeInsets.only(left: 15),
                     ),
                     style: TextStyle(
                       fontFamily: "Sflight",

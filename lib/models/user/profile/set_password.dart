@@ -13,10 +13,10 @@ class SetPasswordRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['oldPassword'] = this.oldPassword;
-    data['newPassword'] = this.newPassword;
-    data['newPasswordAgain'] = this.newPasswordAgain;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['oldPassword'] = oldPassword;
+    data['newPassword'] = newPassword;
+    data['newPasswordAgain'] = newPasswordAgain;
     return data;
   }
 }

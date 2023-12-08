@@ -12,7 +12,6 @@ import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/views/notifications_view/components/notification_widget.dart';
 import 'package:fillogo/views/notifications_view/components/title_widget.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
-import 'package:fillogo/widgets/profilePhoto.dart';
 
 class NotificationsView extends StatelessWidget {
   NotificationsView({Key? key}) : super(key: key);
@@ -84,6 +83,7 @@ class NotificationsView extends StatelessWidget {
                     return GetNotificationResponseModel.fromJson(
                         json.decode(value));
                   }
+                  return null;
                 }),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -249,7 +249,7 @@ class NotificationsView extends StatelessWidget {
 
   void getNotificationData() {
     SocketService.instance().socket.on('get-notification', (data) async {
-      print("GET NOTIFICATION DATA = " + data.toString());
+      print("GET NOTIFICATION DATA = $data");
     });
   }
 

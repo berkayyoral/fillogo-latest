@@ -9,19 +9,16 @@ import 'package:fillogo/models/comment/comment_create/comment_create_request.dar
 import 'package:fillogo/models/comment/comment_create/comment_create_response.dart';
 import 'package:fillogo/models/comment/get_comment_response.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
-import 'package:fillogo/models/post/get_home_post.dart';
 import 'package:fillogo/models/post/post_detail_response.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
-import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
-import 'package:fillogo/widgets/popup_post_details.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // ignore: must_be_immutable
 class CommentsView extends StatefulWidget {
-  CommentsView({Key? key}) : super(key: key);
+  const CommentsView({Key? key}) : super(key: key);
 
   @override
   State<CommentsView> createState() => _CommentsViewState();
@@ -97,6 +94,7 @@ class _CommentsViewState extends State<CommentsView> {
                           return PostDetailResponse.fromJson(
                               json.decode(value));
                         }
+                        return null;
                       }),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

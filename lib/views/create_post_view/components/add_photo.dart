@@ -1,17 +1,11 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:fillogo/controllers/future_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/models/user/profile/update_pp_model.dart';
-import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart' as parser;
 
 class AddPhoto extends StatefulWidget {
   const AddPhoto({

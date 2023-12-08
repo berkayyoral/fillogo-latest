@@ -168,8 +168,8 @@ class RouteDetailsPageView extends StatelessWidget {
                   zoomControlsEnabled: false,
                   onCameraMoveStarted: () {},
                   onCameraMove: (p0) {},
-                  polygonsSet: <Polygon>{},
-                  tileOverlaysSet: <TileOverlay>{},
+                  polygonsSet: const <Polygon>{},
+                  tileOverlaysSet: const <TileOverlay>{},
                   polylinesSet: Set<Polyline>.of(
                       routeDetailsPageController.generalPolylines),
                   mapController2: (GoogleMapController controller) async {

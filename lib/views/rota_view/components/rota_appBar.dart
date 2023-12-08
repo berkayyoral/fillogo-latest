@@ -25,7 +25,7 @@ RotaAppBar() {
       InkWell(
           onTap: () {},
           child: Padding(
-            padding: EdgeInsets.only(right: 15),
+            padding: const EdgeInsets.only(right: 15),
             child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {

@@ -82,9 +82,9 @@ class OnboardOneView extends StatelessWidget {
             ),
           ),
           nextText == "Yolculuğa Başla"
-              ? SizedBox()
+              ? const SizedBox()
               : Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 20),
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
                   child: RichText(
                     text: TextSpan(
                         text: 'Atla',

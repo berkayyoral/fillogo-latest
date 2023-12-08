@@ -19,12 +19,12 @@ class UpdateUserProfileRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['username'] = this.username;
-    data['mail'] = this.mail;
-    data['phoneNumber'] = this.phoneNumber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['surname'] = surname;
+    data['username'] = username;
+    data['mail'] = mail;
+    data['phoneNumber'] = phoneNumber;
     return data;
   }
 }

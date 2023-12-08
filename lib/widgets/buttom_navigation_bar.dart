@@ -18,7 +18,7 @@ class BottomNavigationBarView extends StatelessWidget {
     PostFlowView(),
     MapPageView(),
     RouteCalculateLastView(),
-    MyProfilView(),
+    const MyProfilView(),
   ];
 
   _drawerControlIndex() {

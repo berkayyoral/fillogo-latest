@@ -1,9 +1,9 @@
 import 'package:fillogo/export.dart';
 
 class PostController extends GetxController {
-  var _currentStep = 0.obs;
-  var _buttonColor = Colors.grey.obs;
-  var _aciklamaText = ''.obs;
+  final _currentStep = 0.obs;
+  final _buttonColor = Colors.grey.obs;
+  final _aciklamaText = ''.obs;
 
   get currentStep {
     update();

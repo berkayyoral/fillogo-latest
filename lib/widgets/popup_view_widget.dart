@@ -2,7 +2,7 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 
 class ShowAllertDialogWidget extends StatelessWidget {
-  ShowAllertDialogWidget(
+  const ShowAllertDialogWidget(
       {super.key,
       required this.title,
       required this.discription1,

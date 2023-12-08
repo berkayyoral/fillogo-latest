@@ -13,8 +13,8 @@ class UserOtherProfileRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userID'] = this.userID;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userID'] = userID;
     return data;
   }
 }
@@ -29,17 +29,17 @@ class UserOtherProfileResponse {
   UserOtherProfileResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data =
-        json['data'] != null ? new UserProfilData.fromJson(json['data']) : null;
+        json['data'] != null ? UserProfilData.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -67,43 +67,43 @@ class UserProfilData {
       this.routeCount});
 
   UserProfilData.fromJson(Map<String, dynamic> json) {
-    users = json['users'] != null ? new Users.fromJson(json['users']) : null;
+    users = json['users'] != null ? Users.fromJson(json['users']) : null;
     if (json['stories'] != null) {
       stories = <Stories>[];
       json['stories'].forEach((v) {
-        stories!.add(new Stories.fromJson(v));
+        stories!.add(Stories.fromJson(v));
       });
     }
     followerCount = json['followerCount'];
     followingCount = json['followingCount'];
     doIfollow = json['doIfollow'];
     doIblock = json['doIblock'];
-    posts = json['posts'] != null ? new Posts.fromJson(json['posts']) : null;
+    posts = json['posts'] != null ? Posts.fromJson(json['posts']) : null;
     carInformations = json['carInformations'] != null
-        ? new CarInformations.fromJson(json['carInformations'])
+        ? CarInformations.fromJson(json['carInformations'])
         : null;
     routeCount = json['routeCount'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.users != null) {
-      data['users'] = this.users!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (users != null) {
+      data['users'] = users!.toJson();
     }
-    if (this.stories != null) {
-      data['stories'] = this.stories!.map((v) => v.toJson()).toList();
+    if (stories != null) {
+      data['stories'] = stories!.map((v) => v.toJson()).toList();
     }
-    data['followerCount'] = this.followerCount;
-    data['followingCount'] = this.followingCount;
-    data['doIfollow'] = this.doIfollow;
-    data['doIblock'] = this.doIblock;
-    if (this.posts != null) {
-      data['posts'] = this.posts!.toJson();
+    data['followerCount'] = followerCount;
+    data['followingCount'] = followingCount;
+    data['doIfollow'] = doIfollow;
+    data['doIblock'] = doIblock;
+    if (posts != null) {
+      data['posts'] = posts!.toJson();
     }
-    if (this.carInformations != null) {
-      data['carInformations'] = this.carInformations!.toJson();
+    if (carInformations != null) {
+      data['carInformations'] = carInformations!.toJson();
     }
-    data['routeCount'] = this.routeCount;
+    data['routeCount'] = routeCount;
     return data;
   }
 }
@@ -124,11 +124,11 @@ class Stories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userID'] = this.userID;
-    data['url'] = this.url;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userID'] = userID;
+    data['url'] = url;
+    data['createdAt'] = createdAt;
     return data;
   }
 }
@@ -143,21 +143,21 @@ class Posts {
     if (json['result'] != null) {
       result = <Result>[];
       json['result'].forEach((v) {
-        result!.add(new Result.fromJson(v));
+        result!.add(Result.fromJson(v));
       });
     }
     pagination = json['pagination'] != null
-        ? new Pagination.fromJson(json['pagination'])
+        ? Pagination.fromJson(json['pagination'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.result != null) {
-      data['result'] = this.result!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (result != null) {
+      data['result'] = result!.map((v) => v.toJson()).toList();
     }
-    if (this.pagination != null) {
-      data['pagination'] = this.pagination!.toJson();
+    if (pagination != null) {
+      data['pagination'] = pagination!.toJson();
     }
     return data;
   }
@@ -172,20 +172,20 @@ class Result {
   Result({this.post, this.likedNum, this.didILiked, this.commentNum});
 
   Result.fromJson(Map<String, dynamic> json) {
-    post = json['post'] != null ? new Post.fromJson(json['post']) : null;
+    post = json['post'] != null ? Post.fromJson(json['post']) : null;
     likedNum = json['likedNum'];
     didILiked = json['didILiked'];
     commentNum = json['commentNum'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.post != null) {
-      data['post'] = this.post!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (post != null) {
+      data['post'] = post!.toJson();
     }
-    data['likedNum'] = this.likedNum;
-    data['didILiked'] = this.didILiked;
-    data['commentNum'] = this.commentNum;
+    data['likedNum'] = likedNum;
+    data['didILiked'] = didILiked;
+    data['commentNum'] = commentNum;
     return data;
   }
 }
@@ -216,35 +216,35 @@ class Post {
     if (json['postemojis'] != null) {
       postemojis = <Postemojis>[];
       json['postemojis'].forEach((v) {
-        postemojis!.add(new Postemojis.fromJson(v));
+        postemojis!.add(Postemojis.fromJson(v));
       });
     }
     if (json['postpostlabels'] != null) {
       postpostlabels = <Postpostlabel>[];
       json['postpostlabels'].forEach((v) {
-        postpostlabels!.add(new Postpostlabel.fromJson(v));
+        postpostlabels!.add(Postpostlabel.fromJson(v));
       });
     }
     postroute = json['postroute'] != null
-        ? new Postroute.fromJson(json['postroute'])
+        ? Postroute.fromJson(json['postroute'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userID'] = this.userID;
-    data['text'] = this.text;
-    data['media'] = this.media;
-    if (this.postemojis != null) {
-      data['postemojis'] = this.postemojis!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userID'] = userID;
+    data['text'] = text;
+    data['media'] = media;
+    if (postemojis != null) {
+      data['postemojis'] = postemojis!.map((v) => v.toJson()).toList();
     }
-    if (this.postpostlabels != null) {
+    if (postpostlabels != null) {
       data['postpostlabels'] =
-          this.postpostlabels!.map((v) => v.toJson()).toList();
+          postpostlabels!.map((v) => v.toJson()).toList();
     }
-    if (this.postroute != null) {
-      data['postroute'] = this.postroute!.toJson();
+    if (postroute != null) {
+      data['postroute'] = postroute!.toJson();
     }
     return data;
   }
@@ -259,14 +259,14 @@ class Postemojis {
   Postemojis.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     emojis =
-        json['emojis'] != null ? new Emojis.fromJson(json['emojis']) : null;
+        json['emojis'] != null ? Emojis.fromJson(json['emojis']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.emojis != null) {
-      data['emojis'] = this.emojis!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    if (emojis != null) {
+      data['emojis'] = emojis!.toJson();
     }
     return data;
   }
@@ -286,10 +286,10 @@ class Emojis {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['emoji'] = this.emoji;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['emoji'] = emoji;
     return data;
   }
 }
@@ -308,10 +308,10 @@ class Userpostlabels {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['surname'] = surname;
     return data;
   }
 }
@@ -371,13 +371,13 @@ class Pagination {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_records'] = this.totalRecords;
-    data['total_perpage'] = this.totalPerpage;
-    data['total_page'] = this.totalPage;
-    data['current_page'] = this.currentPage;
-    data['next_page'] = this.nextPage;
-    data['previous_page'] = this.previousPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_records'] = totalRecords;
+    data['total_perpage'] = totalPerpage;
+    data['total_page'] = totalPage;
+    data['current_page'] = currentPage;
+    data['next_page'] = nextPage;
+    data['previous_page'] = previousPage;
     return data;
   }
 }
@@ -399,17 +399,17 @@ class CarInformations {
     carBrand = json['carBrand'];
     carModel = json['carModel'];
     cartypetousercartypes = json['cartypetousercartypes'] != null
-        ? new Cartypetousercartypes.fromJson(json['cartypetousercartypes'])
+        ? Cartypetousercartypes.fromJson(json['cartypetousercartypes'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['carTypeID'] = this.carTypeID;
-    data['carBrand'] = this.carBrand;
-    data['carModel'] = this.carModel;
-    if (this.cartypetousercartypes != null) {
-      data['cartypetousercartypes'] = this.cartypetousercartypes!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['carTypeID'] = carTypeID;
+    data['carBrand'] = carBrand;
+    data['carModel'] = carModel;
+    if (cartypetousercartypes != null) {
+      data['cartypetousercartypes'] = cartypetousercartypes!.toJson();
     }
     return data;
   }
@@ -429,10 +429,10 @@ class Cartypetousercartypes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['carType'] = this.carType;
-    data['driverType'] = this.driverType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['carType'] = carType;
+    data['driverType'] = driverType;
     return data;
   }
 }

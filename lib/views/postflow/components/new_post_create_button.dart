@@ -1,7 +1,6 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
-import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_services.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 

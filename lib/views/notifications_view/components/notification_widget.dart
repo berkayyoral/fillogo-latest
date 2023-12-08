@@ -55,7 +55,7 @@ class NotificationWidget extends StatelessWidget {
                             fontFamily: 'Sfbold',
                             color: AppConstants().ltLogoGrey),
                         recognizer: TapGestureRecognizer()..onTap = nameOnTap),
-                    TextSpan(text: "  "),
+                    const TextSpan(text: "  "),
                     TextSpan(
                       text: 'adlı kullanıcı ',
                       style: TextStyle(
@@ -106,7 +106,7 @@ class NotificationWidget extends StatelessWidget {
                                     color: color,
                                   )
                                 : notificationType == 99
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : SvgPicture.asset(
                                         'assets/icons/route-icon.svg',
                                         height: 30.h,

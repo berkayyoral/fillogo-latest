@@ -82,7 +82,7 @@ class OtherProfileWidget extends StatelessWidget {
         ],
       ),
       Padding(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 15),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
         child: Text(
           description,
           style: TextStyle(

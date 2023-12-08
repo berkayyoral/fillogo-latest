@@ -44,8 +44,8 @@ class ShildIconCustomPainter extends CustomClipper<Path> {
         0);
     path.close();
 
-    Paint paint_fill = Paint()..style = PaintingStyle.fill;
-    paint_fill.color = Colors.black.withOpacity(1.0);
+    Paint paintFill = Paint()..style = PaintingStyle.fill;
+    paintFill.color = Colors.black.withOpacity(1.0);
     return path;
   }
 

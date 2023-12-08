@@ -15,7 +15,7 @@ class HomeController extends GetxController {
 
   void fillList(int page) async {
     GetHomePostResponse? response = await GeneralServicesTemp()
-        .makeGetRequest("/posts/get-home-posts?page=${page}", {
+        .makeGetRequest("/posts/get-home-posts?page=$page", {
       "Content-type": "application/json",
       'Authorization':
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
@@ -23,6 +23,7 @@ class HomeController extends GetxController {
       if (value != null) {
         return GetHomePostResponse.fromJson(json.decode(value));
       }
+      return null;
     });
     if (response == null) {
       return;
@@ -36,7 +37,7 @@ class HomeController extends GetxController {
 
   void addList(int page) async {
     GetHomePostResponse? response = await GeneralServicesTemp()
-        .makeGetRequest("/posts/get-home-posts?page=${page}", {
+        .makeGetRequest("/posts/get-home-posts?page=$page", {
       "Content-type": "application/json",
       'Authorization':
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
@@ -44,6 +45,7 @@ class HomeController extends GetxController {
       if (value != null) {
         return GetHomePostResponse.fromJson(json.decode(value));
       }
+      return null;
     });
     if (response == null) {
       return;

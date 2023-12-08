@@ -9,7 +9,7 @@ import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:story_view/story_view.dart';
 
 class StoriesView extends StatefulWidget {
-  StoriesView({super.key});
+  const StoriesView({super.key});
 
   @override
   State<StoriesView> createState() => _StoriesViewState();
@@ -104,20 +104,20 @@ class _StoriesViewState extends State<StoriesView> {
                                       width: Get.width,
                                       child: ListView.builder(
                                           physics:
-                                              AlwaysScrollableScrollPhysics(),
+                                              const AlwaysScrollableScrollPhysics(),
                                           itemCount:
                                               storiesController.totalPage.value,
                                           itemBuilder: (context, index) {
                                             return Container(
-                                              margin: EdgeInsets.all(6),
+                                              margin: const EdgeInsets.all(6),
                                               width: Get.width,
                                               height: 150,
                                               child: Row(
                                                 children: [
                                                   Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         left: 20),
-                                                    child: Container(
+                                                    child: SizedBox(
                                                       height: 150,
                                                       width: 150,
                                                       child: ClipRRect(
@@ -135,9 +135,9 @@ class _StoriesViewState extends State<StoriesView> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                   Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         right: 20),
                                                     child: MaterialButton(
                                                       color: AppConstants()
@@ -150,8 +150,7 @@ class _StoriesViewState extends State<StoriesView> {
 
                                                         GeneralServicesTemp()
                                                             .makeDeleteWithoutBody(
-                                                          EndPoint.deleteStory +
-                                                              "${storiesController.snapshotList[index]!.id}",
+                                                          "${EndPoint.deleteStory}${storiesController.snapshotList[index]!.id}",
                                                           {
                                                             'Authorization':
                                                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
@@ -214,7 +213,7 @@ class _StoriesViewState extends State<StoriesView> {
                   LocaleManager.instance
                               .getInt(PreferencesKeys.currentUserId) ==
                           storiesController.snapshotList[0]!.stories!.id
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Visibility(
                           visible: false,
                           child: Positioned(
@@ -337,13 +336,9 @@ class _StoriesViewState extends State<StoriesView> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Text(
-                                    storiesController
-                                            .snapshotList[0]!.stories!.name
-                                            .toString() +
-                                        " " +
-                                        storiesController
-                                            .snapshotList[0]!.stories!.surname
-                                            .toString(),
+                                    "${storiesController
+                                            .snapshotList[0]!.stories!.name} ${storiesController
+                                            .snapshotList[0]!.stories!.surname}",
                                     style: TextStyle(
                                       color: AppConstants().ltWhite,
                                       fontFamily: 'Sfregular',
@@ -353,11 +348,11 @@ class _StoriesViewState extends State<StoriesView> {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             storiesController.userId.value !=
                                     LocaleManager.instance
                                         .getInt(PreferencesKeys.currentUserId)
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : GestureDetector(
                                     onTap: () {
                                       showModalBottomSheet(
@@ -368,23 +363,23 @@ class _StoriesViewState extends State<StoriesView> {
                                                 width: Get.width,
                                                 child: ListView.builder(
                                                     physics:
-                                                        AlwaysScrollableScrollPhysics(),
+                                                        const AlwaysScrollableScrollPhysics(),
                                                     itemCount: storiesController
                                                         .totalPage.value,
                                                     itemBuilder:
                                                         (context, index) {
                                                       return Container(
                                                         margin:
-                                                            EdgeInsets.all(6),
+                                                            const EdgeInsets.all(6),
                                                         width: Get.width,
                                                         height: 150,
                                                         child: Row(
                                                           children: [
                                                             Padding(
-                                                              padding: EdgeInsets
+                                                              padding: const EdgeInsets
                                                                   .only(
                                                                       left: 20),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 height: 150,
                                                                 width: 150,
                                                                 child:
@@ -406,9 +401,9 @@ class _StoriesViewState extends State<StoriesView> {
                                                                 ),
                                                               ),
                                                             ),
-                                                            Spacer(),
+                                                            const Spacer(),
                                                             Padding(
-                                                              padding: EdgeInsets
+                                                              padding: const EdgeInsets
                                                                   .only(
                                                                       right:
                                                                           20),
@@ -424,8 +419,7 @@ class _StoriesViewState extends State<StoriesView> {
 
                                                                   GeneralServicesTemp()
                                                                       .makeDeleteWithoutBody(
-                                                                    EndPoint.deleteStory +
-                                                                        "${storiesController.snapshotList[index]!.id}",
+                                                                    "${EndPoint.deleteStory}${storiesController.snapshotList[index]!.id}",
                                                                     {
                                                                       'Authorization':
                                                                           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',

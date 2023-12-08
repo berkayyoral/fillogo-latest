@@ -4,28 +4,19 @@ import 'dart:developer';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
-import 'package:fillogo/controllers/map/route_calculate_view_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/models/routes_models/create_route_post_models.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder2/geocoder2.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
 import '../../widgets/google_maps_widgets/general_map_view_class.dart';
 import '../map_page_view/components/active_friends_list_display.dart';
 import 'components/create_route_controller.dart';
-import 'package:uuid/uuid.dart';
 
 import 'components/route_search_by_city_models.dart';
 
@@ -140,7 +131,7 @@ class RouteCalculateLastView extends StatelessWidget {
                           initState: (_) async {
                             //await getMyCurrentLocationController.getMyCurrentLocation();
                             createRouteController.addMarkerFunction(
-                              MarkerId("myCurrentMarker"),
+                              const MarkerId("myCurrentMarker"),
                               LatLng(
                                   getMyCurrentLocationController
                                       .myLocationLatitudeDo.value,
@@ -168,8 +159,8 @@ class RouteCalculateLastView extends StatelessWidget {
                                 zoomControlsEnabled: false,
                                 onCameraMoveStarted: () {},
                                 onCameraMove: (p0) {},
-                                polygonsSet: <Polygon>{},
-                                tileOverlaysSet: <TileOverlay>{},
+                                polygonsSet: const <Polygon>{},
+                                tileOverlaysSet: const <TileOverlay>{},
                                 polylinesSet: Set<Polyline>.of(
                                     createRouteController.polylines.values),
                                 mapController2:
@@ -188,8 +179,8 @@ class RouteCalculateLastView extends StatelessWidget {
                                 (Widget child, Animation<double> animation) {
                               return SlideTransition(
                                 position: Tween<Offset>(
-                                        begin: Offset(0, 1.2),
-                                        end: Offset(0, 0))
+                                        begin: const Offset(0, 1.2),
+                                        end: const Offset(0, 0))
                                     .animate(animation),
                                 child: child,
                               );
@@ -451,7 +442,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             ),
             Positioned(
               top: 52.h,
-              child: Container(
+              child: SizedBox(
                 width: Get.width,
                 //height: Get.height,
                 child: Column(
@@ -681,7 +672,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         await _displayPredictionFinishLocation(place!, context);
         final plist = GoogleMapsPlaces(
           apiKey: AppConstants.googleMapsApiKey,
-          apiHeaders: await GoogleApiHeaders().getHeaders(),
+          apiHeaders: await const GoogleApiHeaders().getHeaders(),
           //from google_api_headers package
         );
         String placeid = place.placeId ?? "0";
@@ -799,7 +790,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         await _displayPredictionStartLocation(place!, context);
         final plist = GoogleMapsPlaces(
           apiKey: AppConstants.googleMapsApiKey,
-          apiHeaders: await GoogleApiHeaders().getHeaders(),
+          apiHeaders: await const GoogleApiHeaders().getHeaders(),
           //from google_api_headers package
         );
         String placeid = place.placeId ?? "0";
@@ -875,115 +866,111 @@ class RouteCalculateButtomSheet extends StatelessWidget {
 
   Future _displayPredictionFinishLocation(
       Prediction placeInfo, BuildContext context) async {
-    if (placeInfo != null) {
-      PlacesDetailsResponse detail = await createRouteController
-          .googleMapsPlaces
-          .getDetailsByPlaceId(placeInfo.placeId!);
+    PlacesDetailsResponse detail = await createRouteController
+        .googleMapsPlaces
+        .getDetailsByPlaceId(placeInfo.placeId!);
 
-      var placeId = placeInfo.placeId;
+    var placeId = placeInfo.placeId;
 
-      GeoData data = await Geocoder2.getDataFromCoordinates(
-          latitude: detail.result.geometry!.location.lat,
-          longitude: detail.result.geometry!.location.lng,
-          googleMapApiKey: AppConstants.googleMapsApiKey);
+    GeoData data = await Geocoder2.getDataFromCoordinates(
+        latitude: detail.result.geometry!.location.lat,
+        longitude: detail.result.geometry!.location.lng,
+        googleMapApiKey: AppConstants.googleMapsApiKey);
 
-      createRouteController.createRouteFinishAddress.value = data.address;
-      createRouteController.finishCity.value = data.state;
+    createRouteController.createRouteFinishAddress.value = data.address;
+    createRouteController.finishCity.value = data.state;
 
-      createRouteController.createRouteFinishLatitude.value = data.latitude;
+    createRouteController.createRouteFinishLatitude.value = data.latitude;
 
-      createRouteController.createRouteFinishLongitude.value = data.longitude;
-      createRouteController.finishLatLong =
-          LatLng(data.latitude, data.longitude);
+    createRouteController.createRouteFinishLongitude.value = data.longitude;
+    createRouteController.finishLatLong =
+        LatLng(data.latitude, data.longitude);
 
-      log("Finish");
-      if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-          (createRouteController.createRouteStartLongitude.value != 0.0) &&
-          (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-          (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-          createRouteController.startCity.value != "" &&
-          createRouteController.finishCity.value != "") {
-        log("Finish createRouteController.finishCity:  ${createRouteController.finishCity.value}");
-        GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-            GetRouteSearchByCityRequestModel(
-          startLocation: createRouteController.startCity.value,
-          endLocation: createRouteController.finishCity.value,
-        );
-        GeneralServicesTemp()
-            .makePostRequest(
-          EndPoint.routesSearchByCitys,
-          routeSearchByCityRequestModel,
-          ServicesConstants.appJsonWithToken,
-        )
-            .then((value) async {
-          final response =
-              GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-          createRouteController.searchByCityDatum = response.data![0];
-        });
-        //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-        
-        createRouteController.calculateLevel.value = 2;
-        
-      }
+    log("Finish");
+    if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+        (createRouteController.createRouteStartLongitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+        createRouteController.startCity.value != "" &&
+        createRouteController.finishCity.value != "") {
+      log("Finish createRouteController.finishCity:  ${createRouteController.finishCity.value}");
+      GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+          GetRouteSearchByCityRequestModel(
+        startLocation: createRouteController.startCity.value,
+        endLocation: createRouteController.finishCity.value,
+      );
+      GeneralServicesTemp()
+          .makePostRequest(
+        EndPoint.routesSearchByCitys,
+        routeSearchByCityRequestModel,
+        ServicesConstants.appJsonWithToken,
+      )
+          .then((value) async {
+        final response =
+            GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+        createRouteController.searchByCityDatum = response.data![0];
+      });
+      //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
+      
+      createRouteController.calculateLevel.value = 2;
+      
     }
-    createRouteController.addNewMarkersForSearchingRoute(context);
+      createRouteController.addNewMarkersForSearchingRoute(context);
   }
 
   Future _displayPredictionStartLocation(
       Prediction placeInfo, BuildContext context) async {
-    if (placeInfo != null) {
-      PlacesDetailsResponse detail = await createRouteController
-          .googleMapsPlaces
-          .getDetailsByPlaceId(placeInfo.placeId!);
+    PlacesDetailsResponse detail = await createRouteController
+        .googleMapsPlaces
+        .getDetailsByPlaceId(placeInfo.placeId!);
 
-      var placeId = placeInfo.placeId;
-      createRouteController.createRouteStartLatitude.value =
-          detail.result.geometry!.location.lat;
-      createRouteController.createRouteStartLongitude.value =
-          detail.result.geometry!.location.lng;
+    var placeId = placeInfo.placeId;
+    createRouteController.createRouteStartLatitude.value =
+        detail.result.geometry!.location.lat;
+    createRouteController.createRouteStartLongitude.value =
+        detail.result.geometry!.location.lng;
 
-      GeoData data = await Geocoder2.getDataFromCoordinates(
-          latitude: createRouteController.createRouteStartLatitude.value,
-          longitude: createRouteController.createRouteStartLongitude.value,
-          googleMapApiKey: AppConstants.googleMapsApiKey);
+    GeoData data = await Geocoder2.getDataFromCoordinates(
+        latitude: createRouteController.createRouteStartLatitude.value,
+        longitude: createRouteController.createRouteStartLongitude.value,
+        googleMapApiKey: AppConstants.googleMapsApiKey);
 
-      createRouteController.createRouteStartAddress.value = data.address;
-      createRouteController.startCity.value = data.state;
-      createRouteController.createRouteStartLatitude.value = data.latitude;
-      createRouteController.createRouteStartLatitude.value = data.latitude;
-      createRouteController.createRouteStartLongitude.value = data.longitude;
-      createRouteController.createRouteStartLongitude.value = data.longitude;
-      createRouteController.startLatLong =
-          LatLng(data.latitude, data.longitude);
+    createRouteController.createRouteStartAddress.value = data.address;
+    createRouteController.startCity.value = data.state;
+    createRouteController.createRouteStartLatitude.value = data.latitude;
+    createRouteController.createRouteStartLatitude.value = data.latitude;
+    createRouteController.createRouteStartLongitude.value = data.longitude;
+    createRouteController.createRouteStartLongitude.value = data.longitude;
+    createRouteController.startLatLong =
+        LatLng(data.latitude, data.longitude);
 
-      log("Start");
-      if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-          (createRouteController.createRouteStartLongitude.value != 0.0) &&
-          (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-          (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-          createRouteController.startCity.value != "" &&
-          createRouteController.finishCity.value != "") {
-        log("Start createRouteController.startCity:  ${createRouteController.startCity.value}");
-        GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-            GetRouteSearchByCityRequestModel(
-          startLocation: createRouteController.startCity.value,
-          endLocation: createRouteController.finishCity.value,
-        );
-        GeneralServicesTemp()
-            .makePostRequest(
-          EndPoint.routesSearchByCitys,
-          routeSearchByCityRequestModel,
-          ServicesConstants.appJsonWithToken,
-        )
-            .then((value) async {
-          final response =
-              GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-          createRouteController.searchByCityDatum = response.data![0];
-        });
-        //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-        createRouteController.calculateLevel.value = 2;
-      }
+    log("Start");
+    if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+        (createRouteController.createRouteStartLongitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+        createRouteController.startCity.value != "" &&
+        createRouteController.finishCity.value != "") {
+      log("Start createRouteController.startCity:  ${createRouteController.startCity.value}");
+      GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+          GetRouteSearchByCityRequestModel(
+        startLocation: createRouteController.startCity.value,
+        endLocation: createRouteController.finishCity.value,
+      );
+      GeneralServicesTemp()
+          .makePostRequest(
+        EndPoint.routesSearchByCitys,
+        routeSearchByCityRequestModel,
+        ServicesConstants.appJsonWithToken,
+      )
+          .then((value) async {
+        final response =
+            GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+        createRouteController.searchByCityDatum = response.data![0];
+      });
+      //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
+      createRouteController.calculateLevel.value = 2;
     }
-    createRouteController.addNewMarkersForSearchingRoute(context);
+      createRouteController.addNewMarkersForSearchingRoute(context);
   }
 }
