@@ -24,7 +24,7 @@ class PopupNewRoute extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              const Row(
+              Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 20, left: 50, right: 20),
@@ -40,7 +40,7 @@ class PopupNewRoute extends StatelessWidget {
                   ),
                 ],
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 50, right: 20),
                 child: Row(
                   children: [

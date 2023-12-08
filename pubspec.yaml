@@ -31,7 +31,7 @@ dependencies:
   geolocator: ^9.0.1
   geocoding: ^2.0.5
   r_dotted_line_border: ^0.1.1
-  intl: ^0.18.0
+  intl: ^0.17.0
   grouped_list:
   google_directions_api: ^0.9.1
   crypto: ^3.0.2

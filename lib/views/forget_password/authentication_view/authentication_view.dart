@@ -40,7 +40,7 @@ class AuthenticationView extends StatelessWidget {
         10.h.spaceY,
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-          child: const Row(
+          child: Row(
             children: [
               Text(
                 "ahmet@gmail.com",
@@ -64,7 +64,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -84,7 +85,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -104,7 +106,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -124,7 +127,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -144,7 +148,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -160,7 +165,7 @@ class AuthenticationView extends StatelessWidget {
         const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-          child: const Row(
+          child: Row(
             children: [
               Text(
                 "Yeniden kod gönder",
@@ -184,7 +189,7 @@ class AuthenticationView extends StatelessWidget {
         const DummyBox15(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-          child: const Row(
+          child: Row(
             children: [Text("E-posta adresini Numarasını Düzenle")],
           ),
         )

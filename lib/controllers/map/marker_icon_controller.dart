@@ -39,14 +39,12 @@ class SetCustomMarkerIconController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
-
   }
 
   setCustomMarkerIcon() async {
     myRouteStartIcon =
-        await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 100);
+        await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 1);
   }
-  
 
   setCustomMarkerIcon2() async {
     myFriendsLocation =
@@ -86,7 +84,7 @@ class SetCustomMarkerIconController extends GetxController {
   }
 
   setCustomMarkerIcon5(String url) async {
-    myFriendsLocationPic =  await imageToByte(url);
+    myFriendsLocationPic = await imageToByte(url);
   }
 
   setCustomMarkerIcon6(String url) async {
@@ -96,7 +94,8 @@ class SetCustomMarkerIconController extends GetxController {
         height: 100,
         width: 100,
         color: AppConstants().ltWhite,
-        child: Image.network(url ??
+        child: Image.network(
+          url ??
               'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
           fit: BoxFit.cover,
         ),
@@ -104,13 +103,13 @@ class SetCustomMarkerIconController extends GetxController {
     );
 
     mayLocationIcon = (await NetworkAssetBundle(Uri.parse(LocaleManager.instance
-        .getString(PreferencesKeys.currentUserProfilPhoto)!))
-        .load(LocaleManager.instance
-        .getString(PreferencesKeys.currentUserProfilPhoto)!))
+                .getString(PreferencesKeys.currentUserProfilPhoto)!))
+            .load(LocaleManager.instance
+                .getString(PreferencesKeys.currentUserProfilPhoto)!))
         .buffer
         .asUint8List();
 
     mayLocationIcon =
-    await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
+        await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
   }
 }
