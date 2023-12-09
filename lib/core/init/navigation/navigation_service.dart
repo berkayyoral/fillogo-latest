@@ -145,7 +145,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.myprofil,
-      page: () => MyProfilView(),
+      page: () => const MyProfilView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
@@ -169,7 +169,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.profileSettings,
-      page: () => ProfileSettings(),
+      page: () => const ProfileSettings(),
       binding: DropdownBinding(),
     ),
     GetPage(
@@ -185,7 +185,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.comments,
-      page: () => CommentsView(),
+      page: () => const CommentsView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
@@ -195,7 +195,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.vehicleSettings,
-      page: () => VehicleSettings(),
+      page: () => const VehicleSettings(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
@@ -255,7 +255,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.storyPageView,
-      page: () => StoriesView(),
+      page: () => const StoriesView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
@@ -272,7 +272,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.createNewRouteView,
-      page: () => CreateNewRoutePageView(),
+      page: () => const CreateNewRoutePageView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),

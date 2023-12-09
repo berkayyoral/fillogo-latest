@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fillogo/controllers/welcome_login/welcome_login_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/user/welcome_login/mail_compare_code_model.dart';
 import 'package:fillogo/models/user/welcome_login/mail_send_code_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
-import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
 
 class CompareVerificationCode extends StatelessWidget {
@@ -44,11 +41,11 @@ class CompareVerificationCode extends StatelessWidget {
     s = value - (h * 3600) - (m * 60);
 
     String hourLeft =
-        h.toString().length < 2 ? "0" + h.toString() : h.toString();
+        h.toString().length < 2 ? "0$h" : h.toString();
     String minuteLeft =
-        m.toString().length < 2 ? "0" + m.toString() : m.toString();
+        m.toString().length < 2 ? "0$m" : m.toString();
     String secondsLeft =
-        s.toString().length < 2 ? "0" + s.toString() : s.toString();
+        s.toString().length < 2 ? "0$s" : s.toString();
     String result = "$minuteLeft:$secondsLeft";
 
     return result;

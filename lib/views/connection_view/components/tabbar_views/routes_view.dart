@@ -46,7 +46,7 @@ class RoutesView extends StatelessWidget {
                   },
                 );
               } else {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
             })
       ],

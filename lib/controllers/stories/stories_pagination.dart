@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:fillogo/models/stories/user_stories.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -15,7 +14,7 @@ class StoriesPaginationController extends GetxController {
 
   Future<void> addList(int page) async {
     UserStoriesResponse? response = await GeneralServicesTemp()
-        .makeGetRequest("/stories/user-stories/${userId.value}?page=${page}", {
+        .makeGetRequest("/stories/user-stories/${userId.value}?page=$page", {
       "Content-type": "application/json",
       'Authorization':
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
@@ -23,13 +22,14 @@ class StoriesPaginationController extends GetxController {
       if (value != null) {
         return UserStoriesResponse.fromJson(json.decode(value));
       }
+      return null;
     });
     if (response == null) {
       return;
     }
     //print("totalPage.value 1 = " + totalPage.value.toString());
     totalPage.value = response.data![0].stories!.pagination!.totalPage!;
-    print("a = " + totalPage.value.toString());
+    print("a = ${totalPage.value}");
     //print("totalPage.value 2 = " + totalPage.value.toString());
 
     update(["userStories"]);
@@ -50,6 +50,7 @@ class StoriesPaginationController extends GetxController {
         if (value != null) {
           return UserStoriesResponse.fromJson(json.decode(value));
         }
+        return null;
       });
       if (response == null) {
         return;

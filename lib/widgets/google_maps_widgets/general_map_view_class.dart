@@ -1,4 +1,3 @@
-import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../export.dart';

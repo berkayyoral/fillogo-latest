@@ -8,8 +8,8 @@ class ForgotPasswordSendCodeRequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['mail'] = this.mail;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['mail'] = mail;
     return data;
   }
 }
@@ -26,19 +26,19 @@ class ForgotPasswordSendCodeResponseModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['succes'] = this.succes;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['succes'] = succes;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -53,8 +53,8 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
     return data;
   }
 }

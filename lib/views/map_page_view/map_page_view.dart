@@ -183,7 +183,7 @@ class MapPageView extends GetView<MapPageController> {
             (value) async {
               GetMyRouteResponseModel getMyRouteResponseModel =
                   GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-              //Anlık arkadaş konumu bağlandı
+
               mapPageController.getMyFriendsMatchingRoutes(
                   context,
                   getMyRouteResponseModel
@@ -933,7 +933,7 @@ class MapPageView extends GetView<MapPageController> {
               ),
 
               Visibility(
-                visible: mapPageController.calculateLevel.value == 1 &&
+                visible: (mapPageController.calculateLevel.value == 1) &&
                     mapPageController.selectedDispley.value == 0,
                 child: Padding(
                   padding: mapPageController.selectedDispley.value == 0
@@ -2796,11 +2796,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               if (response
                                                                       .success ==
                                                                   1) {
-                                                                SharedPreferences
-                                                                    sharedPrefs =
-                                                                    await SharedPreferences
-                                                                        .getInstance();
-
                                                                 await showDialog(
                                                                     context:
                                                                         context,

@@ -16,7 +16,7 @@ class RotasView extends StatelessWidget {
               color: AppConstants().ltLogoGrey,
               fontSize: 28),
         ),
-        leading: SizedBox(),
+        leading: const SizedBox(),
       ),
       body: Container(
         width: Get.width,

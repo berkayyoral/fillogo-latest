@@ -37,8 +37,8 @@ class ConnectionView extends StatelessWidget {
   }
 
   final List<Widget> tabBarViewList = [
-    FollowersView(),
-    FollowingView(),
+    const FollowersView(),
+    const FollowingView(),
     RoutesView(),
   ];
 

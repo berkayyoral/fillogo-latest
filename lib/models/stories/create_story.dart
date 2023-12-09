@@ -10,19 +10,19 @@ class CreateStoryResponse {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -33,13 +33,13 @@ class Data {
   Data({this.story});
 
   Data.fromJson(Map<String, dynamic> json) {
-    story = json['story'] != null ? new Story.fromJson(json['story']) : null;
+    story = json['story'] != null ? Story.fromJson(json['story']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.story != null) {
-      data['story'] = this.story!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (story != null) {
+      data['story'] = story!.toJson();
     }
     return data;
   }
@@ -61,11 +61,11 @@ class Story {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userID'] = this.userID;
-    data['url'] = this.url;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userID'] = userID;
+    data['url'] = url;
+    data['createdAt'] = createdAt;
     return data;
   }
 }

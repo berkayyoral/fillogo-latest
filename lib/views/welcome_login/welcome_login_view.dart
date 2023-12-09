@@ -17,7 +17,7 @@ class WelcomeLoginView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Stack(
           alignment: Alignment.center,
           children: [

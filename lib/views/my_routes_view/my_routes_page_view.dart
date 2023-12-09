@@ -72,7 +72,7 @@ class MyRoutesPageView extends StatelessWidget {
           return SizedBox(
             height: Get.height,
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 20.h),
                 child: Column(
@@ -88,14 +88,14 @@ class MyRoutesPageView extends StatelessWidget {
                         mapPageController.changeCalculateLevel(2);
                         mapPageController
                             .addMarkerFunctionForMapPageWithoutOnTap2(
-                          MarkerId("myLocationMarker"),
+                          const MarkerId("myLocationMarker"),
                           LatLng(
                             getMyCurrentLocationController
                                 .myLocationLatitudeDo.value,
                             getMyCurrentLocationController
                                 .myLocationLongitudeDo.value,
                           ),
-                          "${mapPageController.mapPageRouteStartAddress2.value}",
+                          mapPageController.mapPageRouteStartAddress2.value,
                           BitmapDescriptor.fromBytes(mapPageController
                               .customMarkerIconController.mayLocationIcon!),
                         );
@@ -133,7 +133,8 @@ class MyRoutesPageView extends StatelessWidget {
                               child: mapPageController
                                       .myActivesRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myActivesRoutes!.length,
@@ -144,11 +145,12 @@ class MyRoutesPageView extends StatelessWidget {
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title: Text(
+                                                    title: const Text(
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -270,7 +272,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );
@@ -339,7 +342,8 @@ class MyRoutesPageView extends StatelessWidget {
                               child: mapPageController
                                       .mynotStartedRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .mynotStartedRoutes!.length,
@@ -353,11 +357,12 @@ class MyRoutesPageView extends StatelessWidget {
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title: Text(
+                                                    title: const Text(
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -434,7 +439,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );
@@ -506,7 +512,8 @@ class MyRoutesPageView extends StatelessWidget {
                               //height: 595.h,
                               child: mapPageController.myPastsRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myPastsRoutes!.length,
@@ -517,11 +524,12 @@ class MyRoutesPageView extends StatelessWidget {
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title: Text(
+                                                    title: const Text(
                                                       "Bu Rotayı Silmek İstiyor musunuz?",
                                                     ),
                                                     titlePadding:
-                                                        EdgeInsets.all(32),
+                                                        const EdgeInsets.all(
+                                                            32),
                                                     titleTextStyle: TextStyle(
                                                         fontSize: 22,
                                                         color: AppConstants()
@@ -598,7 +606,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                         onPressed: () {
                                                           Get.back();
                                                         },
-                                                        child: Text("Hayır"),
+                                                        child:
+                                                            const Text("Hayır"),
                                                       ),
                                                     ],
                                                   );
@@ -701,7 +710,7 @@ class RouteDetailsIntoRoutesWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 width: 276.w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -741,7 +750,7 @@ class RouteDetailsIntoRoutesWidget extends StatelessWidget {
                             right: 10.w,
                           ),
                           child: Text(
-                            "${startPoint} -> ${endPoint}",
+                            "$startPoint -> $endPoint",
                             style: TextStyle(
                               fontFamily: 'Sfmedium',
                               fontSize: 16.sp,
@@ -767,7 +776,7 @@ class RouteDetailsIntoRoutesWidget extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(),
+                              padding: const EdgeInsets.only(),
                               child: Text(
                                 '-',
                                 style: TextStyle(

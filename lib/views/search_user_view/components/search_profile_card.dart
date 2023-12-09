@@ -67,7 +67,7 @@ class SearchProfileCard extends StatelessWidget {
                       ), // fullname
                       2.h.spaceY,
                       Text(
-                        "Yolculuklar: " + allRoute.toString(),
+                        "Yolculuklar: $allRoute",
                         style: TextStyle(
                           color: AppConstants().ltDarkGrey,
                           fontFamily: 'Sflight',

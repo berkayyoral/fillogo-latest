@@ -13,8 +13,4 @@ class GlobalChatController extends GetxController {
   get isMessageView => _isMessageView.value;
   set isMessageView(newValue) => _isMessageView.value = newValue;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 }

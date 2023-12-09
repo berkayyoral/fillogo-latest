@@ -94,7 +94,7 @@ class Data {
     json['usersTagged'].forEach(
       (v) {
         usersTagged.add(
-          new UsersTagged.fromJson(v),
+          UsersTagged.fromJson(v),
         );
       },
     );
@@ -105,30 +105,30 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = new Map<String, dynamic>();
-    _data['onlyPost'] = onlyPost;
-    _data['centerImageUrl'] = centerImageUrl;
-    _data['subtitle'] = subtitle;
-    _data['name'] = name;
-    _data['userId'] = userId;
-    _data['userProfilePhoto'] = userProfilePhoto;
-    _data['locationName'] = locationName;
-    _data['beforeHours'] = beforeHours;
-    _data['commentCount'] = commentCount;
-    _data['firstCommentName'] = firstCommentName;
-    _data['firstCommentTitle'] = firstCommentTitle;
-    _data['firstLikeName'] = firstLikeName;
-    _data['firstLikeUrl'] = firstLikeUrl;
-    _data['othersLikeCount'] = othersLikeCount;
-    _data['secondLikeUrl'] = secondLikeUrl;
-    _data['thirdLikeUrl'] = thirdLikeUrl;
-    _data['haveTag'] = haveTag;
-    _data['usersTagged'] = usersTagged.map((v) => v.toJson()).toList();
-    _data['haveEmotion'] = haveEmotion;
-    _data['emotion'] = emotion;
-    _data['emotionContent'] = emotionContent;
-    _data['likedStatus'] = likedStatus;
-    return _data;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['onlyPost'] = onlyPost;
+    data['centerImageUrl'] = centerImageUrl;
+    data['subtitle'] = subtitle;
+    data['name'] = name;
+    data['userId'] = userId;
+    data['userProfilePhoto'] = userProfilePhoto;
+    data['locationName'] = locationName;
+    data['beforeHours'] = beforeHours;
+    data['commentCount'] = commentCount;
+    data['firstCommentName'] = firstCommentName;
+    data['firstCommentTitle'] = firstCommentTitle;
+    data['firstLikeName'] = firstLikeName;
+    data['firstLikeUrl'] = firstLikeUrl;
+    data['othersLikeCount'] = othersLikeCount;
+    data['secondLikeUrl'] = secondLikeUrl;
+    data['thirdLikeUrl'] = thirdLikeUrl;
+    data['haveTag'] = haveTag;
+    data['usersTagged'] = usersTagged.map((v) => v.toJson()).toList();
+    data['haveEmotion'] = haveEmotion;
+    data['emotion'] = emotion;
+    data['emotionContent'] = emotionContent;
+    data['likedStatus'] = likedStatus;
+    return data;
   }
 }
 
@@ -147,9 +147,9 @@ class UsersTagged {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = new Map<String, dynamic>();
-    _data['name'] = this.name;
-    _data['userId'] = this.userId;
-    return _data;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['userId'] = userId;
+    return data;
   }
 }

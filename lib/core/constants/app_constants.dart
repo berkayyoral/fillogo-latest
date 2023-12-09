@@ -22,6 +22,7 @@ class AppConstants {
   Color ltWhiteGrey = const Color(0xFFEDEDED);
   Color ltMainRed = const Color(0xFFA91916);
   Color ltBlack = const Color(0xFF000000);
+  Color ltBlue = const Color(0xFF62a6ed);
 }
 
 class EndPoint {
@@ -62,6 +63,7 @@ class EndPoint {
   static const String reportProblem = "/report/report-problem";
   static const String deletePost = "/posts/delete-post/";
   static const String deleteStory = "/stories/";
+  static const String getMyFriendsCircular="/routes/get-friends-on-circular";
 }
 
 class ServicesConstants {

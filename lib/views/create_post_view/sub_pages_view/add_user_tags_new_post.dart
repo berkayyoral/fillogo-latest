@@ -386,7 +386,7 @@ class ListUsersItemsRemove extends StatelessWidget {
                   createPostPageController.changeTagList(user);
                   createPostPageController.changeTagIdList(user.id!);
 
-                  if (createPostPageController.tagIdList.value.length == 0) {
+                  if (createPostPageController.tagIdList.value.isEmpty) {
                     createPostPageController.haveTag.value = 0;
                   } else {
                     createPostPageController.haveTag.value = 1;

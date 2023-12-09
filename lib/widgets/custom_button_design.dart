@@ -10,7 +10,7 @@ class CustomButtonDesign extends StatelessWidget {
     required this.color,
     required this.height,
     required this.width,
-    Future<Null> Function()? onPressed,
+    Future<void> Function()? onPressed,
   }) : super(key: key);
   String? text;
   Color? textColor;

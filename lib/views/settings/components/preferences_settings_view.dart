@@ -1,4 +1,3 @@
-import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:fillogo/controllers/settings/preferences_settings_controller.dart';
 import 'package:fillogo/export.dart';

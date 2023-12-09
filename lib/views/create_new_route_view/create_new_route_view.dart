@@ -1,6 +1,5 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
-import 'package:fillogo/controllers/map/route_calculate_view_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
@@ -15,6 +14,8 @@ import 'package:intl/intl.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
 
 class CreateNewRoutePageView extends StatefulWidget {
+  const CreateNewRoutePageView({super.key});
+
   @override
   _CreateNewRoutePageViewState createState() => _CreateNewRoutePageViewState();
 }
@@ -35,6 +36,7 @@ StartEndAdressController startEndAdressController =
     Get.find<StartEndAdressController>();
 
 class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
+  DateTime firstDateTimeController = DateTime.now();
   @override
   void initState() {
     super.initState();
@@ -71,7 +73,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
   String _currentAddress = '';
 
   String _startAddress = startEndAdressController.startAdress.value;
-  String _destinationAddress = startEndAdressController.endAdress.value;
+  final String _destinationAddress = startEndAdressController.endAdress.value;
   String? _placeDistance;
 
   Set<Marker> markers = {};
@@ -82,7 +84,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
 
   bool onTapThreePointButton = false;
 
-  DateTime firstDateTimeController = DateTime.now();
+
 
   @override
   Widget build(BuildContext context) {
@@ -274,12 +276,12 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-                        
+
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
                           ),
-                          buttonTheme: ButtonThemeData(
+                          buttonTheme: const ButtonThemeData(
                               textTheme: ButtonTextTheme.primary),
                         ),
                         child: child!,
@@ -379,12 +381,12 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-                        
+
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
                           ),
-                          buttonTheme: ButtonThemeData(
+                          buttonTheme: const ButtonThemeData(
                               textTheme: ButtonTextTheme.primary),
                         ),
                         child: child!,
@@ -862,12 +864,12 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
     );
 
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     }
 
-    PolylineId id = PolylineId('1');
+    PolylineId id = const PolylineId('1');
     Polyline polyline = Polyline(
       polylineId: id,
       color: AppConstants().ltMainRed,

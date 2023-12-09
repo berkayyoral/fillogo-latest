@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:fillogo/models/stories/create_story.dart';
-import 'package:http_parser/http_parser.dart' as parser;
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
-import 'package:http/http.dart' as http;
 
 import '../../export.dart';
 
@@ -84,7 +82,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                             } else {
                               mediaPickerController.isVideo = false;
                             }
-                            print("value = " + value.toString());
+                            print("value = $value");
 
                             imageFile = value;
                             return value;
@@ -136,7 +134,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                     },
                   ),
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
     );

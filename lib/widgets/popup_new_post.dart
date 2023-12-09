@@ -115,7 +115,7 @@ class _PopupNewPostState extends State<PopupNewPost> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: EdgeInsets.only(left: 15),
+                            contentPadding: const EdgeInsets.only(left: 15),
                           ),
                           style: TextStyle(
                             fontFamily: "Sflight",

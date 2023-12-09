@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
@@ -302,7 +301,7 @@ class CreatePostPageView extends StatelessWidget {
               () => Positioned(
                 child: (createPostPageController.havePostPhoto.value == 0 &&
                         createPostPageController.haveRoute.value == 0)
-                    ? AddNewPropertyCreatePost()
+                    ? const AddNewPropertyCreatePost()
                     : AddNewPropertyNotContentCreatePost(),
               ),
             ),

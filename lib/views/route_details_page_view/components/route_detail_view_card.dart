@@ -1,7 +1,6 @@
 import 'package:fillogo/views/route_details_page_view/components/route_details_page_controller.dart';
 
 import '../../../export.dart';
-import '../../../widgets/popup_view_widget.dart';
 
 class RouteDatailsPageRouteCard extends StatelessWidget {
   RouteDatailsPageRouteCard({
@@ -41,7 +40,7 @@ class RouteDatailsPageRouteCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
+              SizedBox(
                 width: 290.w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +97,7 @@ class RouteDatailsPageRouteCard extends StatelessWidget {
                                 right: 4.w,
                               ),
                               child: Text(
-                                "Tahmini ${startDateTime} ",
+                                "Tahmini $startDateTime ",
                                 style: TextStyle(
                                   fontFamily: 'Sflight',
                                   fontSize: 14.sp,
@@ -124,7 +123,7 @@ class RouteDatailsPageRouteCard extends StatelessWidget {
                                 right: 10.w,
                               ),
                               child: Text(
-                                "${endDateTime}",
+                                endDateTime,
                                 style: TextStyle(
                                   fontFamily: 'Sflight',
                                   fontSize: 14.sp,

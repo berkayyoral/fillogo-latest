@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:fillogo/views/route_calculate_view/components/route_search_by_city_models.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:intl/intl.dart';
-import 'dart:convert' as convert;
 
 import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
@@ -48,16 +44,17 @@ class CreateRouteController extends GetxController {
   var createRouteFinishLatitude = 0.0.obs;
   var createRouteFinishLongitude = 0.0.obs;
   var startCity = "".obs;
-  var startLatLong = LatLng(0.0, 0.0);
+  var startLatLong = const LatLng(0.0, 0.0);
   var finishCity = "".obs;
-  var finishLatLong = LatLng(0.0, 0.0);
+  var finishLatLong = const LatLng(0.0, 0.0);
 
+  //Anlık arkadas konumu bağlandı
   void addNewMarkersForSearchingRoute(BuildContext context) async{
-    if (searchByCityDatum!.isNotEmpty) {
+  /*  if (searchByCityDatum!.isNotEmpty) {
       for (var i = 0; i < searchByCityDatum!.length; i++) {
         addMarkerFunctionForSearchRoutePage(
           searchByCityDatum![i].userId!,
-          MarkerId("i"),
+          const MarkerId("i"),
           LatLng(searchByCityDatum![i].startingCoordinates![0],
               searchByCityDatum![i].startingCoordinates![1]),
           BitmapDescriptor.fromBytes(
@@ -73,7 +70,7 @@ class CreateRouteController extends GetxController {
           "",
         );
       }
-    }
+    }*/
   }
 
   void createRouteControllerClear() async {
@@ -92,7 +89,7 @@ class CreateRouteController extends GetxController {
     polylineCoordinates = [];
     generalPolylineEncode.value = "";
     addMarkerFunction(
-      MarkerId(MarkerId('myMarker').value),
+      MarkerId(const MarkerId('myMarker').value),
       LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value,
           getMyCurrentLocationController.myLocationLongitudeDo.value),
       "",

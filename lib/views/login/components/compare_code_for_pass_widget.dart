@@ -6,7 +6,6 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/user/login/forgot_pass_compare_code_model.dart';
 import 'package:fillogo/models/user/login/forgot_pass_send_code.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
-import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:pinput/pinput.dart';
 

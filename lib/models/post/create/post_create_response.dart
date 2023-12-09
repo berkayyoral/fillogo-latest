@@ -84,7 +84,7 @@ class Post {
         userId: json["userID"],
         routeId: json["routeID"],
         text: json["text"],
-        media: json["media"] == null ? "": json["media"],
+        media: json["media"] ?? "",
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),

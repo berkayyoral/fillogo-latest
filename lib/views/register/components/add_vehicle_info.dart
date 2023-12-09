@@ -10,7 +10,6 @@ import 'package:fillogo/models/user/register/register_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -63,7 +62,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                     height: 100,
                     width: Get.width * 0.8,
                     child: ListView.builder(
-                        physics: AlwaysScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemCount:
@@ -95,7 +94,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                         }),
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
               }),
           CustomTextField(

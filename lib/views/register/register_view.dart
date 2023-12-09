@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:fillogo/controllers/register/register_controller.dart';
 import 'package:fillogo/views/register/components/add_vehicle_info.dart';
 import 'package:fillogo/views/register/components/register_widget.dart';
-import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:fillogo/export.dart';
 
 class RegisterView extends StatelessWidget {

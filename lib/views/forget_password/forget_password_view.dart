@@ -31,9 +31,9 @@ class ForgetPasswordView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Center(child: DummyBox15()),
-          DummyBox15(),
-          SizedBox(
+          const Center(child: DummyBox15()),
+          const DummyBox15(),
+          const SizedBox(
             height: 60,
             width: 300,
             child: Text(
@@ -42,22 +42,22 @@ class ForgetPasswordView extends StatelessWidget {
             ),
           ),
           // CustomTextField(hintText: 'E-posta', controller: epostaController),
-          DummyBox15(),
+          const DummyBox15(),
           RedButton(
             text: 'Doğrulama Gönder',
             onpressed: () {
               Get.offAndToNamed(NavigationConstants.authentication);
             },
           ),
-          DummyBox15(),
+          const DummyBox15(),
           SizedBox(
             width: 320,
             child: RichText(
                 text: TextSpan(children: [
-              TextSpan(text: 'Bir hesabınız yok mu? '),
+              const TextSpan(text: 'Bir hesabınız yok mu? '),
               TextSpan(
                 text: 'Üye Ol',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Sfsemibold',
                 ),
                 recognizer: TapGestureRecognizer()

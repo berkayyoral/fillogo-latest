@@ -105,7 +105,7 @@ class PostDetail {
   factory PostDetail.fromJson(Map<String, dynamic> json) => PostDetail(
         id: json["id"],
         text: json["text"],
-        media: json["media"] == null ? "" : json["media"],
+        media: json["media"] ?? "",
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),

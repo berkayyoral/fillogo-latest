@@ -26,10 +26,6 @@ class RouteDetailsPageController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {
@@ -62,13 +58,13 @@ class RouteDetailsPageController extends GetxController {
   var ownerRouteStartLatitude = 0.0.obs;
   var ownerRouteStartLongitude = 0.0.obs;
   var ownerRouteStartDate = "".obs;
-  var ownerRouteStartLatLong = LatLng(0.0, 0.0);
+  var ownerRouteStartLatLong = const LatLng(0.0, 0.0);
   var ownerRouteFinishAddress = "".obs;
   var ownerRouteFinishCity = "".obs;
   var ownerRouteFinishLatitude = 0.0.obs;
   var ownerRouteFinishLongitude = 0.0.obs;
   var ownerRouteFinishDate = "".obs;
-  var ownerRouteFinishLatLong = LatLng(0.0, 0.0);
+  var ownerRouteFinishLatLong = const LatLng(0.0, 0.0);
 
   var ownerRoutePolylineEncode = "".obs;
   var ownerRoutePolylineDecode = [].obs;
@@ -88,8 +84,8 @@ class RouteDetailsPageController extends GetxController {
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
-  PolylineId ownerPolylineId = PolylineId('ownerPolyline');
-  PolylineId myPolylineId = PolylineId('myPolyline');
+  PolylineId ownerPolylineId = const PolylineId('ownerPolyline');
+  PolylineId myPolylineId = const PolylineId('myPolyline');
   var selectedPolyline = 1.obs;
 
   PolylinePoints ownerPolylinePoints = PolylinePoints();
@@ -110,33 +106,33 @@ class RouteDetailsPageController extends GetxController {
     await addPointIntoPolylineList(ownerRoutePolylineEncode.value, true);
     await addPointIntoPolylineList(myRoutePolylineEncode.value, false);
     addMarkerFunctionRouteDetails(
-      MarkerId("myLocationMarker"),
+      const MarkerId("myLocationMarker"),
       LatLng(myLocationLatitudeDo.value, myLocationLongitudeDo.value),
-      "${myLocationAddress.value}",
+      myLocationAddress.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
     );
     addMarkerFunctionRouteDetails(
-      MarkerId("ownerRouteStartMarker"),
+      const MarkerId("ownerRouteStartMarker"),
       LatLng(ownerRouteStartLatitude.value, ownerRouteStartLongitude.value),
-      "${ownerRouteStartAddress.value}",
+      ownerRouteStartAddress.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteStartIcon!),
     );
     addMarkerFunctionRouteDetails(
-      MarkerId("ownerRouteFinishMarker"),
+      const MarkerId("ownerRouteFinishMarker"),
       LatLng(ownerRouteFinishLatitude.value, ownerRouteFinishLongitude.value),
-      "${ownerRouteFinishAddress.value}",
+      ownerRouteFinishAddress.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteFinishIcon!),
     );
     addMarkerFunctionRouteDetails(
-      MarkerId("myRouteStartMarker"),
+      const MarkerId("myRouteStartMarker"),
       LatLng(myRouteStartLatitude.value, myRouteStartLongitude.value),
-      "${ownerRouteStartAddress.value}",
+      ownerRouteStartAddress.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteStartIcon!),
     );
     addMarkerFunctionRouteDetails(
-      MarkerId("myRouteFinishMarker"),
+      const MarkerId("myRouteFinishMarker"),
       LatLng(myRouteFinishLatitude.value, myRouteFinishLongitude.value),
-      "${myRouteFinishAddress.value}",
+      myRouteFinishAddress.value,
       BitmapDescriptor.fromBytes(customMarkerIconController.myRouteFinishIcon!),
     );
     mapDisplayAnimationFuncForOwner();

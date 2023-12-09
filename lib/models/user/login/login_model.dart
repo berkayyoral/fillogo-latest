@@ -10,9 +10,9 @@ class LoginRequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phoneNumberOrMail'] = this.phoneNumberOrMail;
-    data['password'] = this.password;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['phoneNumberOrMail'] = phoneNumberOrMail;
+    data['password'] = password;
     return data;
   }
 }
@@ -29,19 +29,19 @@ class LoginResponseModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -56,18 +56,18 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     isAcikmi = json['isAcikmi'];
     tokens =
-        json['tokens'] != null ? new Tokens.fromJson(json['tokens']) : null;
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+        json['tokens'] != null ? Tokens.fromJson(json['tokens']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['isAcikmi'] = this.isAcikmi;
-    if (this.tokens != null) {
-      data['tokens'] = this.tokens!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['isAcikmi'] = isAcikmi;
+    if (tokens != null) {
+      data['tokens'] = tokens!.toJson();
     }
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -85,9 +85,9 @@ class Tokens {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['accessToken'] = this.accessToken;
-    data['refreshToken'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['accessToken'] = accessToken;
+    data['refreshToken'] = refreshToken;
     return data;
   }
 }
@@ -139,20 +139,20 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['username'] = this.username;
-    data['mail'] = this.mail;
-    data['phoneNumber'] = this.phoneNumber;
-    data['profilePicture'] = this.profilePicture;
-    data['banner'] = this.banner;
-    data['title'] = this.title;
-    data['isPrivate'] = this.isPrivate;
-    data['isOpen'] = this.isOpen;
-    data['isVerified'] = this.isVerified;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['surname'] = surname;
+    data['username'] = username;
+    data['mail'] = mail;
+    data['phoneNumber'] = phoneNumber;
+    data['profilePicture'] = profilePicture;
+    data['banner'] = banner;
+    data['title'] = title;
+    data['isPrivate'] = isPrivate;
+    data['isOpen'] = isOpen;
+    data['isVerified'] = isVerified;
+    data['createdAt'] = createdAt;
     return data;
   }
 }

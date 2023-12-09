@@ -15,7 +15,7 @@ class PopupPostDetails extends StatelessWidget {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Container(
           margin: EdgeInsets.all(12.w),
           width: Get.width,

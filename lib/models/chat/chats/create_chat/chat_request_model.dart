@@ -8,8 +8,8 @@ class ChatRequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['member'] = this.member;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['member'] = member;
     return data;
   }
 }

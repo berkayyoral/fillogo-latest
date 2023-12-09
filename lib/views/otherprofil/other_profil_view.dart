@@ -15,7 +15,6 @@ import 'package:fillogo/views/chat/chats_view/chat_controller.dart';
 import 'package:fillogo/views/connection_view/components/connection_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/followers_count_row_widget.dart';
-import 'package:fillogo/widgets/popup_post_details.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:fillogo/widgets/profile_header_widget.dart';
 import 'package:fillogo/widgets/user_vehicle_infos_widget.dart';
@@ -50,7 +49,7 @@ class OtherProfilsView extends StatelessWidget {
               if (snapshot.hasData) {
                 isReported.value = snapshot.data!.data!.doIblock!;
                 isFollowed.value = snapshot.data!.data!.doIfollow!;
-                print("isReported.val" + isReported.value.toString());
+                print("isReported.val${isReported.value}");
                 return Scaffold(
                   appBar: AppBarGenel(
                     leading: GestureDetector(
@@ -86,7 +85,7 @@ class OtherProfilsView extends StatelessWidget {
                                 return Padding(
                                   padding: MediaQuery.of(context).viewInsets,
                                   child: SingleChildScrollView(
-                                    physics: ClampingScrollPhysics(),
+                                    physics: const ClampingScrollPhysics(),
                                     child: Container(
                                       margin: EdgeInsets.all(12.w),
                                       width: Get.width,
@@ -318,8 +317,7 @@ class OtherProfilsView extends StatelessWidget {
                                     height: 50.h,
                                     onpressed: () {
                                       GeneralServicesTemp().makePostRequest2(
-                                          EndPoint.followUser +
-                                              "${otherProfileRequest.userID}",
+                                          "${EndPoint.followUser}${otherProfileRequest.userID}",
                                           {
                                             "Content-type": "application/json",
                                             'Authorization':
@@ -423,7 +421,7 @@ class OtherProfilsView extends StatelessWidget {
                                                     snapshot.data!.data!.users!
                                                         .id) {
                                                   chatController.receiverUser =
-                                                      await SenderClass(
+                                                      SenderClass(
                                                     id: chatUserItem
                                                         .chatuser!.id,
                                                     name: chatUserItem

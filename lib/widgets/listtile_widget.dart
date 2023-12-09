@@ -37,7 +37,7 @@ class ListTileWidget extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: TextStyle(fontFamily: "Sfbold"),
+        style: const TextStyle(fontFamily: "Sfbold"),
       ),
       subtitle: Text(subTitle),
       trailing: SvgPicture.asset('assets/icons/arrow-right.svg'),

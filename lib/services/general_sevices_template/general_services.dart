@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart' as parser;
 import 'dart:io';
-import '../../models/chat/chats/chat_response_model.dart';
 import 'package:file_picker/file_picker.dart';
 
 class GeneralServicesTemp {
@@ -68,9 +67,11 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     }
+    return null;
   }
 
   Future<String?> makePostRequest2(
@@ -123,9 +124,11 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     }
+    return null;
   }
 
   Future<String?> makePostRequestForPolyline(String endPoint,
@@ -225,6 +228,7 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     } else {
@@ -321,6 +325,7 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     } else {
@@ -386,6 +391,7 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     } else {
@@ -450,6 +456,7 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     } else {
@@ -514,9 +521,11 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     }
+    return null;
   }
 
   Future<String?> makeDeleteWithoutBody(
@@ -575,9 +584,11 @@ class GeneralServicesTemp {
               );
             }
           }
+          return null;
         },
       );
     }
+    return null;
   }
 
   void _handleResponse(var response) {

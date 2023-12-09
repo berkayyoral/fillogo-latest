@@ -10,7 +10,7 @@ import 'package:fillogo/widgets/custom_user_information_card.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class FollowingView extends StatefulWidget {
-  FollowingView({super.key});
+  const FollowingView({super.key});
 
   @override
   State<FollowingView> createState() => _FollowingViewState();

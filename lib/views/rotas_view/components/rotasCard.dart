@@ -56,7 +56,7 @@ class RotasCard extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       color: Colors.green,
                                       borderRadius: BorderRadius.circular(16)))
-                              : SizedBox()
+                              : const SizedBox()
                         ],
                       ), // rota adı
                       Text(
