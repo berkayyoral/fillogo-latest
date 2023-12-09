@@ -183,7 +183,7 @@ class MapPageView extends GetView<MapPageController> {
             (value) async {
               GetMyRouteResponseModel getMyRouteResponseModel =
                   GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-            //Anlık arkadaş konumu bağlandı
+
               mapPageController.getMyFriendsMatchingRoutes(
                   context,
                   getMyRouteResponseModel
@@ -338,7 +338,7 @@ class MapPageView extends GetView<MapPageController> {
                           initialCameraPosition:
                               getMyCurrentLocationController.initialLocation,
                           myLocationEnabled: true,
-                          myLocationButtonEnabled: true,
+                          myLocationButtonEnabled: false,
                           mapType: MapType.normal,
                           zoomGesturesEnabled: true,
                           zoomControlsEnabled: false,
@@ -831,8 +831,8 @@ class MapPageView extends GetView<MapPageController> {
                           mapPageController.selectedDispley.value == 2),
                   child: Padding(
                     padding: mapPageController.selectedDispley.value == 0
-                        ? EdgeInsets.only(right: 16, bottom: 68.h)
-                        : const EdgeInsets.only(right: 10, bottom: 10),
+                        ? EdgeInsets.only(right: 16.w, bottom: 68.h)
+                        : EdgeInsets.only(right: 10.w, bottom: 10.h),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
@@ -886,8 +886,8 @@ class MapPageView extends GetView<MapPageController> {
                             mapPageController.selectedDispley.value == 1),
                     child: Padding(
                       padding: mapPageController.selectedDispley.value == 0
-                          ? EdgeInsets.only(right: 16, bottom: 68.h)
-                          : const EdgeInsets.only(right: 10, bottom: 10),
+                          ? EdgeInsets.only(right: 16.w, bottom: 68.h)
+                          : EdgeInsets.only(right: 10.w, bottom: 10.h),
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(
@@ -910,7 +910,12 @@ class MapPageView extends GetView<MapPageController> {
                               shape: BoxShape.circle,
                             ),
                             child: Padding(
-                              padding: EdgeInsets.all(16.w),
+                              padding: mapPageController
+                                          .selectedDispley.value ==
+                                      0
+                                  ? EdgeInsets.only(right: 16.w, bottom: 68.h)
+                                  : const EdgeInsets.only(
+                                      right: 10, bottom: 10),
                               child: SvgPicture.asset(
                                 mapPageController.selectedDispley.value == 0
                                     ? "assets/icons/map-page-list-icon.svg"
@@ -928,10 +933,12 @@ class MapPageView extends GetView<MapPageController> {
               ),
 
               Visibility(
-                visible: false/*(mapPageController.calculateLevel.value == 1) &&
-                    mapPageController.selectedDispley.value == 0*/,
+                visible: (mapPageController.calculateLevel.value == 1) &&
+                    mapPageController.selectedDispley.value == 0,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16.w, bottom: 68.h),
+                  padding: mapPageController.selectedDispley.value == 0
+                      ? EdgeInsets.only(left: 16.w, bottom: 68.h)
+                      : EdgeInsets.only(left: 10.w, bottom: 10.h),
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: GestureDetector(
@@ -2789,8 +2796,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               if (response
                                                                       .success ==
                                                                   1) {
-                                                                SharedPreferences sharedPrefs= await SharedPreferences.getInstance();
-
                                                                 await showDialog(
                                                                     context:
                                                                         context,
