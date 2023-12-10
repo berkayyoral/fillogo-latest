@@ -55,6 +55,7 @@ class MapPageView extends GetView<MapPageController> {
 
   @override
   Widget build(BuildContext context) {
+
     mapPageController;
     return Scaffold(
       key: mapPageDrawerController.mapPageScaffoldKey,
@@ -981,7 +982,7 @@ class MapPageView extends GetView<MapPageController> {
                       padding: const EdgeInsets.all(12),
                       constraints:
                           BoxConstraints(maxHeight: 160.h, minHeight: 100.h),
-                      child: Column(
+                      child: mapPageController.myActivesRoutes!.isNotEmpty ? Column(
                         children: [
                           Padding(
                             padding:
@@ -1222,7 +1223,7 @@ class MapPageView extends GetView<MapPageController> {
                           ),
                           8.h.verticalSpace
                         ],
-                      ),
+                      ) : Center(child: CircularProgressIndicator(),),
                     ),
                   )))
             ],
@@ -1252,6 +1253,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     if (calculateLevel == 1) {
       return _calculateLevelOne();
     } else if (calculateLevel == 2) {
@@ -1673,6 +1676,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
     ScrollController scrollController = ScrollController();
     DateTime dateTimeFormatLast;
     VehicleInfoController vehicleInfoController = Get.find();
+
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -2479,7 +2484,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                   EndPoint.routesNew,
                                   PostCreateRouteRequestModel(
                                     departureDate: createRouteController
-                                        .dateTimeFormatCikis.value,
+                                        .cikisController.text,
                                     arrivalDate: createRouteController
                                         .varisController.text,
                                     // departureDate: createRouteController
@@ -2533,114 +2538,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                   },
                                 ).then(
                                   (value) async {
-                                    log(PostCreateRouteRequestModel(
-                                      departureDate: createRouteController
-                                          .dateTimeFormatCikis.value,
-                                      arrivalDate: createRouteController
-                                          .varisController.text,
-                                      // departureDate: createRouteController
-                                      //     .cikisController.text
-                                      //     .split('/')
-                                      //     .reversed
-                                      //     .join('-'),
-                                      // arrivalDate: createRouteController
-                                      //     .varisController.text
-                                      //     .split('/')
-                                      //     .reversed
-                                      //     .join('-'),
-                                      routeDescription: createRouteController
-                                                  .aciklamaController.text ==
-                                              ""
-                                          ? "${createRouteController.cikisController.text} tarihinde ${createRouteController.startCity.value} şehrinden başlayan yolculuk ${createRouteController.varisController.text} tarihinde ${createRouteController.finishCity.value} şehrinde son bulacak."
-                                          : createRouteController
-                                              .aciklamaController.text,
-                                      vehicleCapacity: 100,
-                                      startingCoordinates: [
-                                        createRouteController
-                                            .mapPageRouteStartLatitude2.value,
-                                        createRouteController
-                                            .mapPageRouteStartLongitude2.value
-                                      ],
-                                      startingOpenAdress: createRouteController
-                                          .mapPageRouteStartAddress2.value,
-                                      startingCity:
-                                          createRouteController.startCity.value,
-                                      endingCoordinates: [
-                                        createRouteController
-                                            .mapPageRouteFinishLatitude2.value,
-                                        createRouteController
-                                            .mapPageRouteFinishLongitude2.value
-                                      ],
-                                      endingOpenAdress: createRouteController
-                                          .mapPageRouteFinishAddress2.value,
-                                      endingCity: createRouteController
-                                          .finishCity.value,
-                                      distance: createRouteController
-                                          .calculatedRouteDistanceInt,
-                                      travelTime: createRouteController
-                                          .calculatedRouteTimeInt,
-                                      polylineEncode: createRouteController
-                                          .generalPolylineEncode2.value,
-                                    ).toJson().toString());
-                                    // log(PostCreateRouteRequestModel(
-                                    //   departureDate: createRouteController
-                                    //       .cikisController.text
-                                    //       .split('/')
-                                    //       .reversed
-                                    //       .join('-'),
-                                    //   arrivalDate: createRouteController
-                                    //       .varisController.text
-                                    //       .split('/')
-                                    //       .reversed
-                                    //       .join('-'),
-                                    //   routeDescription:
-                                    //       createRouteController
-                                    //                   .aciklamaController
-                                    //                   .text ==
-                                    //               ""
-                                    //           ? "rota"
-                                    //           : createRouteController
-                                    //               .aciklamaController.text,
-                                    //   vehicleCapacity: int.tryParse(
-                                    //       createRouteController
-                                    //           .kapasiteController.text
-                                    //           .split(" ")
-                                    //           .last),
-                                    //   startingCoordinates: [
-                                    //     createRouteController
-                                    //         .mapPageRouteStartLatitude2
-                                    //         .value,
-                                    //     createRouteController
-                                    //         .mapPageRouteStartLongitude2
-                                    //         .value
-                                    //   ],
-                                    //   startingOpenAdress:
-                                    //       createRouteController
-                                    //           .mapPageRouteStartAddress2
-                                    //           .value,
-                                    //   startingCity: createRouteController
-                                    //       .startCity.value,
-                                    //   endingCoordinates: [
-                                    //     createRouteController
-                                    //         .mapPageRouteFinishLatitude2
-                                    //         .value,
-                                    //     createRouteController
-                                    //         .mapPageRouteFinishLongitude2
-                                    //         .value
-                                    //   ],
-                                    //   endingOpenAdress:
-                                    //       createRouteController
-                                    //           .mapPageRouteFinishAddress2
-                                    //           .value,
-                                    //   endingCity: createRouteController
-                                    //       .finishCity.value,
-                                    //   distance: createRouteController
-                                    //       .calculatedRouteDistanceInt,
-                                    //   travelTime: createRouteController
-                                    //       .calculatedRouteTimeInt,
-                                    //   polylineEncode: createRouteController
-                                    //       .generalPolylineEncode.value,
-                                    // ).toJson().toString());
                                     if (value != null) {
                                       log(value);
                                       final response =
@@ -2649,6 +2546,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                       log(response.message.toString());
                                       log(response.success.toString());
                                       if (response.success == 1) {
+                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value = response.data![0].id!;
+                                        log("ROUTEIDD: " + createPostPageController.routeId.value.toString());
                                         createRouteController
                                             .mapPageRouteControllerClear();
                                         // createRouteController.cikisController.clear();
@@ -2675,37 +2575,37 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         //               .toString()
                                         //               .substring(0, 11)),
                                         // );
-                                        Get.back();
-
-                                        if (DateTime.parse(createRouteController
-                                                    .dateTimeFormatCikis.value)
-                                                .day ==
-                                            DateTime.now().day) {
-                                          if (DateTime.now().minute + 5 == DateTime.parse(createRouteController.dateTimeFormatCikis.value).minute ||
+                                        if (DateTime.now().day.toString() == DateTime.parse(createRouteController
+                                        .cikisController.text).day.toString()) {
+                                          if (DateTime.now().minute + 5 == DateTime.parse(createRouteController
+                                              .cikisController.text).minute ||
                                               DateTime.now().minute + 4 ==
-                                                  DateTime.parse(createRouteController.dateTimeFormatCikis.value)
+                                                  DateTime.parse(createRouteController
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 3 ==
-                                                  DateTime.parse(createRouteController.dateTimeFormatCikis.value)
+                                                  DateTime.parse(createRouteController
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 2 ==
-                                                  DateTime.parse(createRouteController.dateTimeFormatCikis.value)
+                                                  DateTime.parse(createRouteController
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 1 ==
-                                                  DateTime.parse(createRouteController.dateTimeFormatCikis.value)
+                                                  DateTime.parse(createRouteController
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute - 1 ==
-                                                  DateTime.parse(createRouteController.dateTimeFormatCikis.value)
+                                                  DateTime.parse(createRouteController
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute - 2 ==
                                                   DateTime.parse(createRouteController
-                                                          .dateTimeFormatCikis
-                                                          .value)
+                                                      .cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute ==
                                                   DateTime.parse(createRouteController
-                                                          .dateTimeFormatCikis
-                                                          .value)
+                                                      .cikisController.text)
                                                       .minute) {
                                             showDialog(
                                               context: context,
@@ -2780,44 +2680,21 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                               },
                                                             ).then((value) async {
+                                                              sleep(Duration(seconds: 1));
                                                               ActivateRouteResponseModel
                                                                   response =
                                                                   ActivateRouteResponseModel
                                                                       .fromJson(
                                                                           jsonDecode(
                                                                               value!));
+
                                                               if (response
                                                                       .success ==
                                                                   1) {
-                                                                SharedPreferences sharedPrefs= await SharedPreferences.getInstance();
-
-                                                                await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (BuildContext
-                                                                            context2) {
-                                                                      return showNewAllertDialog(
-                                                                          context,
-                                                                          "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
-                                                                          (LocaleManager.instance.getString(PreferencesKeys
-                                                                              .currentUserUserName)),
-                                                                          createRouteController
-                                                                              .dateTimeFormatCikis
-                                                                              .value
-                                                                              .toString()
-                                                                              .substring(0,
-                                                                                  11),
-                                                                          createRouteController
-                                                                              .dateTimeFormatVaris
-                                                                              .value
-                                                                              .toString()
-                                                                              .substring(0, 11));
-                                                                    });
                                                                 MapPageController
-                                                                    mapPageController =
-                                                                    Get.put(
-                                                                        MapPageController());
+                                                                mapPageController =
+                                                                Get.put(
+                                                                    MapPageController());
                                                                 SetCustomMarkerIconController
                                                                     setCustomMarkerIconController =
                                                                     Get.put(
@@ -2849,7 +2726,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                       getMyRouteResponseModel
                                                                           .data![
                                                                               0]
-                                                                          .allRoutes;
+                                                                          .allRoutes!;
                                                                   GoogleMapController
                                                                       googleMapController =
                                                                       await mapPageController
@@ -2992,6 +2869,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                             .myRouteFinishIcon!),
                                                                   );
                                                                 });
+                                                                bottomNavigationBarController
+                                                                    .selectedIndex.value = 1;
+                                                                Get.back();
+
                                                               } else {
                                                                 Get.back(
                                                                     closeOverlays:
@@ -3006,6 +2887,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                         AppConstants()
                                                                             .ltBlack);
                                                               }
+                                                              Get.back();
                                                             });
                                                           },
                                                           iconPath: '',
@@ -3055,7 +2937,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .toString()
                                                                           .substring(
                                                                               0,
-                                                                              11));
+                                                                              11), 0);
                                                                 });
                                                           },
                                                           iconPath: '',
@@ -3071,32 +2953,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                               ),
                                             );
                                           }
-                                        } else {
-                                          Get.back();
-                                          bottomNavigationBarController
-                                              .selectedIndex.value = 0;
-                                          await showDialog(
-                                              context: context,
-                                              builder: (BuildContext context2) {
-                                                return showNewAllertDialog(
-                                                    context,
-                                                    "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
-                                                    (LocaleManager.instance
-                                                        .getString(PreferencesKeys
-                                                            .currentUserUserName)),
-                                                    createRouteController
-                                                        .dateTimeFormatCikis
-                                                        .value
-                                                        .toString()
-                                                        .substring(0, 11),
-                                                    createRouteController
-                                                        .dateTimeFormatVaris
-                                                        .value
-                                                        .toString()
-                                                        .substring(0, 11));
-                                              });
                                         }
                                       } else if (response.success == -1) {
+                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value = response.data![0].id!;
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
@@ -3105,6 +2965,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   response.data![0].id!),
                                         );
                                       } else {
+                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value = response.data![0].id!;
                                         UiHelper.showWarningSnackBar(context,
                                             'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
                                         Get.back();
@@ -3148,7 +3010,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Widget showNewAllertDialog(BuildContext context, String? routeContent,
-      String? userName, String? startDate, String? endDate) {
+      String? userName, String? startDate, String? endDate, int routeId) {
     return AlertDialog(
       title: Text(
         'Tebrikler',
@@ -3216,7 +3078,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                   bottomNavigationBarController.selectedIndex.value = 1;
                   Get.back();
                   Get.back();
-                  Get.toNamed(NavigationConstants.createPostPage);
+                  Get.toNamed(NavigationConstants.createPostPage, arguments: routeId);
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,
@@ -3324,113 +3186,460 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                         DeleteRouteResponseModel.fromJson(jsonDecode(value!));
                     if (response1.success == 1) {
                       log("AAAAAAAAAAAAAA");
-                      sleep(const Duration(seconds: 1));
-                      await GeneralServicesTemp().makePostRequest(
-                        EndPoint.routesNew,
-                        PostCreateRouteRequestModel(
-                          departureDate:
-                              createRouteController.dateTimeFormatCikis.value,
-                          arrivalDate:
-                              createRouteController.varisController.text,
-                          // departureDate: createRouteController
-                          //     .cikisController.text
-                          //     .split('/')
-                          //     .reversed
-                          //     .join('-'),
-                          // arrivalDate: createRouteController
-                          //     .varisController.text
-                          //     .split('/')
-                          //     .reversed
-                          //     .join('-'),
-                          routeDescription: createRouteController
-                                      .aciklamaController.text ==
-                                  ""
-                              ? "${createRouteController.cikisController.text} tarihinde ${createRouteController.startCity.value} şehrinden başlayan yolculuk ${createRouteController.varisController.text} tarihinde ${createRouteController.finishCity.value} şehrinde son bulacak."
-                              : createRouteController.aciklamaController.text,
-                          vehicleCapacity: 100,
-                          startingCoordinates: [
-                            createRouteController
-                                .mapPageRouteStartLatitude2.value,
-                            createRouteController
-                                .mapPageRouteStartLongitude2.value
-                          ],
-                          startingOpenAdress: createRouteController
-                              .mapPageRouteStartAddress2.value,
-                          startingCity: createRouteController.startCity.value,
-                          endingCoordinates: [
-                            createRouteController
-                                .mapPageRouteFinishLatitude2.value,
-                            createRouteController
-                                .mapPageRouteFinishLongitude2.value
-                          ],
-                          endingOpenAdress: createRouteController
-                              .mapPageRouteFinishAddress2.value,
-                          endingCity: createRouteController.finishCity.value,
-                          distance:
-                              createRouteController.calculatedRouteDistanceInt,
-                          travelTime:
-                              createRouteController.calculatedRouteTimeInt,
-                          polylineEncode: createRouteController
-                              .generalPolylineEncode2.value,
-                        ),
-                        {
-                          "Content-type": "application/json",
-                          'Authorization':
-                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                        },
-                      ).then(
-                        (value) async {
-                          if (value != null) {
-                            log(value);
-                            final response =
-                                PostCreateRouteResponseModel.fromJson(
-                                    jsonDecode(value));
-                            log(response.message.toString());
-                            log(response.success.toString());
-                            if (response.success == 1) {
-                              createRouteController
-                                  .mapPageRouteControllerClear();
-                              Get.back();
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    showNewAllertDialog(
-                                        context,
-                                        "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
-                                        "Furkan Semiz",
-                                        response.data![0].departureDate!
-                                            .toString()
-                                            .substring(0, 11),
-                                        response.data![0].arrivalDate!
-                                            .toString()
-                                            .substring(0, 11)),
-                              );
-                            } else if (response.success == -1) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    showSelectDeleteOrShareDialog(
-                                        context, response.data![0].id!),
-                              );
-                            } else {
-                              UiHelper.showWarningSnackBar(context,
-                                  'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
-                              Get.back();
-                            }
-                          }
-                        },
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            AlertDialog(
+                              title: const Text("UYARI!"),
+                              content: Column(
+                                mainAxisSize:
+                                MainAxisSize.min,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Görünüşe göre anlık bir rota oluşturdunuz.",
+                                        style: TextStyle(
+                                          fontFamily:
+                                          'Sfregular',
+                                          fontSize: 16.sp,
+                                          color:
+                                          AppConstants()
+                                              .ltDarkGrey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  Text(
+                                    "Rotayı başlatmak ister misiniz?",
+                                    style: TextStyle(
+                                      fontFamily: 'Sfregular',
+                                      fontSize: 14.sp,
+                                      color: AppConstants()
+                                          .ltLogoGrey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.only(
+                                          bottom: 12.w,
+                                          right: 12.w,
+                                          left: 12.w),
+                                      child:
+                                      CustomButtonDesign(
+                                        text: 'Rotayı Başlat',
+                                        textColor:
+                                        AppConstants()
+                                            .ltWhite,
+                                        onpressed: () {
+                                          MapPageController
+                                          mapPageController =
+                                          Get.find(
+                                          );
+                                          SetCustomMarkerIconController
+                                          setCustomMarkerIconController =
+                                          Get.put(
+                                              SetCustomMarkerIconController());
+                                          GeneralServicesTemp()
+                                              .makePatchRequest(
+                                            EndPoint
+                                                .activateRoute,
+                                            ActivateRouteRequestModel(
+                                                routeId:
+                                                mapPageController .myAllRoutes!.activeRoutes![0].id ),
+                                            {
+                                              "Content-type":
+                                              "application/json",
+                                              'Authorization':
+                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                            },
+                                          ).then((value) async {
+                                            ActivateRouteResponseModel
+                                            response =
+                                            ActivateRouteResponseModel
+                                                .fromJson(
+                                                jsonDecode(
+                                                    value!));
+                                            sleep(Duration(seconds: 1));
+                                            if (response
+                                                .success ==
+                                                1) {
+                                              Get.back();
+
+                                              mapPageController.addMarkerFunctionForMapPageWithoutOnTap(
+                                                MarkerId(
+                                                    "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                                LatLng(
+                                                    mapPageController
+                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![0],
+                                                    mapPageController
+                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![1]),
+                                                "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
+                                                BitmapDescriptor.fromBytes(
+                                                    setCustomMarkerIconController.myRouteStartIcon!),
+                                              );
+
+                                              // mapPageController.getMyRoutesServicesRequestRefreshable();
+
+                                              await GeneralServicesTemp()
+                                                  .makeGetRequest(
+                                                EndPoint
+                                                    .getMyRoutes,
+                                                {
+                                                  "Content-type":
+                                                  "application/json",
+                                                  'Authorization':
+                                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                                },
+                                              ).then((value) async {
+                                                GetMyRouteResponseModel
+                                                getMyRouteResponseModel =
+                                                GetMyRouteResponseModel.fromJson(convert
+                                                    .json
+                                                    .decode(
+                                                    value!));
+                                                mapPageController
+                                                    .myAllRoutes =
+                                                getMyRouteResponseModel
+                                                    .data![
+                                                0]
+                                                    .allRoutes!;
+                                                GoogleMapController
+                                                googleMapController =
+                                                await mapPageController
+                                                    .mapCotroller3
+                                                    .future;
+                                                googleMapController
+                                                    .animateCamera(
+                                                  CameraUpdate
+                                                      .newCameraPosition(
+                                                    CameraPosition(
+                                                      bearing:
+                                                      90,
+                                                      target:
+                                                      LatLng(
+                                                        getMyCurrentLocationController
+                                                            .myLocationLatitudeDo
+                                                            .value,
+                                                        getMyCurrentLocationController
+                                                            .myLocationLongitudeDo
+                                                            .value,
+                                                      ),
+                                                      zoom:
+                                                      10,
+                                                    ),
+                                                  ),
+                                                );
+                                                mapPageController
+                                                    .selectedDispley(
+                                                    5);
+                                                mapPageController
+                                                    .myActivesRoutes =
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes;
+                                                mapPageController
+                                                    .myPastsRoutes =
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .pastRoutes;
+                                                mapPageController
+                                                    .mynotStartedRoutes =
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .notStartedRoutes;
+
+                                                mapPageController
+                                                    .mapPageRouteStartLatitude
+                                                    .value =
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![
+                                                0]
+                                                    .startingCoordinates![0];
+                                                mapPageController
+                                                    .mapPageRouteStartLongitude
+                                                    .value =
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![
+                                                0]
+                                                    .startingCoordinates![1];
+                                                mapPageController.startLatLong = LatLng(
+                                                    mapPageController
+                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![
+                                                    0],
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes![
+                                                    0]
+                                                        .startingCoordinates![1]);
+
+                                                mapPageController
+                                                    .mapPageRouteFinishLatitude
+                                                    .value =
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![
+                                                0]
+                                                    .endingCoordinates![0];
+                                                mapPageController
+                                                    .mapPageRouteFinishLongitude
+                                                    .value =
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![
+                                                0]
+                                                    .endingCoordinates![1];
+                                                mapPageController.finishLatLong = LatLng(
+                                                    mapPageController
+                                                        .myAllRoutes!.activeRoutes![0].endingCoordinates![
+                                                    0],
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes![
+                                                    0]
+                                                        .endingCoordinates![1]);
+                                                mapPageController
+                                                    .generalPolylineEncode
+                                                    .value =
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![
+                                                0]
+                                                    .polylineEncode!;
+
+                                                mapPageController.addPointIntoPolylineList(
+                                                    mapPageController
+                                                        .generalPolylineEncode
+                                                        .value);
+                                                mapPageController
+                                                    .addMarkerFunctionForMapPageWithoutOnTap(
+                                                  MarkerId(
+                                                      "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                                  LatLng(
+                                                      mapPageController.myAllRoutes!.activeRoutes![0].startingCoordinates![
+                                                      0],
+                                                      mapPageController
+                                                          .myAllRoutes!
+                                                          .activeRoutes![0]
+                                                          .startingCoordinates![1]),
+                                                  "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
+                                                  BitmapDescriptor.fromBytes(
+                                                      setCustomMarkerIconController
+                                                          .myRouteStartIcon!),
+                                                );
+                                                mapPageController
+                                                    .addMarkerFunctionForMapPageWithoutOnTap(
+                                                  MarkerId(
+                                                      "myRouteFinishMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                                  LatLng(
+                                                      mapPageController.myAllRoutes!.activeRoutes![0].endingCoordinates![
+                                                      0],
+                                                      mapPageController
+                                                          .myAllRoutes!
+                                                          .activeRoutes![0]
+                                                          .endingCoordinates![1]),
+                                                  "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
+                                                  BitmapDescriptor.fromBytes(
+                                                      setCustomMarkerIconController
+                                                          .myRouteFinishIcon!),
+                                                );
+                                              });
+                                            } else {
+                                              Get.back(
+                                                  closeOverlays:
+                                                  true);
+                                              Get.snackbar(
+                                                  "Hata!",
+                                                  "${response.message}",
+                                                  snackPosition:
+                                                  SnackPosition
+                                                      .BOTTOM,
+                                                  colorText:
+                                                  AppConstants()
+                                                      .ltBlack);
+                                            }
+                                            await GeneralServicesTemp().makePostRequest(
+                                              EndPoint.routesNew,
+                                              PostCreateRouteRequestModel(
+                                                departureDate:
+                                                createRouteController.cikisController.text,
+                                                arrivalDate:
+                                                createRouteController.varisController.text,
+                                                // departureDate: createRouteController
+                                                //     .cikisController.text
+                                                //     .split('/')
+                                                //     .reversed
+                                                //     .join('-'),
+                                                // arrivalDate: createRouteController
+                                                //     .varisController.text
+                                                //     .split('/')
+                                                //     .reversed
+                                                //     .join('-'),
+                                                routeDescription: createRouteController
+                                                    .aciklamaController.text ==
+                                                    ""
+                                                    ? "${createRouteController.cikisController.text} tarihinde ${createRouteController.startCity.value} şehrinden başlayan yolculuk ${createRouteController.varisController.text} tarihinde ${createRouteController.finishCity.value} şehrinde son bulacak."
+                                                    : createRouteController.aciklamaController.text,
+                                                vehicleCapacity: 100,
+                                                startingCoordinates: [
+                                                  createRouteController
+                                                      .mapPageRouteStartLatitude2.value,
+                                                  createRouteController
+                                                      .mapPageRouteStartLongitude2.value
+                                                ],
+                                                startingOpenAdress: createRouteController
+                                                    .mapPageRouteStartAddress2.value,
+                                                startingCity: createRouteController.startCity.value,
+                                                endingCoordinates: [
+                                                  createRouteController
+                                                      .mapPageRouteFinishLatitude2.value,
+                                                  createRouteController
+                                                      .mapPageRouteFinishLongitude2.value
+                                                ],
+                                                endingOpenAdress: createRouteController
+                                                    .mapPageRouteFinishAddress2.value,
+                                                endingCity: createRouteController.finishCity.value,
+                                                distance:
+                                                createRouteController.calculatedRouteDistanceInt,
+                                                travelTime:
+                                                createRouteController.calculatedRouteTimeInt,
+                                                polylineEncode: createRouteController
+                                                    .generalPolylineEncode2.value,
+                                              ),
+                                              {
+                                                "Content-type": "application/json",
+                                                'Authorization':
+                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                              },
+                                            ).then(
+                                                  (value) async {
+                                                if (value != null) {
+                                                  log(value);
+                                                  final response =
+                                                  PostCreateRouteResponseModel.fromJson(
+                                                      jsonDecode(value));
+                                                  log(response.message.toString());
+                                                  log(response.success.toString());
+                                                  if (response.success == 1) {
+                                                    CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+                                                    createPostPageController.routeId.value = response.data![0].id!;
+                                                    createRouteController
+                                                        .mapPageRouteControllerClear();
+                                                    Get.back();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) =>
+                                                          showNewAllertDialog(
+                                                              context,
+                                                              "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
+                                                              "Furkan Semiz",
+                                                              response.data![0].departureDate!
+                                                                  .toString()
+                                                                  .substring(0, 11),
+                                                              response.data![0].arrivalDate!
+                                                                  .toString()
+                                                                  .substring(0, 11), response.data![0].id!),
+                                                    );
+                                                  } else if (response.success == -1) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) =>
+                                                          showSelectDeleteOrShareDialog(
+                                                              context, response.data![0].id!),
+                                                    );
+                                                  } else {
+                                                    UiHelper.showWarningSnackBar(context,
+                                                        'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
+                                                    Get.back();
+                                                  }
+                                                }
+                                              },
+                                            );
+                                            Get.snackbar("Başarılı!", "Rota başarıyla silindi.",
+                                                snackPosition: SnackPosition.BOTTOM,
+                                                colorText: AppConstants().ltBlack);
+                                          }
+                                          );
+                                          Get.back();
+                                          Get.back();
+                                        },
+                                        iconPath: '',
+                                        color: AppConstants()
+                                            .ltMainRed,
+                                        height: 50.h,
+                                        width: 341.w,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.only(
+                                          bottom: 12.w,
+                                          right: 12.w,
+                                          left: 12.w),
+                                      child:
+                                      CustomButtonDesign(
+                                        text:
+                                        'Rotayı Başlatma',
+                                        textColor:
+                                        AppConstants()
+                                            .ltWhite,
+                                        onpressed: () async {
+                                          await showDialog(
+                                              context:
+                                              context,
+                                              builder:
+                                                  (BuildContext
+                                              context2) {
+                                                return showNewAllertDialog(
+                                                    context,
+                                                    "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
+                                                    (LocaleManager
+                                                        .instance
+                                                        .getString(PreferencesKeys
+                                                        .currentUserUserName)),
+                                                    createRouteController
+                                                        .dateTimeFormatCikis
+                                                        .value
+                                                        .toString()
+                                                        .substring(
+                                                        0,
+                                                        11),
+                                                    createRouteController
+                                                        .dateTimeFormatVaris
+                                                        .value
+                                                        .toString()
+                                                        .substring(
+                                                        0,
+                                                        11), 0);
+                                              });
+
+                                        },
+                                        iconPath: '',
+                                        color: AppConstants()
+                                            .ltDarkGrey,
+                                        height: 50.h,
+                                        width: 341.w,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                       );
-                      Get.snackbar("Başarılı!", "Rota başarıyla silindi.",
-                          snackPosition: SnackPosition.BOTTOM,
-                          colorText: AppConstants().ltBlack);
-                    } else {
-                      Get.back();
-                      Get.snackbar("Bir hata ile karşılaşıldı!",
-                          "Lütfen tekrar deneyiniz.",
-                          snackPosition: SnackPosition.BOTTOM,
-                          colorText: AppConstants().ltBlack);
-                    }
-                  });
+
+                  }});
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,
@@ -3461,6 +3670,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Widget _placesAutoComplateTextFieldFinish(BuildContext context) {
+    createRouteController.cikisController.text = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+    createRouteController.varisController.text = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now().add(Duration(minutes: createRouteController.calculatedRouteTimeInt)));
+
     return GestureDetector(
       onTap: () async {
         Prediction? place = await PlacesAutocomplete.show(
@@ -3698,6 +3910,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Future _displayPredictionFinishLocation(Prediction placeInfo) async {
+
     PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 

@@ -1,0 +1,1014 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.istechsoft.fillogo"
+4    android:versionCode="1"
+5    android:versionName="2.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="20"
+9        android:targetSdkVersion="33" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15
+16    <uses-permission android:name="android.permission.INTERNET" />
+16-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:3:5-66
+16-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:3:22-64
+17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+17-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:4:5-81
+17-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:4:23-79
+18    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+18-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:5:5-80
+18-->/Users/furkansemiz/Desktop/Development/fillogo-latest/android/app/src/main/AndroidManifest.xml:5:23-77
+19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+19-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-77
+19-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-74
+20    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+20-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
+20-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
+21    <uses-permission android:name="android.permission.VIBRATE" />
+21-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-66
+21-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-63
+22    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+22-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-81
+22-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-78
+23    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+23-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:12:5-79
+23-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:12:22-76
+24    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+24-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-77
+24-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:13:22-74
+25    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+25-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-80
+25-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-77
+26
+27    <queries>
+27-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:15
+28        <intent>
+28-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:18
+29            <action android:name="android.intent.action.GET_CONTENT" />
+29-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-72
+29-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:13:21-69
+30
+31            <data android:mimeType="*/*" />
+31-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-44
+31-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:15:19-41
+32        </intent>
+33        <!-- Needs to be explicitly declared on Android R+ -->
+34        <package android:name="com.google.android.apps.maps" /> <!-- For browser content -->
+34-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:33:9-64
+34-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:33:18-61
+35        <intent>
+35-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:35:9-41:18
+36            <action android:name="android.intent.action.VIEW" />
+36-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:77:17-69
+36-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:77:25-66
+37
+38            <category android:name="android.intent.category.BROWSABLE" />
+38-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:38:13-74
+38-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:38:23-71
+39
+40            <data android:scheme="https" />
+40-->[:file_picker] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/file_picker/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-44
+41        </intent> <!-- End of browser content -->
+42        <!-- For CustomTabsService -->
+43        <intent>
+43-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:44:9-46:18
+44            <action android:name="android.support.customtabs.action.CustomTabsService" />
+44-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:45:13-90
+44-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:45:21-87
+45        </intent>
+46    </queries>
+47
+48    <uses-permission android:name="android.permission.WAKE_LOCK" />
+48-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-68
+48-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-65
+49    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+49-->[:connectivity_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/connectivity_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
+49-->[:connectivity_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/connectivity_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-76
+50    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Create a unique permission for your app and use it so only your app can receive your OneSignal messages. -->
+50-->[:video_compress] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/video_compress/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
+50-->[:video_compress] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/video_compress/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
+51    <permission
+51-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:7:5-9:47
+52        android:name="com.istechsoft.fillogo.permission.C2D_MESSAGE"
+52-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:8:9-63
+53        android:protectionLevel="signature" />
+53-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:9:9-44
+54
+55    <uses-permission android:name="com.istechsoft.fillogo.permission.C2D_MESSAGE" /> <!-- c2dm RECEIVE are basic requirements for push messages through Google's FCM -->
+55-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:11:5-79
+55-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:11:22-76
+56    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- START: ShortcutBadger -->
+56-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:18:5-82
+56-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:18:22-79
+57    <!-- Samsung -->
+58    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
+58-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:32:5-86
+58-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:32:22-83
+59    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" /> <!-- HTC -->
+59-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:33:5-87
+59-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:33:22-84
+60    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
+60-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:34:5-81
+60-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:34:22-78
+61    <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" /> <!-- Sony -->
+61-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:35:5-83
+61-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:35:22-80
+62    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
+62-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:36:5-88
+62-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:36:22-85
+63    <uses-permission android:name="com.sonymobile.home.permission.PROVIDER_INSERT_BADGE" /> <!-- Apex -->
+63-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:37:5-92
+63-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:37:22-89
+64    <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT" /> <!-- Solid -->
+64-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:38:5-84
+64-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:38:22-81
+65    <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE" /> <!-- Huawei -->
+65-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:39:5-83
+65-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:39:22-80
+66    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+66-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:40:5-91
+66-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:40:22-88
+67    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
+67-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:41:5-92
+67-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:41:22-89
+68    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" /> <!-- ZUK -->
+68-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:42:5-93
+68-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:42:22-90
+69    <uses-permission android:name="android.permission.READ_APP_BADGE" /> <!-- OPPO -->
+69-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:43:5-73
+69-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:43:22-70
+70    <uses-permission android:name="com.oppo.launcher.permission.READ_SETTINGS" />
+70-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:44:5-82
+70-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:44:22-79
+71    <uses-permission android:name="com.oppo.launcher.permission.WRITE_SETTINGS" /> <!-- EvMe -->
+71-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:45:5-83
+71-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:45:22-80
+72    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ" />
+72-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:46:5-88
+72-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:46:22-85
+73    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE" />
+73-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:47:5-89
+73-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:47:22-86
+74
+75    <uses-feature
+75-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:26:5-28:35
+76        android:glEsVersion="0x00020000"
+76-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:27:9-41
+77        android:required="true" />
+77-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:28:9-32
+78
+79    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+79-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:26:5-79
+79-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:26:22-76
+80
+81    <permission
+81-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
+82        android:name="com.istechsoft.fillogo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+82-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
+83        android:protectionLevel="signature" />
+83-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
+84
+85    <uses-permission android:name="com.istechsoft.fillogo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+85-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
+85-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+86
+87    <application
+88        android:name="android.app.Application"
+89        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+89-->[androidx.core:core:1.10.1] /Users/furkansemiz/.gradle/caches/transforms-3/9503294a02322add631c8cf5cfb5e895/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
+90        android:debuggable="true"
+91        android:icon="@mipmap/ic_launcher"
+92        android:label="fillogo" >
+93        <meta-data
+94            android:name="com.google.android.geo.API_KEY"
+95            android:value="AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA" />
+96        <meta-data
+97            android:name="com.google.android.gms.version"
+98            android:value="@integer/google_play_services_version" />
+99
+100        <activity
+101            android:name="com.yalantis.ucrop.UCropActivity"
+102            android:screenOrientation="portrait"
+103            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+104        <activity
+105            android:name="com.istechsoft.fillogo.MainActivity"
+106            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+107            android:exported="true"
+108            android:hardwareAccelerated="true"
+109            android:launchMode="singleTop"
+110            android:showWhenLocked="true"
+111            android:theme="@style/LaunchTheme"
+112            android:turnScreenOn="true"
+113            android:windowSoftInputMode="adjustResize" >
+114
+115            <!--
+116                 Specifies an Android theme to apply to this Activity as soon as
+117                 the Android process has started. This theme is visible to the user
+118                 while the Flutter UI initializes. After that, this theme continues
+119                 to determine the Window background behind the Flutter UI.
+120            -->
+121            <meta-data
+122                android:name="io.flutter.embedding.android.NormalTheme"
+123                android:resource="@style/NormalTheme" />
+124
+125            <intent-filter>
+126                <action android:name="android.intent.action.MAIN" />
+127
+128                <category android:name="android.intent.category.LAUNCHER" />
+129            </intent-filter>
+130        </activity>
+131
+132        <meta-data
+133            android:name="com.google.android.gms.ads.APPLICATION_ID"
+134            android:value="ca-app-pub-6811715094998587~3746267415" />
+135
+136        <!--
+137             Don't delete the meta-data below.
+138             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+139        -->
+140        <meta-data
+141            android:name="flutterEmbedding"
+142            android:value="2" />
+143
+144        <service
+144-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:56
+145            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+145-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-77
+146            android:enabled="true"
+146-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-35
+147            android:exported="false"
+147-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-37
+148            android:foregroundServiceType="location" />
+148-->[:geolocator_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-53
+149
+150        <receiver
+150-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-18:40
+151            android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
+151-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-91
+152            android:exported="false" />
+152-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+153        <receiver
+153-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:19:9-21:40
+154            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+154-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-97
+155            android:exported="false" />
+155-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-37
+156        <receiver
+156-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:22:9-31:20
+157            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+157-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-101
+158            android:exported="false" >
+158-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:24:13-37
+159            <intent-filter>
+159-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:25:13-30:29
+160                <action android:name="android.intent.action.BOOT_COMPLETED" />
+160-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:17-79
+160-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:25-76
+161                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+161-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:27:17-84
+161-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:27:25-81
+162                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+162-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:17-82
+162-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:25-79
+163                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+163-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:29:17-82
+163-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:29:25-79
+164            </intent-filter>
+165        </receiver>
+166
+167        <meta-data
+167-->[:google_mobile_ads] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/google_mobile_ads/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-14:36
+168            android:name="io.flutter.embedded_views_preview"
+168-->[:google_mobile_ads] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/google_mobile_ads/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-61
+169            android:value="true" />
+169-->[:google_mobile_ads] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/google_mobile_ads/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-33
+170        <!--
+171           Declares a provider which allows us to store files to share in
+172           '.../caches/share_plus' and grant the receiving action access
+173        -->
+174        <provider
+174-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
+175            android:name="dev.fluttercommunity.plus.share.ShareFileProvider"
+175-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
+176            android:authorities="com.istechsoft.fillogo.flutter.share_provider"
+176-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
+177            android:exported="false"
+177-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+178            android:grantUriPermissions="true" >
+178-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
+179            <meta-data
+179-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-22:68
+180                android:name="android.support.FILE_PROVIDER_PATHS"
+180-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:21:17-67
+181                android:resource="@xml/flutter_share_file_paths" />
+181-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:22:17-65
+182        </provider>
+183        <!--
+184           This manifest declared broadcast receiver allows us to use an explicit
+185           Intent when creating a PendingItent to be informed of the user's choice
+186        -->
+187        <receiver
+187-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
+188            android:name="dev.fluttercommunity.plus.share.SharePlusPendingIntent"
+188-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
+189            android:exported="false" >
+189-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-37
+190            <intent-filter>
+190-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
+191                <action android:name="EXTRA_CHOSEN_COMPONENT" />
+191-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
+191-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
+192            </intent-filter>
+193        </receiver>
+194
+195        <service
+195-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-18:44
+196            android:name="id.flutter.flutter_background_service.BackgroundService"
+196-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-83
+197            android:enabled="true"
+197-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-35
+198            android:exported="true"
+198-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-36
+199            android:stopWithTask="false" />
+199-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-41
+200
+201        <receiver
+201-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-23:39
+202            android:name="id.flutter.flutter_background_service.WatchdogReceiver"
+202-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-82
+203            android:enabled="true"
+203-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-35
+204            android:exported="true" />
+204-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-36
+205        <receiver
+205-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:24:9-32:20
+206            android:name="id.flutter.flutter_background_service.BootReceiver"
+206-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:25:13-78
+207            android:enabled="true"
+207-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:26:13-35
+208            android:exported="true" >
+208-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:27:13-36
+209            <intent-filter>
+209-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:28:13-31:29
+210                <action android:name="android.intent.action.BOOT_COMPLETED" />
+210-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:17-79
+210-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:25-76
+211                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+211-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:17-82
+211-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:25-79
+212            </intent-filter>
+213        </receiver>
+214
+215        <provider
+215-->[:image_picker_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+216            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+216-->[:image_picker_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
+217            android:authorities="com.istechsoft.fillogo.flutter.image_provider"
+217-->[:image_picker_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
+218            android:exported="false"
+218-->[:image_picker_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+219            android:grantUriPermissions="true" >
+219-->[:image_picker_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+220            <meta-data
+220-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-22:68
+221                android:name="android.support.FILE_PROVIDER_PATHS"
+221-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:21:17-67
+222                android:resource="@xml/flutter_image_picker_file_paths" />
+222-->[:share_plus] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:22:17-65
+223        </provider>
+224
+225        <activity
+225-->[:url_launcher_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+226            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+226-->[:url_launcher_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+227            android:exported="false"
+227-->[:url_launcher_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+228            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+228-->[:url_launcher_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+229
+230        <service
+230-->[:location] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/location/intermediates/merged_manifest/debug/AndroidManifest.xml:13:9-17:56
+231            android:name="com.lyokone.location.FlutterLocationService"
+231-->[:location] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/location/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-71
+232            android:enabled="true"
+232-->[:location] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/location/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-35
+233            android:exported="false"
+233-->[:location] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/location/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-37
+234            android:foregroundServiceType="location" />
+234-->[:location] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/location/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-53
+235
+236        <receiver
+236-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:50:9-61:20
+237            android:name="com.onesignal.FCMBroadcastReceiver"
+237-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:51:13-62
+238            android:exported="true"
+238-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:52:13-36
+239            android:permission="com.google.android.c2dm.permission.SEND" >
+239-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:53:13-73
+240
+241            <!-- High priority so OneSignal payloads can be filtered from other FCM receivers -->
+242            <intent-filter android:priority="999" >
+242-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:56:13-60:29
+242-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:56:28-50
+243                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+243-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:57:17-81
+243-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:57:25-78
+244
+245                <category android:name="com.istechsoft.fillogo" />
+245-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:59:17-61
+245-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:59:27-58
+246            </intent-filter>
+247        </receiver>
+248
+249        <service
+249-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:63:9-69:19
+250            android:name="com.onesignal.HmsMessageServiceOneSignal"
+250-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:64:13-68
+251            android:exported="false" >
+251-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:65:13-37
+252            <intent-filter>
+252-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:66:13-68:29
+253                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+253-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:67:17-81
+253-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:67:25-78
+254            </intent-filter>
+255        </service>
+256
+257        <activity
+257-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:71:9-79:20
+258            android:name="com.onesignal.NotificationOpenedActivityHMS"
+258-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:72:13-71
+259            android:exported="true"
+259-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:73:13-36
+260            android:noHistory="true"
+260-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:74:13-37
+261            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+261-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:75:13-72
+262            <intent-filter>
+262-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:76:13-78:29
+263                <action android:name="android.intent.action.VIEW" />
+263-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:77:17-69
+263-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:77:25-66
+264            </intent-filter>
+265        </activity>
+266
+267        <service
+267-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:81:9-83:40
+268            android:name="com.onesignal.FCMIntentService"
+268-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:82:13-58
+269            android:exported="false" />
+269-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:83:13-37
+270        <service
+270-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:84:9-87:72
+271            android:name="com.onesignal.FCMIntentJobService"
+271-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:85:13-61
+272            android:exported="false"
+272-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:86:13-37
+273            android:permission="android.permission.BIND_JOB_SERVICE" />
+273-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:87:13-69
+274        <service
+274-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:88:9-91:43
+275            android:name="com.onesignal.SyncService"
+275-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:89:13-53
+276            android:exported="false"
+276-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:90:13-37
+277            android:stopWithTask="true" />
+277-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:91:13-40
+278        <service
+278-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:92:9-95:72
+279            android:name="com.onesignal.SyncJobService"
+279-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:93:13-56
+280            android:exported="false"
+280-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:94:13-37
+281            android:permission="android.permission.BIND_JOB_SERVICE" />
+281-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:95:13-69
+282
+283        <activity
+283-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:97:9-100:75
+284            android:name="com.onesignal.PermissionsActivity"
+284-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:98:13-61
+285            android:exported="false"
+285-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:99:13-37
+286            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+286-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:100:13-72
+287
+288        <receiver
+288-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:102:9-104:39
+289            android:name="com.onesignal.NotificationDismissReceiver"
+289-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:103:13-69
+290            android:exported="true" />
+290-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:104:13-36
+291        <receiver
+291-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:105:9-112:20
+292            android:name="com.onesignal.BootUpReceiver"
+292-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:106:13-56
+293            android:exported="true" >
+293-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:107:13-36
+294            <intent-filter>
+294-->[:flutter_background_service_android] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:28:13-31:29
+295                <action android:name="android.intent.action.BOOT_COMPLETED" />
+295-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:17-79
+295-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:25-76
+296                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+296-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:17-82
+296-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:28:25-79
+297            </intent-filter>
+298        </receiver>
+299        <receiver
+299-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:113:9-119:20
+300            android:name="com.onesignal.UpgradeReceiver"
+300-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:114:13-57
+301            android:exported="true" >
+301-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:115:13-36
+302            <intent-filter>
+302-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:116:13-118:29
+303                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+303-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:27:17-84
+303-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:27:25-81
+304            </intent-filter>
+305        </receiver>
+306
+307        <activity
+307-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:121:9-127:75
+308            android:name="com.onesignal.NotificationOpenedReceiver"
+308-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:122:13-68
+309            android:excludeFromRecents="true"
+309-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:123:13-46
+310            android:exported="true"
+310-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:124:13-36
+311            android:noHistory="true"
+311-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:125:13-37
+312            android:taskAffinity=""
+312-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:126:13-36
+313            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+313-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:127:13-72
+314        <activity
+314-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:128:9-133:75
+315            android:name="com.onesignal.NotificationOpenedReceiverAndroid22AndOlder"
+315-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:129:13-85
+316            android:excludeFromRecents="true"
+316-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:130:13-46
+317            android:exported="true"
+317-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:131:13-36
+318            android:noHistory="true"
+318-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:132:13-37
+319            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+319-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:133:13-72
+320        <activity
+320-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:23:9-27:75
+321            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+321-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:24:13-93
+322            android:excludeFromRecents="true"
+322-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:25:13-46
+323            android:exported="false"
+323-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:26:13-37
+324            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+324-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:27:13-72
+325        <!--
+326            Service handling Google Sign-In user revocation. For apps that do not integrate with
+327            Google Sign-In, this service will never be started.
+328        -->
+329        <service
+329-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:33:9-37:51
+330            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+330-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:34:13-89
+331            android:exported="true"
+331-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:35:13-36
+332            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+332-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:36:13-107
+333            android:visibleToInstantApps="true" /> <!-- Needs to be explicitly declared on P+ -->
+333-->[com.google.android.gms:play-services-auth:20.4.0] /Users/furkansemiz/.gradle/caches/transforms-3/308d09fa0b69ff073bb0df3759d1ac97/transformed/jetified-play-services-auth-20.4.0/AndroidManifest.xml:37:13-48
+334        <uses-library
+334-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:39:9-41:40
+335            android:name="org.apache.http.legacy"
+335-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:40:13-50
+336            android:required="false" />
+336-->[com.google.android.gms:play-services-maps:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/5eeb26b6673527bf3788c5d0ab90a955/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:41:13-37
+337
+338        <activity
+338-->[com.google.android.gms:play-services-base:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/377b8d446195e7a1ef0eade00187ea80/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+339            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+339-->[com.google.android.gms:play-services-base:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/377b8d446195e7a1ef0eade00187ea80/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+340            android:exported="false"
+340-->[com.google.android.gms:play-services-base:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/377b8d446195e7a1ef0eade00187ea80/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+341            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+341-->[com.google.android.gms:play-services-base:18.1.0] /Users/furkansemiz/.gradle/caches/transforms-3/377b8d446195e7a1ef0eade00187ea80/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+342        <activity
+342-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:53:9-58:43
+343            android:name="com.google.android.gms.ads.AdActivity"
+343-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:54:13-65
+344            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+344-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:55:13-122
+345            android:exported="false"
+345-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:56:13-37
+346            android:theme="@android:style/Theme.Translucent" />
+346-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:57:13-61
+347
+348        <provider
+348-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:60:9-65:43
+349            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+349-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:61:13-76
+350            android:authorities="com.istechsoft.fillogo.mobileadsinitprovider"
+350-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:62:13-73
+351            android:exported="false"
+351-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:63:13-37
+352            android:initOrder="100" />
+352-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:64:13-36
+353
+354        <service
+354-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:67:9-71:43
+355            android:name="com.google.android.gms.ads.AdService"
+355-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:68:13-64
+356            android:enabled="true"
+356-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:69:13-35
+357            android:exported="false" />
+357-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:70:13-37
+358
+359        <activity
+359-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:73:9-77:43
+360            android:name="com.google.android.gms.ads.OutOfContextTestingActivity"
+360-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:74:13-82
+361            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+361-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:75:13-122
+362            android:exported="false" />
+362-->[com.google.android.gms:play-services-ads-lite:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/e4a86a0b13b78b8cd92704d953b20c08/transformed/jetified-play-services-ads-lite-22.0.0/AndroidManifest.xml:76:13-37
+363
+364        <receiver
+364-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:28:9-35:20
+365            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+365-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:29:13-78
+366            android:exported="true"
+366-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:30:13-36
+367            android:permission="com.google.android.c2dm.permission.SEND" >
+367-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:31:13-73
+368            <intent-filter>
+368-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:32:13-34:29
+369                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+369-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:57:17-81
+369-->[com.onesignal:OneSignal:4.8.5] /Users/furkansemiz/.gradle/caches/transforms-3/2add146a488767b19029f24e7751db01/transformed/jetified-OneSignal-4.8.5/AndroidManifest.xml:57:25-78
+370            </intent-filter>
+371        </receiver>
+372        <!--
+373             FirebaseMessagingService performs security checks at runtime,
+374             but set to not exported to explicitly avoid allowing another app to call it.
+375        -->
+376        <service
+376-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:41:9-48:19
+377            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+377-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:42:13-82
+378            android:directBootAware="true"
+378-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:43:13-43
+379            android:exported="false" >
+379-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:44:13-37
+380            <intent-filter android:priority="-500" >
+380-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:45:13-47:29
+380-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:45:28-51
+381                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+381-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:46:17-78
+381-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:46:25-75
+382            </intent-filter>
+383        </service>
+384        <service
+384-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:49:9-55:19
+385            android:name="com.google.firebase.components.ComponentDiscoveryService"
+385-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:50:13-84
+386            android:directBootAware="true"
+386-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:35:13-43
+387            android:exported="false" >
+387-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:51:13-37
+388            <meta-data
+388-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:52:13-54:85
+389                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+389-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:53:17-119
+390                android:value="com.google.firebase.components.ComponentRegistrar" />
+390-->[com.google.firebase:firebase-messaging:22.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/bd5c2b8794293392734688c35ea7b767/transformed/jetified-firebase-messaging-22.0.0/AndroidManifest.xml:54:17-82
+391            <meta-data
+391-->[com.google.firebase:firebase-datatransport:18.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/09f52cc276071608bfc7b3ce7c971fc6/transformed/jetified-firebase-datatransport-18.0.0/AndroidManifest.xml:28:13-30:85
+392                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+392-->[com.google.firebase:firebase-datatransport:18.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/09f52cc276071608bfc7b3ce7c971fc6/transformed/jetified-firebase-datatransport-18.0.0/AndroidManifest.xml:29:17-115
+393                android:value="com.google.firebase.components.ComponentRegistrar" />
+393-->[com.google.firebase:firebase-datatransport:18.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/09f52cc276071608bfc7b3ce7c971fc6/transformed/jetified-firebase-datatransport-18.0.0/AndroidManifest.xml:30:17-82
+394            <meta-data
+394-->[com.google.firebase:firebase-installations:17.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cec1633ad3d55d95dbb0be40d559e3ea/transformed/jetified-firebase-installations-17.0.0/AndroidManifest.xml:18:13-20:85
+395                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+395-->[com.google.firebase:firebase-installations:17.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cec1633ad3d55d95dbb0be40d559e3ea/transformed/jetified-firebase-installations-17.0.0/AndroidManifest.xml:19:17-127
+396                android:value="com.google.firebase.components.ComponentRegistrar" />
+396-->[com.google.firebase:firebase-installations:17.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cec1633ad3d55d95dbb0be40d559e3ea/transformed/jetified-firebase-installations-17.0.0/AndroidManifest.xml:20:17-82
+397        </service>
+398
+399        <provider
+399-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:26:9-31:39
+400            android:name="com.google.firebase.provider.FirebaseInitProvider"
+400-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:27:13-77
+401            android:authorities="com.istechsoft.fillogo.firebaseinitprovider"
+401-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:28:13-72
+402            android:directBootAware="true"
+402-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:29:13-43
+403            android:exported="false"
+403-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:30:13-37
+404            android:initOrder="100" />
+404-->[com.google.firebase:firebase-common:20.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/cf86fe9af42b8a42593f5207ef5103bf/transformed/jetified-firebase-common-20.0.0/AndroidManifest.xml:31:13-36
+405
+406        <uses-library
+406-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+407            android:name="androidx.window.extensions"
+407-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+408            android:required="false" />
+408-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+409        <uses-library
+409-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+410            android:name="androidx.window.sidecar"
+410-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+411            android:required="false" />
+411-->[androidx.window:window:1.0.0-beta04] /Users/furkansemiz/.gradle/caches/transforms-3/ad78abcc242028e8fa8379af6b3bd7f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+412
+413        <provider
+413-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:31:9-39:20
+414            android:name="androidx.startup.InitializationProvider"
+414-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:32:13-67
+415            android:authorities="com.istechsoft.fillogo.androidx-startup"
+415-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:33:13-68
+416            android:exported="false" >
+416-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:34:13-37
+417            <meta-data
+417-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:36:13-38:52
+418                android:name="androidx.work.WorkManagerInitializer"
+418-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:37:17-68
+419                android:value="androidx.startup" />
+419-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:38:17-49
+420            <meta-data
+420-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/furkansemiz/.gradle/caches/transforms-3/7d876761475382eb9ef1d2885c220ddd/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
+421                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+421-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/furkansemiz/.gradle/caches/transforms-3/7d876761475382eb9ef1d2885c220ddd/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
+422                android:value="androidx.startup" />
+422-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/furkansemiz/.gradle/caches/transforms-3/7d876761475382eb9ef1d2885c220ddd/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+423            <meta-data
+423-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+424                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+424-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+425                android:value="androidx.startup" />
+425-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+426        </provider>
+427
+428        <service
+428-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:41:9-46:35
+429            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+429-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:42:13-88
+430            android:directBootAware="false"
+430-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:43:13-44
+431            android:enabled="@bool/enable_system_alarm_service_default"
+431-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:44:13-72
+432            android:exported="false" />
+432-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:45:13-37
+433        <service
+433-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:47:9-53:35
+434            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+434-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:48:13-84
+435            android:directBootAware="false"
+435-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:49:13-44
+436            android:enabled="@bool/enable_system_job_service_default"
+436-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:50:13-70
+437            android:exported="true"
+437-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:51:13-36
+438            android:permission="android.permission.BIND_JOB_SERVICE" />
+438-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:52:13-69
+439        <service
+439-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:54:9-59:35
+440            android:name="androidx.work.impl.foreground.SystemForegroundService"
+440-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:55:13-81
+441            android:directBootAware="false"
+441-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:56:13-44
+442            android:enabled="@bool/enable_system_foreground_service_default"
+442-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:57:13-77
+443            android:exported="false" />
+443-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:58:13-37
+444
+445        <receiver
+445-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:61:9-66:35
+446            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+446-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:62:13-88
+447            android:directBootAware="false"
+447-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:63:13-44
+448            android:enabled="true"
+448-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:64:13-35
+449            android:exported="false" />
+449-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:65:13-37
+450        <receiver
+450-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:67:9-77:20
+451            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+451-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:68:13-106
+452            android:directBootAware="false"
+452-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:69:13-44
+453            android:enabled="false"
+453-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:70:13-36
+454            android:exported="false" >
+454-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:71:13-37
+455            <intent-filter>
+455-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:73:13-76:29
+456                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+456-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:74:17-87
+456-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:74:25-84
+457                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+457-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:75:17-90
+457-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:75:25-87
+458            </intent-filter>
+459        </receiver>
+460        <receiver
+460-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:78:9-88:20
+461            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+461-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:79:13-104
+462            android:directBootAware="false"
+462-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:80:13-44
+463            android:enabled="false"
+463-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:81:13-36
+464            android:exported="false" >
+464-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:82:13-37
+465            <intent-filter>
+465-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:84:13-87:29
+466                <action android:name="android.intent.action.BATTERY_OKAY" />
+466-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:85:17-77
+466-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:85:25-74
+467                <action android:name="android.intent.action.BATTERY_LOW" />
+467-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:86:17-76
+467-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:86:25-73
+468            </intent-filter>
+469        </receiver>
+470        <receiver
+470-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:89:9-99:20
+471            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+471-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:90:13-104
+472            android:directBootAware="false"
+472-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:91:13-44
+473            android:enabled="false"
+473-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:92:13-36
+474            android:exported="false" >
+474-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:93:13-37
+475            <intent-filter>
+475-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:95:13-98:29
+476                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+476-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:96:17-83
+476-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:96:25-80
+477                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+477-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:97:17-82
+477-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:97:25-79
+478            </intent-filter>
+479        </receiver>
+480        <receiver
+480-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:100:9-109:20
+481            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+481-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:101:13-103
+482            android:directBootAware="false"
+482-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:102:13-44
+483            android:enabled="false"
+483-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:103:13-36
+484            android:exported="false" >
+484-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:104:13-37
+485            <intent-filter>
+485-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:106:13-108:29
+486                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+486-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:107:17-79
+486-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:107:25-76
+487            </intent-filter>
+488        </receiver>
+489        <receiver
+489-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:110:9-121:20
+490            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+490-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:111:13-88
+491            android:directBootAware="false"
+491-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:112:13-44
+492            android:enabled="false"
+492-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:113:13-36
+493            android:exported="false" >
+493-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:114:13-37
+494            <intent-filter>
+494-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:116:13-120:29
+495                <action android:name="android.intent.action.BOOT_COMPLETED" />
+495-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:17-79
+495-->[:flutter_local_notifications] /Users/furkansemiz/Desktop/Development/fillogo-latest/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:25-76
+496                <action android:name="android.intent.action.TIME_SET" />
+496-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:118:17-73
+496-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:118:25-70
+497                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+497-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:119:17-81
+497-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:119:25-78
+498            </intent-filter>
+499        </receiver>
+500        <receiver
+500-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:122:9-131:20
+501            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+501-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:123:13-99
+502            android:directBootAware="false"
+502-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:124:13-44
+503            android:enabled="@bool/enable_system_alarm_service_default"
+503-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:125:13-72
+504            android:exported="false" >
+504-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:126:13-37
+505            <intent-filter>
+505-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:128:13-130:29
+506                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+506-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:129:17-98
+506-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:129:25-95
+507            </intent-filter>
+508        </receiver>
+509        <receiver
+509-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:132:9-142:20
+510            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+510-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:133:13-78
+511            android:directBootAware="false"
+511-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:134:13-44
+512            android:enabled="true"
+512-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:135:13-35
+513            android:exported="true"
+513-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:136:13-36
+514            android:permission="android.permission.DUMP" >
+514-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:137:13-57
+515            <intent-filter>
+515-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:139:13-141:29
+516                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+516-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:140:17-88
+516-->[androidx.work:work-runtime:2.7.0] /Users/furkansemiz/.gradle/caches/transforms-3/82ab8f746ff5df49d49cab4fcb6c4e3f/transformed/work-runtime-2.7.0/AndroidManifest.xml:140:25-85
+517            </intent-filter>
+518        </receiver>
+519        <receiver
+519-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+520            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+520-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+521            android:directBootAware="false"
+521-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+522            android:enabled="true"
+522-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+523            android:exported="true"
+523-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+524            android:permission="android.permission.DUMP" >
+524-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+525            <intent-filter>
+525-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+526                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+526-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+526-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+527            </intent-filter>
+528            <intent-filter>
+528-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+529                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+529-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+529-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+530            </intent-filter>
+531            <intent-filter>
+531-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+532                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+532-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+532-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+533            </intent-filter>
+534            <intent-filter>
+534-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+535                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+535-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+535-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/furkansemiz/.gradle/caches/transforms-3/47ae7e62b108878efd0389689fd31a2f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+536            </intent-filter>
+537        </receiver>
+538
+539        <service
+539-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:29:9-35:19
+540            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+540-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:30:13-103
+541            android:exported="false" >
+541-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:31:13-37
+542            <meta-data
+542-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:32:13-34:39
+543                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+543-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:33:17-94
+544                android:value="cct" />
+544-->[com.google.android.datatransport:transport-backend-cct:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/f03452ae835cb57b2c1fcb42c982edde/transformed/jetified-transport-backend-cct-3.0.0/AndroidManifest.xml:34:17-36
+545        </service>
+546        <service
+546-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:26:9-30:19
+547            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+547-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:27:13-117
+548            android:exported="false"
+548-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:28:13-37
+549            android:permission="android.permission.BIND_JOB_SERVICE" >
+549-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:29:13-69
+550        </service>
+551
+552        <receiver
+552-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:32:9-34:40
+553            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+553-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:33:13-132
+554            android:exported="false" />
+554-->[com.google.android.datatransport:transport-runtime:3.0.0] /Users/furkansemiz/.gradle/caches/transforms-3/6e789e423f94b2f20bf3cf3a5182231d/transformed/jetified-transport-runtime-3.0.0/AndroidManifest.xml:34:13-37
+555
+556        <service
+556-->[androidx.room:room-runtime:2.2.5] /Users/furkansemiz/.gradle/caches/transforms-3/9cfe952c71dad52ea6295cca11e6f9ae/transformed/room-runtime-2.2.5/AndroidManifest.xml:25:9-28:40
+557            android:name="androidx.room.MultiInstanceInvalidationService"
+557-->[androidx.room:room-runtime:2.2.5] /Users/furkansemiz/.gradle/caches/transforms-3/9cfe952c71dad52ea6295cca11e6f9ae/transformed/room-runtime-2.2.5/AndroidManifest.xml:26:13-74
+558            android:directBootAware="true"
+558-->[androidx.room:room-runtime:2.2.5] /Users/furkansemiz/.gradle/caches/transforms-3/9cfe952c71dad52ea6295cca11e6f9ae/transformed/room-runtime-2.2.5/AndroidManifest.xml:27:13-43
+559            android:exported="false" />
+559-->[androidx.room:room-runtime:2.2.5] /Users/furkansemiz/.gradle/caches/transforms-3/9cfe952c71dad52ea6295cca11e6f9ae/transformed/room-runtime-2.2.5/AndroidManifest.xml:28:13-37
+560    </application>
+561
+562</manifest>

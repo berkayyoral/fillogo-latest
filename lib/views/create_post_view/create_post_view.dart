@@ -231,10 +231,7 @@ class CreatePostPageView extends StatelessWidget {
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
                             createPostPageController.haveRoute.value == 0) {
-                        } else if (discriptionTextController.value.text == "") {
-                          UiHelper.showWarningSnackBar(
-                              context, 'Lütfen Açıklamayı Boş Bırakmayınız.');
-                        } else {
+                        }  else {
                           Map<String, dynamic> map = <String, dynamic>{};
                           createPostPageController.isSelectedEmotion.value
                               ? map['emotionID[0]'] = createPostPageController
@@ -248,8 +245,9 @@ class CreatePostPageView extends StatelessWidget {
                                   createPostPageController.tagIdList[i];
                             }
                           }
+                          print(createPostPageController.routeId.value);
                           map['postDescription'] =
-                              discriptionTextController.text;
+                              discriptionTextController.text.isEmpty ? "Yeni bir rotaya çıktım" : discriptionTextController.text;
                           map['postRouteID'] =
                               createPostPageController.routeId.value;
                           mediaPickerController.media != null

@@ -219,11 +219,11 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                       carBrand: brandController.text,
                                       carModel: modelController.text,
                                       carCapacity:
-                                          int.tryParse(capacityController.text),
+                                          int.parse(capacityController.text),
                                       plateNumber:
                                           LocaleManager.instance.getString(
                                         PreferencesKeys.plateNumber,
-                                      ),
+                                      ).toString(),
                                       carTypeId: dropdownValue + 1),
                                   {
                                     "Content-type": "application/json",

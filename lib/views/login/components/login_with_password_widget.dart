@@ -160,6 +160,9 @@ class LoginWithPassword extends StatelessWidget {
                       SocketService.instance()
                           .socket
                           .emit("new-user-add", response.data![0].user!.id!);
+                    } else{
+                      Get.back();
+                      return Get.snackbar("Hata", "Lütfen giriş bilgilerinizi kontrol ediniz", snackPosition: SnackPosition.BOTTOM);
                     }
                   }
                 },

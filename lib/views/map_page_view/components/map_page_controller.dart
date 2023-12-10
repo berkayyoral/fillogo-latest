@@ -134,8 +134,6 @@ class MapPageController extends GetxController {
 
   void mapPageRouteControllerClear() async {
     iWantTrackerMyLocation.value = 1;
-    cikisController.clear();
-    varisController.clear();
     kapasiteController.clear();
     aciklamaController.clear();
 

@@ -600,7 +600,11 @@ class PostFlowWidget extends StatelessWidget {
                                           '/users/search-user',
                                           searchUserController
                                               .searchUserRequest,
-                                          ServicesConstants.appJsonWithToken,
+                                      {
+                                        "Content-type": "application/json",
+                                        'Authorization':
+                                        'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                      },
                                         )
                                         .then(
                                           (value) =>

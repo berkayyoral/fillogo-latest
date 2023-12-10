@@ -171,7 +171,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                               12.h.spaceY,
                               snapshot.hasData
                                   ? snapshot
-                                          .data!.data!.carInformations.isBlank!
+                                          .data!.data!.carInformations == null
                                       ? const UserVehicleInfosWidget(
                                           vehicleType: "",
                                           vehicleBrand: "",
@@ -183,11 +183,11 @@ class _MyProfilViewState extends State<MyProfilView> {
                                               .data!
                                               .carInformations!
                                               .cartypetousercartypes!
-                                              .carType!,
+                                              .carType ?? "",
                                           vehicleBrand: snapshot.data!.data!
-                                              .carInformations!.carBrand!,
+                                              .carInformations!.carBrand ?? "",
                                           vehicleModel: snapshot.data!.data!
-                                              .carInformations!.carModel!,
+                                              .carInformations!.carModel ?? "",
                                         )
                                   : const SizedBox(),
                               SizedBox(
