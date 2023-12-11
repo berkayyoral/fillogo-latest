@@ -45,7 +45,7 @@ class GoogleMapsGeneralWidgetsController extends GetxController {
         CameraUpdate.newCameraPosition(
           CameraPosition(
             bearing: 0,
-            zoom: 18.0,
+            zoom: 15.0,
             target: target,
           ),
         ),

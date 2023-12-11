@@ -8,10 +8,12 @@ import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_control
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
+import 'package:fillogo/services/locationservice.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
 import '../../controllers/map/marker_icon_controller.dart';
 import '../../models/routes_models/create_route_post_models.dart';
@@ -350,17 +352,26 @@ class MapPageView extends GetView<MapPageController> {
                             getMyCurrentLocationController.streamSubscription =
                                 Geolocator.getPositionStream()
                                     .listen((Position position) async {
-                              GoogleMapController googleMapController =
-                                  await mapPageController.mapCotroller3.future;
-
                               if (mapPageController
                                       .iWantTrackerMyLocation.value !=
                                   1) {
+                                LocationData userLocation =
+                                    await LocationService.location
+                                        .getLocation();
+
+                                double userBearing =
+                                    userLocation.heading ?? 0.0;
+                                GoogleMapController googleMapController =
+                                    await mapPageController
+                                        .mapCotroller3.future;
                                 googleMapController.animateCamera(
                                   CameraUpdate.newCameraPosition(
                                     CameraPosition(
+                                      bearing: userBearing,
+
+                                      tilt: 60,
                                       //Zoom ayarı burada
-                                      zoom: 17,
+                                      zoom: 14,
                                       target: LatLng(
                                         position.latitude,
                                         position.longitude,
