@@ -49,8 +49,8 @@ class CreateRouteController extends GetxController {
   var finishLatLong = const LatLng(0.0, 0.0);
 
   //Anlık arkadas konumu bağlandı
-  void addNewMarkersForSearchingRoute(BuildContext context) async{
-  /*  if (searchByCityDatum!.isNotEmpty) {
+  void addNewMarkersForSearchingRoute(BuildContext context) async {
+    /*  if (searchByCityDatum!.isNotEmpty) {
       for (var i = 0; i < searchByCityDatum!.length; i++) {
         addMarkerFunctionForSearchRoutePage(
           searchByCityDatum![i].userId!,

@@ -10,8 +10,8 @@ import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../controllers/map/get_current_location_and_listen.dart';
 import '../../controllers/map/marker_icon_controller.dart';
 import '../../models/routes_models/create_route_post_models.dart';
@@ -55,7 +55,6 @@ class MapPageView extends GetView<MapPageController> {
 
   @override
   Widget build(BuildContext context) {
-
     mapPageController;
     return Scaffold(
       key: mapPageDrawerController.mapPageScaffoldKey,
@@ -184,7 +183,7 @@ class MapPageView extends GetView<MapPageController> {
             (value) async {
               GetMyRouteResponseModel getMyRouteResponseModel =
                   GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-            //Anlık arkadaş konumu bağlandı
+              //Anlık arkadaş konumu bağlandı
               mapPageController.getMyFriendsMatchingRoutes(
                   context,
                   getMyRouteResponseModel
@@ -290,7 +289,7 @@ class MapPageView extends GetView<MapPageController> {
                     getMyCurrentLocationController.myLocationLatitudeDo.value,
                     getMyCurrentLocationController.myLocationLongitudeDo.value,
                   ),
-                  zoom: 14,
+                  zoom: 15,
                 )
               : mapPageController.myAllRoutes!.activeRoutes!.isEmpty
                   ? initialLocation = CameraPosition(
@@ -302,7 +301,7 @@ class MapPageView extends GetView<MapPageController> {
                         getMyCurrentLocationController
                             .myLocationLongitudeDo.value,
                       ),
-                      zoom: 14,
+                      zoom: 15,
                     )
                   : initialLocation = CameraPosition(
                       bearing: 90,
@@ -326,7 +325,7 @@ class MapPageView extends GetView<MapPageController> {
                             0.0))
                     ? const Center(
                         child: CircularProgressIndicator(),
-                      ) //UiHelper.loadingAnimationWidget(context)
+                      )
                     : SizedBox(
                         height: mapPageController.calculateLevel.value == 3
                             ? 340.h
@@ -336,40 +335,52 @@ class MapPageView extends GetView<MapPageController> {
                           markerSet: mapPageController.calculateLevel.value == 1
                               ? Set<Marker>.from(mapPageController.markers)
                               : Set<Marker>.from(mapPageController.markers2),
-                          initialCameraPosition:
-                              getMyCurrentLocationController.initialLocation,
                           myLocationEnabled: true,
-                          myLocationButtonEnabled: true,
+                          myLocationButtonEnabled: false,
                           mapType: MapType.normal,
                           zoomGesturesEnabled: true,
                           zoomControlsEnabled: false,
-                          onCameraMoveStarted: () async {
-                            if (mapPageController
-                                    .iWantTrackerMyLocation.value !=
-                                0) {
-                              mapPageController.iWantTrackerMyLocation.value =
-                                  1;
-                            }
-                            //log("onCameraMoveStarted");
+                          initialCameraPosition:
+                              getMyCurrentLocationController.initialLocation,
+                          mapController2:
+                              (GoogleMapController controller) async {
+                            mapPageController.mapCotroller3
+                                .complete(controller);
+
+                            getMyCurrentLocationController.streamSubscription =
+                                Geolocator.getPositionStream()
+                                    .listen((Position position) async {
+                              GoogleMapController googleMapController =
+                                  await mapPageController.mapCotroller3.future;
+
+                              if (mapPageController
+                                      .iWantTrackerMyLocation.value !=
+                                  1) {
+                                googleMapController.animateCamera(
+                                  CameraUpdate.newCameraPosition(
+                                    CameraPosition(
+                                      //Zoom ayarı burada
+                                      zoom: 17,
+                                      target: LatLng(
+                                        position.latitude,
+                                        position.longitude,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            });
                           },
-                          onCameraMove: (p0) async {
-                            //log("onCameraMove");
-                            //print("CAMERA POSITION:" + p0.toString());
-                            // GoogleMapController googleMapController =
-                            //     await mapPageController.mapCotroller3.future;
-                            // googleMapController.animateCamera(
-                            //   CameraUpdate.newCameraPosition(
-                            //     CameraPosition(
-                            //       zoom: 13.5,
-                            //       target: LatLng(
-                            //         getMyCurrentLocationController
-                            //             .myLocationLatitudeDo.value,
-                            //         getMyCurrentLocationController
-                            //             .myLocationLongitudeDo.value,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // );
+                          onCameraMoveStarted: () async {
+                            mapPageController.iWantTrackerMyLocation.value = 1;
+                          },
+                          onCameraMove: (CameraPosition position) async {
+                            if (mapPageController
+                                    .iWantTrackerMyLocation.value ==
+                                1) {
+                              mapPageController.iWantTrackerMyLocation.value =
+                                  2;
+                            }
                           },
                           polygonsSet: const <Polygon>{},
                           tileOverlaysSet: const <TileOverlay>{},
@@ -379,14 +390,10 @@ class MapPageView extends GetView<MapPageController> {
                                       mapPageController.polylines.values)
                                   : Set<Polyline>.of(
                                       mapPageController.polylines2.values),
-                          mapController2:
-                              (GoogleMapController controller) async {
-                            mapPageController.mapCotroller3
-                                .complete(controller);
-                          },
                         ),
                       ),
               ),
+
               Obx(
                 () => Visibility(
                   visible: mapPageController.selectedDispley.value == 1,
@@ -828,21 +835,21 @@ class MapPageView extends GetView<MapPageController> {
               Obx(
                 () => Visibility(
                   visible: mapPageController.calculateLevel.value == 1 &&
-                      (mapPageController.selectedDispley.value == 0 ||
+                      (mapPageController.selectedDispley.value == 5 ||
                           mapPageController.selectedDispley.value == 2),
                   child: Padding(
-                    padding: mapPageController.selectedDispley.value == 0
-                        ? EdgeInsets.only(right: 16, bottom: 68.h)
-                        : const EdgeInsets.only(right: 10, bottom: 10),
+                    padding: mapPageController.selectedDispley.value == 5
+                        ? EdgeInsets.only(right: 16.w, bottom: 105.h)
+                        : EdgeInsets.only(right: 16.w, bottom: 50.h),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () async {
-                          if (mapPageController.selectedDispley.value == 0) {
+                          if (mapPageController.selectedDispley.value == 5) {
                             mapPageController.selectedDispley.value = 2;
                             //mapPageController.changeSelectedDispley(2);
                           } else {
-                            mapPageController.selectedDispley.value = 0;
+                            mapPageController.selectedDispley.value = 5;
                             //mapPageController.changeSelectedDispley(0);
                           }
                           //mapPageController.selectedDispley.value = 1;
@@ -855,7 +862,7 @@ class MapPageView extends GetView<MapPageController> {
                             color: AppConstants().ltMainRed,
                             shape: BoxShape.circle,
                           ),
-                          child: mapPageController.selectedDispley.value == 0
+                          child: mapPageController.selectedDispley.value == 5
                               ? Padding(
                                   padding: EdgeInsets.all(10.w),
                                   child: SvgPicture.asset(
@@ -878,63 +885,62 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
-              Obx(
-                () => Visibility(
-                  visible: false,
-                  child: Visibility(
-                    visible: mapPageController.calculateLevel.value == 1 &&
-                        (mapPageController.selectedDispley.value == 0 ||
-                            mapPageController.selectedDispley.value == 1),
-                    child: Padding(
-                      padding: mapPageController.selectedDispley.value == 0
-                          ? EdgeInsets.only(right: 16, bottom: 68.h)
-                          : const EdgeInsets.only(right: 10, bottom: 10),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: GestureDetector(
-                          onTap: () async {
-                            if (mapPageController.selectedDispley.value == 0) {
-                              mapPageController.selectedDispley.value = 1;
-                              //mapPageController.changeSelectedDispley(1);
-                            } else {
-                              mapPageController.selectedDispley.value = 0;
-                              //mapPageController.changeSelectedDispley(0);
-                            }
-                            //mapPageController.selectedDispley.value = 1;
-                            mapPageController.changeCalculateLevel(1);
-                          },
-                          child: Container(
-                            height: 50.w,
-                            width: 50.w,
-                            decoration: BoxDecoration(
-                              color: AppConstants().ltMainRed,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(16.w),
-                              child: SvgPicture.asset(
-                                mapPageController.selectedDispley.value == 0
-                                    ? "assets/icons/map-page-list-icon.svg"
-                                    : "assets/icons/map-page-book-icon.svg",
-                                height: 18.w,
-                                color: AppConstants().ltWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Obx(
+              //   () => Visibility(
+              //     visible: false,
+              //     child: Visibility(
+              //       visible: mapPageController.calculateLevel.value == 1 &&
+              //           (mapPageController.selectedDispley.value == 0 ||
+              //               mapPageController.selectedDispley.value == 1),
+              //       child: Padding(
+              //         padding: EdgeInsets.only(right: 16, bottom: 68.h),
+              //         child: Align(
+              //           alignment: Alignment.topRight,
+              //           child: GestureDetector(
+              //             onTap: () async {
+              //               if (mapPageController.selectedDispley.value == 0) {
+              //                 mapPageController.selectedDispley.value = 1;
+              //                 //mapPageController.changeSelectedDispley(1);
+              //               } else {
+              //                 mapPageController.selectedDispley.value = 0;
+              //                 //mapPageController.changeSelectedDispley(0);
+              //               }
+              //               //mapPageController.selectedDispley.value = 1;
+              //               mapPageController.changeCalculateLevel(1);
+              //             },
+              //             child: Container(
+              //               height: 50.w,
+              //               width: 50.w,
+              //               decoration: BoxDecoration(
+              //                 color: AppConstants().ltMainRed,
+              //                 shape: BoxShape.circle,
+              //               ),
+              //               child: Padding(
+              //                 padding: EdgeInsets.all(16.w),
+              //                 child: SvgPicture.asset(
+              //                   mapPageController.selectedDispley.value == 0
+              //                       ? "assets/icons/map-page-list-icon.svg"
+              //                       : "assets/icons/map-page-book-icon.svg",
+              //                   height: 18.w,
+              //                   color: AppConstants().ltWhite,
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
 
               Visibility(
-                visible: false/*(mapPageController.calculateLevel.value == 1) &&
-                    mapPageController.selectedDispley.value == 0*/,
+                visible: (mapPageController.calculateLevel.value == 1) &&
+                    (mapPageController.selectedDispley.value == 0 ||
+                        mapPageController.selectedDispley.value == 5),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16.w, bottom: 68.h),
+                  padding: EdgeInsets.only(right: 20.w, top: 30.h),
                   child: Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.topRight,
                     child: GestureDetector(
                       onTap: () async {
                         await googleMapsGeneralWidgetsController
@@ -968,6 +974,7 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
+
               Obx(() => Visibility(
                   visible: mapPageController.selectedDispley.value == 5,
                   child: Align(
@@ -982,248 +989,267 @@ class MapPageView extends GetView<MapPageController> {
                       padding: const EdgeInsets.all(12),
                       constraints:
                           BoxConstraints(maxHeight: 160.h, minHeight: 100.h),
-                      child: mapPageController.myActivesRoutes!.isNotEmpty ? Column(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Row(
+                      child: mapPageController.myActivesRoutes!.isNotEmpty
+                          ? Column(
                               children: [
-                                Visibility(
-                                  visible: !finishRouteButton.value,
-                                  child: Text(
-                                    mapPageController
-                                            .myActivesRoutes!.isNotEmpty
-                                        ? "${DateFormat('HH:mm').format(DateTime(
-                                            2023,
-                                            1,
-                                            1,
-                                            (mapPageController
-                                                    .myActivesRoutes![0]
-                                                    .arrivalDate!
-                                                    .hour) +
-                                                3,
-                                            mapPageController
-                                                .myActivesRoutes![0]
-                                                .arrivalDate!
-                                                .minute,
-                                          ))} varış"
-                                        : "",
-                                    style: TextStyle(
-                                      color: AppConstants().ltLogoGrey,
-                                      fontFamily: "SfBold",
-                                      fontSize: 28.sp,
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: finishRouteButton.value,
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: mapPageController
-                                                .myActivesRoutes!.isNotEmpty
-                                            ? DateFormat('HH:mm')
-                                                .format(DateTime(
-                                                2023,
-                                                1,
-                                                1,
-                                                (mapPageController
-                                                        .myActivesRoutes![0]
-                                                        .arrivalDate!
-                                                        .hour) +
-                                                    3,
-                                                mapPageController
-                                                    .myActivesRoutes![0]
-                                                    .arrivalDate!
-                                                    .minute,
-                                              ))
-                                            : "",
-                                        style: TextStyle(
-                                          color: AppConstants().ltLogoGrey,
-                                          fontFamily: "SfBold",
-                                          fontSize: 28.sp,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Visibility(
+                                        visible: !finishRouteButton.value,
+                                        child: Text(
+                                          mapPageController
+                                                  .myActivesRoutes!.isNotEmpty
+                                              ? "${DateFormat('HH:mm').format(DateTime(
+                                                  2023,
+                                                  1,
+                                                  1,
+                                                  (mapPageController
+                                                          .myActivesRoutes![0]
+                                                          .arrivalDate!
+                                                          .hour) +
+                                                      3,
+                                                  mapPageController
+                                                      .myActivesRoutes![0]
+                                                      .arrivalDate!
+                                                      .minute,
+                                                ))} varış"
+                                              : "",
+                                          style: TextStyle(
+                                            color: AppConstants().ltLogoGrey,
+                                            fontFamily: "SfBold",
+                                            fontSize: 28.sp,
+                                          ),
                                         ),
                                       ),
-                                      TextSpan(
-                                        text: "\nvarış",
-                                        style: TextStyle(
-                                          color: AppConstants()
-                                              .ltLogoGrey
-                                              .withOpacity(0.6),
-                                          fontFamily: "SfMedium",
-                                          fontSize: 18.sp,
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                ),
-                                18.w.horizontalSpace,
-                                Visibility(
-                                  visible: finishRouteButton.value,
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: mapPageController
-                                                .myActivesRoutes!.isNotEmpty
-                                            ? (mapPageController
-                                                    .myActivesRoutes![0]
-                                                    .arrivalDate!
-                                                    .difference(DateTime.now())
-                                                    .inMinutes)
-                                                .toString()
-                                            : "",
-                                        style: TextStyle(
-                                          color: AppConstants().ltLogoGrey,
-                                          fontFamily: "SfBold",
-                                          fontSize: 28.sp,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "\ndakika",
-                                        style: TextStyle(
-                                          color: AppConstants()
-                                              .ltLogoGrey
-                                              .withOpacity(0.6),
-                                          fontFamily: "SfMedium",
-                                          fontSize: 18.sp,
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                ),
-                                18.w.horizontalSpace,
-                                Visibility(
-                                  visible: finishRouteButton.value,
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: mapPageController
-                                                .myActivesRoutes!.isNotEmpty
-                                            ? mapPageController
-                                                .myActivesRoutes![0].distance
-                                                .toString()
-                                            : "",
-                                        style: TextStyle(
-                                          color: AppConstants().ltLogoGrey,
-                                          fontFamily: "SfBold",
-                                          fontSize: 28.sp,
+                                      Visibility(
+                                        visible: finishRouteButton.value,
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                              text: mapPageController
+                                                      .myActivesRoutes!
+                                                      .isNotEmpty
+                                                  ? DateFormat('HH:mm')
+                                                      .format(DateTime(
+                                                      2023,
+                                                      1,
+                                                      1,
+                                                      (mapPageController
+                                                              .myActivesRoutes![
+                                                                  0]
+                                                              .arrivalDate!
+                                                              .hour) +
+                                                          3,
+                                                      mapPageController
+                                                          .myActivesRoutes![0]
+                                                          .arrivalDate!
+                                                          .minute,
+                                                    ))
+                                                  : "",
+                                              style: TextStyle(
+                                                color:
+                                                    AppConstants().ltLogoGrey,
+                                                fontFamily: "SfBold",
+                                                fontSize: 28.sp,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "\nvarış",
+                                              style: TextStyle(
+                                                color: AppConstants()
+                                                    .ltLogoGrey
+                                                    .withOpacity(0.6),
+                                                fontFamily: "SfMedium",
+                                                fontSize: 18.sp,
+                                              ),
+                                            )
+                                          ]),
                                         ),
                                       ),
-                                      TextSpan(
-                                        text: "\nkm",
-                                        style: TextStyle(
-                                          color: AppConstants()
-                                              .ltLogoGrey
-                                              .withOpacity(0.6),
-                                          fontFamily: "SfMedium",
-                                          fontSize: 18.sp,
+                                      18.w.horizontalSpace,
+                                      Visibility(
+                                        visible: finishRouteButton.value,
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                              text: mapPageController
+                                                      .myActivesRoutes!
+                                                      .isNotEmpty
+                                                  ? (mapPageController
+                                                          .myActivesRoutes![0]
+                                                          .arrivalDate!
+                                                          .difference(
+                                                              DateTime.now())
+                                                          .inMinutes)
+                                                      .toString()
+                                                  : "",
+                                              style: TextStyle(
+                                                color:
+                                                    AppConstants().ltLogoGrey,
+                                                fontFamily: "SfBold",
+                                                fontSize: 28.sp,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "\ndakika",
+                                              style: TextStyle(
+                                                color: AppConstants()
+                                                    .ltLogoGrey
+                                                    .withOpacity(0.6),
+                                                fontFamily: "SfMedium",
+                                                fontSize: 18.sp,
+                                              ),
+                                            )
+                                          ]),
+                                        ),
+                                      ),
+                                      18.w.horizontalSpace,
+                                      Visibility(
+                                        visible: finishRouteButton.value,
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                              text: mapPageController
+                                                      .myActivesRoutes!
+                                                      .isNotEmpty
+                                                  ? mapPageController
+                                                      .myActivesRoutes![0]
+                                                      .distance
+                                                      .toString()
+                                                  : "",
+                                              style: TextStyle(
+                                                color:
+                                                    AppConstants().ltLogoGrey,
+                                                fontFamily: "SfBold",
+                                                fontSize: 28.sp,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "\nkm",
+                                              style: TextStyle(
+                                                color: AppConstants()
+                                                    .ltLogoGrey
+                                                    .withOpacity(0.6),
+                                                fontFamily: "SfMedium",
+                                                fontSize: 18.sp,
+                                              ),
+                                            )
+                                          ]),
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          finishRouteButton.value =
+                                              !finishRouteButton.value;
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 24,
+                                          backgroundColor: AppConstants()
+                                              .ltWhiteGrey
+                                              .withOpacity(1),
+                                          child: Icon(
+                                            finishRouteButton.value == true
+                                                ? Icons.keyboard_arrow_up
+                                                : Icons.keyboard_arrow_down,
+                                            color: AppConstants().ltDarkGrey,
+                                            size: 42,
+                                          ),
                                         ),
                                       )
-                                    ]),
+                                    ],
                                   ),
                                 ),
                                 const Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    finishRouteButton.value =
-                                        !finishRouteButton.value;
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 24,
-                                    backgroundColor: AppConstants()
-                                        .ltWhiteGrey
-                                        .withOpacity(1),
-                                    child: Icon(
-                                      finishRouteButton.value == true
-                                          ? Icons.keyboard_arrow_up
-                                          : Icons.keyboard_arrow_down,
-                                      color: AppConstants().ltDarkGrey,
-                                      size: 42,
+                                Visibility(
+                                  visible: !finishRouteButton.value,
+                                  child: SizedBox(
+                                    width: 348.w,
+                                    height: 50.h,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        GeneralServicesTemp().makePatchRequest(
+                                          EndPoint.activateRoute,
+                                          ActivateRouteRequestModel(
+                                              routeId: mapPageController
+                                                  .myActivesRoutes![0].id),
+                                          {
+                                            "Content-type": "application/json",
+                                            'Authorization':
+                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                          },
+                                        ).then((value) {
+                                          ActivateRouteResponseModel response =
+                                              ActivateRouteResponseModel
+                                                  .fromJson(jsonDecode(value!));
+                                          if (response.success == 1) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "Başarılı rotanız başarıyla bitirilmiştir."),
+                                              ),
+                                            );
+
+                                            print(response.success);
+                                            print(response.message);
+
+                                            finishRouteButton.value = true;
+                                            mapPageController
+                                                .changeCalculateLevel(1);
+                                            mapPageController
+                                                .selectedDispley(0);
+
+                                            mapPageController.markers.clear();
+
+                                            mapPageController
+                                                .polylineCoordinates
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinates2
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinatesListForB
+                                                .clear();
+                                            mapPageController.polylines.clear();
+                                            mapPageController.polylines2
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinatesListForB
+                                                .clear();
+                                          } else {
+                                            print(response.success);
+                                            print(response.message);
+                                          }
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: AppConstants().ltMainRed,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Rotayı Bitir",
+                                        style: TextStyle(
+                                          fontFamily: "SfSemibold",
+                                          fontSize: 20.sp,
+                                          color: AppConstants().ltWhite,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
+                                ),
+                                8.h.verticalSpace
                               ],
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          ),
-                          const Spacer(),
-                          Visibility(
-                            visible: !finishRouteButton.value,
-                            child: SizedBox(
-                              width: 348.w,
-                              height: 50.h,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  GeneralServicesTemp().makePatchRequest(
-                                    EndPoint.activateRoute,
-                                    ActivateRouteRequestModel(
-                                        routeId: mapPageController
-                                            .myActivesRoutes![0].id),
-                                    {
-                                      "Content-type": "application/json",
-                                      'Authorization':
-                                          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                    },
-                                  ).then((value) {
-                                    ActivateRouteResponseModel response =
-                                        ActivateRouteResponseModel.fromJson(
-                                            jsonDecode(value!));
-                                    if (response.success == 1) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              "Başarılı rotanız başarıyla bitirilmiştir."),
-                                        ),
-                                      );
-
-                                      print(response.success);
-                                      print(response.message);
-
-                                      finishRouteButton.value = true;
-                                      mapPageController.changeCalculateLevel(1);
-                                      mapPageController.selectedDispley(0);
-
-                                      mapPageController.markers.clear();
-
-                                      mapPageController.polylineCoordinates
-                                          .clear();
-                                      mapPageController.polylineCoordinates2
-                                          .clear();
-                                      mapPageController
-                                          .polylineCoordinatesListForB
-                                          .clear();
-                                      mapPageController.polylines.clear();
-                                      mapPageController.polylines2.clear();
-                                      mapPageController
-                                          .polylineCoordinatesListForB
-                                          .clear();
-                                    } else {
-                                      print(response.success);
-                                      print(response.message);
-                                    }
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: AppConstants().ltMainRed,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                ),
-                                child: Text(
-                                  "Rotayı Bitir",
-                                  style: TextStyle(
-                                    fontFamily: "SfSemibold",
-                                    fontSize: 20.sp,
-                                    color: AppConstants().ltWhite,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          8.h.verticalSpace
-                        ],
-                      ) : Center(child: CircularProgressIndicator(),),
                     ),
                   )))
             ],
@@ -1253,8 +1279,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     if (calculateLevel == 1) {
       return _calculateLevelOne();
     } else if (calculateLevel == 2) {
@@ -1676,7 +1700,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
     ScrollController scrollController = ScrollController();
     DateTime dateTimeFormatLast;
     VehicleInfoController vehicleInfoController = Get.find();
-
 
     return Align(
       alignment: Alignment.bottomCenter,
@@ -2546,9 +2569,15 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                       log(response.message.toString());
                                       log(response.success.toString());
                                       if (response.success == 1) {
-                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
-                                        createPostPageController.routeId.value = response.data![0].id!;
-                                        log("ROUTEIDD: " + createPostPageController.routeId.value.toString());
+                                        CreatePostPageController
+                                            createPostPageController =
+                                            Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value =
+                                            response.data![0].id!;
+                                        log("ROUTEIDD: " +
+                                            createPostPageController
+                                                .routeId.value
+                                                .toString());
                                         createRouteController
                                             .mapPageRouteControllerClear();
                                         // createRouteController.cikisController.clear();
@@ -2575,37 +2604,38 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         //               .toString()
                                         //               .substring(0, 11)),
                                         // );
-                                        if (DateTime.now().day.toString() == DateTime.parse(createRouteController
-                                        .cikisController.text).day.toString()) {
-                                          if (DateTime.now().minute + 5 == DateTime.parse(createRouteController
-                                              .cikisController.text).minute ||
+                                        if (DateTime.now().day.toString() ==
+                                            DateTime.parse(createRouteController
+                                                    .cikisController.text)
+                                                .day
+                                                .toString()) {
+                                          if (DateTime.now().minute + 5 == DateTime.parse(createRouteController.cikisController.text).minute ||
                                               DateTime.now().minute + 4 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(createRouteController.cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 3 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(createRouteController.cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 2 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(createRouteController.cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute + 1 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(createRouteController.cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute - 1 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(createRouteController.cikisController.text)
                                                       .minute ||
                                               DateTime.now().minute - 2 ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(
+                                                          createRouteController
+                                                              .cikisController
+                                                              .text)
                                                       .minute ||
                                               DateTime.now().minute ==
-                                                  DateTime.parse(createRouteController
-                                                      .cikisController.text)
+                                                  DateTime.parse(
+                                                          createRouteController
+                                                              .cikisController
+                                                              .text)
                                                       .minute) {
                                             showDialog(
                                               context: context,
@@ -2680,7 +2710,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                               },
                                                             ).then((value) async {
-                                                              sleep(Duration(seconds: 1));
+                                                              sleep(Duration(
+                                                                  seconds: 1));
                                                               ActivateRouteResponseModel
                                                                   response =
                                                                   ActivateRouteResponseModel
@@ -2692,9 +2723,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                       .success ==
                                                                   1) {
                                                                 MapPageController
-                                                                mapPageController =
-                                                                Get.put(
-                                                                    MapPageController());
+                                                                    mapPageController =
+                                                                    Get.put(
+                                                                        MapPageController());
                                                                 SetCustomMarkerIconController
                                                                     setCustomMarkerIconController =
                                                                     Get.put(
@@ -2870,9 +2901,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                   );
                                                                 });
                                                                 bottomNavigationBarController
-                                                                    .selectedIndex.value = 1;
+                                                                    .selectedIndex
+                                                                    .value = 1;
                                                                 Get.back();
-
                                                               } else {
                                                                 Get.back(
                                                                     closeOverlays:
@@ -2937,7 +2968,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .toString()
                                                                           .substring(
                                                                               0,
-                                                                              11), 0);
+                                                                              11),
+                                                                      0);
                                                                 });
                                                           },
                                                           iconPath: '',
@@ -2955,8 +2987,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                           }
                                         }
                                       } else if (response.success == -1) {
-                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
-                                        createPostPageController.routeId.value = response.data![0].id!;
+                                        CreatePostPageController
+                                            createPostPageController =
+                                            Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value =
+                                            response.data![0].id!;
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
@@ -2965,8 +3000,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   response.data![0].id!),
                                         );
                                       } else {
-                                        CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
-                                        createPostPageController.routeId.value = response.data![0].id!;
+                                        CreatePostPageController
+                                            createPostPageController =
+                                            Get.put(CreatePostPageController());
+                                        createPostPageController.routeId.value =
+                                            response.data![0].id!;
                                         UiHelper.showWarningSnackBar(context,
                                             'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
                                         Get.back();
@@ -3078,7 +3116,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                   bottomNavigationBarController.selectedIndex.value = 1;
                   Get.back();
                   Get.back();
-                  Get.toNamed(NavigationConstants.createPostPage, arguments: routeId);
+                  Get.toNamed(NavigationConstants.createPostPage,
+                      arguments: routeId);
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,
@@ -3188,458 +3227,434 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                       log("AAAAAAAAAAAAAA");
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) =>
-                            AlertDialog(
-                              title: const Text("UYARI!"),
-                              content: Column(
-                                mainAxisSize:
-                                MainAxisSize.min,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Görünüşe göre anlık bir rota oluşturdunuz.",
-                                        style: TextStyle(
-                                          fontFamily:
-                                          'Sfregular',
-                                          fontSize: 16.sp,
-                                          color:
-                                          AppConstants()
-                                              .ltDarkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text("UYARI!"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Column(
+                                children: [
                                   Text(
-                                    "Rotayı başlatmak ister misiniz?",
+                                    "Görünüşe göre anlık bir rota oluşturdunuz.",
                                     style: TextStyle(
                                       fontFamily: 'Sfregular',
-                                      fontSize: 14.sp,
-                                      color: AppConstants()
-                                          .ltLogoGrey,
+                                      fontSize: 16.sp,
+                                      color: AppConstants().ltDarkGrey,
                                     ),
                                   ),
                                 ],
                               ),
-                              actions: <Widget>[
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                      EdgeInsets.only(
-                                          bottom: 12.w,
-                                          right: 12.w,
-                                          left: 12.w),
-                                      child:
-                                      CustomButtonDesign(
-                                        text: 'Rotayı Başlat',
-                                        textColor:
-                                        AppConstants()
-                                            .ltWhite,
-                                        onpressed: () {
-                                          MapPageController
-                                          mapPageController =
-                                          Get.find(
-                                          );
-                                          SetCustomMarkerIconController
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                "Rotayı başlatmak ister misiniz?",
+                                style: TextStyle(
+                                  fontFamily: 'Sfregular',
+                                  fontSize: 14.sp,
+                                  color: AppConstants().ltLogoGrey,
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: <Widget>[
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 12.w, right: 12.w, left: 12.w),
+                                  child: CustomButtonDesign(
+                                    text: 'Rotayı Başlat',
+                                    textColor: AppConstants().ltWhite,
+                                    onpressed: () {
+                                      MapPageController mapPageController =
+                                          Get.find();
+                                      SetCustomMarkerIconController
                                           setCustomMarkerIconController =
                                           Get.put(
                                               SetCustomMarkerIconController());
-                                          GeneralServicesTemp()
-                                              .makePatchRequest(
-                                            EndPoint
-                                                .activateRoute,
-                                            ActivateRouteRequestModel(
-                                                routeId:
-                                                mapPageController .myAllRoutes!.activeRoutes![0].id ),
+                                      GeneralServicesTemp().makePatchRequest(
+                                        EndPoint.activateRoute,
+                                        ActivateRouteRequestModel(
+                                            routeId: mapPageController
+                                                .myAllRoutes!
+                                                .activeRoutes![0]
+                                                .id),
+                                        {
+                                          "Content-type": "application/json",
+                                          'Authorization':
+                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                        },
+                                      ).then((value) async {
+                                        ActivateRouteResponseModel response =
+                                            ActivateRouteResponseModel.fromJson(
+                                                jsonDecode(value!));
+                                        sleep(Duration(seconds: 1));
+                                        if (response.success == 1) {
+                                          Get.back();
+
+                                          mapPageController
+                                              .addMarkerFunctionForMapPageWithoutOnTap(
+                                            MarkerId(
+                                                "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                            LatLng(
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![0]
+                                                    .startingCoordinates![0],
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![0]
+                                                    .startingCoordinates![1]),
+                                            "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
+                                            BitmapDescriptor.fromBytes(
+                                                setCustomMarkerIconController
+                                                    .myRouteStartIcon!),
+                                          );
+
+                                          // mapPageController.getMyRoutesServicesRequestRefreshable();
+
+                                          await GeneralServicesTemp()
+                                              .makeGetRequest(
+                                            EndPoint.getMyRoutes,
                                             {
                                               "Content-type":
-                                              "application/json",
+                                                  "application/json",
                                               'Authorization':
-                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                             },
                                           ).then((value) async {
-                                            ActivateRouteResponseModel
-                                            response =
-                                            ActivateRouteResponseModel
-                                                .fromJson(
-                                                jsonDecode(
-                                                    value!));
-                                            sleep(Duration(seconds: 1));
-                                            if (response
-                                                .success ==
-                                                1) {
-                                              Get.back();
-
-                                              mapPageController.addMarkerFunctionForMapPageWithoutOnTap(
-                                                MarkerId(
-                                                    "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
-                                                LatLng(
-                                                    mapPageController
-                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![0],
-                                                    mapPageController
-                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![1]),
-                                                "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                                BitmapDescriptor.fromBytes(
-                                                    setCustomMarkerIconController.myRouteStartIcon!),
-                                              );
-
-                                              // mapPageController.getMyRoutesServicesRequestRefreshable();
-
-                                              await GeneralServicesTemp()
-                                                  .makeGetRequest(
-                                                EndPoint
-                                                    .getMyRoutes,
-                                                {
-                                                  "Content-type":
-                                                  "application/json",
-                                                  'Authorization':
-                                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                                },
-                                              ).then((value) async {
-                                                GetMyRouteResponseModel
+                                            GetMyRouteResponseModel
                                                 getMyRouteResponseModel =
-                                                GetMyRouteResponseModel.fromJson(convert
-                                                    .json
-                                                    .decode(
-                                                    value!));
-                                                mapPageController
-                                                    .myAllRoutes =
+                                                GetMyRouteResponseModel
+                                                    .fromJson(convert.json
+                                                        .decode(value!));
+                                            mapPageController.myAllRoutes =
                                                 getMyRouteResponseModel
-                                                    .data![
-                                                0]
-                                                    .allRoutes!;
-                                                GoogleMapController
+                                                    .data![0].allRoutes!;
+                                            GoogleMapController
                                                 googleMapController =
                                                 await mapPageController
-                                                    .mapCotroller3
-                                                    .future;
-                                                googleMapController
-                                                    .animateCamera(
-                                                  CameraUpdate
-                                                      .newCameraPosition(
-                                                    CameraPosition(
-                                                      bearing:
-                                                      90,
-                                                      target:
-                                                      LatLng(
-                                                        getMyCurrentLocationController
-                                                            .myLocationLatitudeDo
-                                                            .value,
-                                                        getMyCurrentLocationController
-                                                            .myLocationLongitudeDo
-                                                            .value,
-                                                      ),
-                                                      zoom:
-                                                      10,
-                                                    ),
+                                                    .mapCotroller3.future;
+                                            googleMapController.animateCamera(
+                                              CameraUpdate.newCameraPosition(
+                                                CameraPosition(
+                                                  bearing: 90,
+                                                  target: LatLng(
+                                                    getMyCurrentLocationController
+                                                        .myLocationLatitudeDo
+                                                        .value,
+                                                    getMyCurrentLocationController
+                                                        .myLocationLongitudeDo
+                                                        .value,
                                                   ),
-                                                );
+                                                  zoom: 10,
+                                                ),
+                                              ),
+                                            );
+                                            mapPageController
+                                                .selectedDispley(5);
+                                            mapPageController.myActivesRoutes =
                                                 mapPageController
-                                                    .selectedDispley(
-                                                    5);
+                                                    .myAllRoutes!.activeRoutes;
+                                            mapPageController.myPastsRoutes =
                                                 mapPageController
-                                                    .myActivesRoutes =
-                                                    mapPageController
-                                                        .myAllRoutes!
-                                                        .activeRoutes;
-                                                mapPageController
-                                                    .myPastsRoutes =
-                                                    mapPageController
-                                                        .myAllRoutes!
-                                                        .pastRoutes;
-                                                mapPageController
+                                                    .myAllRoutes!.pastRoutes;
+                                            mapPageController
                                                     .mynotStartedRoutes =
-                                                    mapPageController
-                                                        .myAllRoutes!
-                                                        .notStartedRoutes;
+                                                mapPageController.myAllRoutes!
+                                                    .notStartedRoutes;
 
-                                                mapPageController
+                                            mapPageController
                                                     .mapPageRouteStartLatitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
-                                                    .activeRoutes![
-                                                0]
+                                                    .activeRoutes![0]
                                                     .startingCoordinates![0];
-                                                mapPageController
+                                            mapPageController
                                                     .mapPageRouteStartLongitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
-                                                    .activeRoutes![
-                                                0]
+                                                    .activeRoutes![0]
                                                     .startingCoordinates![1];
-                                                mapPageController.startLatLong = LatLng(
-                                                    mapPageController
-                                                        .myAllRoutes!.activeRoutes![0].startingCoordinates![
-                                                    0],
-                                                    mapPageController
-                                                        .myAllRoutes!
-                                                        .activeRoutes![
-                                                    0]
-                                                        .startingCoordinates![1]);
-
+                                            mapPageController.startLatLong = LatLng(
                                                 mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![0]
+                                                    .startingCoordinates![0],
+                                                mapPageController
+                                                    .myAllRoutes!
+                                                    .activeRoutes![0]
+                                                    .startingCoordinates![1]);
+
+                                            mapPageController
                                                     .mapPageRouteFinishLatitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
-                                                    .activeRoutes![
-                                                0]
+                                                    .activeRoutes![0]
                                                     .endingCoordinates![0];
-                                                mapPageController
+                                            mapPageController
                                                     .mapPageRouteFinishLongitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
-                                                    .activeRoutes![
-                                                0]
+                                                    .activeRoutes![0]
                                                     .endingCoordinates![1];
-                                                mapPageController.finishLatLong = LatLng(
-                                                    mapPageController
-                                                        .myAllRoutes!.activeRoutes![0].endingCoordinates![
-                                                    0],
+                                            mapPageController.finishLatLong =
+                                                LatLng(
                                                     mapPageController
                                                         .myAllRoutes!
-                                                        .activeRoutes![
-                                                    0]
+                                                        .activeRoutes![0]
+                                                        .endingCoordinates![0],
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes![0]
                                                         .endingCoordinates![1]);
-                                                mapPageController
+                                            mapPageController
                                                     .generalPolylineEncode
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
-                                                    .activeRoutes![
-                                                0]
+                                                    .activeRoutes![0]
                                                     .polylineEncode!;
 
-                                                mapPageController.addPointIntoPolylineList(
+                                            mapPageController
+                                                .addPointIntoPolylineList(
                                                     mapPageController
                                                         .generalPolylineEncode
                                                         .value);
-                                                mapPageController
-                                                    .addMarkerFunctionForMapPageWithoutOnTap(
-                                                  MarkerId(
-                                                      "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
-                                                  LatLng(
-                                                      mapPageController.myAllRoutes!.activeRoutes![0].startingCoordinates![
-                                                      0],
-                                                      mapPageController
-                                                          .myAllRoutes!
-                                                          .activeRoutes![0]
-                                                          .startingCoordinates![1]),
-                                                  "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                                  BitmapDescriptor.fromBytes(
-                                                      setCustomMarkerIconController
-                                                          .myRouteStartIcon!),
-                                                );
-                                                mapPageController
-                                                    .addMarkerFunctionForMapPageWithoutOnTap(
-                                                  MarkerId(
-                                                      "myRouteFinishMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
-                                                  LatLng(
-                                                      mapPageController.myAllRoutes!.activeRoutes![0].endingCoordinates![
-                                                      0],
-                                                      mapPageController
-                                                          .myAllRoutes!
-                                                          .activeRoutes![0]
-                                                          .endingCoordinates![1]),
-                                                  "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
-                                                  BitmapDescriptor.fromBytes(
-                                                      setCustomMarkerIconController
-                                                          .myRouteFinishIcon!),
-                                                );
-                                              });
-                                            } else {
-                                              Get.back(
-                                                  closeOverlays:
-                                                  true);
-                                              Get.snackbar(
-                                                  "Hata!",
-                                                  "${response.message}",
-                                                  snackPosition:
-                                                  SnackPosition
-                                                      .BOTTOM,
-                                                  colorText:
-                                                  AppConstants()
-                                                      .ltBlack);
-                                            }
-                                            await GeneralServicesTemp().makePostRequest(
-                                              EndPoint.routesNew,
-                                              PostCreateRouteRequestModel(
-                                                departureDate:
-                                                createRouteController.cikisController.text,
-                                                arrivalDate:
-                                                createRouteController.varisController.text,
-                                                // departureDate: createRouteController
-                                                //     .cikisController.text
-                                                //     .split('/')
-                                                //     .reversed
-                                                //     .join('-'),
-                                                // arrivalDate: createRouteController
-                                                //     .varisController.text
-                                                //     .split('/')
-                                                //     .reversed
-                                                //     .join('-'),
-                                                routeDescription: createRouteController
-                                                    .aciklamaController.text ==
-                                                    ""
-                                                    ? "${createRouteController.cikisController.text} tarihinde ${createRouteController.startCity.value} şehrinden başlayan yolculuk ${createRouteController.varisController.text} tarihinde ${createRouteController.finishCity.value} şehrinde son bulacak."
-                                                    : createRouteController.aciklamaController.text,
-                                                vehicleCapacity: 100,
-                                                startingCoordinates: [
-                                                  createRouteController
-                                                      .mapPageRouteStartLatitude2.value,
-                                                  createRouteController
-                                                      .mapPageRouteStartLongitude2.value
-                                                ],
-                                                startingOpenAdress: createRouteController
-                                                    .mapPageRouteStartAddress2.value,
-                                                startingCity: createRouteController.startCity.value,
-                                                endingCoordinates: [
-                                                  createRouteController
-                                                      .mapPageRouteFinishLatitude2.value,
-                                                  createRouteController
-                                                      .mapPageRouteFinishLongitude2.value
-                                                ],
-                                                endingOpenAdress: createRouteController
-                                                    .mapPageRouteFinishAddress2.value,
-                                                endingCity: createRouteController.finishCity.value,
-                                                distance:
-                                                createRouteController.calculatedRouteDistanceInt,
-                                                travelTime:
-                                                createRouteController.calculatedRouteTimeInt,
-                                                polylineEncode: createRouteController
-                                                    .generalPolylineEncode2.value,
-                                              ),
-                                              {
-                                                "Content-type": "application/json",
-                                                'Authorization':
-                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                              },
-                                            ).then(
-                                                  (value) async {
-                                                if (value != null) {
-                                                  log(value);
-                                                  final response =
-                                                  PostCreateRouteResponseModel.fromJson(
-                                                      jsonDecode(value));
-                                                  log(response.message.toString());
-                                                  log(response.success.toString());
-                                                  if (response.success == 1) {
-                                                    CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
-                                                    createPostPageController.routeId.value = response.data![0].id!;
-                                                    createRouteController
-                                                        .mapPageRouteControllerClear();
-                                                    Get.back();
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) =>
-                                                          showNewAllertDialog(
-                                                              context,
-                                                              "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
-                                                              "Furkan Semiz",
-                                                              response.data![0].departureDate!
-                                                                  .toString()
-                                                                  .substring(0, 11),
-                                                              response.data![0].arrivalDate!
-                                                                  .toString()
-                                                                  .substring(0, 11), response.data![0].id!),
-                                                    );
-                                                  } else if (response.success == -1) {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) =>
-                                                          showSelectDeleteOrShareDialog(
-                                                              context, response.data![0].id!),
-                                                    );
-                                                  } else {
-                                                    UiHelper.showWarningSnackBar(context,
-                                                        'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
-                                                    Get.back();
-                                                  }
-                                                }
-                                              },
+                                            mapPageController
+                                                .addMarkerFunctionForMapPageWithoutOnTap(
+                                              MarkerId(
+                                                  "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                              LatLng(
+                                                  mapPageController
+                                                      .myAllRoutes!
+                                                      .activeRoutes![0]
+                                                      .startingCoordinates![0],
+                                                  mapPageController
+                                                      .myAllRoutes!
+                                                      .activeRoutes![0]
+                                                      .startingCoordinates![1]),
+                                              "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
+                                              BitmapDescriptor.fromBytes(
+                                                  setCustomMarkerIconController
+                                                      .myRouteStartIcon!),
                                             );
-                                            Get.snackbar("Başarılı!", "Rota başarıyla silindi.",
-                                                snackPosition: SnackPosition.BOTTOM,
-                                                colorText: AppConstants().ltBlack);
-                                          }
-                                          );
-                                          Get.back();
-                                          Get.back();
-                                        },
-                                        iconPath: '',
-                                        color: AppConstants()
-                                            .ltMainRed,
-                                        height: 50.h,
-                                        width: 341.w,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                      EdgeInsets.only(
-                                          bottom: 12.w,
-                                          right: 12.w,
-                                          left: 12.w),
-                                      child:
-                                      CustomButtonDesign(
-                                        text:
-                                        'Rotayı Başlatma',
-                                        textColor:
-                                        AppConstants()
-                                            .ltWhite,
-                                        onpressed: () async {
-                                          await showDialog(
-                                              context:
-                                              context,
-                                              builder:
-                                                  (BuildContext
-                                              context2) {
-                                                return showNewAllertDialog(
+                                            mapPageController
+                                                .addMarkerFunctionForMapPageWithoutOnTap(
+                                              MarkerId(
+                                                  "myRouteFinishMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
+                                              LatLng(
+                                                  mapPageController
+                                                      .myAllRoutes!
+                                                      .activeRoutes![0]
+                                                      .endingCoordinates![0],
+                                                  mapPageController
+                                                      .myAllRoutes!
+                                                      .activeRoutes![0]
+                                                      .endingCoordinates![1]),
+                                              "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
+                                              BitmapDescriptor.fromBytes(
+                                                  setCustomMarkerIconController
+                                                      .myRouteFinishIcon!),
+                                            );
+                                          });
+                                        } else {
+                                          Get.back(closeOverlays: true);
+                                          Get.snackbar(
+                                              "Hata!", "${response.message}",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              colorText:
+                                                  AppConstants().ltBlack);
+                                        }
+                                        await GeneralServicesTemp()
+                                            .makePostRequest(
+                                          EndPoint.routesNew,
+                                          PostCreateRouteRequestModel(
+                                            departureDate: createRouteController
+                                                .cikisController.text,
+                                            arrivalDate: createRouteController
+                                                .varisController.text,
+                                            // departureDate: createRouteController
+                                            //     .cikisController.text
+                                            //     .split('/')
+                                            //     .reversed
+                                            //     .join('-'),
+                                            // arrivalDate: createRouteController
+                                            //     .varisController.text
+                                            //     .split('/')
+                                            //     .reversed
+                                            //     .join('-'),
+                                            routeDescription: createRouteController
+                                                        .aciklamaController
+                                                        .text ==
+                                                    ""
+                                                ? "${createRouteController.cikisController.text} tarihinde ${createRouteController.startCity.value} şehrinden başlayan yolculuk ${createRouteController.varisController.text} tarihinde ${createRouteController.finishCity.value} şehrinde son bulacak."
+                                                : createRouteController
+                                                    .aciklamaController.text,
+                                            vehicleCapacity: 100,
+                                            startingCoordinates: [
+                                              createRouteController
+                                                  .mapPageRouteStartLatitude2
+                                                  .value,
+                                              createRouteController
+                                                  .mapPageRouteStartLongitude2
+                                                  .value
+                                            ],
+                                            startingOpenAdress:
+                                                createRouteController
+                                                    .mapPageRouteStartAddress2
+                                                    .value,
+                                            startingCity: createRouteController
+                                                .startCity.value,
+                                            endingCoordinates: [
+                                              createRouteController
+                                                  .mapPageRouteFinishLatitude2
+                                                  .value,
+                                              createRouteController
+                                                  .mapPageRouteFinishLongitude2
+                                                  .value
+                                            ],
+                                            endingOpenAdress:
+                                                createRouteController
+                                                    .mapPageRouteFinishAddress2
+                                                    .value,
+                                            endingCity: createRouteController
+                                                .finishCity.value,
+                                            distance: createRouteController
+                                                .calculatedRouteDistanceInt,
+                                            travelTime: createRouteController
+                                                .calculatedRouteTimeInt,
+                                            polylineEncode:
+                                                createRouteController
+                                                    .generalPolylineEncode2
+                                                    .value,
+                                          ),
+                                          {
+                                            "Content-type": "application/json",
+                                            'Authorization':
+                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                          },
+                                        ).then(
+                                          (value) async {
+                                            if (value != null) {
+                                              log(value);
+                                              final response =
+                                                  PostCreateRouteResponseModel
+                                                      .fromJson(
+                                                          jsonDecode(value));
+                                              log(response.message.toString());
+                                              log(response.success.toString());
+                                              if (response.success == 1) {
+                                                CreatePostPageController
+                                                    createPostPageController =
+                                                    Get.put(
+                                                        CreatePostPageController());
+                                                createPostPageController
+                                                        .routeId.value =
+                                                    response.data![0].id!;
+                                                createRouteController
+                                                    .mapPageRouteControllerClear();
+                                                Get.back();
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      showNewAllertDialog(
+                                                          context,
+                                                          "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
+                                                          "Furkan Semiz",
+                                                          response.data![0]
+                                                              .departureDate!
+                                                              .toString()
+                                                              .substring(0, 11),
+                                                          response.data![0]
+                                                              .arrivalDate!
+                                                              .toString()
+                                                              .substring(0, 11),
+                                                          response
+                                                              .data![0].id!),
+                                                );
+                                              } else if (response.success ==
+                                                  -1) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      showSelectDeleteOrShareDialog(
+                                                          context,
+                                                          response
+                                                              .data![0].id!),
+                                                );
+                                              } else {
+                                                UiHelper.showWarningSnackBar(
                                                     context,
-                                                    "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
-                                                    (LocaleManager
-                                                        .instance
-                                                        .getString(PreferencesKeys
+                                                    'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
+                                                Get.back();
+                                              }
+                                            }
+                                          },
+                                        );
+                                        Get.snackbar("Başarılı!",
+                                            "Rota başarıyla silindi.",
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            colorText: AppConstants().ltBlack);
+                                      });
+                                      Get.back();
+                                      Get.back();
+                                    },
+                                    iconPath: '',
+                                    color: AppConstants().ltMainRed,
+                                    height: 50.h,
+                                    width: 341.w,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 12.w, right: 12.w, left: 12.w),
+                                  child: CustomButtonDesign(
+                                    text: 'Rotayı Başlatma',
+                                    textColor: AppConstants().ltWhite,
+                                    onpressed: () async {
+                                      await showDialog(
+                                          context: context,
+                                          builder: (BuildContext context2) {
+                                            return showNewAllertDialog(
+                                                context,
+                                                "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
+                                                (LocaleManager.instance
+                                                    .getString(PreferencesKeys
                                                         .currentUserUserName)),
-                                                    createRouteController
-                                                        .dateTimeFormatCikis
-                                                        .value
-                                                        .toString()
-                                                        .substring(
-                                                        0,
-                                                        11),
-                                                    createRouteController
-                                                        .dateTimeFormatVaris
-                                                        .value
-                                                        .toString()
-                                                        .substring(
-                                                        0,
-                                                        11), 0);
-                                              });
-
-                                        },
-                                        iconPath: '',
-                                        color: AppConstants()
-                                            .ltDarkGrey,
-                                        height: 50.h,
-                                        width: 341.w,
-                                      ),
-                                    ),
-                                  ],
+                                                createRouteController
+                                                    .dateTimeFormatCikis.value
+                                                    .toString()
+                                                    .substring(0, 11),
+                                                createRouteController
+                                                    .dateTimeFormatVaris.value
+                                                    .toString()
+                                                    .substring(0, 11),
+                                                0);
+                                          });
+                                    },
+                                    iconPath: '',
+                                    color: AppConstants().ltDarkGrey,
+                                    height: 50.h,
+                                    width: 341.w,
+                                  ),
                                 ),
                               ],
                             ),
+                          ],
+                        ),
                       );
-
-                  }});
+                    }
+                  });
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,
@@ -3670,8 +3685,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Widget _placesAutoComplateTextFieldFinish(BuildContext context) {
-    createRouteController.cikisController.text = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
-    createRouteController.varisController.text = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now().add(Duration(minutes: createRouteController.calculatedRouteTimeInt)));
+    createRouteController.cikisController.text =
+        DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+    createRouteController.varisController.text = DateFormat('yyyy-MM-dd HH:mm')
+        .format(DateTime.now().add(
+            Duration(minutes: createRouteController.calculatedRouteTimeInt)));
 
     return GestureDetector(
       onTap: () async {
@@ -3910,7 +3928,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Future _displayPredictionFinishLocation(Prediction placeInfo) async {
-
     PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 

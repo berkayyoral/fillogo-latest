@@ -17,6 +17,7 @@ class GeneralMapViewClass extends StatelessWidget {
       this.onCameraMoveStarted,
       this.onCameraMove,
       this.polygonsSet,
+      this.oncameraIdle,
       this.tileOverlaysSet,
       this.mapController2});
 
@@ -31,6 +32,7 @@ class GeneralMapViewClass extends StatelessWidget {
   GoogleMapController? mapController;
   Function(GoogleMapController)? mapController2;
   Function()? onCameraMoveStarted;
+  Function()? oncameraIdle;
   Function(CameraPosition)? onCameraMove;
   Set<Polygon>? polygonsSet;
   Set<TileOverlay>? tileOverlaysSet;
@@ -45,6 +47,7 @@ class GeneralMapViewClass extends StatelessWidget {
       tileOverlays: tileOverlaysSet!,
       onCameraMoveStarted: onCameraMoveStarted,
       onCameraMove: onCameraMove,
+      onCameraIdle: oncameraIdle,
       initialCameraPosition: initialCameraPosition!,
       myLocationEnabled: myLocationEnabled!,
       myLocationButtonEnabled: myLocationButtonEnabled!,

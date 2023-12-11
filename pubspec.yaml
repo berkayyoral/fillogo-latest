@@ -25,7 +25,7 @@ dependencies:
   story_view: ^0.13.2
   flutter_switch: ^0.3.2
   google_maps_flutter: ^2.2.8
-  location: ^4.4.0
+  location: ^5.0.3
   flutter_polyline_points: ^1.0.0
   pinput: ^2.2.12
   geolocator: ^9.0.1
@@ -67,6 +67,7 @@ dependencies:
   video_compress: ^3.1.2
   infinite_scroll_pagination: ^3.2.0
   image_to_byte: ^1.0.0
+  flutter_compass: ^0.8.0
   
 dev_dependencies:
   flutter_test:

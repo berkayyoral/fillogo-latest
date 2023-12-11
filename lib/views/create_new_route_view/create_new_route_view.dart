@@ -25,7 +25,7 @@ TextEditingController _controller2 = TextEditingController();
 TextEditingController _controller3 = TextEditingController();
 //RouteCalculatesViewController currentLocation = Get.find();
 GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+    Get.find<GetMyCurrentLocationController>();
 
 SetCustomMarkerIconController customMarkerIconController = Get.find();
 
@@ -63,8 +63,8 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
   }
 
   CameraPosition initialLocation = CameraPosition(
-    target:
-        LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value, getMyCurrentLocationController.myLocationLongitudeDo.value),
+    target: LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value,
+        getMyCurrentLocationController.myLocationLongitudeDo.value),
     zoom: 15.0,
   );
   late GoogleMapController mapController;
@@ -83,8 +83,6 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
   List<LatLng> polylineCoordinates = [];
 
   bool onTapThreePointButton = false;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +274,6 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
@@ -381,7 +378,6 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       return Theme(
                         data: ThemeData.light().copyWith(
                           primaryColor: AppConstants().ltMainRed,
-
                           colorScheme: ColorScheme.light(
                             primary: AppConstants().ltMainRed,
                             secondary: AppConstants().ltLogoGrey,
@@ -677,7 +673,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                 getMyCurrentLocationController.myLocationLatitudeDo.value,
                 getMyCurrentLocationController.myLocationLongitudeDo.value,
               ),
-              zoom: 20,
+              zoom: 15,
             ),
           ),
         );
@@ -815,7 +811,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
       // between small segments
       for (int i = 0; i < polylineCoordinates.length - 1; i++) {
         //print("AAAAAAAAA polylineCoordinates.length " +
-            //polylineCoordinates.length.toString());
+        //polylineCoordinates.length.toString());
         totalDistance += _coordinateDistance(
           polylineCoordinates[i].latitude,
           polylineCoordinates[i].longitude,

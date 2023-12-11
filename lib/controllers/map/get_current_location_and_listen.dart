@@ -70,7 +70,7 @@ class GetMyCurrentLocationController extends GetxController {
           position.latitude,
           position.longitude,
         ),
-        zoom: 14,
+        zoom: 15,
       );
     });
     update();

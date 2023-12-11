@@ -231,7 +231,7 @@ class CreatePostPageView extends StatelessWidget {
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
                             createPostPageController.haveRoute.value == 0) {
-                        }  else {
+                        } else {
                           Map<String, dynamic> map = <String, dynamic>{};
                           createPostPageController.isSelectedEmotion.value
                               ? map['emotionID[0]'] = createPostPageController
@@ -247,7 +247,9 @@ class CreatePostPageView extends StatelessWidget {
                           }
                           print(createPostPageController.routeId.value);
                           map['postDescription'] =
-                              discriptionTextController.text.isEmpty ? "Yeni bir rotaya çıktım" : discriptionTextController.text;
+                              discriptionTextController.text.isEmpty
+                                  ? "Yeni bir rotaya çıktım"
+                                  : discriptionTextController.text;
                           map['postRouteID'] =
                               createPostPageController.routeId.value;
                           mediaPickerController.media != null
@@ -528,7 +530,7 @@ class CreatePostPageView extends StatelessWidget {
                   googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                        zoom: 13.5,
+                        zoom: 15,
                         target: LatLng(
                           getMyCurrentLocationController
                               .myLocationLatitudeDo.value,

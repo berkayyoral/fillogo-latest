@@ -26,7 +26,6 @@ class RouteDetailsPageController extends GetxController {
     super.onInit();
   }
 
-
   @override
   void onClose() {
     streamSubscription.cancel();
