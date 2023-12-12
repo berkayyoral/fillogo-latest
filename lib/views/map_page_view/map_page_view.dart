@@ -369,9 +369,9 @@ class MapPageView extends GetView<MapPageController> {
                                     CameraPosition(
                                       bearing: userBearing,
 
-                                      tilt: 60,
+                                      tilt: 67,
                                       //Zoom ayarı burada
-                                      zoom: 14,
+                                      zoom: 16.5,
                                       target: LatLng(
                                         position.latitude,
                                         position.longitude,
@@ -3187,6 +3187,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                   MapPageController mapPageController =
                       Get.find<MapPageController>();
                   bottomNavigationBarController.selectedIndex.value = 1;
+                  Get.back();
                   Get.back();
                   Get.back();
                   GoogleMapController googleMapController =
