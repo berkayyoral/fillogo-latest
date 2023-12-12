@@ -177,7 +177,7 @@ class SettingsView extends StatelessWidget {
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: AppConstants().ltMainRed,
+                                  backgroundColor: AppConstants().ltMainRed,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),
@@ -197,7 +197,7 @@ class SettingsView extends StatelessWidget {
                                   Get.back();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: AppConstants().ltLogoGrey,
+                                  backgroundColor: AppConstants().ltLogoGrey,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),

@@ -1000,7 +1000,8 @@ class MapPageView extends GetView<MapPageController> {
                       padding: const EdgeInsets.all(12),
                       constraints:
                           BoxConstraints(maxHeight: 160.h, minHeight: 100.h),
-                      child: mapPageController.myActivesRoutes!.isNotEmpty
+                      child: mapPageController.myActivesRoutes?.isNotEmpty ??
+                              false
                           ? Column(
                               children: [
                                 Padding(
@@ -1238,7 +1239,8 @@ class MapPageView extends GetView<MapPageController> {
                                         });
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: AppConstants().ltMainRed,
+                                        backgroundColor:
+                                            AppConstants().ltMainRed,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(8.r),
@@ -1325,9 +1327,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                   getMyCurrentLocationController.myLocationLongitudeDo.value;
               createRouteController.startCity.value = value[1];
             });
-            //log("mapPageRouteStartAddress2 = ${createRouteController.mapPageRouteStartAddress2.value}");
-            //log("createRouteController.startCity.value = ${createRouteController.startCity.value}");
-            //createRouteController.mapPageRouteStartAddress2.value = "";
+            log("mapPageRouteStartAddress2 = ${createRouteController.mapPageRouteStartAddress2.value}");
+            log("createRouteController.startCity.value = ${createRouteController.startCity.value}");
+            // createRouteController.mapPageRouteStartAddress2.value = "";
             createRouteController.iWantTrackerMyLocation.value = 2;
             createRouteController.changeCalculateLevel(2);
             createRouteController.addMarkerFunctionForMapPageWithoutOnTap2(
@@ -1670,7 +1672,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: AppConstants().ltMainRed,
+                                        backgroundColor:
+                                            AppConstants().ltMainRed,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(8.r),
@@ -2016,7 +2019,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                   DateFormat('yyyy-MM-dd HH:mm').format(
                                       createRouteController
                                           .dateTimeFormatLast.value);
-
+                              print(
+                                  "aaaaaa ${createRouteController.dateTimeFormatVaris.value}");
                               dateTimeFormatLast = DateTime(
                                       pickedDate.year,
                                       pickedDate.month,
@@ -2035,16 +2039,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                           pickedDate.day,
                                           pickedTime.hour,
                                           pickedTime.minute));
-
-                              /* print("dateTimeFormatLast = " +
-                                  dateTimeFormatLast.toString());
                               print(
-                                  "createRouteController.dateTimeFormatLast.value = " +
-                                      createRouteController
-                                          .dateTimeFormatLast.value
-                                          .toString());
-                              print(dateTimeFormatted);*/
-
+                                  "aaaaaa ${createRouteController.dateTimeFormatCikis.value}");
                               if (pickedDate != null) {
                                 createRouteController.cikisController.text =
                                     createRouteController
@@ -2721,8 +2717,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                               },
                                                             ).then((value) async {
-                                                              sleep(Duration(
-                                                                  seconds: 1));
                                                               ActivateRouteResponseModel
                                                                   response =
                                                                   ActivateRouteResponseModel
@@ -2733,6 +2727,30 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               if (response
                                                                       .success ==
                                                                   1) {
+                                                                await showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context2) {
+                                                                      return showNewAllertDialog(
+                                                                          context,
+                                                                          "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
+                                                                          (LocaleManager.instance.getString(PreferencesKeys
+                                                                              .currentUserUserName)),
+                                                                          createRouteController
+                                                                              .cikisController
+                                                                              .value
+                                                                              .toString()
+                                                                              .substring(0,
+                                                                                  11),
+                                                                          createRouteController
+                                                                              .varisController
+                                                                              .value
+                                                                              .toString()
+                                                                              .substring(0, 11),
+                                                                          0);
+                                                                    });
                                                                 MapPageController
                                                                     mapPageController =
                                                                     Get.put(
@@ -2914,7 +2932,31 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                 bottomNavigationBarController
                                                                     .selectedIndex
                                                                     .value = 1;
-                                                                Get.back();
+                                                                // mfu added
+                                                                await showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context2) {
+                                                                      return showNewAllertDialog(
+                                                                          context,
+                                                                          "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
+                                                                          (LocaleManager.instance.getString(PreferencesKeys
+                                                                              .currentUserUserName)),
+                                                                          createRouteController
+                                                                              .cikisController
+                                                                              .value
+                                                                              .toString()
+                                                                              .substring(0,
+                                                                                  11),
+                                                                          createRouteController
+                                                                              .varisController
+                                                                              .value
+                                                                              .toString()
+                                                                              .substring(0, 11),
+                                                                          0);
+                                                                    });
                                                               } else {
                                                                 Get.back(
                                                                     closeOverlays:
@@ -2967,14 +3009,14 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .getString(PreferencesKeys
                                                                               .currentUserUserName)),
                                                                       createRouteController
-                                                                          .dateTimeFormatCikis
+                                                                          .cikisController
                                                                           .value
                                                                           .toString()
                                                                           .substring(
                                                                               0,
                                                                               11),
                                                                       createRouteController
-                                                                          .dateTimeFormatVaris
+                                                                          .varisController
                                                                           .value
                                                                           .toString()
                                                                           .substring(
@@ -3026,7 +3068,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: AppConstants().ltMainRed,
+                              backgroundColor: AppConstants().ltMainRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
@@ -3301,8 +3343,27 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         ActivateRouteResponseModel response =
                                             ActivateRouteResponseModel.fromJson(
                                                 jsonDecode(value!));
-                                        sleep(Duration(seconds: 1));
+
                                         if (response.success == 1) {
+                                          await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context2) {
+                                                return showNewAllertDialog(
+                                                    context,
+                                                    "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}",
+                                                    (LocaleManager.instance
+                                                        .getString(PreferencesKeys
+                                                            .currentUserUserName)),
+                                                    createRouteController
+                                                        .cikisController.value
+                                                        .toString()
+                                                        .substring(0, 11),
+                                                    createRouteController
+                                                        .varisController.value
+                                                        .toString()
+                                                        .substring(0, 11),
+                                                    0);
+                                              });
                                           Get.back();
 
                                           mapPageController
@@ -3643,11 +3704,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                     .getString(PreferencesKeys
                                                         .currentUserUserName)),
                                                 createRouteController
-                                                    .dateTimeFormatCikis.value
+                                                    .cikisController.value
                                                     .toString()
                                                     .substring(0, 11),
                                                 createRouteController
-                                                    .dateTimeFormatVaris.value
+                                                    .varisController.value
                                                     .toString()
                                                     .substring(0, 11),
                                                 0);

@@ -41,7 +41,7 @@ class RouteDetailsPageView extends StatelessWidget {
         getMyCurrentLocationController.myLocationLatitudeDo.value,
         getMyCurrentLocationController.myLocationLongitudeDo.value,
       ),
-      zoom: 15.0,
+      zoom: 14.0,
     );
     return Scaffold(
       appBar: AppBarGenel(
@@ -346,35 +346,25 @@ class RouteDetailsPageView extends StatelessWidget {
                                         GetMyRouteResponseModel.fromJson(
                                             convert.json.decode(value!));
                                     mapPageController.myAllRoutes =
-                                         getMyRouteResponseModel
+                                        getMyRouteResponseModel
                                             .data![0].allRoutes;
-                                      GoogleMapController
-                                                                      googleMapController =
-                                                                      await mapPageController
-                                                                          .mapCotroller3
-                                                                          .future;
-                                                                  googleMapController
-                                                                      .animateCamera(
-                                                                    CameraUpdate
-                                                                        .newCameraPosition(
-                                                                      CameraPosition(
-                                                                        bearing:
-                                                                            90,
-                                                                        target:
-                                                                            LatLng(
-                                                                          getMyCurrentLocationController
-                                                                              .myLocationLatitudeDo
-                                                                              .value,
-                                                                          getMyCurrentLocationController
-                                                                              .myLocationLongitudeDo
-                                                                              .value,
-                                                                        ),
-                                                                        zoom:
-                                                                            10,
-                                                                      ),
-                                                                    ),
-                                                                  );
-
+                                    GoogleMapController googleMapController =
+                                        await mapPageController
+                                            .mapCotroller3.future;
+                                    googleMapController.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          bearing: 90,
+                                          target: LatLng(
+                                            getMyCurrentLocationController
+                                                .myLocationLatitudeDo.value,
+                                            getMyCurrentLocationController
+                                                .myLocationLongitudeDo.value,
+                                          ),
+                                          zoom: 10,
+                                        ),
+                                      ),
+                                    );
 
                                     mapPageController.myActivesRoutes =
                                         mapPageController

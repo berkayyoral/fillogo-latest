@@ -244,7 +244,7 @@ class MapPageController extends GetxController {
   }
 
   getMyFriendsRoutesRequestRefreshable(BuildContext context) async {
-    this.context=context;
+    this.context = context;
     await GeneralServicesTemp().makeGetRequest(
       EndPoint.getMyfriendsRoute,
       {
@@ -258,7 +258,7 @@ class MapPageController extends GetxController {
             GetMyFriendsRouteResponseModel.fromJson(
                 convert.json.decode(value!));
         myFriendsLocations = getMyFriendsRouteResponseModel.data!;
-      //Anlık arkadaş konumu bağlandı
+        //Anlık arkadaş konumu bağlandı
         for (var i = 0; i < myFriendsLocations.length; i++) {
           addMarkerFunctionForMapPage(
             myFriendsLocations[i]!.followed!.id!,
@@ -455,7 +455,8 @@ class MapPageController extends GetxController {
     });
     update(["mapPageController"]);
   }
-   List<int> friendList = [];
+
+  List<int> friendList = [];
   //Belirli bir alandaki arkadaşları getiren istek
   getMyFriendsRoutesCircular(LatLng point) async {
     await GeneralServicesTemp()
@@ -466,20 +467,22 @@ class MapPageController extends GetxController {
         .then((value) {
       log("Circular request response -> {$value}");
       Marker newMarker3 = markers3.firstWhere(
-              (marker) => marker.markerId.value == "myFriendsLocationMarker",
+          (marker) => marker.markerId.value == "myFriendsLocationMarker",
           orElse: () => const Marker(markerId: MarkerId("")));
       markers3.remove(newMarker3);
       if (value != null) {
         final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
 
-        for (int i= 0; i<response.data.length; i++) {
+        for (int i = 0; i < response.data.length; i++) {
           if (!friendList.contains(response.data[i].userID)) {
-            LocalNotificationService().showNotification(title: "Arkadaşın Yakınında", body:  response.data[i].message!);
+            LocalNotificationService().showNotification(
+                title: "Arkadaşın Yakınında", body: response.data[i].message!);
             friendList.add(response.data[i].userID!);
           }
-          customMarkerIconController.setCustomMarkerIcon5(response.data[i].profilePic!);
+          customMarkerIconController
+              .setCustomMarkerIcon5(response.data[i].profilePic!);
           addMarkerFunctionForMapPage(
-              response.data[i].userID!,
+            response.data[i].userID!,
             const MarkerId("myFriendsLocationMarker"),
             LatLng(
               response.data[i].latitude as double,
@@ -487,7 +490,8 @@ class MapPageController extends GetxController {
             ),
             BitmapDescriptor.fromBytes(
                 customMarkerIconController.myFriendsLocation!),
-            context, "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
+            context,
+            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
             myFriendsLocations[i]!
                 .followed!
                 .userpostroutes![0]
@@ -664,13 +668,14 @@ class MapPageController extends GetxController {
       return false;
     }
   }
+
   bool addMarkerFunctionForMapPageWithoutOnTap3(
-      MarkerId markerId,
-      LatLng latLng,
-      // String title,
-      String address,
-      BitmapDescriptor icon,
-      ) {
+    MarkerId markerId,
+    LatLng latLng,
+    // String title,
+    String address,
+    BitmapDescriptor icon,
+  ) {
     try {
       Marker marker = Marker(
         markerId: markerId,
@@ -690,6 +695,7 @@ class MapPageController extends GetxController {
       return false;
     }
   }
+
   void drawIntoMapPolyline() async {
     if (markers2.isNotEmpty) markers2.clear();
     if (polylines2.isNotEmpty) polylines2.clear();

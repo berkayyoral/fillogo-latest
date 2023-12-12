@@ -186,7 +186,7 @@ class _PopupNewPostState extends State<PopupNewPost> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: AppConstants().ltMainRed,
+                    backgroundColor: AppConstants().ltMainRed,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

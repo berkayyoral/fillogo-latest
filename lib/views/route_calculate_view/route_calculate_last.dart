@@ -866,8 +866,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
 
   Future _displayPredictionFinishLocation(
       Prediction placeInfo, BuildContext context) async {
-    PlacesDetailsResponse detail = await createRouteController
-        .googleMapsPlaces
+    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 
     var placeId = placeInfo.placeId;
@@ -883,8 +882,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.createRouteFinishLatitude.value = data.latitude;
 
     createRouteController.createRouteFinishLongitude.value = data.longitude;
-    createRouteController.finishLatLong =
-        LatLng(data.latitude, data.longitude);
+    createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
 
     log("Finish");
     if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
@@ -911,17 +909,15 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         createRouteController.searchByCityDatum = response.data![0];
       });
       //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-      
+
       createRouteController.calculateLevel.value = 2;
-      
     }
-      createRouteController.addNewMarkersForSearchingRoute(context);
+    createRouteController.addNewMarkersForSearchingRoute(context);
   }
 
   Future _displayPredictionStartLocation(
       Prediction placeInfo, BuildContext context) async {
-    PlacesDetailsResponse detail = await createRouteController
-        .googleMapsPlaces
+    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
         .getDetailsByPlaceId(placeInfo.placeId!);
 
     var placeId = placeInfo.placeId;
@@ -941,8 +937,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.createRouteStartLatitude.value = data.latitude;
     createRouteController.createRouteStartLongitude.value = data.longitude;
     createRouteController.createRouteStartLongitude.value = data.longitude;
-    createRouteController.startLatLong =
-        LatLng(data.latitude, data.longitude);
+    createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
 
     log("Start");
     if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
@@ -971,6 +966,6 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
       createRouteController.calculateLevel.value = 2;
     }
-      createRouteController.addNewMarkersForSearchingRoute(context);
+    createRouteController.addNewMarkersForSearchingRoute(context);
   }
 }
