@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fillogo/export.dart';
@@ -19,7 +20,6 @@ class FirstOpenIsActiveRoute extends GetxController {
       (value) async {
         GetMyRouteResponseModel getMyRouteResponseModel =
             GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-
         isActiveRoute =
             getMyRouteResponseModel.data![0].allRoutes!.activeRoutes!.isEmpty
                 ? false
@@ -33,6 +33,7 @@ class FirstOpenIsActiveRoute extends GetxController {
     log("Aktif DateTime.now() : ${DateTime.now()}");
     if (routeFinishDate.millisecondsSinceEpoch >
         DateTime.now().millisecondsSinceEpoch + 300000) {
+    } else {
       Get.dialog(
           barrierDismissible: false,
           Dialog(

@@ -389,8 +389,14 @@ class MapPageView extends GetView<MapPageController> {
                             if (mapPageController
                                     .iWantTrackerMyLocation.value ==
                                 1) {
-                              mapPageController.iWantTrackerMyLocation.value =
-                                  2;
+                              Future.delayed(Duration(seconds: 5), () {
+                                if (mapPageController
+                                        .iWantTrackerMyLocation.value ==
+                                    1) {
+                                  mapPageController
+                                      .iWantTrackerMyLocation.value = 2;
+                                }
+                              });
                             }
                           },
                           polygonsSet: const <Polygon>{},
@@ -949,7 +955,7 @@ class MapPageView extends GetView<MapPageController> {
                     (mapPageController.selectedDispley.value == 0 ||
                         mapPageController.selectedDispley.value == 5),
                 child: Padding(
-                  padding: EdgeInsets.only(right: 20.w, top: 30.h),
+                  padding: EdgeInsets.only(right: 20.w, top: 45.h),
                   child: Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
