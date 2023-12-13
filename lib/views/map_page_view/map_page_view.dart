@@ -861,6 +861,23 @@ class MapPageView extends GetView<MapPageController> {
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () async {
+                          await GeneralServicesTemp().makeGetRequest(
+                            EndPoint.getMyRoutes,
+                            {
+                              "Content-type": "application/json",
+                              'Authorization':
+                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                            },
+                          ).then((value) {
+                            GetMyRouteResponseModel getMyRouteResponseModel =
+                                GetMyRouteResponseModel.fromJson(
+                                    convert.json.decode(value!));
+                            //Anlık arkadaş konumu bağlandı
+                            mapPageController.getMyFriendsMatchingRoutes(
+                                context,
+                                getMyRouteResponseModel.data![0].allRoutes!
+                                    .activeRoutes![0].polylineEncode);
+                          });
                           if (mapPageController.selectedDispley.value == 5) {
                             mapPageController.selectedDispley.value = 2;
                             //mapPageController.changeSelectedDispley(2);
@@ -1188,6 +1205,10 @@ class MapPageView extends GetView<MapPageController> {
                                     height: 50.h,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        MapPageController mappageController =
+                                            MapPageController();
+                                        mappageController
+                                            .getMyRoutesServicesRequestRefreshable();
                                         GeneralServicesTemp().makePatchRequest(
                                           EndPoint.activateRoute,
                                           ActivateRouteRequestModel(
@@ -2705,6 +2726,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               AppConstants()
                                                                   .ltWhite,
                                                           onpressed: () {
+                                                            MapPageController
+                                                                mappageController =
+                                                                MapPageController();
+                                                            mappageController
+                                                                .getMyRoutesServicesRequestRefreshable();
                                                             GeneralServicesTemp()
                                                                 .makePatchRequest(
                                                               EndPoint
@@ -3324,6 +3350,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                     text: 'Rotayı Başlat',
                                     textColor: AppConstants().ltWhite,
                                     onpressed: () {
+                                      MapPageController mappageController =
+                                          MapPageController();
+                                      mappageController
+                                          .getMyRoutesServicesRequestRefreshable();
                                       MapPageController mapPageController =
                                           Get.find();
                                       SetCustomMarkerIconController

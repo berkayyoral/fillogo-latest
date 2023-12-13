@@ -10,6 +10,7 @@ class SetCustomMarkerIconController extends GetxController {
   Uint8List? mayLocationIcon;
   Uint8List? myRouteFinishIcon;
   Uint8List? myRouteStartIcon;
+  Uint8List? myRouteStartIconnoSee;
   Widget? myLocation;
 
   @override
@@ -39,6 +40,11 @@ class SetCustomMarkerIconController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+  setCustomMarkerIconNoSee() async {
+    myRouteStartIconnoSee =
+        await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 1);
   }
 
   setCustomMarkerIcon() async {
