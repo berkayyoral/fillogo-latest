@@ -43,7 +43,7 @@ class SetCustomMarkerIconController extends GetxController {
 
   setCustomMarkerIcon() async {
     myRouteStartIcon =
-        await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 1);
+        await getBytesFromAsset('assets/icons/myRouteStartIcon.png', 100);
   }
 
   setCustomMarkerIcon2() async {

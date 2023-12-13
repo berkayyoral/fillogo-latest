@@ -620,7 +620,7 @@ class MapPageController extends GetxController {
     LatLng latLng,
     // String title,
     String address,
-    BitmapDescriptor icon,
+    BitmapDescriptor? icon,
   ) {
     try {
       Marker marker = Marker(
@@ -630,7 +630,7 @@ class MapPageController extends GetxController {
           //title: title,
           snippet: address,
         ),
-        icon: icon,
+        icon: icon!,
       );
       markers.add(marker);
       update(["mapPageController"]);
@@ -642,6 +642,33 @@ class MapPageController extends GetxController {
     }
   }
 
+  //mfu
+  bool myRouteStartIconNotShow(
+    MarkerId markerId,
+    LatLng latLng,
+    // String title,
+    String address,
+  ) {
+    try {
+      Marker marker = Marker(
+        markerId: markerId,
+        position: latLng,
+        infoWindow: InfoWindow(
+          //title: title,
+          snippet: address,
+        ),
+      );
+      markers.add(marker);
+      update(["mapPageController"]);
+      return true;
+    } catch (e) {
+      log("marker ekleme hatası!!  ${e.toString()}");
+      update(["mapPageController"]);
+      return false;
+    }
+  }
+
+//mfu
   bool addMarkerFunctionForMapPageWithoutOnTap2(
     MarkerId markerId,
     LatLng latLng,

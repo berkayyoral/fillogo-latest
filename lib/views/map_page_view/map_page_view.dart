@@ -8,6 +8,7 @@ import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_control
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/locationservice.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
@@ -250,7 +251,7 @@ class MapPageView extends GetView<MapPageController> {
 
               mapPageController.addPointIntoPolylineList(
                   mapPageController.generalPolylineEncode.value);
-              mapPageController.addMarkerFunctionForMapPageWithoutOnTap(
+              mapPageController.myRouteStartIconNotShow(
                 MarkerId(
                     "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                 LatLng(
@@ -259,8 +260,6 @@ class MapPageView extends GetView<MapPageController> {
                     mapPageController
                         .myAllRoutes!.activeRoutes![0].startingCoordinates![1]),
                 "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                BitmapDescriptor.fromBytes(
-                    setCustomMarkerIconController.myRouteStartIcon!),
               );
               mapPageController.addMarkerFunctionForMapPageWithoutOnTap(
                 MarkerId(
@@ -2903,7 +2902,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .generalPolylineEncode
                                                                           .value);
                                                                   mapPageController
-                                                                      .addMarkerFunctionForMapPageWithoutOnTap(
+                                                                      .myRouteStartIconNotShow(
                                                                     MarkerId(
                                                                         "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                                                     LatLng(
@@ -2914,9 +2913,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                             .activeRoutes![0]
                                                                             .startingCoordinates![1]),
                                                                     "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                                                    BitmapDescriptor.fromBytes(
-                                                                        setCustomMarkerIconController
-                                                                            .myRouteStartIcon!),
                                                                   );
                                                                   mapPageController
                                                                       .addMarkerFunctionForMapPageWithoutOnTap(
@@ -3374,7 +3370,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                           Get.back();
 
                                           mapPageController
-                                              .addMarkerFunctionForMapPageWithoutOnTap(
+                                              .myRouteStartIconNotShow(
                                             MarkerId(
                                                 "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                             LatLng(
@@ -3387,9 +3383,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                     .activeRoutes![0]
                                                     .startingCoordinates![1]),
                                             "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                            BitmapDescriptor.fromBytes(
-                                                setCustomMarkerIconController
-                                                    .myRouteStartIcon!),
                                           );
 
                                           // mapPageController.getMyRoutesServicesRequestRefreshable();
@@ -3507,7 +3500,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                         .generalPolylineEncode
                                                         .value);
                                             mapPageController
-                                                .addMarkerFunctionForMapPageWithoutOnTap(
+                                                .myRouteStartIconNotShow(
                                               MarkerId(
                                                   "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                               LatLng(
@@ -3520,9 +3513,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                       .activeRoutes![0]
                                                       .startingCoordinates![1]),
                                               "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                              BitmapDescriptor.fromBytes(
-                                                  setCustomMarkerIconController
-                                                      .myRouteStartIcon!),
                                             );
                                             mapPageController
                                                 .addMarkerFunctionForMapPageWithoutOnTap(
