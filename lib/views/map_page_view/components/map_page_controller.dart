@@ -23,6 +23,7 @@ class MapPageController extends GetxController {
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
   late BuildContext context;
+  late Timer timer;
 
   @override
   void onInit() async {
@@ -140,7 +141,7 @@ class MapPageController extends GetxController {
     calculateLevel.value = 1;
     finishCity = "".obs;
     startCity = "".obs;
-
+    Timer? timer;
     mapPageRouteStartAddress2.value = "";
     mapPageRouteStartLatitude2.value = 0.0;
     mapPageRouteStartLongitude2.value = 0.0;
