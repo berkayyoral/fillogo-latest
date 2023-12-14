@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await LocaleManager.instance.preferencesInit();
-  // await initializeDat0eFormatting('tr_TR');
+  // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();
   OneSignalNotificationService();
   OneSignalNotificationService().handleClickNotification();

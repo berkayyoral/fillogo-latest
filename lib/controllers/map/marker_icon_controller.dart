@@ -18,6 +18,7 @@ class SetCustomMarkerIconController extends GetxController {
     await setCustomMarkerIcon();
     await setCustomMarkerIcon2();
     await setCustomMarkerIcon3();
+    await setCustomMarkerIconNoSee();
     await setCustomMarkerIcon4();
     super.onInit();
   }
