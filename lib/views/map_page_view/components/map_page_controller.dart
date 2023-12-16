@@ -195,6 +195,7 @@ class MapPageController extends GetxController {
       },
     ).then(
       (value) async {
+        print("ASDFASDASD");
         GetMyFriendsMatchingRoutesResponse response =
             GetMyFriendsMatchingRoutesResponse.fromJson(
                 convert.json.decode(value!));
@@ -203,7 +204,11 @@ class MapPageController extends GetxController {
 
         print("Matching response data = ${response.data!.length}");
         print("Matching response data = ${response.data![0].matching}");
-        print("Matching${response.data![0].matching![0].followed!.name}");
+        // print("Matching${response.data![0].matching![0].followed!.name}");
+        print(response.data!.first.matching!.isNotEmpty
+            ? "Matchingdsadfa ${response.data![0].matching![0].followed!.name}"
+            : "BOŞ");
+
         myFriendsLocationsMatching = response.data!;
 
         for (var i = 0; i < myFriendsLocations.length; i++) {

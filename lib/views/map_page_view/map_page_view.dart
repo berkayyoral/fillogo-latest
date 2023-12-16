@@ -528,10 +528,16 @@ class MapPageView extends GetView<MapPageController> {
                             SizedBox(
                               height: 595.h,
                               child: mapPageController
-                                      .myFriendsLocationsMatching.isNotEmpty
+                                      .myFriendsLocationsMatching
+                                      .first!
+                                      .matching!
+                                      .isNotEmpty
                                   ? ListView.builder(
                                       itemCount: mapPageController
-                                          .myFriendsLocationsMatching.length,
+                                          .myFriendsLocationsMatching
+                                          .first!
+                                          .matching!
+                                          .length,
                                       itemBuilder: (context, i) {
                                         return ActivesFriendsRoutesCard(
                                           profilePhotoUrl: mapPageController
