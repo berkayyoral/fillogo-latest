@@ -525,13 +525,11 @@ class MapPageView extends GetView<MapPageController> {
                                 ),
                               ),
                             ),
+                            //sorun burda
                             SizedBox(
                               height: 595.h,
                               child: mapPageController
-                                      .myFriendsLocationsMatching
-                                      .first!
-                                      .matching!
-                                      .isNotEmpty
+                                      .myFriendsLocationsMatching.isNotEmpty
                                   ? ListView.builder(
                                       itemCount: mapPageController
                                           .myFriendsLocationsMatching
