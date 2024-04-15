@@ -152,7 +152,7 @@ class PopupNewRoute extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: AppConstants().ltMainRed,
+                    backgroundColor: AppConstants().ltMainRed,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

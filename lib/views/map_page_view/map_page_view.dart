@@ -1211,7 +1211,7 @@ class MapPageView extends GetView<MapPageController> {
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: AppConstants().ltMainRed,
+                                  backgroundColor: AppConstants().ltMainRed,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),
@@ -1639,7 +1639,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: AppConstants().ltMainRed,
+                                        backgroundColor:
+                                            AppConstants().ltMainRed,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(8.r),
@@ -3120,7 +3121,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: AppConstants().ltMainRed,
+                              backgroundColor: AppConstants().ltMainRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
