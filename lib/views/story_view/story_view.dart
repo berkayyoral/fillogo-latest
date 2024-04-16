@@ -115,8 +115,9 @@ class _StoriesViewState extends State<StoriesView> {
                                               child: Row(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 20),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 20),
                                                     child: SizedBox(
                                                       height: 150,
                                                       width: 150,
@@ -137,8 +138,9 @@ class _StoriesViewState extends State<StoriesView> {
                                                   ),
                                                   const Spacer(),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        right: 20),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 20),
                                                     child: MaterialButton(
                                                       color: AppConstants()
                                                           .ltMainRed,
@@ -336,9 +338,7 @@ class _StoriesViewState extends State<StoriesView> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Text(
-                                    "${storiesController
-                                            .snapshotList[0]!.stories!.name} ${storiesController
-                                            .snapshotList[0]!.stories!.surname}",
+                                    "${storiesController.snapshotList[0]!.stories!.name} ${storiesController.snapshotList[0]!.stories!.surname}",
                                     style: TextStyle(
                                       color: AppConstants().ltWhite,
                                       fontFamily: 'Sfregular',
@@ -369,15 +369,16 @@ class _StoriesViewState extends State<StoriesView> {
                                                     itemBuilder:
                                                         (context, index) {
                                                       return Container(
-                                                        margin:
-                                                            const EdgeInsets.all(6),
+                                                        margin: const EdgeInsets
+                                                            .all(6),
                                                         width: Get.width,
                                                         height: 150,
                                                         child: Row(
                                                           children: [
                                                             Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
                                                                       left: 20),
                                                               child: SizedBox(
                                                                 height: 150,
@@ -403,8 +404,9 @@ class _StoriesViewState extends State<StoriesView> {
                                                             ),
                                                             const Spacer(),
                                                             Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
                                                                       right:
                                                                           20),
                                                               child:

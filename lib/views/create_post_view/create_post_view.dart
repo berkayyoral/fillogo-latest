@@ -315,38 +315,37 @@ class CreatePostPageView extends StatelessWidget {
     return AppBarGenel(
       leading: GestureDetector(
         onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => ShowAllertDialogWidget(
-              button1Color: AppConstants().ltMainRed,
-              button1Height: 50.h,
-              button1IconPath: '',
-              button1Text: 'Kaydet',
-              button1TextColor: AppConstants().ltWhite,
-              button1Width: Get.width,
-              button2Color: AppConstants().ltDarkGrey,
-              button2Height: 50.h,
-              button2IconPath: '',
-              button2Text: 'Kaydetme',
-              button2TextColor: AppConstants().ltWhite,
-              button2Width: Get.width,
-              buttonCount: 2,
-              discription1:
-                  "Oluşturmuş olduğunuz gönderi bilgileri taslaklara kaydedilsin mi?",
-              onPressed1: () {
-                createPostPageController.clearPostCreateInfoController();
+          // showDialog(
+          //   context: context,
+          //   builder: (BuildContext context) => ShowAllertDialogWidget(
+          //     button1Color: AppConstants().ltMainRed,
+          //     button1Height: 50.h,
+          //     button1IconPath: '',
+          //     button1Text: 'Kaydet',
+          //     button1TextColor: AppConstants().ltWhite,
+          //     button1Width: Get.width,
+          //     button2Color: AppConstants().ltDarkGrey,
+          //     button2Height: 50.h,
+          //     button2IconPath: '',
+          //     button2Text: 'Kaydetme',
+          //     button2TextColor: AppConstants().ltWhite,
+          //     button2Width: Get.width,
+          //     buttonCount: 2,
+          //     discription1:
+          //         "Oluşturmuş olduğunuz gönderi bilgileri taslaklara kaydedilsin mi?",
+          //     onPressed1: () {
+          //       createPostPageController.clearPostCreateInfoController();
 
-                Get.back();
-                Get.back();
-              },
-              onPressed2: () {
-                createPostPageController.clearPostCreateInfoController();
-                Get.back();
-                Get.back();
-              },
-              title: 'Taslaklara Kaydet',
-            ),
-          );
+          Get.back();
+          //     },
+          //     onPressed2: () {
+          //       createPostPageController.clearPostCreateInfoController();
+          //       Get.back();
+          //       Get.back();
+          //     },
+          //     title: 'Taslaklara Kaydet',
+          //   ),
+          // );
         },
         child: Padding(
           padding: EdgeInsets.only(
@@ -555,73 +554,73 @@ class CreatePostPageView extends StatelessWidget {
     );
   }
 
-  Widget showAllertDialogSaveInfoPost(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        'Taslaklara Kaydet',
-        style: TextStyle(
-          fontFamily: 'Sfsemibold',
-          fontSize: 16.sp,
-          color: AppConstants().ltLogoGrey,
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Oluşturmuş olduğunuz gönderi bilgileri taslaklara kaydedilsin mi? ",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: TextButton(
-                child: Text(
-                  'Kaydetme',
-                  style: TextStyle(
-                    fontFamily: 'Sfregular',
-                    fontSize: 14.sp,
-                    color: AppConstants().ltMainRed,
-                  ),
-                ),
-                onPressed: () async {
-                  createPostPageController.clearPostCreateInfoController();
-                  Get.back();
-                  Get.back();
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: CustomButtonDesign(
-                text: 'Kaydet',
-                textColor: AppConstants().ltWhite,
-                onpressed: () {
-                  Get.back();
-                  Get.back();
-                },
-                iconPath: '',
-                color: AppConstants().ltMainRed,
-                height: 50.h,
-                width: 140.w,
-              ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
+  // Widget showAllertDialogSaveInfoPost(BuildContext context) {
+  //   return AlertDialog(
+  //     title: Text(
+  //       'Taslaklara Kaydet',
+  //       style: TextStyle(
+  //         fontFamily: 'Sfsemibold',
+  //         fontSize: 16.sp,
+  //         color: AppConstants().ltLogoGrey,
+  //       ),
+  //     ),
+  //     content: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Text(
+  //           "Oluşturmuş olduğunuz gönderi bilgileri taslaklara kaydedilsin mi? ",
+  //           style: TextStyle(
+  //             fontFamily: 'Sfregular',
+  //             fontSize: 14.sp,
+  //             color: AppConstants().ltLogoGrey,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     actions: <Widget>[
+  //       Row(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: TextButton(
+  //               child: Text(
+  //                 'Kaydetme',
+  //                 style: TextStyle(
+  //                   fontFamily: 'Sfregular',
+  //                   fontSize: 14.sp,
+  //                   color: AppConstants().ltMainRed,
+  //                 ),
+  //               ),
+  //               onPressed: () async {
+  //                 createPostPageController.clearPostCreateInfoController();
+  //                 Get.back();
+  //                 Get.back();
+  //               },
+  //             ),
+  //           ),
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: CustomButtonDesign(
+  //               text: 'Kaydet',
+  //               textColor: AppConstants().ltWhite,
+  //               onpressed: () {
+  //                 Get.back();
+  //                 Get.back();
+  //               },
+  //               iconPath: '',
+  //               color: AppConstants().ltMainRed,
+  //               height: 50.h,
+  //               width: 140.w,
+  //             ),
+  //           ),
+  //         ],
+  //       )
+  //     ],
+  //   );
+  // }
 }
 
 class SocialController extends GetxController {

@@ -10,6 +10,11 @@ class RegisterView extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isAlphabetic(String input) {
+    final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ]+$');
+    return alphabetic.hasMatch(input);
+  }
+
   final RegisterController registerController =
       Get.put<RegisterController>(RegisterController());
 

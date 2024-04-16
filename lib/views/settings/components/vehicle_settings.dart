@@ -37,7 +37,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
     DropdownMenuItem<int>(
       value: 1,
       child: Text(
-        'Hafif Ticari',
+        'Otomobil',
         style: TextStyle(
           fontFamily: "Sfregular",
           fontSize: 12.sp,
@@ -48,7 +48,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
     DropdownMenuItem<int>(
       value: 2,
       child: Text(
-        'Motokurye',
+        'Motorsiklet',
         style: TextStyle(
           fontFamily: "Sfregular",
           fontSize: 12.sp,
@@ -74,14 +74,16 @@ class _VehicleSettingsState extends State<VehicleSettings> {
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
     }).then((value) {
       var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
+      print("aaa $response");
+      print("aaa $value");
+
       if (response.succes == 1) {
         carId = response.data![0].userCarTypes![0].id;
         brandController.text =
             response.data![0].userCarTypes![0].carBrand.toString();
         modelController.text =
             response.data![0].userCarTypes![0].carModel.toString();
-
-        print(carId);
+        print("aaa $carId");
       } else {
         print("Response Hata = ${response.message}");
         print("Response Hata = ${response.succes}");
@@ -220,10 +222,11 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                       carModel: modelController.text,
                                       carCapacity:
                                           int.parse(capacityController.text),
-                                      plateNumber:
-                                          LocaleManager.instance.getString(
-                                        PreferencesKeys.plateNumber,
-                                      ).toString(),
+                                      plateNumber: LocaleManager.instance
+                                          .getString(
+                                            PreferencesKeys.plateNumber,
+                                          )
+                                          .toString(),
                                       carTypeId: dropdownValue + 1),
                                   {
                                     "Content-type": "application/json",

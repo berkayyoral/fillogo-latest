@@ -2,19 +2,18 @@ import 'package:fillogo/export.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.labelText,
-    this.controller,
-    this.onChanged,
-    this.enabled,
-    this.keyboardType,
-    this.onTap,
-    this.inputFormatters,
-    this.suffixIcon,
-    this.obscureText = false,
-    required this.textInputAction
-  });
+  const CustomTextField(
+      {super.key,
+      required this.labelText,
+      this.controller,
+      this.onChanged,
+      this.enabled,
+      this.keyboardType,
+      this.onTap,
+      this.inputFormatters,
+      this.suffixIcon,
+      this.obscureText = false,
+      required this.textInputAction});
 
   final String labelText;
   final TextEditingController? controller;

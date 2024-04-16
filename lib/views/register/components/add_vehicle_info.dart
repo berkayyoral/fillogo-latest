@@ -21,8 +21,23 @@ class AddVehicleInfoWidget extends StatelessWidget {
   final TextEditingController brandController = TextEditingController();
   final TextEditingController modelController = TextEditingController();
   final TextEditingController plateController = TextEditingController();
+  bool isAlphabetic(String input) {
+    final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ]+$');
+    return alphabetic.hasMatch(input);
+  }
+
+  bool isValidPlate(String input) {
+    final plateRegex = RegExp(r'^[a-zA-Z0-9]+$');
+    return plateRegex.hasMatch(input);
+  }
+
   final TextEditingController capacityController = TextEditingController();
   RegisterController registerController = Get.put(RegisterController());
+  bool isNumeric(String input) {
+    final numericRegex = RegExp(r'^[0-9]+$');
+    return numericRegex.hasMatch(input);
+  }
+
   RxInt selectedIndex = 0.obs;
 
   @override
@@ -103,6 +118,13 @@ class AddVehicleInfoWidget extends StatelessWidget {
                     }
                   }),
               CustomTextField(
+                onChanged: (value) {
+                  if (!isAlphabetic(value)) {
+                    // Eğer girilen değer alfabetik değilse, son girişi kaldır.
+                    brandController.text =
+                        brandController.text.substring(0, value.length - 1);
+                  }
+                },
                 textInputAction: TextInputAction.done,
                 labelText: 'Marka',
                 keyboardType: TextInputType.name,
@@ -124,6 +146,12 @@ class AddVehicleInfoWidget extends StatelessWidget {
                 ],
               ),
               CustomTextField(
+                onChanged: (value) {
+                  if (!isNumeric(value)) {
+                    capacityController.text =
+                        value.substring(0, value.length - 1);
+                  }
+                },
                 textInputAction: TextInputAction.done,
                 labelText: 'Kapasite',
                 controller: capacityController,
@@ -187,6 +215,9 @@ class AddVehicleInfoWidget extends StatelessWidget {
                   } else if (capacityController.text.isEmpty) {
                     UiHelper.showWarningSnackBar(
                         context, 'Kapasite boş bırakılamaz');
+                  } else if (!isValidPlate(plateController.text)) {
+                    UiHelper.showWarningSnackBar(
+                        context, 'Geçerli bir plaka giriniz');
                   } else {
                     UiHelper.showLoadingAnimation(context);
                     GeneralServicesTemp()

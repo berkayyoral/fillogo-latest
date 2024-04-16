@@ -19,19 +19,29 @@ import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:fillogo/widgets/profile_header_widget.dart';
 import 'package:fillogo/widgets/user_vehicle_infos_widget.dart';
 
-class OtherProfilsView extends StatelessWidget {
+class OtherProfilsView extends StatefulWidget {
   OtherProfilsView({Key? key}) : super(key: key);
+
+  @override
+  State<OtherProfilsView> createState() => _OtherProfilsViewState();
+}
+
+class _OtherProfilsViewState extends State<OtherProfilsView> {
   final PostService postService = PostService();
 
   var isFollowed = false.obs;
+
   var isReported = false.obs;
 
   UserOtherProfileRequest otherProfileRequest = UserOtherProfileRequest();
+
   ChatController chatController = Get.put(ChatController());
+
   ConnectionsController connectionsController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    String followersCount = "";
     otherProfileRequest.userID = Get.arguments ?? 1;
     return GetBuilder<UserStateController>(
       id: 'like',
@@ -47,6 +57,8 @@ class OtherProfilsView extends StatelessWidget {
             }),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                followersCount =
+                    (snapshot.data!.data!.followerCount! + 1).toString();
                 isReported.value = snapshot.data!.data!.doIblock!;
                 isFollowed.value = snapshot.data!.data!.doIfollow!;
                 print("isReported.val${isReported.value}");
@@ -287,8 +299,7 @@ class OtherProfilsView extends StatelessWidget {
                         ),
                         16.h.spaceY,
                         FollowersCountRowWidget(
-                          followersCount:
-                              snapshot.data!.data!.followerCount.toString(),
+                          followersCount: followersCount,
                           followedCount:
                               snapshot.data!.data!.followingCount.toString(),
                           routesCount:
@@ -359,9 +370,20 @@ class OtherProfilsView extends StatelessWidget {
                                                     link: "" //,
                                                     ),
                                               ));
-                                          isFollowed.value = true;
+                                          setState(() {
+                                            followersCount = (snapshot.data!
+                                                        .data!.followerCount! +
+                                                    1)
+                                                .toString();
+                                            isFollowed.value = true;
+                                          });
                                         } else {
-                                          isFollowed.value = false;
+                                          setState(() {
+                                            followersCount =
+                                                (int.parse(followersCount) - 1)
+                                                    .toString();
+                                            isFollowed.value = false;
+                                          });
                                         }
                                       });
                                     },

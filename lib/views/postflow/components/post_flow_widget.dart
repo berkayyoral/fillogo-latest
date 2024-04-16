@@ -1,6 +1,7 @@
 //import 'dart:math';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:fillogo/controllers/likecontroller.dart';
 import 'package:fillogo/controllers/search/search_user_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
@@ -21,7 +22,7 @@ import '../../route_details_page_view/components/selected_route_controller.dart'
 import '../../route_details_page_view/components/start_end_adress_controller.dart';
 
 // ignore: must_be_immutable
-class PostFlowWidget extends StatelessWidget {
+class PostFlowWidget extends StatefulWidget {
   PostFlowWidget(
       {Key? key,
       required this.onlyPost,
@@ -83,14 +84,23 @@ class PostFlowWidget extends StatelessWidget {
   bool deletePost;
   Function()? deletePostOnTap;
 
+  @override
+  State<PostFlowWidget> createState() => _PostFlowWidgetState();
+}
+
+class _PostFlowWidgetState extends State<PostFlowWidget> {
   StartEndAdressController startEndAdressController =
       Get.find<StartEndAdressController>();
+
   UserStateController userStateController = Get.find();
 
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
 
+  LikeCountController likeCountController = Get.put(LikeCountController());
+
   SearchUserController searchUserController = Get.put(SearchUserController());
+
   TextEditingController searchTextController = TextEditingController();
 
   String? currentUserName =
@@ -100,10 +110,18 @@ class PostFlowWidget extends StatelessWidget {
 
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
-  var likeControll = false.obs;
+
   @override
   Widget build(BuildContext context) {
-    var likeCount = othersLikeCount.obs;
+    likeCountController.lastLikeCount =
+        int.parse(widget.othersLikeCount.obs.toString()).obs;
+    var likeControll = false.obs;
+    print("asdsdsd ${widget.didILiked}");
+    if (widget.didILiked == 1) {
+      likeControll = true.obs;
+    }
+    var likeCount = widget.othersLikeCount.obs;
+    int lastLikeCount = int.parse(widget.othersLikeCount);
 
     return Column(children: [
       FittedBox(
@@ -119,39 +137,51 @@ class PostFlowWidget extends StatelessWidget {
                     bottom: 10.h,
                   ),
                   child: GestureDetector(
-                    onTap: () async {
-                      UserStoriesResponse? response =
-                          await GeneralServicesTemp().makeGetRequest(
-                              "/stories/user-stories/$userId?page=${1}", {
-                        "Content-type": "application/json",
-                        'Authorization':
-                            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                      }).then((value) {
-                        if (value != null) {
-                          return UserStoriesResponse.fromJson(
-                              json.decode(value));
-                        }
-                        return null;
-                      });
-                      if (response == null) {
-                        return;
-                      }
-                      if (response.success == 1) {
-                        return Get.toNamed('/storyPageView', arguments: userId);
-                      }
-                      // Get.toNamed('/storyPageView');
-                      if (mapPageController.myUserId.value != userId) {
-                        Get.toNamed(NavigationConstants.otherprofiles,
-                            arguments: userId);
-                      } else {
-                        //   //Get.back();
-                        bottomNavigationBarController.selectedIndex.value = 3;
-                      }
-                    },
+                    // onTap: () async {
+                    //   UserStoriesResponse? response =
+                    //       await GeneralServicesTemp().makeGetRequest(
+                    //           "/stories/user-stories/$userId?page=${1}", {
+                    //     "Content-type": "application/json",
+                    //     'Authorization':
+                    //         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                    //   }).then((value) {
+                    //     if (value != null) {
+                    //       return UserStoriesResponse.fromJson(
+                    //           json.decode(value));
+                    //     }
+                    //     return null;
+                    //   });
+                    //   if (response == null) {
+                    //     return;
+                    //   }
+                    //   if (response.success == 1) {
+                    //     return Get.toNamed('/storyPageView', arguments: userId);
+                    //   }
+                    //   // Get.toNamed('/storyPageView');
+                    //   if (mapPageController.myUserId.value != userId) {
+                    //     Get.toNamed(NavigationConstants.otherprofiles,
+                    //         arguments: userId);
+                    //   } else {
+                    //     //   //Get.back();
+                    //     bottomNavigationBarController.selectedIndex.value = 3;
+                    //   }
+                    // },
                     child: ProfilePhoto(
+                      onTap: () {
+                        if (LocaleManager.instance
+                                .getInt(PreferencesKeys.currentUserId)
+                                .toString() ==
+                            widget.userId.toString()) {
+                          Get.back();
+                          bottomNavigationBarController.selectedIndex.value = 3;
+                        } else {
+                          Get.toNamed('/otherprofiles',
+                              arguments: widget.userId);
+                        }
+                      },
                       height: 40.h,
                       width: 40.w,
-                      url: userProfilePhoto,
+                      url: widget.userProfilePhoto,
                     ),
                   ),
                 ),
@@ -159,17 +189,17 @@ class PostFlowWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EmotionAndTagStringCreate(
-                      userId: userId,
-                      emotion: emotion,
-                      name: name,
-                      usersTagged: usersTagged!,
-                      emotionContent: emotionContent,
-                      haveTag: haveTag,
-                      haveEmotion: haveEmotion,
+                      userId: widget.userId,
+                      emotion: widget.emotion,
+                      name: widget.name,
+                      usersTagged: widget.usersTagged!,
+                      emotionContent: widget.emotionContent,
+                      haveTag: widget.haveTag,
+                      haveEmotion: widget.haveEmotion,
                     ),
                     3.h.spaceY,
                     Visibility(
-                      visible: !onlyPost,
+                      visible: !widget.onlyPost,
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -183,7 +213,7 @@ class PostFlowWidget extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: locationName,
+                                  text: widget.locationName,
                                   style: TextStyle(
                                     fontFamily: "Sfmedium",
                                     fontSize: 14.sp,
@@ -214,8 +244,8 @@ class PostFlowWidget extends StatelessWidget {
                   context: context,
                   builder: (builder) {
                     return PopupPostDetails(
-                      deletePostOnTap: deletePostOnTap,
-                      deletePost: deletePost,
+                      deletePostOnTap: widget.deletePostOnTap,
+                      deletePost: widget.deletePost,
                     );
                   },
                 );
@@ -241,7 +271,7 @@ class PostFlowWidget extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: subtitle,
+                  text: widget.subtitle,
                   style: TextStyle(
                     fontFamily: "Sfregular",
                     fontSize: 14.sp,
@@ -255,15 +285,15 @@ class PostFlowWidget extends StatelessWidget {
       ),
       10.h.spaceY,
       Visibility(
-        visible: centerImageUrl.isNotEmpty,
+        visible: widget.centerImageUrl.isNotEmpty,
         child: Container(
           constraints: BoxConstraints(
             maxHeight: 300.h,
           ),
-          child: centerImageUrl.contains('.mp4')
-              ? PostVideoPlayerWidget(path: centerImageUrl)
+          child: widget.centerImageUrl.contains('.mp4')
+              ? PostVideoPlayerWidget(path: widget.centerImageUrl)
               : Image.network(
-                  centerImageUrl,
+                  widget.centerImageUrl,
                   width: Get.width,
                   fit: BoxFit.fitWidth,
                 ),
@@ -293,7 +323,7 @@ class PostFlowWidget extends StatelessWidget {
                       onPressed: () {
                         likeControll.value = !likeControll.value;
                         GeneralServicesTemp().makePostRequest2(
-                          '/posts/like-post/$postId',
+                          '/posts/like-post/${widget.postId}',
                           {
                             'Authorization':
                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
@@ -304,14 +334,17 @@ class PostFlowWidget extends StatelessWidget {
                             final response =
                                 PostLikeResponse.fromJson(jsonDecode(value));
                             if (response.data![0].removed == true) {
+                              likeCountController.lastLikeCount =
+                                  likeCountController.lastLikeCount + 1;
+
                               SocketService.instance().socket.emit(
                                   'notification',
                                   NotificationModel(
                                     sender: LocaleManager.instance
                                         .getInt(PreferencesKeys.currentUserId),
-                                    receiver: userId,
+                                    receiver: widget.userId,
                                     type: 4,
-                                    params: [postId],
+                                    params: [widget.postId],
                                     message: NotificaitonMessage(
                                         text: NotificationText(
                                           content:
@@ -319,13 +352,15 @@ class PostFlowWidget extends StatelessWidget {
                                           name: LocaleManager.instance
                                               .getString(PreferencesKeys
                                                   .currentUserUserName),
-                                          surname: "" ?? "",
+                                          surname: "",
                                           username: currentUserName ?? "",
                                         ),
-                                        link: centerImageUrl //,
-                                        ),
+                                        link: widget.centerImageUrl),
                                   ));
-                            } else {}
+                            } else {
+                              likeCountController.lastLikeCount =
+                                  likeCountController.lastLikeCount - 1;
+                            }
                           }
                         });
                       },
@@ -335,7 +370,7 @@ class PostFlowWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(NavigationConstants.comments,
-                          arguments: postId);
+                          arguments: widget.postId);
                     },
                     child: SvgPicture.asset(
                       'assets/icons/comment-icon.svg',
@@ -361,14 +396,14 @@ class PostFlowWidget extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: !onlyPost,
+              visible: !widget.onlyPost,
               child: SizedBox(
                 child: GestureDetector(
                   onTap: () {
                     selectedRouteController.selectedRouteId.value =
-                        selectedRouteId!;
+                        widget.selectedRouteId!;
                     selectedRouteController.selectedRouteUserId.value =
-                        selectedRouteUserId!;
+                        widget.selectedRouteUserId!;
                     Get.toNamed(NavigationConstants.routeDetails);
                   },
                   child: Row(
@@ -409,32 +444,34 @@ class PostFlowWidget extends StatelessWidget {
             GetBuilder<UserStateController>(
               id: 'like',
               builder: (controller) {
-                return RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(text: ""),
-                      TextSpan(
-                        text: likeCount.value,
-                        style: TextStyle(
-                            fontFamily: "Sfmedium",
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey),
-                      ),
-                      TextSpan(
-                        text: ' kişi ',
-                        style: TextStyle(
-                            fontFamily: "Sfmedium",
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey),
-                      ),
-                      TextSpan(
-                        text: 'beğendi!',
-                        style: TextStyle(
-                            fontFamily: "Sflight",
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey),
-                      ),
-                    ],
+                return Obx(
+                  () => RichText(
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(text: ""),
+                        TextSpan(
+                          text: likeCountController.lastLikeCount.toString(),
+                          style: TextStyle(
+                              fontFamily: "Sfmedium",
+                              fontSize: 14.sp,
+                              color: AppConstants().ltLogoGrey),
+                        ),
+                        TextSpan(
+                          text: ' kişi ',
+                          style: TextStyle(
+                              fontFamily: "Sfmedium",
+                              fontSize: 14.sp,
+                              color: AppConstants().ltLogoGrey),
+                        ),
+                        TextSpan(
+                          text: 'beğendi!',
+                          style: TextStyle(
+                              fontFamily: "Sflight",
+                              fontSize: 14.sp,
+                              color: AppConstants().ltLogoGrey),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -474,14 +511,14 @@ class PostFlowWidget extends StatelessWidget {
       // ),
       GestureDetector(
         onTap: () {
-          Get.toNamed(NavigationConstants.comments, arguments: postId);
+          Get.toNamed(NavigationConstants.comments, arguments: widget.postId);
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
           child: Row(
             children: [
               Text(
-                commentCount,
+                widget.commentCount,
                 style: TextStyle(
                     fontFamily: "Sfmedium",
                     fontSize: 14.sp,
@@ -503,7 +540,7 @@ class PostFlowWidget extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              beforeHours,
+              widget.beforeHours,
               style: TextStyle(
                 fontFamily: "Sflight",
                 fontSize: 14.sp,
@@ -595,23 +632,19 @@ class PostFlowWidget extends StatelessWidget {
                                         searchUserController.searchRequestText;
                                     searchUserController.update(['search']);
 
-                                    GeneralServicesTemp()
-                                        .makePostRequest(
-                                          '/users/search-user',
-                                          searchUserController
-                                              .searchUserRequest,
+                                    GeneralServicesTemp().makePostRequest(
+                                      '/users/search-user',
+                                      searchUserController.searchUserRequest,
                                       {
                                         "Content-type": "application/json",
                                         'Authorization':
-                                        'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                       },
-                                        )
-                                        .then(
-                                          (value) =>
-                                              SearchUserResponse.fromJson(
-                                            json.decode(value!),
-                                          ),
-                                        );
+                                    ).then(
+                                      (value) => SearchUserResponse.fromJson(
+                                        json.decode(value!),
+                                      ),
+                                    );
                                   },
                                   autofocus: false,
                                   keyboardType: TextInputType.text,
@@ -693,17 +726,7 @@ class PostFlowWidget extends StatelessWidget {
                                                 .profilePicture,
                                           ),
                                           title: Text(
-                                            "${snapshot
-                                                    .data!
-                                                    .data![0]
-                                                    .searchResult!
-                                                    .result![index]
-                                                    .name!} ${snapshot
-                                                    .data!
-                                                    .data![0]
-                                                    .searchResult!
-                                                    .result![index]
-                                                    .surname!}",
+                                            "${snapshot.data!.data![0].searchResult!.result![index].name!} ${snapshot.data!.data![0].searchResult!.result![index].surname!}",
                                             style: TextStyle(
                                               fontFamily: 'Sfsemibold',
                                               fontSize: 12.sp,

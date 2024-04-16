@@ -1,6 +1,6 @@
-
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:pinput/pinput.dart';
 
 // ignore: must_be_immutable
 class DiscriptionTextFieldWidget extends StatelessWidget {
@@ -18,10 +18,17 @@ class DiscriptionTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: discriptionTextController,
+      onChanged: (value) {
+        if (discriptionTextController.length != 0) {
+          discriptionController.changeHaveDiscription(1);
+        } else {
+          discriptionController.changeHaveDiscription(0);
+        }
+      },
       onEditingComplete: () {
         discriptionController
             .changeDiscriptionContent(discriptionTextController.text);
-        discriptionController.changeHaveDiscription(1);
+        // discriptionController.changeHaveDiscription(1);
       },
       onFieldSubmitted: (value) {
         FocusManager.instance.primaryFocus?.unfocus();

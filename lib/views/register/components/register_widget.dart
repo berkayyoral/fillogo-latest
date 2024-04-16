@@ -11,6 +11,10 @@ class RegisterWidget extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isAlphabetic(String input) {
+    final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ]+$');
+    return alphabetic.hasMatch(input);
+  }
 
   final RegisterController registerController = Get.find<RegisterController>();
   final userEmail = Get.arguments;
@@ -63,12 +67,24 @@ class RegisterWidget extends StatelessWidget {
             ),
           ),
           CustomTextField(
+            onChanged: (value) {
+              if (!isAlphabetic(value)) {
+                nameController.text =
+                    nameController.text.substring(0, value.length - 1);
+              }
+            },
             labelText: 'İsim',
             keyboardType: TextInputType.name,
             controller: nameController,
             textInputAction: TextInputAction.next,
           ),
           CustomTextField(
+            onChanged: (value) {
+              if (!isAlphabetic(value)) {
+                nameController.text =
+                    nameController.text.substring(0, value.length - 1);
+              }
+            },
             textInputAction: TextInputAction.next,
             labelText: 'Soyisim',
             keyboardType: TextInputType.name,

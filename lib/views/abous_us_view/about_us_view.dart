@@ -51,7 +51,7 @@ class AboutUsView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 20.w),
                     child: Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's It has survived not only five centuries, ",
+                      "FilloGO ile yeni bir rotaya hazır mısınız?",
                       style: TextStyle(
                         fontFamily: 'Sfmedium',
                         fontSize: 16.sp,

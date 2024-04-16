@@ -159,7 +159,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.settings,
-      page: () =>  SettingsView(),
+      page: () => SettingsView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),

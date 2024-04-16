@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/models/user/delete_account.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/permission.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
@@ -71,20 +73,22 @@ class SettingsView extends StatelessWidget {
                 Get.toNamed(NavigationConstants.profileSettings);
               },
             ),
-            SettingsListTile(
-              iconPath: 'assets/icons/preferences-icon.svg',
-              title: 'Tercihler',
-              subtitle: 'Tercihlerinizi düzenleyiniz',
-              onPressed: () {
-                Get.toNamed(NavigationConstants.preferencesSettingsView);
-              },
-            ),
+            // SettingsListTile(
+            //   iconPath: 'assets/icons/preferences-icon.svg',
+            //   title: 'Tercihler',
+            //   subtitle: 'Tercihlerinizi düzenleyiniz',
+            //   onPressed: () {
+            //     Get.toNamed(NavigationConstants.preferencesSettingsView);
+            //   },
+            // ),
             SettingsListTile(
               iconPath: 'assets/icons/notification-icon.svg',
               title: 'Bildirim Ayarları',
               subtitle: 'Bildirim tercihlerinizi düzenleyiniz',
               onPressed: () {
-                Get.toNamed(NavigationConstants.notificationSettingsView);
+                Permissions.instance
+                    .requestPermission(context, Permission.notification);
+                // Get.toNamed(NavigationConstants.notificationSettingsView);
               },
             ),
             SettingsListTile(
