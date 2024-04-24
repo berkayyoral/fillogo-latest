@@ -75,6 +75,8 @@ class RouteDetailsPageView extends StatelessWidget {
         init: routeDetailsPageController,
         initState: (_) async {},
         builder: (routeDetailsPageController) {
+          print(
+              "asdasd11 ${routeDetailsPageController.ownerRouteCarType.carBrand}");
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -320,6 +322,9 @@ class RouteDetailsPageView extends StatelessWidget {
                                       'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                 },
                               ).then((value) async {
+                                BerkayController berkayController =
+                                    Get.find<BerkayController>();
+                                berkayController.isAlreadyHaveRoute = true.obs;
                                 ActivateRouteResponseModel response =
                                     ActivateRouteResponseModel.fromJson(
                                         jsonDecode(value!));

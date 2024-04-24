@@ -116,7 +116,6 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
     likeCountController.lastLikeCount =
         int.parse(widget.othersLikeCount.obs.toString()).obs;
     var likeControll = false.obs;
-    print("asdsdsd ${widget.didILiked}");
     if (widget.didILiked == 1) {
       likeControll = true.obs;
     }
@@ -185,7 +184,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                     ),
                   ),
                 ),
-                Column(
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EmotionAndTagStringCreate(
@@ -197,7 +196,6 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                       haveTag: widget.haveTag,
                       haveEmotion: widget.haveEmotion,
                     ),
-                    3.h.spaceY,
                     Visibility(
                       visible: !widget.onlyPost,
                       child: Row(
@@ -226,6 +224,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                         ],
                       ),
                     ),
+                    3.h.spaceY,
                   ],
                 ),
               ],
@@ -395,45 +394,47 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                 ],
               ),
             ),
-            Visibility(
-              visible: !widget.onlyPost,
-              child: SizedBox(
-                child: GestureDetector(
-                  onTap: () {
-                    selectedRouteController.selectedRouteId.value =
-                        widget.selectedRouteId!;
-                    selectedRouteController.selectedRouteUserId.value =
-                        widget.selectedRouteUserId!;
-                    Get.toNamed(NavigationConstants.routeDetails);
-                  },
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/route-icon.svg',
-                        height: 15.h,
-                        color: AppConstants().ltMainRed,
-                      ),
-                      5.w.spaceX,
-                      RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
+            widget.selectedRouteId == 0
+                ? SizedBox()
+                : Visibility(
+                    visible: !widget.onlyPost,
+                    child: SizedBox(
+                      child: GestureDetector(
+                        onTap: () {
+                          selectedRouteController.selectedRouteId.value =
+                              widget.selectedRouteId!;
+                          selectedRouteController.selectedRouteUserId.value =
+                              widget.selectedRouteUserId!;
+                          Get.toNamed(NavigationConstants.routeDetails);
+                        },
+                        child: Row(
                           children: [
-                            TextSpan(
-                              text: 'Rotayı Göster',
-                              style: TextStyle(
-                                fontFamily: "Sfregular",
-                                fontSize: 12.sp,
-                                color: AppConstants().ltBlack,
+                            SvgPicture.asset(
+                              'assets/icons/route-icon.svg',
+                              height: 25.h,
+                              color: AppConstants().ltMainRed,
+                            ),
+                            5.w.spaceX,
+                            RichText(
+                              textAlign: TextAlign.left,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Rotayı Göster',
+                                    style: TextStyle(
+                                      fontFamily: "Sfregular",
+                                      fontSize: 16.sp,
+                                      color: AppConstants().ltBlack,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

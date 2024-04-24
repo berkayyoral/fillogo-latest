@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fillogo/models/user/profile/set_password.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../export.dart';
 
@@ -62,26 +63,48 @@ class ChangePassView extends StatelessWidget {
                 child: RedButton(
                   text: 'Kaydet',
                   onpressed: () {
-                    setPasswordRequest.newPassword = newPass1Controller.text;
-                    setPasswordRequest.newPasswordAgain =
-                        newPass2Controller.text;
-                    setPasswordRequest.oldPassword = oldPassController.text;
-                    GeneralServicesTemp().makePatchRequest(
-                        "/users/set-password", setPasswordRequest, {
-                      "Content-type": "application/json",
-                      'Authorization':
-                          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                    }).then((value) {
-                      return json.decode(value!);
-                    });
-                    Get.back();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Şifreniz başarıyla değiştirildi...',
+                    // Yeni şifreleri kontrol et
+                    if (newPass1Controller.text != newPass2Controller.text) {
+                      // Hata döndür
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Yeni şifreler uyuşmuyor!'),
                         ),
-                      ),
-                    );
+                      );
+                      return; // İşlemi durdur
+                    } else if (newPass1Controller.length < 6) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Yeni şifreniz 6 karakterden uzun olmalı'),
+                        ),
+                      );
+                    } else {
+                      setPasswordRequest.newPassword = newPass1Controller.text;
+                      setPasswordRequest.newPasswordAgain =
+                          newPass2Controller.text;
+                      setPasswordRequest.oldPassword = oldPassController.text;
+                      GeneralServicesTemp().makePatchRequest(
+                        "/users/set-password",
+                        setPasswordRequest,
+                        {
+                          "Content-type": "application/json",
+                          'Authorization':
+                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                        },
+                      ).then((value) {
+                        print("cevap ${json.decode(value!)}");
+                        return json.decode(value);
+                      });
+                      Get.back();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Şifreniz başarıyla değiştirildi...',
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),

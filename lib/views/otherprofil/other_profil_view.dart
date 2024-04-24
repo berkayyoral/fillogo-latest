@@ -273,7 +273,21 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
                             ),
                           ),
                         ),
-                        12.h.spaceY,
+                        1.h.spaceY,
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 12.w,
+                                ),
+                                child: Text(
+                                  "${snapshot.data!.data!.users!a} ",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: AppConstants().ltLogoGrey,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ),
+                              12.h.spaceY,
                         UserVehicleInfosWidget(
                           vehicleType:
                               snapshot.data!.data!.carInformations == null

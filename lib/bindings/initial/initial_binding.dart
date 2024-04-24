@@ -1,3 +1,4 @@
+import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
@@ -24,7 +25,7 @@ class InitialBinding implements Bindings {
   void dependencies() async {
     Get.put(GetMyCurrentLocationController());
     Get.put(ConnectionController());
-
+    Get.put(BerkayController());
     Get.put(SetCustomMarkerIconController());
     Get.put(CreateRouteController());
     Get.put(MapPageController());

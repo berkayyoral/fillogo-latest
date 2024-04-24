@@ -337,7 +337,7 @@ class MapPageController extends GetxController {
       //polylineCoordinatesListForB.add([point.latitude, point.longitude]);
       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
     }
-    log("polylineCoordinates1:  ${polylineCoordinates.toString()}");
+    // log("polylineCoordinates1:  ${polylineCoordinates.toString()}");
     var newPolylineCoordinates = polylineCoordinates.toSet().toList();
 
     Polyline polyline = Polyline(

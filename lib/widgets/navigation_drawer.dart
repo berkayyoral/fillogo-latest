@@ -41,28 +41,28 @@ class NavigationDrawerWidget extends StatelessWidget {
                 Get.toNamed('/myRoutesPageView');
               },
             ),
-            DrawerItem(
-              iconPath: 'assets/icons/create-route-icon.svg',
-              title: 'Yeni Rota Oluştur',
-              onTap: () async {
-                await _drawerControlIndex();
-                bottomNavigationBarController.selectedIndex.value = 1;
-                mapPageController.selectedDispley.value = 0;
-                mapPageController.iWantTrackerMyLocation.value = 2;
-                mapPageController.changeCalculateLevel(2);
-                mapPageController.addMarkerFunctionForMapPageWithoutOnTap2(
-                  const MarkerId("myLocationMarker"),
-                  LatLng(
-                    getMyCurrentLocationController.myLocationLatitudeDo.value,
-                    getMyCurrentLocationController.myLocationLongitudeDo.value,
-                  ),
-                  mapPageController.mapPageRouteStartAddress2.value,
-                  BitmapDescriptor.fromBytes(mapPageController
-                      .customMarkerIconController.mayLocationIcon!),
-                );
-                Get.back();
-              },
-            ),
+            // DrawerItem(
+            //   iconPath: 'assets/icons/create-route-icon.svg',
+            //   title: 'Yeni Rota Oluştur',
+            //   onTap: () async {
+            //     await _drawerControlIndex();
+            //     bottomNavigationBarController.selectedIndex.value = 1;
+            //     mapPageController.selectedDispley.value = 0;
+            //     mapPageController.iWantTrackerMyLocation.value = 2;
+            //     mapPageController.changeCalculateLevel(2);
+            //     mapPageController.addMarkerFunctionForMapPageWithoutOnTap2(
+            //       const MarkerId("myLocationMarker"),
+            //       LatLng(
+            //         getMyCurrentLocationController.myLocationLatitudeDo.value,
+            //         getMyCurrentLocationController.myLocationLongitudeDo.value,
+            //       ),
+            //       mapPageController.mapPageRouteStartAddress2.value,
+            //       BitmapDescriptor.fromBytes(mapPageController
+            //           .customMarkerIconController.mayLocationIcon!),
+            //     );
+            //     Get.back();
+            //   },
+            // ),
             DrawerItem(
               iconPath: 'assets/icons/intersecting-routes-search.svg',
               title: 'Kesişen Rotaları Ara',
@@ -95,7 +95,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                 Get.toNamed('/settings');
               },
             ),
-           /* DrawerItem(
+            /* DrawerItem(
               iconPath: 'assets/icons/about_us.svg',
               title: 'Sorun Bildir',
               onTap: () async {

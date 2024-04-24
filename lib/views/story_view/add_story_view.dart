@@ -12,7 +12,7 @@ import '../../export.dart';
 class AddStoryView extends StatefulWidget {
   const AddStoryView({Key? key}) : super(key: key);
 
-   @override
+  @override
   State<AddStoryView> createState() => _AddStoryViewState();
 }
 
@@ -25,12 +25,11 @@ class _AddStoryViewState extends State<AddStoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: AppConstants().ltWhiteGrey,
-
+      backgroundColor: AppConstants().ltWhiteGrey,
       appBar: AppBarGenel(
         title: Text(
           'Hikaye Ekle',
-         style: TextStyle(
+          style: TextStyle(
               fontFamily: 'Sfsemibold',
               color: AppConstants().ltLogoGrey,
               fontSize: 28),
@@ -50,7 +49,7 @@ class _AddStoryViewState extends State<AddStoryView> {
       ),
       body: Stack(
         children: [
-         mediaPickerController.isMediaPicked != false
+          mediaPickerController.isMediaPicked != false
               ? SizedBox(
                   height: Get.height,
                   width: Get.width,
@@ -102,7 +101,6 @@ class _AddStoryViewState extends State<AddStoryView> {
                   child: RedButton(
                     text: 'Paylaş',
                     onpressed: () async {
-                      log(mediaPickerController.media.toString());
                       Map<String, dynamic> formData1 = {
                         'file': mediaPickerController.media
                       };
@@ -117,6 +115,8 @@ class _AddStoryViewState extends State<AddStoryView> {
                       ).then((value) {
                         log(value.toString());
                         if (value != null) {
+                          log("${mediaPickerController.media}");
+                          log("${formData1}");
                           final response =
                               CreateStoryResponse.fromJson(jsonDecode(value));
                           if (response.success == 1) {

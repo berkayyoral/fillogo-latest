@@ -88,9 +88,9 @@ class _StoriesViewState extends State<StoriesView> {
                     ),
                   ]*/
                       ,
-                      onStoryShow: (b) {
-                        //print("Showing a story");
-                      },
+                      // onStoryShow: (b) {
+                      //   //print("Showing a story");
+                      // },
                       onVerticalSwipeComplete: (p0) {
                         LocaleManager.instance
                                     .getInt(PreferencesKeys.currentUserId) !=

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
+import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/models/user/get_user_car_types.dart';
+import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/postflow/components/new_post_create_button.dart';
 import 'package:fillogo/views/postflow/components/only_route_widget.dart';
 import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
@@ -15,10 +20,16 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../route_calculate_view/components/create_route_controller.dart';
 
-class PostFlowView extends StatelessWidget {
+class PostFlowView extends StatefulWidget {
   PostFlowView({Key? key}) : super(key: key);
 
+  @override
+  State<PostFlowView> createState() => _PostFlowViewState();
+}
+
+class _PostFlowViewState extends State<PostFlowView> {
   final PostService postService = PostService();
+
   GeneralDrawerController postFlowDrawerController =
       Get.find<GeneralDrawerController>();
 
@@ -28,10 +39,38 @@ class PostFlowView extends StatelessWidget {
 
   DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 
+  VehicleInfoController vehicleInfoController =
+      Get.put(VehicleInfoController());
+
   final HomeController homeContoller = Get.put(HomeController());
 
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
+
+  @override
+  void initState() {
+    GeneralServicesTemp().makeGetRequest(EndPoint.getUserCarTypes, {
+      "Content-type": "application/json",
+      'Authorization':
+          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+    }).then((value) {
+      var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
+      print("aaa $response");
+      print("aaa $value");
+
+      if (response.succes == 1) {
+        vehicleInfoController.vehicleMarka =
+            response.data![0].userCarTypes![0].carBrand.toString().obs;
+        vehicleInfoController.vehicleModel =
+            response.data![0].userCarTypes![0].carModel.toString().obs;
+        
+      } else {
+        print("Response Hata = ${response.message}");
+        print("Response Hata = ${response.succes}");
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,17 +268,18 @@ class PostFlowView extends StatelessWidget {
                                               didILiked: homeContoller
                                                   .snapshotList[index]!
                                                   .didILiked!,
-                                              routeContent:
-                                                  "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity!} -> ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}",
-                                              routeStartDate: inputFormat
-                                                  .format(DateTime.parse(
-                                                      homeContoller
-                                                          .snapshotList[index]!
-                                                          .post!
-                                                          .postroute!
-                                                          .departureDate!
-                                                          .toString()))
-                                                  .toString(),
+                                              routeContent: "",
+                                              // "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity!} -> ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}",
+                                              routeStartDate: "",
+                                              //  inputFormat
+                                              //     .format(DateTime.parse(
+                                              //         homeContoller
+                                              //             .snapshotList[index]!
+                                              //             .post!
+                                              //             .postroute!
+                                              //             .departureDate!
+                                              //             .toString()))
+                                              //     .toString(),
                                               routeEndDate: inputFormat
                                                   .format(DateTime.parse(
                                                       homeContoller

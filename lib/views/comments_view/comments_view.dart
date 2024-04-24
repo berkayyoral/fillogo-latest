@@ -103,7 +103,8 @@ class _CommentsViewState extends State<CommentsView> {
                           } else {
                             userId.value =
                                 snapshot.data!.data![0].post!.user!.id!;
-
+                            print(
+                                "asdasdasdas ${snapshot.data!.data![0].post!.postroute?.id}");
                             return Column(
                               children: [
                                 PostFlowWidget(
@@ -162,10 +163,11 @@ class _CommentsViewState extends State<CommentsView> {
                                           .postemojis![0].emojis!.name
                                       : "",
                                   likedStatus: 1,
-                                  selectedRouteId:
-                                      snapshot.data!.data![0].post!.id,
+                                  selectedRouteId: snapshot
+                                          .data!.data![0].post!.postroute?.id ??
+                                      0,
                                   selectedRouteUserId:
-                                      snapshot.data!.data![0].post!.id,
+                                      snapshot.data!.data![0].post!.user!.id,
                                 ),
                                 GetBuilder<GeneralDrawerController>(
                                   id: 'deneme',

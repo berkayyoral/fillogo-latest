@@ -1,33 +1,53 @@
+// ignore: must_be_immutable
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
-import 'package:fillogo/export.dart';
+import 'package:fillogo/core/constants/app_constants.dart';
+import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
+import 'package:fillogo/core/constants/navigation_constants.dart';
+import 'package:fillogo/core/init/locale/locale_manager.dart';
+import 'package:fillogo/widgets/appbar_genel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+// import 'package:fillogo/export.dart';
+import 'package:http_parser/http_parser.dart' as parser;
 import 'package:fillogo/models/post/create/post_create_response.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/create_post_view/components/add_property_create_post.dart';
+import 'package:fillogo/views/create_post_view/components/add_property_not_content_create_post.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/create_post_view/components/discription_textfield_widget.dart';
 import 'package:fillogo/views/create_post_view/components/emotion_and_tag_string_create_post_witget.dart';
 import 'package:fillogo/views/create_post_view/components/route_view_widget_new_post.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
-import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:fillogo/widgets/video_player_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'components/add_property_create_post.dart';
-import 'components/add_property_not_content_create_post.dart';
 
-// ignore: must_be_immutable
+import '../../core/init/ui_helper/ui_helper.dart';
+
 class CreatePostPageView extends StatelessWidget {
   CreatePostPageView({super.key});
 
   CreatePostPageController createPostPageController = Get.find();
-  MediaPickerController mediaPickerController = Get.find();
+  MediaPickerController mediaPickerController =
+      Get.find<MediaPickerController>();
 
   TextEditingController discriptionTextController = TextEditingController();
 
@@ -245,16 +265,43 @@ class CreatePostPageView extends StatelessWidget {
                                   createPostPageController.tagIdList[i];
                             }
                           }
-                          print(createPostPageController.routeId.value);
+
                           map['postDescription'] =
                               discriptionTextController.text.isEmpty
                                   ? "Yeni bir rotaya çıktım"
                                   : discriptionTextController.text;
-                          map['postRouteID'] =
-                              createPostPageController.routeId.value;
+                          createPostPageController.routeId.value == 0
+                              ? null
+                              : map['postRouteID'] =
+                                  createPostPageController.routeId.value;
+
                           mediaPickerController.media != null
                               ? map['postMedia'] = mediaPickerController.media
                               : null;
+
+                          // mediaPickerController.media != null
+                          //     ? map['postMedia'] = await MultipartFile.fromFile(
+                          //         mediaPickerController.media!.path!,
+                          //         filename: mediaPickerController.media!.name,
+                          //         contentType: parser.MediaType(
+                          //           mediaPickerController.media!.name
+                          //                       .split('.')
+                          //                       .last ==
+                          //                   'mp4'
+                          //               ? 'video'
+                          //               : 'image',
+                          //           mediaPickerController.media!.name
+                          //               .split('.')
+                          //               .last,
+                          //         ),
+                          //       )
+                          //     : null;
+                          log("map = $map");
+                          log("platform = ${mediaPickerController.media}");
+                          // Map<String, dynamic> formData1 = {
+                          //   'postDescription': "a",
+                          //   'postMedia': mediaPickerController.media
+                          // };
                           await GeneralServicesTemp()
                               .makePostRequestWithFormData(
                                   '/posts/create-post', map, {

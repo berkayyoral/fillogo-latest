@@ -78,6 +78,8 @@ class _VehicleSettingsState extends State<VehicleSettings> {
       print("aaa $value");
 
       if (response.succes == 1) {
+        capacityController.text =
+            response.data![0].userCarTypes![0].carCapacity.toString();
         carId = response.data![0].userCarTypes![0].id;
         brandController.text =
             response.data![0].userCarTypes![0].carBrand.toString();

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:convert' as convert;
 import 'dart:io';
+import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
@@ -1230,6 +1231,10 @@ class MapPageView extends GetView<MapPageController> {
                                               ActivateRouteResponseModel
                                                   .fromJson(jsonDecode(value!));
                                           if (response.success == 1) {
+                                            BerkayController berkayController =
+                                                Get.find<BerkayController>();
+                                            berkayController
+                                                .isAlreadyHaveRoute = false.obs;
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(
@@ -2071,6 +2076,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                           pickedDate.day,
                                           pickedTime.hour,
                                           pickedTime.minute));
+                              log("Kontrol3cikisController: ${createRouteController.cikisController.value}");
+                              log("Kontrol3varisController: ${createRouteController.varisController.value}");
                               print(
                                   "aaaaaa ${createRouteController.dateTimeFormatCikis.value}");
                               if (pickedDate != null) {
@@ -2081,6 +2088,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                     DateTime.parse(createRouteController
                                         .dateTimeFormatCikis.value);
                                 //varisController.clear();
+                                log("Kontrol4cikisController: ${createRouteController.cikisController.value}");
+                                log("Kontrol4varisController: ${createRouteController.varisController.value}");
                               } else {
                                 //print("Date is not selected");
                               }
@@ -2619,6 +2628,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 .toString());
                                         createRouteController
                                             .mapPageRouteControllerClear();
+
                                         // createRouteController.cikisController.clear();
                                         // createRouteController.varisController.clear();
                                         // createRouteController.kapasiteController.clear();
@@ -2732,6 +2742,13 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               AppConstants()
                                                                   .ltWhite,
                                                           onpressed: () {
+                                                            BerkayController
+                                                                berkayController =
+                                                                Get.find<
+                                                                    BerkayController>();
+                                                            berkayController
+                                                                    .isAlreadyHaveRoute =
+                                                                true.obs;
                                                             MapPageController
                                                                 mappageController =
                                                                 MapPageController();
@@ -3436,6 +3453,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                             },
                                           ).then((value) async {
+                                            BerkayController berkayController =
+                                                Get.find<BerkayController>();
+                                            berkayController
+                                                .isAlreadyHaveRoute = true.obs;
                                             GetMyRouteResponseModel
                                                 getMyRouteResponseModel =
                                                 GetMyRouteResponseModel

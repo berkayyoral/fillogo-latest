@@ -1,4 +1,3 @@
-
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/export.dart';
@@ -16,7 +15,8 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
   CreatePostPageController createPostPageController =
       Get.find<CreatePostPageController>();
 
-  MediaPickerController mediaPickerController = Get.find();
+  MediaPickerController mediaPickerController =
+      Get.put(MediaPickerController());
 
   @override
   Widget build(BuildContext context) {

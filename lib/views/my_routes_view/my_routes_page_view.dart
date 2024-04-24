@@ -28,7 +28,7 @@ class MyRoutesPageView extends StatelessWidget {
 
   DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 
-  BerkayController berkayController = Get.put(BerkayController());
+  BerkayController berkayController = Get.find<BerkayController>();
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
 
@@ -82,24 +82,35 @@ class MyRoutesPageView extends StatelessWidget {
                       text: 'Yeni Rota Oluştur',
                       textColor: AppConstants().ltWhite,
                       onpressed: () {
-                        bottomNavigationBarController.selectedIndex.value = 1;
-                        mapPageController.selectedDispley.value = 0;
-                        mapPageController.iWantTrackerMyLocation.value = 2;
-                        mapPageController.changeCalculateLevel(2);
-                        mapPageController
-                            .addMarkerFunctionForMapPageWithoutOnTap2(
-                          const MarkerId("myLocationMarker"),
-                          LatLng(
-                            getMyCurrentLocationController
-                                .myLocationLatitudeDo.value,
-                            getMyCurrentLocationController
-                                .myLocationLongitudeDo.value,
-                          ),
-                          mapPageController.mapPageRouteStartAddress2.value,
-                          BitmapDescriptor.fromBytes(mapPageController
-                              .customMarkerIconController.mayLocationIcon!),
-                        );
-                        Get.back();
+                        print(
+                            "asd456a4 ${mapPageController.myActivesRoutes!.isEmpty}");
+                        if (!mapPageController.myActivesRoutes!.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Lütfen önce rotanızı tamamlayınız veya aktif rotadan kaldırınız.'),
+                            ),
+                          );
+                        } else {
+                          bottomNavigationBarController.selectedIndex.value = 1;
+                          mapPageController.selectedDispley.value = 0;
+                          mapPageController.iWantTrackerMyLocation.value = 2;
+                          mapPageController.changeCalculateLevel(2);
+                          mapPageController
+                              .addMarkerFunctionForMapPageWithoutOnTap2(
+                            const MarkerId("myLocationMarker"),
+                            LatLng(
+                              getMyCurrentLocationController
+                                  .myLocationLatitudeDo.value,
+                              getMyCurrentLocationController
+                                  .myLocationLongitudeDo.value,
+                            ),
+                            mapPageController.mapPageRouteStartAddress2.value,
+                            BitmapDescriptor.fromBytes(mapPageController
+                                .customMarkerIconController.mayLocationIcon!),
+                          );
+                          Get.back();
+                        }
                       },
                       iconPath: '',
                       color: AppConstants().ltMainRed,

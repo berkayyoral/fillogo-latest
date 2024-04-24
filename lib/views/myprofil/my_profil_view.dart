@@ -168,10 +168,23 @@ class _MyProfilViewState extends State<MyProfilView> {
                                   ),
                                 ),
                               ),
+                              1.h.spaceY,
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 12.w,
+                                ),
+                                child: Text(
+                                  "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: AppConstants().ltLogoGrey,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ),
                               12.h.spaceY,
                               snapshot.hasData
-                                  ? snapshot
-                                          .data!.data!.carInformations == null
+                                  ? snapshot.data!.data!.carInformations == null
                                       ? const UserVehicleInfosWidget(
                                           vehicleType: "",
                                           vehicleBrand: "",
@@ -179,15 +192,18 @@ class _MyProfilViewState extends State<MyProfilView> {
                                         )
                                       : UserVehicleInfosWidget(
                                           vehicleType: snapshot
-                                              .data!
-                                              .data!
-                                              .carInformations!
-                                              .cartypetousercartypes!
-                                              .carType ?? "",
+                                                  .data!
+                                                  .data!
+                                                  .carInformations!
+                                                  .cartypetousercartypes!
+                                                  .carType ??
+                                              "",
                                           vehicleBrand: snapshot.data!.data!
-                                              .carInformations!.carBrand ?? "",
+                                                  .carInformations!.carBrand ??
+                                              "",
                                           vehicleModel: snapshot.data!.data!
-                                              .carInformations!.carModel ?? "",
+                                                  .carInformations!.carModel ??
+                                              "",
                                         )
                                   : const SizedBox(),
                               SizedBox(
@@ -276,7 +292,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 16,
                                                         vertical: 8),
                                                     child: GestureDetector(
@@ -389,7 +405,8 @@ class _MyProfilViewState extends State<MyProfilView> {
                                         getMyCurrentLocationController
                                             .myLocationLongitudeDo.value,
                                       ),
-                                      mapPageController.mapPageRouteStartAddress2.value,
+                                      mapPageController
+                                          .mapPageRouteStartAddress2.value,
                                       BitmapDescriptor.fromBytes(
                                           mapPageController
                                               .customMarkerIconController
@@ -456,7 +473,6 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                                 json.decode(
                                                                     value!));
                                                     if (response.success == 1) {
-
                                                       Get.back();
                                                       UiHelper.showSuccessSnackBar(
                                                           context,
@@ -484,9 +500,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                       mapPageController
                                                           .polylines2
                                                           .clear();
-                                                      setState(() {
-                                                        
-                                                      });
+                                                      setState(() {});
                                                     } else {
                                                       Get.back();
                                                       UiHelper.showWarningSnackBar(
@@ -685,21 +699,22 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                         .result![index]
                                                         .didILiked ??
                                                     0,
-                                                routeContent: "${snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute!
-                                                        .startingCity!} -> ${snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute!
-                                                        .endingCity!}",
+                                                routeContent: "",
+                                                // "${snapshot
+                                                //         .data!
+                                                //         .data!
+                                                //         .posts!
+                                                //         .result![index]
+                                                //         .post!
+                                                //         .postroute!
+                                                //         .startingCity!} -> ${snapshot
+                                                //         .data!
+                                                //         .data!
+                                                //         .posts!
+                                                //         .result![index]
+                                                //         .post!
+                                                //         .postroute!
+                                                //         .endingCity!}",
                                                 routeEndDate: "",
                                                 routeStartDate: "",
                                                 postId: snapshot

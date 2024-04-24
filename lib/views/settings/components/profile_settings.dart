@@ -117,10 +117,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     controller: surNameController,
                     hint: 'Soyisim',
                   ),
-                  _textField(
-                    controller: phoneController,
-                    hint: 'Telefon',
-                  ),
+                  // _textField(
+                  //   controller: phoneController,
+                  //   hint: 'Telefon',
+                  // ),
                   _textField(
                     controller: mailController,
                     hint: 'Eposta',

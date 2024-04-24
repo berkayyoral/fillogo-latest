@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
@@ -56,7 +57,9 @@ class ChatMessageView extends StatelessWidget {
         ),
         title: InkWell(
           onTap: () {
-            Get.toNamed('/otherprofiles');
+            print("asd2d23d ${chatController.receiverId}");
+            Get.toNamed('/otherprofiles',
+                arguments: chatController.receiverId.value);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
