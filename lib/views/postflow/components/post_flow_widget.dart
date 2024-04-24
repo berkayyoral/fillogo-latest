@@ -116,11 +116,12 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
     likeCountController.lastLikeCount =
         int.parse(widget.othersLikeCount.obs.toString()).obs;
     var likeControll = false.obs;
+     
     if (widget.didILiked == 1) {
       likeControll = true.obs;
     }
     var likeCount = widget.othersLikeCount.obs;
-    int lastLikeCount = int.parse(widget.othersLikeCount);
+    var lastLikeCount = int.parse(widget.othersLikeCount).obs;
 
     return Column(children: [
       FittedBox(
@@ -328,10 +329,10 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
                             'Content-Type': 'application/json',
                           },
-                        ).then((value) {
+                        ).then((value) async{
                           if (value != null) {
-                            final response =
-                                PostLikeResponse.fromJson(jsonDecode(value));
+                            ++lastLikeCount.value;
+                           final response =PostLikeResponse.fromJson(jsonDecode(value));
                             if (response.data![0].removed == true) {
                               likeCountController.lastLikeCount =
                                   likeCountController.lastLikeCount + 1;
@@ -356,7 +357,10 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                         ),
                                         link: widget.centerImageUrl),
                                   ));
-                            } else {
+                            } else if(!likeControll.value){
+                              print("kankaaaaa else girdi");
+                              --lastLikeCount.value;
+                              --lastLikeCount.value;
                               likeCountController.lastLikeCount =
                                   likeCountController.lastLikeCount - 1;
                             }
@@ -445,13 +449,15 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
             GetBuilder<UserStateController>(
               id: 'like',
               builder: (controller) {
+                likeControll.value;
+                
                 return Obx(
                   () => RichText(
                     text: TextSpan(
                       children: [
                         const TextSpan(text: ""),
                         TextSpan(
-                          text: likeCountController.lastLikeCount.toString(),
+                          text: lastLikeCount.value.toString(),
                           style: TextStyle(
                               fontFamily: "Sfmedium",
                               fontSize: 14.sp,
