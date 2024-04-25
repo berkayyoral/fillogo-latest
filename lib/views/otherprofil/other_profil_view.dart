@@ -279,7 +279,7 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
                                   left: 12.w,
                                 ),
                                 child: Text(
-                                  "${snapshot.data!.data!.users!a} ",
+                                  "@${snapshot.data!.data!.users!.username} ",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     color: AppConstants().ltLogoGrey,

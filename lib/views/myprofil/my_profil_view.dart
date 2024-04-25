@@ -174,7 +174,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                                   left: 12.w,
                                 ),
                                 child: Text(
-                                  "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                                  "@${snapshot.data!.data!.users!.username!}",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     color: AppConstants().ltLogoGrey,

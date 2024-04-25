@@ -84,9 +84,9 @@ class BussinessHelper {
           log('response size ${response.files.first.size * (1 / 1000000)} + ${response.files.first.name}');
           CroppedFile? croppedFile = await ImageCropper().cropImage(
             sourcePath: response.files.first.path!,
-            aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
+            aspectRatioPresets: [CropAspectRatioPreset.ratio4x3],
             compressQuality: 90,
-            aspectRatio: const CropAspectRatio(ratioX: 9, ratioY: 16),
+            aspectRatio: const CropAspectRatio(ratioX: 4, ratioY: 3),
             uiSettings: [
               AndroidUiSettings(
                 toolbarColor: Colors.red,

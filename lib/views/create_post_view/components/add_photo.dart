@@ -41,8 +41,8 @@ class _AddPhotoState extends State<AddPhoto> {
               imageFile = await BussinessHelper.pickImage(
                 context,
                 ImageSource.camera,
-                [CropAspectRatioPreset.ratio16x9],
-                const CropAspectRatio(ratioX: 16, ratioY: 9),
+                [CropAspectRatioPreset.ratio4x3],
+                const CropAspectRatio(ratioX: 4, ratioY: 3),
               ).then((value) {
                 return value;
               });
@@ -52,8 +52,8 @@ class _AddPhotoState extends State<AddPhoto> {
               imageFile = await BussinessHelper.pickImage(
                 context,
                 ImageSource.gallery,
-                [CropAspectRatioPreset.ratio16x9],
-                const CropAspectRatio(ratioX: 16, ratioY: 9),
+                [CropAspectRatioPreset.ratio4x3],
+                const CropAspectRatio(ratioX: 4, ratioY: 3),
               ).then((value) {
                 return value;
               });

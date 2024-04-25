@@ -286,17 +286,20 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
       10.h.spaceY,
       Visibility(
         visible: widget.centerImageUrl.isNotEmpty,
-        child: Container(
-          constraints: BoxConstraints(
-            maxHeight: 300.h,
+        child: Padding(
+          padding: const EdgeInsets.only(left:10 ,right: 10),
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: 300.h,
+            ),
+            child: widget.centerImageUrl.contains('.mp4')
+                ? PostVideoPlayerWidget(path: widget.centerImageUrl)
+                : Image.network(
+                    widget.centerImageUrl,
+                    width: Get.width,
+                    fit: BoxFit.fitWidth,
+                  ),
           ),
-          child: widget.centerImageUrl.contains('.mp4')
-              ? PostVideoPlayerWidget(path: widget.centerImageUrl)
-              : Image.network(
-                  widget.centerImageUrl,
-                  width: Get.width,
-                  fit: BoxFit.fitWidth,
-                ),
         ),
       ),
       Padding(

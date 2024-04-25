@@ -441,6 +441,7 @@ class Users {
     this.id,
     this.name,
     this.surname,
+    this.username,
     this.profilePicture,
     this.isPrivate,
     this.banner,
@@ -449,6 +450,7 @@ class Users {
   int? id;
   String? name;
   String? surname;
+  String? username;
   String? profilePicture;
   bool? isPrivate;
   String? banner;
@@ -461,6 +463,7 @@ class Users {
         id: json["id"],
         name: json["name"],
         surname: json["surname"],
+        username: json["username"],
         profilePicture: json["profilePicture"],
         isPrivate: json["isPrivate"],
         banner: json["banner"],
@@ -470,6 +473,7 @@ class Users {
         "id": id,
         "name": name,
         "surname": surname,
+        "username": username,
         "profilePicture": profilePicture,
         "isPrivate": isPrivate,
         "banner": banner,

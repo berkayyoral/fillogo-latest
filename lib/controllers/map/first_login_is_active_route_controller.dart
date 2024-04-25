@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'dart:convert' as convert;
+
+import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 
 class FirstOpenIsActiveRoute extends GetxController {
   bool isActiveRoute = false;
@@ -27,9 +32,6 @@ class FirstOpenIsActiveRoute extends GetxController {
             .data![0].allRoutes!.activeRoutes![0].arrivalDate!;
       },
     );
-    log("Aktif rota: $isActiveRoute");
-    log("Aktif rota bitiş tarihi: $routeFinishDate");
-    log("Aktif DateTime.now() : ${DateTime.now()}");
     if (routeFinishDate.millisecondsSinceEpoch >
         DateTime.now().millisecondsSinceEpoch + 300000) {
     } else {
@@ -62,6 +64,58 @@ class FirstOpenIsActiveRoute extends GetxController {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          MapPageController mapPageController = Get.find<MapPageController>();
+                          MapPageController mappageController =
+                                            MapPageController();
+                                        mappageController
+                                            .getMyRoutesServicesRequestRefreshable();
+                                        GeneralServicesTemp().makePatchRequest(
+                                          EndPoint.activateRoute,
+                                          ActivateRouteRequestModel(
+                                              routeId: mapPageController
+                                                  .myActivesRoutes![0].id),
+                                          {
+                                            "Content-type": "application/json",
+                                            'Authorization':
+                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                          },
+                                        ).then((value) {
+                                          ActivateRouteResponseModel response =
+                                              ActivateRouteResponseModel
+                                                  .fromJson(jsonDecode(value!));
+                                          if (response.success == 1) {
+                                            BerkayController berkayController =
+                                                Get.find<BerkayController>();
+                                            berkayController
+                                                .isAlreadyHaveRoute = false.obs;
+
+                                            print(response.success);
+                                            print(response.message);
+                                            mapPageController
+                                                .changeCalculateLevel(1);
+                                            mapPageController
+                                                .selectedDispley(0);
+
+                                            mapPageController.markers.clear();
+
+                                            mapPageController
+                                                .polylineCoordinates
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinates2
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinatesListForB
+                                                .clear();
+                                            mapPageController.polylines.clear();
+                                            mapPageController.polylines2
+                                                .clear();
+                                            mapPageController
+                                                .polylineCoordinatesListForB
+                                                .clear();
+                                          }
+                                        });
+                                          
                           Get.back();
                         },
                         child: Center(

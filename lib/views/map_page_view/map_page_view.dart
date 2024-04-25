@@ -12,6 +12,7 @@ import 'package:fillogo/models/routes_models/delete_route_model.dart';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/locationservice.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -45,7 +46,11 @@ class MapPageView extends GetView<MapPageController> {
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
+  CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+
   MapPageController mapPageController = Get.find<MapPageController>();
+
+     MfuController mfuController = Get.put(MfuController());
 
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
@@ -1320,6 +1325,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
+       MfuController mfuController = Get.find<MfuController>();
+
+    CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+
+
   MapPageController createRouteController = Get.find<MapPageController>();
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
@@ -1329,6 +1339,15 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("kankaaaa5 ${createRouteController.differentTime.value}");
+    log("kankaaaa5 ${createRouteController.calculatedRouteTime.value}");
+    log("kankaaaa5 ${createRouteController.dateTimeFormatVaris.value}");
+    log("kankaaaa5 ${createRouteController.pickedDate.value}");
+    log("kankaaaa5 ${createRouteController.varisController.text}");
+
+
+
+
     if (calculateLevel == 1) {
       return _calculateLevelOne();
     } else if (calculateLevel == 2) {
@@ -1704,6 +1723,17 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 "" &&
                                             createRouteController.finishCity !=
                                                 "") {
+                                          mfuController.sehirler = "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}".obs;
+                                          createPostPageController.routeContent = "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}".obs;
+                                          log("kankaaaa 1${createRouteController.startCity.value}");
+                                          log("kankaaaa 1${createRouteController.finishCity.value}");
+                                          log("kankaaaa 1${createPostPageController.routeContent}");
+                                          log("kankaaaa mfu${mfuController.sehirler}");
+                                          
+
+
+                                          
+
                                           createRouteController
                                               .changeCalculateLevel(4);
                                         }
@@ -2085,11 +2115,23 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                     createRouteController
                                         .dateTimeFormatCikis.value;
                                 createRouteController.pickedDate.value =
-                                    DateTime.parse(createRouteController
-                                        .dateTimeFormatCikis.value);
+                                    DateTime.parse(createRouteController.dateTimeFormatCikis.value);
                                 //varisController.clear();
+                                log("kankaaaa 10${createRouteController.varisController.text}");
                                 log("Kontrol4cikisController: ${createRouteController.cikisController.value}");
                                 log("Kontrol4varisController: ${createRouteController.varisController.value}");
+                                DateTime dateTimeCikis = DateTime.parse(createRouteController.dateTimeFormatCikis.value);
+                                DateTime yeniCikisZamani = dateTimeCikis.add(Duration(minutes: createRouteController.calculatedRouteTimeInt));
+                                String yeniCikisZamaniFormatli = DateFormat('yyyy-MM-dd HH:mm').format(yeniCikisZamani);
+                                createRouteController.varisController.text = yeniCikisZamaniFormatli;
+
+                                log("kankaaaa 10${createRouteController.varisController.text}");
+
+                                // createRouteController.varisController.text = DateFormat('yyyy-MM-dd HH:mm')
+                                // .format(createRouteController.dateTimeFormatCikis.add(
+                                // Duration(minutes: createRouteController.calculatedRouteTimeInt)));
+
+
                               } else {
                                 //print("Date is not selected");
                               }
@@ -2201,6 +2243,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                             );
                                           },
                                         );
+                                        log("kankaaaa ${pickedDate}");
 
                                         var pickedTime = await showTimePicker(
                                             builder: (context, child) {
@@ -2233,14 +2276,22 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                         String formattedDate1 =
                                             DateFormat('dd/MM/yyyy')
                                                 .format(pickedDate!);
+                                        log("kankaaaa1 ${formattedDate1}");
+
 
                                         String formattedDate2 = DateFormat(
                                                 'yyyy-MM-dd HH:mm')
                                             .format(
                                                 pickedDate); //TODO: DB ye bu şekilde gönderilmeli
 
+                                        log("kankaaaa2${formattedDate2}");
+
+
                                         String dateTimeFormatted =
                                             "$formattedDate1 ${pickedTime.toString().substring(10, 15)}";
+
+                                        log("kankaaaa3${dateTimeFormatted}");
+                                            
 
                                         createRouteController
                                                 .differentTime.value =
@@ -2251,8 +2302,14 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                     pickedDate.day,
                                                     pickedTime!.hour,
                                                     pickedTime.minute));
+                                         log("kankaaaa4 ${createRouteController
+                                                .differentTime.value}");
+                                        
+
                                         print(
                                             "DENEME 55 = ${createRouteController.differentTime.value}");
+                                            print(
+                                            "DENEME 55 = ${pickedDate}");
 
                                         /* createRouteController.dateTimeFormatVaris.value =
                                   DateFormat('yyyy-MM-dd HH:mm').format(
@@ -2617,9 +2674,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                       log(response.message.toString());
                                       log(response.success.toString());
                                       if (response.success == 1) {
-                                        CreatePostPageController
-                                            createPostPageController =
-                                            Get.put(CreatePostPageController());
                                         createPostPageController.routeId.value =
                                             response.data![0].id!;
                                         log("ROUTEIDD: " +
@@ -2781,6 +2835,28 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               if (response
                                                                       .success ==
                                                                   1) {
+                                                                    String tarihiAl(String text) {
+                                                                      text = text.replaceAll('┤', '');
+                                                                      text = text.replaceAll('├', '');
+                                                                      String datePart = text.split(' ')[0];
+                                                                      return datePart;
+                                                                      }
+                                                                   String varisdate = tarihiAl(createRouteController.varisController.text);
+                                                                   String cikisdate = tarihiAl(createRouteController.cikisController.text);
+                                                                    mfuController.baslangictarihi = cikisdate.obs;
+                                                                    mfuController.bitistarihi = varisdate.obs;
+
+                                                                    log("kankaaaa mfu${mfuController.baslangictarihi}");
+                                                                    log("kankaaaa mfu${mfuController.bitistarihi}");
+                                                                    
+
+
+                                                                    createPostPageController.update();
+                                                                    
+                                                                    
+                                                                    createPostPageController.routeStartDate = "${cikisdate}".obs;
+                                                                    createPostPageController.routeEndDate = "${varisdate}".obs;
+
                                                                 await showDialog(
                                                                     context:
                                                                         context,
@@ -3094,9 +3170,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                           }
                                         }
                                       } else if (response.success == -1) {
-                                        CreatePostPageController
-                                            createPostPageController =
-                                            Get.put(CreatePostPageController());
+                                        
                                         createPostPageController.routeId.value =
                                             response.data![0].id!;
                                         showDialog(
@@ -3107,9 +3181,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   response.data![0].id!),
                                         );
                                       } else {
-                                        CreatePostPageController
-                                            createPostPageController =
-                                            Get.put(CreatePostPageController());
+                                      
                                         createPostPageController.routeId.value =
                                             response.data![0].id!;
                                         UiHelper.showWarningSnackBar(context,
@@ -3212,8 +3284,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                 text: 'Rotayı Paylaş',
                 textColor: AppConstants().ltWhite,
                 onpressed: () {
-                  CreatePostPageController createPostPageController =
-                      Get.find();
+                  
                   createPostPageController.haveRoute.value = 1;
                   createPostPageController.userName.value = userName!;
                   createPostPageController.routeContent.value = routeContent!;
@@ -3684,10 +3755,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                               log(response.message.toString());
                                               log(response.success.toString());
                                               if (response.success == 1) {
-                                                CreatePostPageController
-                                                    createPostPageController =
-                                                    Get.put(
-                                                        CreatePostPageController());
+                                                
                                                 createPostPageController
                                                         .routeId.value =
                                                     response.data![0].id!;

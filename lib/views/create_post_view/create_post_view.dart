@@ -13,6 +13,7 @@ import 'package:fillogo/core/constants/app_constants.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/constants/navigation_constants.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
+import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/widgets/appbar_genel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,11 +46,13 @@ import '../../core/init/ui_helper/ui_helper.dart';
 class CreatePostPageView extends StatelessWidget {
   CreatePostPageView({super.key});
 
-  CreatePostPageController createPostPageController = Get.find();
+  CreatePostPageController createPostPageController = Get.find<CreatePostPageController>();
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
   TextEditingController discriptionTextController = TextEditingController();
+
+   MfuController mfuController = Get.find<MfuController>();
 
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
@@ -126,14 +129,15 @@ class CreatePostPageView extends StatelessWidget {
                           EdgeInsets.only(left: 16.w, right: 16.w, top: 10.h),
                       child: (createPostPageController.haveRoute.value == 1)
                           ? RouteViewWidgetNewPostPage(
+                            // burada ekliyo
                               closeButtonVisible: true,
                               userName: createPostPageController.userName.value,
                               routeContent:
-                                  createPostPageController.routeContent.value,
+                                  mfuController.sehirler.value,
                               routeStartDate:
-                                  createPostPageController.routeStartDate.value,
+                                  mfuController.baslangictarihi.value,
                               routeEndDate:
-                                  createPostPageController.routeEndDate.value,
+                                  mfuController.bitistarihi.value,
                             )
                           : SizedBox(
                               height: 0.h,
@@ -276,7 +280,7 @@ class CreatePostPageView extends StatelessWidget {
                                   createPostPageController.routeId.value;
 
                           mediaPickerController.media != null
-                              ? map['postMedia'] = mediaPickerController.media
+                              ? map['file'] = mediaPickerController.media
                               : null;
 
                           // mediaPickerController.media != null

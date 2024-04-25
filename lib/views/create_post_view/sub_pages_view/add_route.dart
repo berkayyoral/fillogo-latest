@@ -303,9 +303,9 @@ class AddRouteIntoPostWidget extends StatelessWidget {
           createPostPageController.routeId.value = id;
           createPostPageController.haveRoute.value = 1;
           createPostPageController.userName.value = userName;
-          createPostPageController.routeContent.value =
-              '$startAdress -> $endAdress';
-          createPostPageController.routeEndDate.value = endAdress;
+          // createPostPageController.routeContent.value =
+          //     '$startAdress -> $endAdress';
+          // createPostPageController.routeEndDate.value = endAdress;
           showDialog(
             context: context,
             builder: (BuildContext context) => ShowAllertDialogWidget(

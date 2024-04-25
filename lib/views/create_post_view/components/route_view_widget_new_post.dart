@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 
@@ -19,10 +21,11 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
   final String routeEndDate;
   final bool closeButtonVisible;
 
-  CreatePostPageController createPostPageController = Get.find();
+  CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
 
   @override
   Widget build(BuildContext context) {
+    log("kankaaaa ${createPostPageController.routeContent}");
     return Container(
       height: 70.h,
       decoration: BoxDecoration(

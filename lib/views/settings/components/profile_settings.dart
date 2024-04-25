@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fillogo/models/user/profile/update_user_profile.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -121,10 +122,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   //   controller: phoneController,
                   //   hint: 'Telefon',
                   // ),
-                  _textField(
-                    controller: mailController,
-                    hint: 'Eposta',
-                  ),
+                  // _textField(
+                  //   controller: mailController,
+                  //   hint: 'Eposta',
+                  // ),
                   20.h.spaceY,
                   Align(
                     alignment: Alignment.centerLeft,
@@ -227,7 +228,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     name: nameController.text,
                                     surname: surNameController.text,
                                     mail: mailController.text,
-                                    phoneNumber: phoneController.text),
+                                    // phoneNumber: "1234567890"
+                                    ),
                                 {
                                   "Content-type": "application/json",
                                   'Authorization':
@@ -250,12 +252,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 LocaleManager.instance.setString(
                                     PreferencesKeys.currentUserMail,
                                     mailController.text);
-                                LocaleManager.instance.setString(
-                                    PreferencesKeys.currentUserPhone,
-                                    phoneController.text);
                               } else {
-                                print(response.success);
-                                print(response.message);
+                                log("${response.success}");
+                                log("${response.message}");
                                 UiHelper.showWarningSnackBar(context,
                                     "Bir hata ile karşılaşıldı Tekrar Deneyiniz!");
                               }

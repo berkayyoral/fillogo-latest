@@ -296,7 +296,6 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       _controller2.clear();
                     });
                   } else {
-                    //print("Date is not selected");
                   }
                 },
                 controller: _controller1,
