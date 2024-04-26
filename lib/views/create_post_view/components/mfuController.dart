@@ -8,3 +8,4 @@ class MfuController extends GetxController {
   var baslangictarihi ="".obs;
   var bitistarihi ="".obs;
 }
+//kontrol
