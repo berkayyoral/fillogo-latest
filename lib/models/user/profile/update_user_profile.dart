@@ -5,17 +5,22 @@ class UpdateUserProfileRequest {
   String? surname;
   String? username;
   String? mail;
-  String? phoneNumber;
+  // String? phoneNumber;
 
-  UpdateUserProfileRequest(
-      {this.name, this.surname, this.username, this.mail, this.phoneNumber});
+  UpdateUserProfileRequest({
+    this.name,
+    this.surname,
+    this.username,
+    this.mail,
+    // this.phoneNumber
+  });
 
   UpdateUserProfileRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     surname = json['surname'];
     username = json['username'];
     mail = json['mail'];
-    phoneNumber = json['phoneNumber'];
+    // phoneNumber = json['phoneNumber'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,37 +29,39 @@ class UpdateUserProfileRequest {
     data['surname'] = surname;
     data['username'] = username;
     data['mail'] = mail;
-    data['phoneNumber'] = phoneNumber;
+    // data['phoneNumber'] = phoneNumber;
     return data;
   }
 }
 
-
 class UpdateProfileResponse {
-    int? success;
-    List<dynamic>? data;
-    String? message;
+  int? success;
+  List<dynamic>? data;
+  String? message;
 
-    UpdateProfileResponse({
-        this.success,
-        this.data,
-        this.message,
-    });
+  UpdateProfileResponse({
+    this.success,
+    this.data,
+    this.message,
+  });
 
-    factory UpdateProfileResponse.fromRawJson(String str) => UpdateProfileResponse.fromJson(json.decode(str));
+  factory UpdateProfileResponse.fromRawJson(String str) =>
+      UpdateProfileResponse.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(toJson());
 
-    factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) => UpdateProfileResponse(
+  factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) =>
+      UpdateProfileResponse(
         success: json["success"],
-        data: json["data"] == null ? [] : List<dynamic>.from(json["data"]!.map((x) => x)),
+        data: json["data"] == null
+            ? []
+            : List<dynamic>.from(json["data"]!.map((x) => x)),
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "success": success,
         "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x)),
         "message": message,
-    };
+      };
 }
-

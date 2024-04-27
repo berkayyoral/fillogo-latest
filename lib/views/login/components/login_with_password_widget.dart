@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fillogo/controllers/login/login_controller.dart';
 import 'package:fillogo/export.dart';
@@ -71,7 +72,7 @@ class LoginWithPassword extends StatelessWidget {
           ),
           Obx(() {
             return CustomTextField(
-             textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.done,
               labelText: 'Parola',
               obscureText: obscureText.value,
               controller: passwordController,
@@ -122,7 +123,9 @@ class LoginWithPassword extends StatelessWidget {
                           response.data![0].user!.id!);
                       OneSignal().setExternalUserId(
                           response.data![0].user!.id!.toString());
-
+                      LocaleManager.instance.setString(
+                          PreferencesKeys.currentuserpassword,
+                          passwordController.text);
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentUserUserName,
                           response.data![0].user!.username!);
@@ -132,11 +135,12 @@ class LoginWithPassword extends StatelessWidget {
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentUserSurname,
                           response.data![0].user!.surname!);
-                     response.data![0].user!.phoneNumber == null ? LocaleManager.instance.setString(
-                          PreferencesKeys.currentUserPhone,
-                          "5320000000") : LocaleManager.instance.setString(
-                          PreferencesKeys.currentUserPhone,
-                          response.data![0].user!.phoneNumber!);
+                      response.data![0].user!.phoneNumber == null
+                          ? LocaleManager.instance.setString(
+                              PreferencesKeys.currentUserPhone, "5320000000")
+                          : LocaleManager.instance.setString(
+                              PreferencesKeys.currentUserPhone,
+                              response.data![0].user!.phoneNumber!);
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentUserMail,
                           response.data![0].user!.mail!);
@@ -144,7 +148,7 @@ class LoginWithPassword extends StatelessWidget {
                           PreferencesKeys.currentUserProfilPhoto,
                           response.data![0].user!.profilePicture ??
                               'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png');
-
+                      log("kankaaaaaa ${LocaleManager.instance.getString(PreferencesKeys.currentuserpassword)}");
                       LocaleManager.instance
                           .setBool(PreferencesKeys.isOnboardViewed, true);
                       Get.back();
@@ -160,9 +164,11 @@ class LoginWithPassword extends StatelessWidget {
                       SocketService.instance()
                           .socket
                           .emit("new-user-add", response.data![0].user!.id!);
-                    } else{
+                    } else {
                       Get.back();
-                      return Get.snackbar("Hata", "Lütfen giriş bilgilerinizi kontrol ediniz", snackPosition: SnackPosition.BOTTOM);
+                      return Get.snackbar(
+                          "Hata", "Lütfen giriş bilgilerinizi kontrol ediniz",
+                          snackPosition: SnackPosition.BOTTOM);
                     }
                   }
                 },

@@ -116,7 +116,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
     likeCountController.lastLikeCount =
         int.parse(widget.othersLikeCount.obs.toString()).obs;
     var likeControll = false.obs;
-     
+
     if (widget.didILiked == 1) {
       likeControll = true.obs;
     }
@@ -203,7 +203,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                         children: [
                           SvgPicture.asset(
                             'assets/icons/route-icon.svg',
-                            height: 15.w,
+                            height: 20.w,
                             color: AppConstants().ltMainRed,
                           ),
                           5.w.spaceX,
@@ -215,7 +215,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                   text: widget.locationName,
                                   style: TextStyle(
                                     fontFamily: "Sfmedium",
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     color: AppConstants().ltDarkGrey,
                                   ),
                                 ),
@@ -287,7 +287,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
       Visibility(
         visible: widget.centerImageUrl.isNotEmpty,
         child: Padding(
-          padding: const EdgeInsets.only(left:10 ,right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: Container(
             constraints: BoxConstraints(
               maxHeight: 300.h,
@@ -332,10 +332,11 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
                             'Content-Type': 'application/json',
                           },
-                        ).then((value) async{
+                        ).then((value) async {
                           if (value != null) {
                             ++lastLikeCount.value;
-                           final response =PostLikeResponse.fromJson(jsonDecode(value));
+                            final response =
+                                PostLikeResponse.fromJson(jsonDecode(value));
                             if (response.data![0].removed == true) {
                               likeCountController.lastLikeCount =
                                   likeCountController.lastLikeCount + 1;
@@ -360,7 +361,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                         ),
                                         link: widget.centerImageUrl),
                                   ));
-                            } else if(!likeControll.value){
+                            } else if (!likeControll.value) {
                               print("kankaaaaa else girdi");
                               --lastLikeCount.value;
                               --lastLikeCount.value;
@@ -418,7 +419,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                           children: [
                             SvgPicture.asset(
                               'assets/icons/route-icon.svg',
-                              height: 25.h,
+                              height: 20.h,
                               color: AppConstants().ltMainRed,
                             ),
                             5.w.spaceX,
@@ -430,7 +431,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                     text: 'Rotayı Göster',
                                     style: TextStyle(
                                       fontFamily: "Sfregular",
-                                      fontSize: 16.sp,
+                                      fontSize: 13.sp,
                                       color: AppConstants().ltBlack,
                                     ),
                                   ),
@@ -453,7 +454,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
               id: 'like',
               builder: (controller) {
                 likeControll.value;
-                
+
                 return Obx(
                   () => RichText(
                     text: TextSpan(

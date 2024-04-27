@@ -2,6 +2,7 @@ class NavigationConstants {
   static const testFiles = "/testfiles";
   static const onboardone = "/onboardone";
   static const onboardtwo = "/onboardtwo";
+  static const routeLoginOrRegister = "/routeLoginOrRegister";
   static const onboardthree = "/onboardthree";
   static const welcomelogin = "/welcomelogin";
   static const register = "/register";

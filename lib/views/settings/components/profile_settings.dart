@@ -224,12 +224,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             GeneralServicesTemp().makePatchRequest(
                                 EndPoint.updateProfile,
                                 UpdateUserProfileRequest(
-                                    username: userNameController.text,
-                                    name: nameController.text,
-                                    surname: surNameController.text,
-                                    mail: mailController.text,
-                                    // phoneNumber: "1234567890"
-                                    ),
+                                  username: userNameController.text,
+                                  name: nameController.text,
+                                  surname: surNameController.text,
+                                  mail: mailController.text,
+                                  // phoneNumber: "1234567890"
+                                ),
                                 {
                                   "Content-type": "application/json",
                                   'Authorization':

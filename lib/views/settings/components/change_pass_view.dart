@@ -79,31 +79,60 @@ class ChangePassView extends StatelessWidget {
                               Text('Yeni şifreniz 6 karakterden uzun olmalı'),
                         ),
                       );
+                      return;
+                    } else if (LocaleManager.instance
+                            .getString(PreferencesKeys.currentuserpassword) !=
+                        oldPassController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Eski şifrenizi kontrol ediniz. '),
+                        ),
+                      );
+                      return;
+                    } else if (oldPassController.text ==
+                        newPass1Controller.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              'Eski şifreniz ile yeni şifreniz aynı olamaz.'),
+                        ),
+                      );
+                      return;
                     } else {
+                      Map<String, dynamic> formData1 = {
+                        'newPassword': newPass1Controller.text
+                      };
                       setPasswordRequest.newPassword = newPass1Controller.text;
-                      setPasswordRequest.newPasswordAgain =
-                          newPass2Controller.text;
-                      setPasswordRequest.oldPassword = oldPassController.text;
                       GeneralServicesTemp().makePatchRequest(
-                        "/users/set-password",
-                        setPasswordRequest,
+                        "/users/change-password",
+                        formData1,
                         {
                           "Content-type": "application/json",
                           'Authorization':
                               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                         },
                       ).then((value) {
-                        print("cevap ${json.decode(value!)}");
-                        return json.decode(value);
+                        var response = json.decode(value!);
+                        print("cevap $response");
+
+                        if (response['succes'] == 1) {
+                          print("cevap $response");
+
+                          Get.offAllNamed(NavigationConstants.welcomelogin);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Şifreniz başarıyla değiştirildi.'),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Bir sorun oluştu. Lütfen tekrar deneyiniz. Bir yanlışlık olduğunu düşünüyorsanız "Şifremi Unuttum" kısmından deneyiniz. ${response['message']}'),
+                            ),
+                          );
+                        }
                       });
-                      Get.back();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Şifreniz başarıyla değiştirildi...',
-                          ),
-                        ),
-                      );
                     }
                   },
                 ),

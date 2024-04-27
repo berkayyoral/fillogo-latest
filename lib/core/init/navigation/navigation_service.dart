@@ -38,6 +38,7 @@ import 'package:fillogo/views/settings/settings_view.dart';
 import 'package:fillogo/views/story_view/story_view.dart';
 import 'package:fillogo/views/settings/components/report_view.dart';
 import 'package:fillogo/views/story_view/add_story_view.dart';
+import 'package:fillogo/views/welcome_login/components/route_login_or_register_widget.dart';
 import 'package:fillogo/widgets/buttom_navigation_bar.dart';
 
 import '../../../views/route_details_page_view/components/route_details_page_bindings.dart';
@@ -50,7 +51,7 @@ class NavigationService {
       page: () => OnboardOneView(
         nextText: "İleri",
         centerText:
-            "Lorem Ipsum is simply dummy\n text of the printing and\n typesetting industry. Lorem \n Ipsum has been the industry's",
+            "FilloGO ile beraber \n yola çıkan veya çıkacak olan\n arkadaşlarınızı görebilirsiniz. \n Gönderiler paylaşabilirsiniz.",
         nextTap: () {
           Get.offAndToNamed(NavigationConstants.onboardtwo);
         },
@@ -63,7 +64,7 @@ class NavigationService {
       page: () => OnboardOneView(
         nextText: "İleri",
         centerText:
-            "It has survived not only five\ncenturies, but also the leap\ninto electronic typesetting,\nremaining essentially\nunchanged.",
+            "Rotadaki arkadaşlarınızı\ngörebilir, onlarla iletişime geçebilirsiniz.\nGittiğiniz yerlerden paylaşım\nyapabilir,\nanılar oluşturabilirsiniz.",
         skip: () => Get.offAndToNamed(NavigationConstants.onboardthree),
         imagePath: 'assets/images/3-1.png',
         nextTap: () {
@@ -80,12 +81,16 @@ class NavigationService {
           Get.offAndToNamed(NavigationConstants.welcomelogin);
         },
         centerText:
-            "It is a long established fact\nthat a reader will be distracted\nby the readable content of a\npage when looking at its\nlayout.",
+            "Şimdi bu maceranın\nbir parçası ol ve\nuygulamamıza katılarak\narkadaşlarınla ve diğer sürücülerle\nbağlantı kur.",
       ),
     ),
     GetPage(
       name: NavigationConstants.bottomNavigationBar,
       page: () => BottomNavigationBarView(),
+    ),
+    GetPage(
+      name: NavigationConstants.routeLoginOrRegister,
+      page: () => RouteLoginOrRegister(),
     ),
     GetPage(
       name: NavigationConstants.welcomelogin,
@@ -159,7 +164,7 @@ class NavigationService {
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.settings,
-      page: () =>  SettingsView(),
+      page: () => SettingsView(),
     ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),

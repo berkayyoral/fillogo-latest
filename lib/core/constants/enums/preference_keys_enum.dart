@@ -22,10 +22,10 @@ enum PreferencesKeys {
   createPostPageHavePostPhoto,
   createPostPagePostPhotoPath,
   currentUserUserName,
-  currentUserName, 
-  currentUserSurname, 
+  currentUserName,
+  currentUserSurname,
   currentUserPhone,
-  currentUserMail, 
+  currentUserMail,
   currentUserProfilPhoto,
   currentUserId,
   subscribedValue,
@@ -34,5 +34,6 @@ enum PreferencesKeys {
   carModel,
   carCapacity,
   plateNumber,
-  carTypeId
+  carTypeId,
+  currentuserpassword
 }
