@@ -79,14 +79,14 @@ class NavigationDrawerWidget extends StatelessWidget {
                 Get.toNamed(NavigationConstants.searchUser);
               },
             ),
-            DrawerItem(
-              iconPath: 'assets/icons/about_us.svg',
-              title: 'Hakkımızda',
-              onTap: () async {
-                await _drawerControlIndex();
-                Get.toNamed('/aboutUs');
-              },
-            ),
+            // DrawerItem(
+            //   iconPath: 'assets/icons/about_us.svg',
+            //   title: 'Hakkımızda',
+            //   onTap: () async {
+            //     await _drawerControlIndex();
+            //     Get.toNamed('/aboutUs');
+            //   },
+            // ),
             DrawerItem(
               iconPath: 'assets/icons/settings.svg',
               title: 'Ayarlar',

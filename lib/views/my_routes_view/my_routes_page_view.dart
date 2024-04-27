@@ -78,45 +78,45 @@ class MyRoutesPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomButtonDesign(
-                      text: 'Yeni Rota Oluştur',
-                      textColor: AppConstants().ltWhite,
-                      onpressed: () {
-                        print(
-                            "asd456a4 ${mapPageController.myActivesRoutes!.isEmpty}");
-                        if (!mapPageController.myActivesRoutes!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Lütfen önce rotanızı tamamlayınız veya aktif rotadan kaldırınız.'),
-                            ),
-                          );
-                        } else {
-                          bottomNavigationBarController.selectedIndex.value = 1;
-                          mapPageController.selectedDispley.value = 0;
-                          mapPageController.iWantTrackerMyLocation.value = 2;
-                          mapPageController.changeCalculateLevel(2);
-                          mapPageController
-                              .addMarkerFunctionForMapPageWithoutOnTap2(
-                            const MarkerId("myLocationMarker"),
-                            LatLng(
-                              getMyCurrentLocationController
-                                  .myLocationLatitudeDo.value,
-                              getMyCurrentLocationController
-                                  .myLocationLongitudeDo.value,
-                            ),
-                            mapPageController.mapPageRouteStartAddress2.value,
-                            BitmapDescriptor.fromBytes(mapPageController
-                                .customMarkerIconController.mayLocationIcon!),
-                          );
-                          Get.back();
-                        }
-                      },
-                      iconPath: '',
-                      color: AppConstants().ltMainRed,
-                      height: 50.h,
-                      width: 341.w,
-                    ),
+                    // CustomButtonDesign(
+                    //   text: 'Yeni Rota Oluştur',
+                    //   textColor: AppConstants().ltWhite,
+                    //   onpressed: () {
+                    //     print(
+                    //         "asd456a4 ${mapPageController.myActivesRoutes!.isEmpty}");
+                    //     if (!mapPageController.myActivesRoutes!.isEmpty) {
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //         SnackBar(
+                    //           content: Text(
+                    //               'Lütfen önce rotanızı tamamlayınız veya aktif rotadan kaldırınız.'),
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       bottomNavigationBarController.selectedIndex.value = 1;
+                    //       mapPageController.selectedDispley.value = 0;
+                    //       mapPageController.iWantTrackerMyLocation.value = 2;
+                    //       mapPageController.changeCalculateLevel(2);
+                    //       mapPageController
+                    //           .addMarkerFunctionForMapPageWithoutOnTap2(
+                    //         const MarkerId("myLocationMarker"),
+                    //         LatLng(
+                    //           getMyCurrentLocationController
+                    //               .myLocationLatitudeDo.value,
+                    //           getMyCurrentLocationController
+                    //               .myLocationLongitudeDo.value,
+                    //         ),
+                    //         mapPageController.mapPageRouteStartAddress2.value,
+                    //         BitmapDescriptor.fromBytes(mapPageController
+                    //             .customMarkerIconController.mayLocationIcon!),
+                    //       );
+                    //       Get.back();
+                    //     }
+                    //   },
+                    //   iconPath: '',
+                    //   color: AppConstants().ltMainRed,
+                    //   height: 50.h,
+                    //   width: 341.w,
+                    // ),
                     SizedBox(
                       height: 20.h,
                     ),
