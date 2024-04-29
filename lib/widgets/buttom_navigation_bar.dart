@@ -81,7 +81,7 @@ class BottomNavigationBarView extends StatelessWidget {
               unselectedItemColor: AppConstants().ltLogoGrey,
               showSelectedLabels: false,
               showUnselectedLabels: false,
-              onTap: (index) async{
+              onTap: (index) async {
                 await _drawerControlIndex();
                 bottomNavigationBarController.changeIndex(index);
               },

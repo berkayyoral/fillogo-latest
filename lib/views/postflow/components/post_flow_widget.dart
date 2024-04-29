@@ -341,26 +341,30 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                               likeCountController.lastLikeCount =
                                   likeCountController.lastLikeCount + 1;
 
-                              SocketService.instance().socket.emit(
-                                  'notification',
-                                  NotificationModel(
-                                    sender: LocaleManager.instance
-                                        .getInt(PreferencesKeys.currentUserId),
-                                    receiver: widget.userId,
-                                    type: 4,
-                                    params: [widget.postId],
-                                    message: NotificaitonMessage(
-                                        text: NotificationText(
-                                          content:
-                                              "adlı kullanıcı gönderini beğendi",
-                                          name: LocaleManager.instance
-                                              .getString(PreferencesKeys
-                                                  .currentUserUserName),
-                                          surname: "",
-                                          username: currentUserName ?? "",
-                                        ),
-                                        link: widget.centerImageUrl),
-                                  ));
+                              if (LocaleManager.instance
+                                      .getInt(PreferencesKeys.currentUserId) !=
+                                  widget.userId) {
+                                SocketService.instance().socket.emit(
+                                    'notification',
+                                    NotificationModel(
+                                      sender: LocaleManager.instance.getInt(
+                                          PreferencesKeys.currentUserId),
+                                      receiver: widget.userId,
+                                      type: 4,
+                                      params: [widget.postId],
+                                      message: NotificaitonMessage(
+                                          text: NotificationText(
+                                            content:
+                                                "adlı kullanıcı gönderini beğendi",
+                                            name: LocaleManager.instance
+                                                .getString(PreferencesKeys
+                                                    .currentUserUserName),
+                                            surname: "",
+                                            username: currentUserName ?? "",
+                                          ),
+                                          link: widget.centerImageUrl),
+                                    ));
+                              }
                             } else if (!likeControll.value) {
                               print("kankaaaaa else girdi");
                               --lastLikeCount.value;

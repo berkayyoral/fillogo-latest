@@ -103,6 +103,9 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
                           final response =
                               UpdateProfilePictureResponseModel.fromJson(
                                   jsonDecode(value));
+                          LocaleManager.instance.setString(
+                              PreferencesKeys.currentUserProfilPhoto,
+                              "${response.data![0]['profile_picture']}");
                           if (response.success == 1) {
                             Get.back();
                             Get.back();

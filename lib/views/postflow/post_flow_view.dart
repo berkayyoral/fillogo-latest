@@ -63,11 +63,7 @@ class _PostFlowViewState extends State<PostFlowView> {
             response.data![0].userCarTypes![0].carBrand.toString().obs;
         vehicleInfoController.vehicleModel =
             response.data![0].userCarTypes![0].carModel.toString().obs;
-        
-      } else {
-        print("Response Hata = ${response.message}");
-        print("Response Hata = ${response.succes}");
-      }
+      } else {}
     });
     super.initState();
   }

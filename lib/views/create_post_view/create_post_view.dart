@@ -46,13 +46,16 @@ import '../../core/init/ui_helper/ui_helper.dart';
 class CreatePostPageView extends StatelessWidget {
   CreatePostPageView({super.key});
 
-  CreatePostPageController createPostPageController = Get.find<CreatePostPageController>();
+  CreatePostPageController createPostPageController =
+      Get.find<CreatePostPageController>();
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
   TextEditingController discriptionTextController = TextEditingController();
 
-   MfuController mfuController = Get.find<MfuController>();
+  MapPageController mapPageController = Get.find();
+
+  MfuController mfuController = Get.find<MfuController>();
 
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
@@ -129,15 +132,13 @@ class CreatePostPageView extends StatelessWidget {
                           EdgeInsets.only(left: 16.w, right: 16.w, top: 10.h),
                       child: (createPostPageController.haveRoute.value == 1)
                           ? RouteViewWidgetNewPostPage(
-                            // burada ekliyo
+                              // burada ekliyo
                               closeButtonVisible: true,
                               userName: createPostPageController.userName.value,
-                              routeContent:
-                                  mfuController.sehirler.value,
+                              routeContent: mfuController.sehirler.value,
                               routeStartDate:
                                   mfuController.baslangictarihi.value,
-                              routeEndDate:
-                                  mfuController.bitistarihi.value,
+                              routeEndDate: mfuController.bitistarihi.value,
                             )
                           : SizedBox(
                               height: 0.h,
@@ -269,43 +270,23 @@ class CreatePostPageView extends StatelessWidget {
                                   createPostPageController.tagIdList[i];
                             }
                           }
-
                           map['postDescription'] =
                               discriptionTextController.text.isEmpty
                                   ? "Yeni bir rotaya çıktım"
                                   : discriptionTextController.text;
-                          createPostPageController.routeId.value == 0
-                              ? null
-                              : map['postRouteID'] =
-                                  createPostPageController.routeId.value;
+                          mapPageController.myActivesRoutes!.isNotEmpty
+                              ? createPostPageController.routeId.value == 0
+                                  ? null
+                                  : map['postRouteID'] =
+                                      createPostPageController.routeId.value
+                              : null;
 
                           mediaPickerController.media != null
                               ? map['file'] = mediaPickerController.media
                               : null;
-
-                          // mediaPickerController.media != null
-                          //     ? map['postMedia'] = await MultipartFile.fromFile(
-                          //         mediaPickerController.media!.path!,
-                          //         filename: mediaPickerController.media!.name,
-                          //         contentType: parser.MediaType(
-                          //           mediaPickerController.media!.name
-                          //                       .split('.')
-                          //                       .last ==
-                          //                   'mp4'
-                          //               ? 'video'
-                          //               : 'image',
-                          //           mediaPickerController.media!.name
-                          //               .split('.')
-                          //               .last,
-                          //         ),
-                          //       )
-                          //     : null;
+                          log("asdasdasd:${createPostPageController.routeId.value}");
                           log("map = $map");
                           log("platform = ${mediaPickerController.media}");
-                          // Map<String, dynamic> formData1 = {
-                          //   'postDescription': "a",
-                          //   'postMedia': mediaPickerController.media
-                          // };
                           await GeneralServicesTemp()
                               .makePostRequestWithFormData(
                                   '/posts/create-post', map, {

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
+import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -22,6 +23,7 @@ class MyRoutesPageView extends StatelessWidget {
   CreatePostPageController createPostPageController = Get.find();
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
+  GeneralDrawerController drawerContol = Get.find();
   MapPageController mapPageController = Get.find<MapPageController>();
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
@@ -78,44 +80,39 @@ class MyRoutesPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomButtonDesign(
-                      text: 'Yeni Rota Oluştur',
-                      textColor: AppConstants().ltWhite,
-                      onpressed: () {
-                        print(
-                            "asd456a4 ${mapPageController.myActivesRoutes!.isEmpty}");
-                        if (!mapPageController.myActivesRoutes!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Lütfen önce rotanızı tamamlayınız veya aktif rotadan kaldırınız.'),
-                            ),
-                          );
-                        } else {
+                    Visibility(
+                      visible: mapPageController.myActivesRoutes!.isEmpty,
+                      child: CustomButtonDesign(
+                        text: 'Yeni Rota Oluştur',
+                        textColor: AppConstants().ltWhite,
+                        onpressed: () {
+                          drawerContol.generalDrawerPageController = 2;
+                          Get.offAllNamed(
+                              NavigationConstants.bottomNavigationBar);
                           bottomNavigationBarController.selectedIndex.value = 1;
-                          mapPageController.selectedDispley.value = 0;
-                          mapPageController.iWantTrackerMyLocation.value = 2;
-                          mapPageController.changeCalculateLevel(2);
-                          mapPageController
-                              .addMarkerFunctionForMapPageWithoutOnTap2(
-                            const MarkerId("myLocationMarker"),
-                            LatLng(
-                              getMyCurrentLocationController
-                                  .myLocationLatitudeDo.value,
-                              getMyCurrentLocationController
-                                  .myLocationLongitudeDo.value,
-                            ),
-                            mapPageController.mapPageRouteStartAddress2.value,
-                            BitmapDescriptor.fromBytes(mapPageController
-                                .customMarkerIconController.mayLocationIcon!),
-                          );
-                          Get.back();
-                        }
-                      },
-                      iconPath: '',
-                      color: AppConstants().ltMainRed,
-                      height: 50.h,
-                      width: 341.w,
+                          // mapPageController.selectedDispley.value = 0;
+                          // mapPageController.iWantTrackerMyLocation.value = 2;
+                          // mapPageController.changeCalculateLevel(2);
+                          // mapPageController
+                          //     .addMarkerFunctionForMapPageWithoutOnTap2(
+                          //   const MarkerId("myLocationMarker"),-
+                          //   LatLng(
+                          //     getMyCurrentLocationController
+                          //         .myLocationLatitudeDo.value,
+                          //     getMyCurrentLocationController
+                          //         .myLocationLongitudeDo.value,
+                          //   ),
+                          //   mapPageController.mapPageRouteStartAddress2.value,
+                          //   BitmapDescriptor.fromBytes(mapPageController
+                          //       .customMarkerIconController.mayLocationIcon!),
+                          // );
+                          // Get.back();
+                        },
+                        iconPath: '',
+                        color: AppConstants().ltMainRed,
+                        height: 50.h,
+                        width: 341.w,
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -194,11 +191,12 @@ class MyRoutesPageView extends StatelessWidget {
                                                             if (response
                                                                     .success ==
                                                                 1) {
+                                                              log("Buraaaaasıııı 1");
                                                               //  mapPageController
                                                               //    .updateMyRoutesView();
                                                               mapPageController
                                                                   .selectedDispley(
-                                                                      1);
+                                                                      0);
 
                                                               mapPageController
                                                                   .markers2
@@ -381,6 +379,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                     actions: [
                                                       MaterialButton(
                                                         onPressed: () {
+                                                          log("Buraaaaasıııı 2");
+
                                                           GeneralServicesTemp()
                                                               .makeDeleteRequest(
                                                             EndPoint
@@ -548,6 +548,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                     actions: [
                                                       MaterialButton(
                                                         onPressed: () {
+                                                          log("Buraaaaasıııı 3");
+
                                                           GeneralServicesTemp()
                                                               .makeDeleteRequest(
                                                             EndPoint
