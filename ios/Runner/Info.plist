@@ -18,8 +18,6 @@
 	<string>fillogo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-6811715094998587~8785210796</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
@@ -28,18 +26,20 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>EnableBackgroundLocationUpdates</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-6811715094998587~8785210796</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Used to demonstrate image picker plugin</string>
+	<string>Hesabınıza profil fotoğrafı, postlarınıza da resim çekebilmek için izninize ihtiyacımız var.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Bu uygulama, çalışmak için konum servislerini gerektirir</string>
+	<string>Rotanızı canlı olarak haritadan görebilmek ve arkadaşlarınızla paylaşabilmek için bu izne ihtiyacımız var.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Bu uygulama, çalışmak için konum servislerini gerektirir</string>
+	<string>Anlık rota oluşturup haritadan yolculuğunuzu görüntüleyebilmeniz için bu izne ihtiyacımız var.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to capture audio for image picker plugin</string>
+	<string>Aramalar yaparken sesli bir şekilde arama yapmak istediğiniz için bu izne ihtiyacımız var.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to demonstrate image picker plugin</string>
+	<string>Galerinizdeki fotoğraflardan seçip, post olarak paylaşabilmeniz için bu izine ihtiyacımız var.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
