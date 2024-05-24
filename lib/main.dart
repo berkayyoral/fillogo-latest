@@ -9,8 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'export.dart';
 import 'services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
+  timeago.setLocaleMessages('tr', TurkishMessages());
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await LocaleManager.instance.preferencesInit();
@@ -116,6 +118,41 @@ void main() async {
       ),
     ),
   );
+}
+
+class TurkishMessages implements timeago.LookupMessages {
+  @override
+  String prefixAgo() => '';
+  @override
+  String prefixFromNow() => '';
+  @override
+  String suffixAgo() => 'önce';
+  @override
+  String suffixFromNow() => 'sonra';
+  @override
+  String lessThanOneMinute(int seconds) => 'birkaç saniye';
+  @override
+  String aboutAMinute(int minutes) => 'bir dakika';
+  @override
+  String minutes(int minutes) => '$minutes dakika';
+  @override
+  String aboutAnHour(int minutes) => 'bir saat';
+  @override
+  String hours(int hours) => '$hours saat';
+  @override
+  String aDay(int hours) => 'bir gün';
+  @override
+  String days(int days) => '$days gün';
+  @override
+  String aboutAMonth(int days) => 'bir ay';
+  @override
+  String months(int months) => '$months ay';
+  @override
+  String aboutAYear(int year) => 'bir yıl';
+  @override
+  String years(int years) => '$years yıl';
+  @override
+  String wordSeparator() => ' ';
 }
 
 /*class MyHttpOverrides extends HttpOverrides {

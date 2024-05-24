@@ -23,6 +23,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../route_calculate_view/components/create_route_controller.dart';
 
 class PostFlowView extends StatefulWidget {
+  
   PostFlowView({Key? key}) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class PostFlowView extends StatefulWidget {
 }
 
 class _PostFlowViewState extends State<PostFlowView> {
+  
   final PostService postService = PostService();
 
   GeneralDrawerController postFlowDrawerController =
@@ -215,12 +217,14 @@ class _PostFlowViewState extends State<PostFlowView> {
                                                   .post!
                                                   .user!
                                                   .profilePicture!,
-                                              locationName: homeContoller.snapshotList[index]!.post!.postroute != null
-                                                  ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
-                                                  : "",
-                                              beforeHours:
-                                                  timeago.format(DateTime.parse(homeContoller.snapshotList[index]!.post!.createdAt!.toString()),
-                                                      locale: "tr"),
+                                              locationName:
+                                                  homeContoller.snapshotList[index]!.post!.postroute != null
+                                                      ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
+                                                      : "",
+                                              beforeHours: timeago
+                                                  .format(DateTime.parse(homeContoller.snapshotList[index]!.post!.createdAt!.toString()),
+                                                      locale: "tr")
+                                                  .tr,
                                               commentCount: homeContoller
                                                   .snapshotList[index]!
                                                   .commentNum!

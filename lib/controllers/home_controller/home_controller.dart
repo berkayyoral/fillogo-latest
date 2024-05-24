@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:fillogo/models/post/get_home_post.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../export.dart';
 
@@ -31,6 +32,10 @@ class HomeController extends GetxController {
     totalPage.value = response.data![0].pagination!.totalPage!;
     for (int i = 0; i < response.data![0].result!.length; i++) {
       snapshotList.add(response.data![0].result![i]);
+      print(
+          "BUPINGILIZCENEDEN Ğ-> ${snapshotList[0]!.post!.createdAt!.toString()}");
+      print(
+          "BUPINGILIZCENEDEN Ğ-> ${timeago.format(DateTime.parse(snapshotList[0]!.post!.createdAt!.toString()), locale: "TR")}");
     }
     update(["homePage"]);
   }
