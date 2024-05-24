@@ -123,7 +123,8 @@ class _FollowersViewState extends State<FollowersView> {
                 name: item.follower!.name!,
                 commonFollowers: "",
                 onTap: () {
-                  log("hey");
+                  Get.toNamed(NavigationConstants.otherprofiles,
+                      arguments: item.userId);
                 },
                 userId: item.follower!.id!,
               ),

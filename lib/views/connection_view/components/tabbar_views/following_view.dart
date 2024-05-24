@@ -121,7 +121,8 @@ class _FollowingViewState extends State<FollowingView> {
                 name: item.name!,
                 commonFollowers: "",
                 onTap: () {
-                  log("hey");
+                  Get.toNamed(NavigationConstants.otherprofiles,
+                      arguments: item.id);
                 },
                 userId: item.id!,
               ),
