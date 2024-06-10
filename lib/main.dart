@@ -18,8 +18,10 @@ void main() async {
   await LocaleManager.instance.preferencesInit();
   // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();
-  OneSignalNotificationService();
-  OneSignalNotificationService().handleClickNotification();
+
+  await OneSignalManager.setupOneSignal();
+  // OneSignalNotificationService();
+  // OneSignalNotificationService().handleClickNotification();
   //HttpOverrides.global = MyHttpOverrides();
 
   // onboard daha önce görüldüyse initial route => welcome login,

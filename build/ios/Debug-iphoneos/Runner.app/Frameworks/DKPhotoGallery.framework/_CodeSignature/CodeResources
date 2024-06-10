@@ -6,7 +6,7 @@
 	<dict>
 		<key>DKPhotoGallery.bundle/Assets.car</key>
 		<data>
-		vbO3bWKh04BfZ85429DgVG/zuhY=
+		xPNM4/JawEQuhfIUtQ0yaWUtu6I=
 		</data>
 		<key>DKPhotoGallery.bundle/Base.lproj/DKPhotoGallery.strings</key>
 		<dict>
@@ -19,7 +19,11 @@
 		</dict>
 		<key>DKPhotoGallery.bundle/Info.plist</key>
 		<data>
-		maC65y7JbLcaQXn+ofgF3/LT/gs=
+		652bbN1Dv+CxuobnFQAjgdAZJ9M=
+		</data>
+		<key>DKPhotoGallery.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		YLYZhRSzZVHV+D7U/AQzGNwF8Ug=
 		</data>
 		<key>DKPhotoGallery.bundle/en.lproj/DKPhotoGallery.strings</key>
 		<dict>
@@ -41,7 +45,7 @@
 		</dict>
 		<key>Info.plist</key>
 		<data>
-		Ti/1laosUP9pM/IFpZ2BRwuWAfc=
+		+gFIpRm0g8aK4HJuRLUxwhJAtYQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -50,11 +54,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vbO3bWKh04BfZ85429DgVG/zuhY=
+			xPNM4/JawEQuhfIUtQ0yaWUtu6I=
 			</data>
 			<key>hash2</key>
 			<data>
-			jISXmTHH9G4Y0IjaOdNAp4bBVdP/l0RxJsdXS4tQK5w=
+			VJ6d+8f0PJa3HkUPlVpHlGw0vXdQjzuBkKWY2+JVsA0=
 			</data>
 		</dict>
 		<key>DKPhotoGallery.bundle/Base.lproj/DKPhotoGallery.strings</key>
@@ -74,11 +78,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			maC65y7JbLcaQXn+ofgF3/LT/gs=
+			652bbN1Dv+CxuobnFQAjgdAZJ9M=
 			</data>
 			<key>hash2</key>
 			<data>
-			uXVlwD6qW1Lr8tYzC3iIKMeeJcE+gc9speL+HCfo7Dw=
+			l0bvaZgU3RJTgpylmh5dr7KfSDKi2rF7p5PIvdEigc4=
+			</data>
+		</dict>
+		<key>DKPhotoGallery.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YLYZhRSzZVHV+D7U/AQzGNwF8Ug=
+			</data>
+			<key>hash2</key>
+			<data>
+			S5/UHVcXm+A0szmeblzHSHm8fdkVgUuu5mWh9E35hUE=
 			</data>
 		</dict>
 		<key>DKPhotoGallery.bundle/en.lproj/DKPhotoGallery.strings</key>

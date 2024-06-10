@@ -1,1 +1,0 @@
- /Users/istechsoft/Desktop/istechsoft\ project/fillogo-latest/.dart_tool/flutter_build/3b8e627c3103645c1636137321df1140/native_assets.yaml: 

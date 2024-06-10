@@ -63,7 +63,7 @@ class EndPoint {
   static const String reportProblem = "/report/report-problem";
   static const String deletePost = "/posts/delete-post/";
   static const String deleteStory = "/stories/";
-  static const String getMyFriendsCircular="/routes/get-friends-on-circular";
+  static const String getMyFriendsCircular = "/routes/get-friends-on-circular";
 }
 
 class ServicesConstants {

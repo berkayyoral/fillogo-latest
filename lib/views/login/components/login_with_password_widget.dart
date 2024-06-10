@@ -5,6 +5,7 @@ import 'package:fillogo/controllers/login/login_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/user/login/login_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
@@ -108,7 +109,7 @@ class LoginWithPassword extends StatelessWidget {
                 ServicesConstants.appJsonWithoutAuth,
               )
                   .then(
-                (value) {
+                (value) async {
                   if (value != null) {
                     final response =
                         LoginResponseModel.fromJson(jsonDecode(value));
@@ -121,8 +122,9 @@ class LoginWithPassword extends StatelessWidget {
                       LocaleManager.instance.setInt(
                           PreferencesKeys.currentUserId,
                           response.data![0].user!.id!);
-                      OneSignal().setExternalUserId(
-                          response.data![0].user!.id!.toString());
+                      // OneSignal().setExternalUserId(
+                      //     response.data![0].user!.id!.toString());
+                      await OneSignalManager.setupOneSignal();
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentuserpassword,
                           passwordController.text);

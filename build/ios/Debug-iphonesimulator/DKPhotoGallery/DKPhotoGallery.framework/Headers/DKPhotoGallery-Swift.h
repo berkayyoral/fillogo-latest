@@ -377,6 +377,7 @@ SWIFT_CLASS("_TtC14DKPhotoGallery14DKPhotoGallery")
 @property (nonatomic, copy) UIImageView * _Nullable (^ _Nullable finishedBlock)(NSInteger, DKPhotoGalleryItem * _Nonnull);
 @property (nonatomic, strong) UIImageView * _Nullable presentingFromImageView;
 @property (nonatomic) NSInteger presentationIndex;
+@property (nonatomic, strong) UIColor * _Nonnull leftBarButtonItemColor;
 @property (nonatomic) enum DKPhotoGallerySingleTapMode singleTapMode;
 @property (nonatomic, weak) id <DKPhotoGalleryDelegate> _Nullable galleryDelegate;
 @property (nonatomic, copy) NSArray<UIAlertAction *> * _Nullable customLongPressActions;
@@ -941,6 +942,7 @@ SWIFT_CLASS("_TtC14DKPhotoGallery14DKPhotoGallery")
 @property (nonatomic, copy) UIImageView * _Nullable (^ _Nullable finishedBlock)(NSInteger, DKPhotoGalleryItem * _Nonnull);
 @property (nonatomic, strong) UIImageView * _Nullable presentingFromImageView;
 @property (nonatomic) NSInteger presentationIndex;
+@property (nonatomic, strong) UIColor * _Nonnull leftBarButtonItemColor;
 @property (nonatomic) enum DKPhotoGallerySingleTapMode singleTapMode;
 @property (nonatomic, weak) id <DKPhotoGalleryDelegate> _Nullable galleryDelegate;
 @property (nonatomic, copy) NSArray<UIAlertAction *> * _Nullable customLongPressActions;

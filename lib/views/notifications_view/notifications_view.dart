@@ -108,9 +108,11 @@ class NotificationsView extends StatelessWidget {
                                     params: [],
                                     message: NotificaitonMessage(
                                       text: NotificationText(
-                                      content: "adlı kullanıcı seni takip etti.",
-                                      name: LocaleManager.instance
-                                    .getString(PreferencesKeys.currentUserUserName),
+                                        content:
+                                            "adlı kullanıcı seni takip etti.",
+                                        name: LocaleManager.instance.getString(
+                                            PreferencesKeys
+                                                .currentUserUserName),
                                         surname: "surname" ?? "",
                                         username: "username" ?? "",
                                       ),
@@ -205,9 +207,9 @@ class NotificationsView extends StatelessWidget {
                           params: [],
                           message: NotificaitonMessage(
                               text: NotificationText(
-                                      content: "adlı kullanıcı seni takip etti.",
-                                      name: LocaleManager.instance
-                                    .getString(PreferencesKeys.currentUserUserName),
+                                content: "adlı kullanıcı seni takip etti.",
+                                name: LocaleManager.instance.getString(
+                                    PreferencesKeys.currentUserUserName),
                                 surname: "surname" ?? "",
                                 username:
                                     notificationList[index].sender!.username ??
@@ -258,10 +260,10 @@ class NotificationsView extends StatelessWidget {
         receiver: 11, type: 1, name: "deneme", content: "inş olur", params: []);
   }
 
-  void oneSignalStart() async {
-    OneSignalNotificationService();
-    OneSignalNotificationService().handleClickNotification();
-  }
+  // void oneSignalStart() async {
+  //   OneSignalManager();
+  //   OneSignalManager().handleClickNotification();
+  // }
 }
 
 //NotificationTypes 

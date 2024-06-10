@@ -8,6 +8,7 @@ import 'package:fillogo/models/user/login/login_model.dart';
 import 'package:fillogo/models/user/register/add_vehicle_info_model.dart';
 import 'package:fillogo/models/user/register/register_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
 import 'package:fillogo/widgets/custom_red_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -249,7 +250,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                               ),
                               ServicesConstants.appJsonWithoutAuth,
                             )
-                                .then((value) {
+                                .then((value) async {
                               if (value != null) {
                                 final loginResponse =
                                     LoginResponseModel.fromJson(
@@ -259,9 +260,10 @@ class AddVehicleInfoWidget extends StatelessWidget {
                                     PreferencesKeys.currentUserId,
                                     loginResponse.data![0].user!.id.toString(),
                                   );
-                                  OneSignal().setExternalUserId(loginResponse
-                                      .data![0].user!.id
-                                      .toString());
+                                  // OneSignal().setExternalUserId(loginResponse
+                                  //     .data![0].user!.id
+                                  //     .toString());
+                                  await OneSignalManager.setupOneSignal();
                                   Get.back();
                                   LocaleManager.instance.setCryptedData(
                                     PreferencesKeys.userCredentials,
