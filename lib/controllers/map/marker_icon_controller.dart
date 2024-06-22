@@ -15,11 +15,11 @@ class SetCustomMarkerIconController extends GetxController {
 
   @override
   void onInit() async {
-    await setCustomMarkerIcon();
-    await setCustomMarkerIcon2();
-    await setCustomMarkerIcon3();
-    await setCustomMarkerIconNoSee();
-    await setCustomMarkerIcon4();
+    await setCustomMarkerIcon(); //myRouteStartIcon
+    await setCustomMarkerIcon2(); //myfriendLocationIcon
+    await setCustomMarkerIcon3(); //myLocationIcon
+    await setCustomMarkerIconNoSee(); //myRouteStartIcon (baştakiyle aynı)
+    await setCustomMarkerIcon4(); //bitisIcon6
     super.onInit();
   }
 
@@ -80,9 +80,18 @@ class SetCustomMarkerIconController extends GetxController {
                 .getString(PreferencesKeys.currentUserProfilPhoto)!))
         .buffer
         .asUint8List();
+    String myCarType =
+        LocaleManager.instance.getString(PreferencesKeys.carType)!;
 
-    mayLocationIcon =
-        await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
+    String iconPath = myCarType == "Otomobil"
+        ? 'assets/icons/myLocationLightCommercial.png'
+        : myCarType == "Tır"
+            ? 'assets/icons/myLocationTruck.png'
+            : 'assets/icons/myLocationMotorcycle.png';
+
+    mayLocationIcon = await getBytesFromAsset(iconPath, 100);
+
+    // await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
   }
 
   setCustomMarkerIcon4() async {

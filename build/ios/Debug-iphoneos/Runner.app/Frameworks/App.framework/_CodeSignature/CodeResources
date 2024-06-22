@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		JKc1rNEA4EF13lX0AaeqA7Bp7ZM=
+		BDUk3tCQpKO1hD9ixSlP6JPMzC4=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		vbdl6UDBX8f6EVmo0Ei/17ZUAI4=
+		nyAYKI44mUSLcFweihEO6PkhqAs=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -276,6 +276,22 @@
 		<data>
 		2ThZbJAekNPRLS2K5pcCtFbp9GQ=
 		</data>
+		<key>flutter_assets/assets/icons/filter.png</key>
+		<data>
+		qAKolHqHD3hyZVmjVZTtNSpdX/4=
+		</data>
+		<key>flutter_assets/assets/icons/filterLightCommercial.png</key>
+		<data>
+		QmrMxU9eHGd6CrLuTmBY0HJNIXE=
+		</data>
+		<key>flutter_assets/assets/icons/filterMotorcycle.png</key>
+		<data>
+		t4G3MBY8zX19KKLr+Yz4s9ptiL4=
+		</data>
+		<key>flutter_assets/assets/icons/filterTruck.png</key>
+		<data>
+		/k4kX4a0ag3EK2G+LENdRipWUcs=
+		</data>
 		<key>flutter_assets/assets/icons/finishIcon2.png</key>
 		<data>
 		I54BPac/3wsdcBvHTebTeOJfgKw=
@@ -283,6 +299,18 @@
 		<key>flutter_assets/assets/icons/follow-it-icon.svg</key>
 		<data>
 		zFOJaSG2aU+Yl+WWx5PziTuFcLE=
+		</data>
+		<key>flutter_assets/assets/icons/friendsLocationLightCommercial.png</key>
+		<data>
+		8BfpyljIdBd4mRQvnLhxTAY7JBk=
+		</data>
+		<key>flutter_assets/assets/icons/friendsLocationMotorcycle.png</key>
+		<data>
+		T2lBnoEiYNL/rbErZ7LbuNkKGg8=
+		</data>
+		<key>flutter_assets/assets/icons/friendsLocationTruck.png</key>
+		<data>
+		f6q0aUyxWLcTOueJ9nfvxLycXGQ=
 		</data>
 		<key>flutter_assets/assets/icons/gallery-add.svg</key>
 		<data>
@@ -388,9 +416,29 @@
 		<data>
 		Plrtk6v6T55WEYY6eCsFeAIs+38=
 		</data>
+		<key>flutter_assets/assets/icons/myLocationCar.png</key>
+		<data>
+		lrd5+ZGUM29SDqjUa76E/hPPWCA=
+		</data>
 		<key>flutter_assets/assets/icons/myLocationIcon.png</key>
 		<data>
 		fCXPAIei1h7i8Hv/U+fOY0UT7fM=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationIconTruck.png</key>
+		<data>
+		fCXPAIei1h7i8Hv/U+fOY0UT7fM=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationLightCommercial.png</key>
+		<data>
+		rFvsjjpnfm19uFO+/3QPzmg2V5w=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationMotorcycle.png</key>
+		<data>
+		ZOm7ouTRqCocibvRKLZNBZKpBsk=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationTruck.png</key>
+		<data>
+		zxL0rfHL4LCEyrYA8FyIAHYbpG0=
 		</data>
 		<key>flutter_assets/assets/icons/myRouteFinishIcon.png</key>
 		<data>
@@ -503,6 +551,10 @@
 		<key>flutter_assets/assets/icons/twitter.svg</key>
 		<data>
 		5bBZw8w8u/ixE9JBBhbkfkNn93Y=
+		</data>
+		<key>flutter_assets/assets/icons/untitledmage.png</key>
+		<data>
+		SRNsX7waP6N4OJ8QmFXNLrUSK3Y=
 		</data>
 		<key>flutter_assets/assets/images/.DS_Store</key>
 		<data>
@@ -682,7 +734,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		tiGt1Yl/C8oVoAJEsxcWWsGTGK8=
+		fgYtye2G0fxn9rwewrqfXS4n3EA=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -715,14 +767,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5loYfdVVLCdj5AXQvR+LUpExC4NdzBNTUtQsRtiW9Hw=
+			KHqrwgO2/Ev+eSPAp9nguVaXPs3E6WdWfCN9Y/KSg9M=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HU+OOup44mvU2iwhSXott1yHomCYk59q90lIOPznNGk=
+			LUUwoRbiLWWyioeDZ5YpQoiOAE0NjDsEl2/UsQF7b7A=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -1159,6 +1211,34 @@
 			ve2NXS9bm1sGC1uIm97E6UcYBGTfxUH1VB5MQfdtrP8=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/icons/filter.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JkCugXKY/AI0vpZIZuMUJFxzVkCDk/HRMZ2Io8otwW4=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/filterLightCommercial.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			g4BWelWv3CRhTdBBRb+NkEGqJwQ1I86Kfce6EZGQAZc=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/filterMotorcycle.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			S3TQ+L2RQdURyRN5DRDOI55Ldf6SuNY8ILUApOwyIZg=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/filterTruck.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			qCrT6B0CQQDKbGAaUpA+vIkLsOpaG7y5eBbX4zbP3K8=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/icons/finishIcon2.png</key>
 		<dict>
 			<key>hash2</key>
@@ -1171,6 +1251,27 @@
 			<key>hash2</key>
 			<data>
 			l/78tf209f8LwulkgnJC3nx0JCbdDKLtJ037NiwD3hk=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/friendsLocationLightCommercial.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MQqab7oTOubtxyOW/ek4P2YN7NGvuq+NYyTdEtyopNs=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/friendsLocationMotorcycle.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cXvFbRZoxjZtTnNIRJBwCPbEP5Du080M7ZzHarp2phA=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/friendsLocationTruck.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			939WaCDFfYZyQ3cFwVj5ZK7YX7L5h9tAunDFzcgS9C4=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/icons/gallery-add.svg</key>
@@ -1355,11 +1456,46 @@
 			LFGH4pHOl7XaMZ/L25hOiC+uZid4L0ggkC/pDdBXp8A=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/icons/myLocationCar.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			4x/Ck/pPQX+hyyJ1AAgMZh+cJK+o6+xTRzb1o8eguh0=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/icons/myLocationIcon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			X7q4eg8qX0bfYxXtOVkpw3hvZ9SeSW15uNAOM1n16L4=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationIconTruck.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			X7q4eg8qX0bfYxXtOVkpw3hvZ9SeSW15uNAOM1n16L4=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationLightCommercial.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+zDl7phIA5d6ueTQpo9tBGIaoDF8FXuHbr8Wzhq6rOQ=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationMotorcycle.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8VXC+aJvi2Qw2mb0Ys8PEwabMFo8D327s9EZCtVWrHE=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationTruck.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			S6mlnJZSAdyXDujKrofb7IKgET4gLD1zXDH2ImWW0b0=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/icons/myRouteFinishIcon.png</key>
@@ -1556,6 +1692,13 @@
 			<key>hash2</key>
 			<data>
 			cK93fFMZxx6d74JfCr5z5NFJyHm5D0aEkfYAiR4PC5s=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/untitledmage.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			99UayN07u3kqu355RJtNT7iJwRmN1YpH58vnqYeaplA=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/1.png</key>
@@ -1842,7 +1985,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iMrySLGRrIj41exAEB4X8t/wFh48QgZuEk7LyO6vZoQ=
+			ePZZ3gzgTgb/IKJvVU2IRBMJiPWY7hZRifPCP2EqBYQ=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

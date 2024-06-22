@@ -66,12 +66,25 @@ class _MyProfilViewState extends State<MyProfilView> {
                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                   }).then((value) {
                     if (value != null) {
-                      return UserGetMyProfileResponse.fromJson(
-                          json.decode(value));
+                      UserGetMyProfileResponse response =
+                          UserGetMyProfileResponse.fromJson(json.decode(value));
+
+                      LocaleManager.instance.setString(
+                          PreferencesKeys.carType,
+                          response.data!.carInformations!.cartypetousercartypes!
+                              .carType!);
+                      return response;
                     }
                     return null;
                   }),
                   builder: (context, snapshot) {
+                    LocaleManager.instance.setString(
+                        PreferencesKeys.carType,
+                        snapshot.data!.data!.carInformations!
+                            .cartypetousercartypes!.carType!);
+
+                    print(
+                        "MYPROFİLEVEHİCLETYPE -> ${LocaleManager.instance.getString(PreferencesKeys.carType)}");
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator.adaptive();
                     } else {

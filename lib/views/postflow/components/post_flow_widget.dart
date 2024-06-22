@@ -419,7 +419,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                           children: [
                             SvgPicture.asset(
                               'assets/icons/route-icon.svg',
-                              height: 20.h,
+                              height: 27.h,
                               color: AppConstants().ltMainRed,
                             ),
                             5.w.spaceX,

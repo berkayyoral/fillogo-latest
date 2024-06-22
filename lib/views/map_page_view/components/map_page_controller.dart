@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'dart:convert' as convert;
@@ -46,6 +48,8 @@ class MapPageController extends GetxController {
   var myNameAndSurname = "".obs;
   var myUserId = 0.obs;
 
+  RxList<String> filterCarType = <String>[].obs;
+
   RxString differentTime = "".obs;
   RxString dateTimeFormatCikis = "".obs;
   RxString dateTimeFormatVaris = "".obs;
@@ -59,6 +63,9 @@ class MapPageController extends GetxController {
   TextEditingController varisController = TextEditingController();
   TextEditingController kapasiteController = TextEditingController();
   TextEditingController aciklamaController = TextEditingController(text: "");
+
+  RxBool isRouteVisibilty = true.obs;
+  RxBool isRouteAvability = true.obs;
 
   var iWantTrackerMyLocation = 0.obs;
   var selectedDispley = 0.obs;
@@ -184,69 +191,130 @@ class MapPageController extends GetxController {
   }
 
   getMyFriendsMatchingRoutes(BuildContext context, polylineEncode) async {
-    await GeneralServicesTemp().makePostRequest(
-      EndPoint.getMyfriendsMatchingRoutes,
-      GetMyFriendsMatchingRoutesRequest(
-          startingCity: "", endingCity: "", route: polylineEncode),
-      {
-        "Content-type": "application/json",
-        'Authorization':
-            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-      },
-    ).then(
-      (value) async {
-        print("ASDFASDASD");
-        GetMyFriendsMatchingRoutesResponse response =
-            GetMyFriendsMatchingRoutesResponse.fromJson(
-                convert.json.decode(value!));
-        print("Matching Success = ${response.success}");
-        print("Matching Message = ${response.message}");
+    try {
+      print("MATCHİNGROTADATANNNN");
+      await GeneralServicesTemp().makePostRequest(
+        EndPoint.getMyfriendsMatchingRoutes,
+        GetMyFriendsMatchingRoutesRequest(
+          startingCity: "",
+          endingCity: "",
+          route: polylineEncode,
+          carType: [],
+        ),
+        {
+          "Content-type": "application/json",
+          'Authorization':
+              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+        },
+      ).then(
+        (value) async {
+          print("MATCHİNGROTADATANNNN");
+          GetMyFriendsMatchingRoutesResponse response =
+              GetMyFriendsMatchingRoutesResponse.fromJson(
+                  convert.json.decode(value!));
 
-        print("Matching response data = ${response.data!.length}");
-        print("Matching response data = ${response.data![0].matching}");
-        // print("Matching${response.data![0].matching![0].followed!.name}");
-        print(response.data!.first.matching!.isNotEmpty
-            ? "Matchingdsadfa ${response.data![0].matching![0].followed!.name}"
-            : "BOŞ");
+          print(
+              "MATCHİNGROTADATA -> ${response.data!.first.matching!.first.usertousercartypes!.first.cartypetousercartypes!.carType}");
+          print("MATCHİNGROTADATA Matching Success = ${response.success}");
+          print("MATCHİNGROTADATA Matching Message = ${response.message}");
 
-        myFriendsLocationsMatching = response.data!;
+          print(
+              "MATCHİNGROTADATA Matching response data = ${response.data!.length}");
 
-        for (var i = 0; i < myFriendsLocations.length; i++) {
-          addMarkerFunctionForMapPage(
-            myFriendsLocations[i]!.followed!.id!,
-            MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
-            LatLng(
-                myFriendsLocations[i]!
-                    .followed!
-                    .userpostroutes![0]
-                    .currentRoute![0],
-                myFriendsLocations[i]!
-                    .followed!
-                    .userpostroutes![0]
-                    .currentRoute![1]),
-            BitmapDescriptor.fromBytes(
-                customMarkerIconController.myFriendsLocation!),
-            context,
-            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .departureDate
-                .toString(),
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .arrivalDate
-                .toString(),
-            "Tır",
-            myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
-            myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
-            "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-            myFriendsLocations[i]!.followed!.profilePicture!,
-          );
-        }
-      },
-    );
+          // print("Matching${response.data![0].matching![0].followed!.name}");
+          // print(response.data!.first.matching!.isNotEmpty
+          //     ? "Matchingdsadfa ${response.data![0].matching!.last.followed!.name}"
+          //     : "BOŞ");
+
+          myFriendsLocationsMatching = response.data!;
+          print(
+              "MATCHİNGROTADATA userloc -> ${myFriendsLocationsMatching.first!.matching!.first.userpostroutes!.first.userLocation}");
+          for (var i = 0;
+              i < myFriendsLocationsMatching.first!.matching!.length;
+              i++) {
+            if (myFriendsLocationsMatching.first!.matching![i].id! !=
+                LocaleManager.instance.getInt(PreferencesKeys.currentUserId)) {
+              String carType = myFriendsLocationsMatching.first!.matching![i]
+                  .usertousercartypes!.first.cartypetousercartypes!.carType!;
+              String iconPath = carType == "Otomobil"
+                  ? 'assets/icons/friendsLocationLightCommercial.png'
+                  : carType == "Tır"
+                      ? 'assets/icons/friendsLocationTruck.png'
+                      : 'assets/icons/friendsLocationMotorcycle.png';
+              print("MATCHİNGROTADATA CAR TYPE -> $iconPath");
+              print(
+                  "MATCHİNGROTADATA my fri ${myFriendsLocationsMatching.first!.matching!.length}");
+              addMarkerFunctionForMapPage(
+                myFriendsLocationsMatching.first!.matching![i].id!,
+                MarkerId(myFriendsLocationsMatching.first!.matching![i].id
+                    .toString()),
+                LatLng(
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes!.first.polylineDecode!.first.first,
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes!.first.polylineDecode!.first.last),
+                BitmapDescriptor.fromBytes(await customMarkerIconController
+                    .getBytesFromAsset(iconPath, 100)),
+                context,
+                "${myFriendsLocationsMatching.first!.matching![i].name!} ${myFriendsLocationsMatching.first!.matching![i].surname!}",
+                myFriendsLocationsMatching
+                    .first!.matching![i].userpostroutes![0].departureDate
+                    .toString(),
+                myFriendsLocationsMatching
+                    .first!.matching![i].userpostroutes![0].arrivalDate
+                    .toString(),
+                myFriendsLocationsMatching.first!.matching![i]
+                    .usertousercartypes![0].cartypetousercartypes!.carType!,
+                myFriendsLocationsMatching
+                    .first!.matching![i].userpostroutes!.first.startingCity!,
+                myFriendsLocationsMatching
+                    .first!.matching![i].userpostroutes!.first.endingCity!,
+                "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+                myFriendsLocationsMatching.first!.matching![i].profilePicture!,
+              );
+            }
+          }
+
+          for (var i = 0; i < myFriendsLocations.length; i++) {
+            print("MATCHİNGROTADATA my fri ${myFriendsLocations.length}");
+            addMarkerFunctionForMapPage(
+              myFriendsLocations[i]!.followed!.id!,
+              MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
+              LatLng(
+                  myFriendsLocations[i]!
+                      .followed!
+                      .userpostroutes![0]
+                      .currentRoute![0],
+                  myFriendsLocations[i]!
+                      .followed!
+                      .userpostroutes![0]
+                      .currentRoute![1]),
+              BitmapDescriptor.fromBytes(
+                  customMarkerIconController.myFriendsLocation!),
+              context,
+              "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
+              myFriendsLocations[i]!
+                  .followed!
+                  .userpostroutes![0]
+                  .departureDate
+                  .toString(),
+              myFriendsLocations[i]!
+                  .followed!
+                  .userpostroutes![0]
+                  .arrivalDate
+                  .toString(),
+              "Tır",
+              myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
+              myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
+              "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+              myFriendsLocations[i]!.followed!.profilePicture!,
+            );
+          }
+        },
+      );
+    } catch (e) {
+      print("MATCHİNGROTADATA GET MATCHİNG ROUTE ERROR -> $e");
+    }
   }
 
   getMyFriendsRoutesRequestRefreshable(BuildContext context) async {
@@ -324,6 +392,10 @@ class MapPageController extends GetxController {
         myPastsRoutes = getMyRouteResponseModel.data![0].allRoutes!.pastRoutes;
         mynotStartedRoutes =
             getMyRouteResponseModel.data![0].allRoutes!.notStartedRoutes;
+        isRouteVisibilty.value = myActivesRoutes!.first.isInvisible!;
+        isRouteAvability.value = myActivesRoutes!.first.isAvailable!;
+        print(
+            "VİSİBİLİTY -> ${isRouteVisibilty.value} avabilty -> ${isRouteAvability.value}");
       },
     );
     update(["mapPageController"]);
@@ -581,6 +653,7 @@ class MapPageController extends GetxController {
     String userProfilePhotoLink,
   ) {
     try {
+      print("MATCHİNGROTADATA mARKER İD -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,

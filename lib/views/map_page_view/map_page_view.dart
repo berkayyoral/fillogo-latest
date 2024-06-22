@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:convert' as convert;
-import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
@@ -9,11 +11,14 @@ import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_control
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
-import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/locationservice.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -62,6 +67,9 @@ class MapPageView extends GetView<MapPageController> {
   late CameraPosition initialLocation;
 
   RxBool finishRouteButton = true.obs;
+
+  RxBool showFilterOption = false.obs;
+  RxList<bool> filterSelectedList = [true, true, true].obs;
 
   @override
   Widget build(BuildContext context) {
@@ -131,57 +139,8 @@ class MapPageView extends GetView<MapPageController> {
         id: "mapPageController",
         init: mapPageController,
         initState: (_) async {
-          // await GeneralServicesTemp()
-          //     .makeGetRequest(
-          //   EndPoint.getMyfriendsRoute,
-          //   ServicesConstants.appJsonWithToken,
-          // )
-          //     .then(
-          //   (value) async {
-          //     GetMyFriendsRouteResponseModel getMyFriendsRouteResponseModel =
-          //         GetMyFriendsRouteResponseModel.fromJson(
-          //             convert.json.decode(value!));
-          //     mapPageController.myFriendsLocations =
-          //         getMyFriendsRouteResponseModel.data!;
+          // mapPageController.getMyFriendsRoutesRequestRefreshable(context);
 
-          //     for (var i = 0;
-          //         i < mapPageController.myFriendsLocations.length;
-          //         i++) {
-          //       mapPageController.addMarkerFunctionForMapPage(
-          //         mapPageController.myFriendsLocations[i]!.followed!.id!,
-          //         MarkerId(mapPageController.myFriendsLocations[i]!.followed!.id
-          //             .toString()),
-          //         LatLng(
-          //             mapPageController.myFriendsLocations[i]!.followed!
-          //                 .userpostroutes![0].currentRoute![0],
-          //             mapPageController.myFriendsLocations[i]!.followed!
-          //                 .userpostroutes![0].currentRoute![1]),
-          //         BitmapDescriptor.fromBytes(
-          //             setCustomMarkerIconController.myFriendsLocation!),
-          //         context,
-          //         "${mapPageController.myFriendsLocations[i]!.followed!.name!} ${mapPageController.myFriendsLocations[i]!.followed!.surname!}",
-          //         mapPageController.myFriendsLocations[i]!.followed!
-          //             .userpostroutes![0].departureDate
-          //             .toString(),
-          //         mapPageController.myFriendsLocations[i]!.followed!
-          //             .userpostroutes![0].arrivalDate
-          //             .toString(),
-          //         "Tır",
-          //         mapPageController.myFriendsLocations[i]!.followed!
-          //             .userpostroutes![0].startingCity!,
-          //         mapPageController.myFriendsLocations[i]!.followed!
-          //             .userpostroutes![0].endingCity!,
-          //         "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-          //         mapPageController
-          //             .myFriendsLocations[i]!.followed!.profilePicture!,
-          //       );
-          //     }
-          //   },
-          // );
-
-          mapPageController.getMyFriendsRoutesRequestRefreshable(context);
-
-          // mapPageController.getMyRoutesServicesRequestRefreshable();
           await GeneralServicesTemp().makeGetRequest(
             EndPoint.getMyRoutes,
             {
@@ -198,8 +157,6 @@ class MapPageView extends GetView<MapPageController> {
                   context,
                   getMyRouteResponseModel
                       .data![0].allRoutes!.activeRoutes![0].polylineEncode);
-
-              log("QQQQQQ$value");
 
               mapPageController.myAllRoutes =
                   getMyRouteResponseModel.data![0].allRoutes!;
@@ -289,8 +246,6 @@ class MapPageView extends GetView<MapPageController> {
           );
         },
         builder: (mapPageController) {
-          log("AAAAAAAAAAAAAAAAA Builder Update");
-
           mapPageController.myAllRoutes == null
               ? initialLocation = CameraPosition(
                   bearing: 90,
@@ -418,7 +373,6 @@ class MapPageView extends GetView<MapPageController> {
                         ),
                       ),
               ),
-
               Obx(
                 () => Visibility(
                   visible: mapPageController.selectedDispley.value == 1,
@@ -506,6 +460,91 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
+
+              /// FİLTRELEME
+              Obx(
+                () => Positioned(
+                  top: 8.h,
+                  left: 12.w,
+                  child: Container(
+                    padding: EdgeInsets.all(4.w),
+                    alignment: Alignment.center,
+                    height: 65.h,
+                    width: 220.w,
+                    decoration: BoxDecoration(
+                      color: showFilterOption.value
+                          ? AppConstants().ltBlue
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10.w),
+                    ),
+                    child: Visibility(
+                      visible: mapPageController.calculateLevel.value == 1 &&
+                          (mapPageController.selectedDispley.value == 5 ||
+                              mapPageController.selectedDispley.value == 2),
+                      child: Row(
+                        mainAxisAlignment: showFilterOption.value
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Visibility(
+                            visible: showFilterOption.value,
+                            child: GestureDetector(
+                              onTap: () async {},
+                              child: Row(
+                                children: [
+                                  filterOptionWidget(
+                                      logo:
+                                          'assets/icons/filterLightCommercial.png',
+                                      index: 0),
+                                  filterOptionWidget(
+                                      logo: 'assets/icons/filterTruck.png',
+                                      index: 1),
+                                  filterOptionWidget(
+                                      logo: 'assets/icons/filterMotorcycle.png',
+                                      index: 2),
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              showFilterOption.value = !showFilterOption.value;
+                            },
+                            child: Container(
+                                height: 65.w,
+                                decoration: BoxDecoration(
+                                  color: AppConstants().ltBlue,
+                                  borderRadius: BorderRadius.circular(10.w),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.w),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                          child: Image.asset(
+                                        'assets/icons/filter.png',
+                                        fit: BoxFit.cover,
+                                      )),
+                                      showFilterOption.value
+                                          ? Text(
+                                              "Filtrele",
+                                              style: TextStyle(
+                                                  color: ui.Color.fromARGB(
+                                                      255, 23, 30, 222),
+                                                  fontSize: 10.sp),
+                                            )
+                                          : Container()
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Obx(
                 () => Visibility(
                   visible: mapPageController.selectedDispley.value == 2,
@@ -524,7 +563,7 @@ class MapPageView extends GetView<MapPageController> {
                               padding:
                                   const EdgeInsets.only(bottom: 10, top: 20),
                               child: Text(
-                                "Arkadaşlarının Seninle Kesişen Rotaları",
+                                "Seninle Kesişen Rotalar",
                                 style: TextStyle(
                                   fontFamily: "Sfsemibold",
                                   fontSize: 16.sp,
@@ -548,32 +587,27 @@ class MapPageView extends GetView<MapPageController> {
                                           profilePhotoUrl: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .profilePicture!,
                                           id: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .userpostroutes![0]
                                               .id!,
                                           userName:
-                                              "${mapPageController.myFriendsLocationsMatching[0]!.matching![i].followed!.name!} ${mapPageController.myFriendsLocationsMatching[0]!.matching![i].followed!.surname!}",
+                                              "${mapPageController.myFriendsLocationsMatching[0]!.matching![i].name!} ${mapPageController.myFriendsLocationsMatching[0]!.matching![i].surname!}",
                                           startAdress: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .userpostroutes![0]
                                               .startingCity!,
                                           endAdress: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .userpostroutes![0]
                                               .endingCity!,
                                           startDateTime: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .userpostroutes![0]
                                               .departureDate!
                                               .toString()
@@ -581,7 +615,6 @@ class MapPageView extends GetView<MapPageController> {
                                           endDateTime: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .userpostroutes![0]
                                               .arrivalDate!
                                               .toString()
@@ -589,7 +622,6 @@ class MapPageView extends GetView<MapPageController> {
                                           userId: mapPageController
                                               .myFriendsLocationsMatching[0]!
                                               .matching![i]
-                                              .followed!
                                               .id!,
                                         );
                                       },
@@ -604,240 +636,6 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
-              // mapPageController.selectedDispley.value == 0
-              //     ? Obx(
-              //         () => ((getMyCurrentLocationController
-              //                         .myLocationLatitudeDo.value ==
-              //                     0.0) &&
-              //                 (getMyCurrentLocationController
-              //                         .myLocationLongitudeDo.value ==
-              //                     0.0))
-              //             ? const Center(
-              //                 child:
-              //                     CircularProgressIndicator()) //UiHelper.loadingAnimationWidget(context)
-              //             : SizedBox(
-              //                 height:
-              //                     mapPageController.calculateLevel.value == 3
-              //                         ? 340.h
-              //                         : Get.height,
-              //                 width: Get.width,
-              //                 child: GeneralMapViewClass(
-              //                   markerSet:
-              //                       mapPageController.calculateLevel.value == 1
-              //                           ? Set<Marker>.from(
-              //                               mapPageController.markers)
-              //                           : Set<Marker>.from(
-              //                               mapPageController.markers2),
-              //                   initialCameraPosition: initialLocation,
-              //                   myLocationEnabled: true,
-              //                   myLocationButtonEnabled: false,
-              //                   mapType: MapType.normal,
-              //                   zoomGesturesEnabled: true,
-              //                   zoomControlsEnabled: false,
-              //                   onCameraMoveStarted: () {
-              //                     if (mapPageController
-              //                             .iWantTrackerMyLocation.value !=
-              //                         0) {
-              //                       mapPageController
-              //                           .iWantTrackerMyLocation.value = 1;
-              //                     }
-              //                     //log("onCameraMoveStarted");
-              //                   },
-              //                   onCameraMove: (p0) {
-              //                     //log("onCameraMove");
-              //                   },
-              //                   polygonsSet: <Polygon>{},
-              //                   tileOverlaysSet: <TileOverlay>{},
-              //                   polylinesSet: mapPageController
-              //                               .calculateLevel.value ==
-              //                           1
-              //                       ? Set<Polyline>.of(
-              //                           mapPageController.polylines.values)
-              //                       : Set<Polyline>.of(
-              //                           mapPageController.polylines2.values),
-              //                   mapController2:
-              //                       (GoogleMapController controller) async {
-              //                     mapPageController.mapCotroller3
-              //                         .complete(controller);
-              //                   },
-              //                 ),
-              //               ),
-              //       )
-              //     : mapPageController.selectedDispley.value == 1
-              //         ? Container(
-              //             width: Get.width,
-              //             height: Get.height,
-              //             color: AppConstants().ltWhite,
-              //             child: SingleChildScrollView(
-              //               child: Padding(
-              //                 padding: EdgeInsets.only(left: 16.w, right: 16.w),
-              //                 child: Column(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Padding(
-              //                       padding: const EdgeInsets.only(
-              //                           bottom: 10, top: 20),
-              //                       child: Text(
-              //                         "Arkadaşlarının Rotaları",
-              //                         style: TextStyle(
-              //                           fontFamily: "Sfsemibold",
-              //                           fontSize: 16.sp,
-              //                           color: AppConstants().ltLogoGrey,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     SizedBox(
-              //                       height: 595.h,
-              //                       child: mapPageController
-              //                               .myFriendsLocations.isNotEmpty
-              //                           ? ListView.builder(
-              //                               itemCount: mapPageController
-              //                                   .myFriendsLocations.length,
-              //                               itemBuilder: (context, i) {
-              //                                 return ActivesFriendsRoutesCard(
-              //                                   profilePhotoUrl:
-              //                                       mapPageController
-              //                                           .myFriendsLocations[i]!
-              //                                           .followed!
-              //                                           .profilePicture!,
-              //                                   id: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .id!,
-              //                                   userName:
-              //                                       "${mapPageController.myFriendsLocations[i]!.followed!.name!} ${mapPageController.myFriendsLocations[i]!.followed!.surname!}",
-              //                                   startAdress: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .startingCity!,
-              //                                   endAdress: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .endingCity!,
-              //                                   startDateTime: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .departureDate!
-              //                                       .toString()
-              //                                       .split(" ")[0],
-              //                                   endDateTime: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .arrivalDate!
-              //                                       .toString()
-              //                                       .split(" ")[0],
-              //                                   userId: mapPageController
-              //                                       .myFriendsLocations[i]!
-              //                                       .followed!
-              //                                       .id!,
-              //                                 );
-              //                               },
-              //                             )
-              //                           : UiHelper.notFoundAnimationWidget(
-              //                               context,
-              //                               "Şu an aktif rotada arkadaşın yok!"),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         : Container(
-              //             width: Get.width,
-              //             height: Get.height,
-              //             color: AppConstants().ltWhite,
-              //             child: SingleChildScrollView(
-              //               child: Padding(
-              //                 padding: EdgeInsets.only(left: 16.w, right: 16.w),
-              //                 child: Column(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Padding(
-              //                       padding: const EdgeInsets.only(
-              //                           bottom: 10, top: 20),
-              //                       child: Text(
-              //                         "Arkadaşlarının Seninle Kesişen Rotaları",
-              //                         style: TextStyle(
-              //                           fontFamily: "Sfsemibold",
-              //                           fontSize: 16.sp,
-              //                           color: AppConstants().ltLogoGrey,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     SizedBox(
-              //                       height: 595.h,
-              //                       child: mapPageController
-              //                               .myFriendsLocationsMatching
-              //                               .isNotEmpty
-              //                           ? ListView.builder(
-              //                               itemCount: mapPageController
-              //                                   .myFriendsLocationsMatching
-              //                                   .length,
-              //                               itemBuilder: (context, i) {
-              //                                 return ActivesFriendsRoutesCard(
-              //                                   profilePhotoUrl: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .profilePicture!,
-              //                                   id: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .id!,
-              //                                   userName:
-              //                                       "${mapPageController.myFriendsLocationsMatching[i]!.followed!.name!} ${mapPageController.myFriendsLocationsMatching[i]!.followed!.surname!}",
-              //                                   startAdress: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .startingCity!,
-              //                                   endAdress: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .endingCity!,
-              //                                   startDateTime: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .departureDate!
-              //                                       .toString()
-              //                                       .split(" ")[0],
-              //                                   endDateTime: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .userpostroutes![0]
-              //                                       .arrivalDate!
-              //                                       .toString()
-              //                                       .split(" ")[0],
-              //                                   userId: mapPageController
-              //                                       .myFriendsLocationsMatching[
-              //                                           i]!
-              //                                       .followed!
-              //                                       .id!,
-              //                                 );
-              //                               },
-              //                             )
-              //                           : UiHelper.notFoundAnimationWidget(
-              //                               context,
-              //                               "Şu an aktif rotada eşleşen arkadaşın yok!"),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
               Obx(
                 () => Visibility(
                   visible: mapPageController.selectedDispley.value == 0,
@@ -861,124 +659,217 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
+
               Obx(
-                () => Visibility(
-                  visible: mapPageController.calculateLevel.value == 1 &&
-                      (mapPageController.selectedDispley.value == 5 ||
-                          mapPageController.selectedDispley.value == 2),
-                  child: Padding(
-                    padding: finishRouteButton.value
-                        ? EdgeInsets.only(right: 16.w, bottom: 105.h)
-                        : EdgeInsets.only(right: 16.w, bottom: 160.h),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await GeneralServicesTemp().makeGetRequest(
-                            EndPoint.getMyRoutes,
-                            {
-                              "Content-type": "application/json",
-                              'Authorization':
-                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                            },
-                          ).then((value) {
-                            GetMyRouteResponseModel getMyRouteResponseModel =
-                                GetMyRouteResponseModel.fromJson(
-                                    convert.json.decode(value!));
-                            //Anlık arkadaş konumu bağlandı
-                            mapPageController.getMyFriendsMatchingRoutes(
-                                context,
-                                getMyRouteResponseModel.data![0].allRoutes!
-                                    .activeRoutes![0].polylineEncode);
-                          });
-                          if (mapPageController.selectedDispley.value == 5) {
-                            mapPageController.selectedDispley.value = 2;
-                            //mapPageController.changeSelectedDispley(2);
-                          } else {
-                            mapPageController.selectedDispley.value = 5;
-                            //mapPageController.changeSelectedDispley(0);
-                          }
-                          //mapPageController.selectedDispley.value = 1;
-                          mapPageController.changeCalculateLevel(1);
-                        },
-                        child: Container(
-                          height: 50.w,
-                          width: 50.w,
-                          decoration: BoxDecoration(
-                            color: AppConstants().ltMainRed,
-                            shape: BoxShape.circle,
-                          ),
-                          child: mapPageController.selectedDispley.value == 5
-                              ? Padding(
-                                  padding: EdgeInsets.all(10.w),
-                                  child: SvgPicture.asset(
-                                    "assets/icons/map-page-list-icon-kesisen.svg",
-                                    height: 18.w,
-                                    color: AppConstants().ltWhite,
-                                  ),
-                                )
-                              : Padding(
-                                  padding: EdgeInsets.all(16.w),
-                                  child: SvgPicture.asset(
-                                    "assets/icons/map-page-book-icon.svg",
-                                    height: 18.w,
-                                    color: AppConstants().ltWhite,
+                () => Positioned(
+                  top: 250.h,
+                  right: 0,
+                  child: Container(
+                    height: 230.h,
+                    child: Visibility(
+                      visible: mapPageController.calculateLevel.value == 1 &&
+                          (mapPageController.selectedDispley.value == 5 ||
+                              mapPageController.selectedDispley.value == 2),
+                      child: Column(
+                        children: [
+                          ///GÖRÜNÜRLÜK
+                          Expanded(
+                            child: Visibility(
+                              visible:
+                                  mapPageController.selectedDispley.value == 5,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w),
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      controller.isRouteVisibilty.value =
+                                          !controller.isRouteVisibilty.value;
+                                      await GeneralServicesTemp()
+                                          .makePatchRequest(
+                                        EndPoint.changeRouteVisibility,
+                                        {
+                                          "isInvisible":
+                                              controller.isRouteVisibilty.value,
+                                          "routeID": controller
+                                              .myActivesRoutes!.first.id
+                                        },
+                                        {
+                                          "Content-type": "application/json",
+                                          'Authorization':
+                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                        },
+                                      ).then((value) =>
+                                              print("VİSİBİLİTY noldu kız"));
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              "Görünürlüğünüz ${controller.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}."),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                        height: 50.w,
+                                        width: 50.w,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              controller.isRouteVisibilty.value
+                                                  ? AppConstants().ltMainRed
+                                                  : AppConstants().ltLogoGrey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10.w),
+                                          child: Icon(Icons.remove_red_eye),
+                                        )),
                                   ),
                                 ),
-                        ),
+                              ),
+                            ),
+                          ),
+
+                          ///MÜSAİTLİK DURUMU
+                          Expanded(
+                            child: Visibility(
+                              visible:
+                                  mapPageController.selectedDispley.value ==
+                                          5 &&
+                                      controller.isRouteVisibilty.value,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w),
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      controller.isRouteAvability.value =
+                                          !controller.isRouteAvability.value;
+                                      await GeneralServicesTemp()
+                                          .makePatchRequest(
+                                        EndPoint.changeRouteAvailability,
+                                        {
+                                          "isAvailable":
+                                              controller.isRouteAvability.value,
+                                          "routeID": controller
+                                              .myActivesRoutes!.first.id
+                                        },
+                                        {
+                                          "Content-type": "application/json",
+                                          'Authorization':
+                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                        },
+                                      ).then((value) =>
+                                              print("VİSİBİLİTY noldu kız"));
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              "Müsaitlik bilginiz ${controller.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}."),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                        height: 50.w,
+                                        width: 50.w,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              controller.isRouteAvability.value
+                                                  ? AppConstants().ltMainRed
+                                                  : AppConstants().ltLogoGrey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10.w),
+                                          child: Icon(Icons.car_repair),
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Spacer()
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
-              // Obx(
-              //   () => Visibility(
-              //     visible: false,
-              //     child: Visibility(
-              //       visible: mapPageController.calculateLevel.value == 1 &&
-              //           (mapPageController.selectedDispley.value == 0 ||
-              //               mapPageController.selectedDispley.value == 1),
-              //       child: Padding(
-              //         padding: EdgeInsets.only(right: 16, bottom: 68.h),
-              //         child: Align(
-              //           alignment: Alignment.topRight,
-              //           child: GestureDetector(
-              //             onTap: () async {
-              //               if (mapPageController.selectedDispley.value == 0) {
-              //                 mapPageController.selectedDispley.value = 1;
-              //                 //mapPageController.changeSelectedDispley(1);
-              //               } else {
-              //                 mapPageController.selectedDispley.value = 0;
-              //                 //mapPageController.changeSelectedDispley(0);
-              //               }
-              //               //mapPageController.selectedDispley.value = 1;
-              //               mapPageController.changeCalculateLevel(1);
-              //             },
-              //             child: Container(
-              //               height: 50.w,
-              //               width: 50.w,
-              //               decoration: BoxDecoration(
-              //                 color: AppConstants().ltMainRed,
-              //                 shape: BoxShape.circle,
-              //               ),
-              //               child: Padding(
-              //                 padding: EdgeInsets.all(16.w),
-              //                 child: SvgPicture.asset(
-              //                   mapPageController.selectedDispley.value == 0
-              //                       ? "assets/icons/map-page-list-icon.svg"
-              //                       : "assets/icons/map-page-book-icon.svg",
-              //                   height: 18.w,
-              //                   color: AppConstants().ltWhite,
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-
+              Obx(() => Visibility(
+                    visible: mapPageController.calculateLevel.value == 1 &&
+                        (mapPageController.selectedDispley.value == 5 ||
+                            mapPageController.selectedDispley.value == 2),
+                    child: Expanded(
+                      child: Padding(
+                        padding: finishRouteButton.value
+                            ? EdgeInsets.only(right: 16.w, bottom: 105.h)
+                            : EdgeInsets.only(right: 16.w, bottom: 160.h),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await GeneralServicesTemp().makeGetRequest(
+                                EndPoint.getMyRoutes,
+                                {
+                                  "Content-type": "application/json",
+                                  'Authorization':
+                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                },
+                              ).then((value) {
+                                GetMyRouteResponseModel
+                                    getMyRouteResponseModel =
+                                    GetMyRouteResponseModel.fromJson(
+                                        convert.json.decode(value!));
+                                //Anlık arkadaş konumu bağlandı
+                                mapPageController.getMyFriendsMatchingRoutes(
+                                    context,
+                                    getMyRouteResponseModel.data![0].allRoutes!
+                                        .activeRoutes![0].polylineEncode);
+                              });
+                              if (mapPageController.selectedDispley.value ==
+                                  5) {
+                                mapPageController.selectedDispley.value = 2;
+                                //mapPageController.changeSelectedDispley(2);
+                              } else {
+                                mapPageController.selectedDispley.value = 5;
+                                //mapPageController.changeSelectedDispley(0);
+                              }
+                              //mapPageController.selectedDispley.value = 1;
+                              mapPageController.changeCalculateLevel(1);
+                            },
+                            child: Container(
+                              height: 50.w,
+                              width: 50.w,
+                              decoration: BoxDecoration(
+                                color: AppConstants().ltMainRed,
+                                shape: BoxShape.circle,
+                              ),
+                              child:
+                                  mapPageController.selectedDispley.value == 5
+                                      ? Padding(
+                                          padding: EdgeInsets.all(10.w),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/map-page-list-icon-kesisen.svg",
+                                            height: 18.w,
+                                            color: AppConstants().ltWhite,
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.all(16.w),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/map-page-book-icon.svg",
+                                            height: 18.w,
+                                            color: AppConstants().ltWhite,
+                                          ),
+                                        ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )),
               Visibility(
                 visible: (mapPageController.calculateLevel.value == 1) &&
                     (mapPageController.selectedDispley.value == 0 ||
@@ -1020,7 +911,17 @@ class MapPageView extends GetView<MapPageController> {
                   ),
                 ),
               ),
-
+              // Obx(() => Visibility(
+              //     visible: mapPageController.selectedDispley.value == 5 &&
+              //         mapPageController.myActivesRoutes!.isNotEmpty,
+              //     child: Positioned(
+              //       bottom: 175.h,
+              //       right: 17.w,
+              //       child: CircleAvatar(
+              //         radius: 31.r,
+              //         backgroundColor: AppConstants().ltMainRed,
+              //       ),
+              //     ))),
               Obx(() => Visibility(
                   visible: mapPageController.selectedDispley.value == 5,
                   child: Align(
@@ -1311,6 +1212,34 @@ class MapPageView extends GetView<MapPageController> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  InkWell filterOptionWidget({required String logo, required int index}) {
+    return InkWell(
+      onTap: () {
+        filterSelectedList[index] = !filterSelectedList[index];
+      },
+      child: Container(
+        height: 50.w,
+        width: 50.w,
+        margin: EdgeInsets.all(1.w),
+        padding: EdgeInsets.all(2.w),
+        decoration: BoxDecoration(
+          color: AppConstants().ltBlue,
+          borderRadius: BorderRadius.circular(10.w),
+          border: filterSelectedList[index]
+              ? Border.all(
+                  color: ui.Color.fromARGB(255, 24, 39, 161),
+                  width: 2,
+                )
+              : null,
+        ),
+        child: Image.asset(
+          logo,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -2919,9 +2848,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     setCustomMarkerIconController =
                                                                     Get.put(
                                                                         SetCustomMarkerIconController());
-                                                                mapPageController
-                                                                    .getMyFriendsRoutesRequestRefreshable(
-                                                                        context);
+                                                                /////// AÇILACAK
+                                                                // mapPageController
+                                                                //     .getMyFriendsRoutesRequestRefreshable(
+                                                                //         context);
+                                                                ///////
                                                                 // mapPageController.getMyRoutesServicesRequestRefreshable();
 
                                                                 await GeneralServicesTemp()

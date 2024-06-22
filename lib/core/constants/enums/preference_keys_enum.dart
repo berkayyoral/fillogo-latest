@@ -35,5 +35,6 @@ enum PreferencesKeys {
   carCapacity,
   plateNumber,
   carTypeId,
-  currentuserpassword
+  currentuserpassword,
+  carType //["Otomobil" , "Tır" , "Motorsiklet"]
 }

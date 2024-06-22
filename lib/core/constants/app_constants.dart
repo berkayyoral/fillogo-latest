@@ -8,7 +8,8 @@ class AppConstants {
   static const int responseTimeout = 60;
   static int indexNavigation = 0;
   static int selectedDestination = 0;
-  static const String oneSignalAppId = '43ddc771-f2eb-4ecf-bcc8-95434809b1dc';
+  static const String oneSignalAppId =
+      "ef065656-adab-4c84-b66e-245e0bdba8c6"; //'43ddc771-f2eb-4ecf-bcc8-95434809b1dc';
   static const String googleMapsApiKey =
       "AIzaSyAFFLTo2huCvR-HiQTkDIpjJ5Yb-b-erN8";
   static const String googleMapsGetPolylineLink =
@@ -64,6 +65,9 @@ class EndPoint {
   static const String deletePost = "/posts/delete-post/";
   static const String deleteStory = "/stories/";
   static const String getMyFriendsCircular = "/routes/get-friends-on-circular";
+  static const String changeRouteVisibility = "/routes/change-route-visibility";
+  static const String changeRouteAvailability =
+      "/routes/change-route-availability";
 }
 
 class ServicesConstants {
