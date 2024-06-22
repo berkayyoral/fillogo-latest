@@ -190,7 +190,8 @@ class MapPageController extends GetxController {
     update(["mapPageController"]);
   }
 
-  getMyFriendsMatchingRoutes(BuildContext context, polylineEncode) async {
+  getMyFriendsMatchingRoutes(BuildContext context, polylineEncode,
+      {required List<String>? carType}) async {
     try {
       print("MATCHİNGROTADATANNNN");
       await GeneralServicesTemp().makePostRequest(
@@ -199,7 +200,7 @@ class MapPageController extends GetxController {
           startingCity: "",
           endingCity: "",
           route: polylineEncode,
-          carType: [],
+          carType: carType,
         ),
         {
           "Content-type": "application/json",

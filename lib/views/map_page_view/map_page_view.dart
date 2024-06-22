@@ -70,6 +70,7 @@ class MapPageView extends GetView<MapPageController> {
 
   RxBool showFilterOption = false.obs;
   RxList<bool> filterSelectedList = [true, true, true].obs;
+  String? polyLine;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +157,11 @@ class MapPageView extends GetView<MapPageController> {
               mapPageController.getMyFriendsMatchingRoutes(
                   context,
                   getMyRouteResponseModel
-                      .data![0].allRoutes!.activeRoutes![0].polylineEncode);
+                      .data![0].allRoutes!.activeRoutes![0].polylineEncode,
+                  carType: []);
+
+              polyLine = getMyRouteResponseModel
+                  .data![0].allRoutes!.activeRoutes![0].polylineEncode;
 
               mapPageController.myAllRoutes =
                   getMyRouteResponseModel.data![0].allRoutes!;
@@ -490,7 +495,22 @@ class MapPageView extends GetView<MapPageController> {
                           Visibility(
                             visible: showFilterOption.value,
                             child: GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                //filtrele
+
+                                List<String>? carTpeList;
+                                if (filterSelectedList[0])
+                                  carTpeList!.add("Otomobil");
+                                if (filterSelectedList[1])
+                                  carTpeList!.add("Tır");
+                                if (filterSelectedList[0])
+                                  carTpeList!.add("Motorsiklet");
+
+                                print("CARTYPLE LİST -> ${carTpeList}");
+                                mapPageController.getMyFriendsMatchingRoutes(
+                                    context, polyLine,
+                                    carType: carTpeList);
+                              },
                               child: Row(
                                 children: [
                                   filterOptionWidget(
@@ -826,7 +846,8 @@ class MapPageView extends GetView<MapPageController> {
                                 mapPageController.getMyFriendsMatchingRoutes(
                                     context,
                                     getMyRouteResponseModel.data![0].allRoutes!
-                                        .activeRoutes![0].polylineEncode);
+                                        .activeRoutes![0].polylineEncode,
+                                    carType: []);
                               });
                               if (mapPageController.selectedDispley.value ==
                                   5) {

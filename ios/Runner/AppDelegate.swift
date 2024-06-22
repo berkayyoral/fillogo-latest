@@ -14,7 +14,7 @@ import GoogleMaps
     OneSignal.Debug.setLogLevel(.LL_VERBOSE)
         
         // OneSignal initialization
-    OneSignal.initialize("43ddc771-f2eb-4ecf-bcc8-95434809b1dc", withLaunchOptions: launchOptions)
+    OneSignal.initialize("ef065656-adab-4c84-b66e-245e0bdba8c6", withLaunchOptions: launchOptions)
         
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
