@@ -35,6 +35,7 @@ class MapPageController extends GetxController {
     super.onInit();
   }
 
+  RxBool isLoading = false.obs;
   /* Rx<CameraPosition> cameraPosition(animateLat,animateLong) {
     Rx<CameraPosition> cameraPosition =
         CameraPosition(
@@ -92,6 +93,7 @@ class MapPageController extends GetxController {
   PolylinePoints polylinePoints = PolylinePoints();
   Set<Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
+  List<Polyline> polyliness = [];
   List<LatLng> polylineCoordinates = [];
 
   PolylinePoints polylinePoints2 = PolylinePoints();
@@ -193,7 +195,7 @@ class MapPageController extends GetxController {
   getMyFriendsMatchingRoutes(BuildContext context, polylineEncode,
       {required List<String>? carType}) async {
     try {
-      print("MATCHİNGROTADATANNNN");
+      print("CARTYPLE MAPPAGEİSLOADMATCHİNG ${carType!.length}");
       await GeneralServicesTemp().makePostRequest(
         EndPoint.getMyfriendsMatchingRoutes,
         GetMyFriendsMatchingRoutesRequest(
@@ -222,11 +224,6 @@ class MapPageController extends GetxController {
           print(
               "MATCHİNGROTADATA Matching response data = ${response.data!.length}");
 
-          // print("Matching${response.data![0].matching![0].followed!.name}");
-          // print(response.data!.first.matching!.isNotEmpty
-          //     ? "Matchingdsadfa ${response.data![0].matching!.last.followed!.name}"
-          //     : "BOŞ");
-
           myFriendsLocationsMatching = response.data!;
           print(
               "MATCHİNGROTADATA userloc -> ${myFriendsLocationsMatching.first!.matching!.first.userpostroutes!.first.userLocation}");
@@ -245,6 +242,23 @@ class MapPageController extends GetxController {
               print("MATCHİNGROTADATA CAR TYPE -> $iconPath");
               print(
                   "MATCHİNGROTADATA my fri ${myFriendsLocationsMatching.first!.matching!.length}");
+              // polyliness.add();
+
+              Map<String, LatLng> route;
+              route = {
+                "start": LatLng(
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes![0].startingCoordinates!.first,
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes![0].startingCoordinates!.last),
+                "end": LatLng(
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes![0].endingCoordinates!.first,
+                    myFriendsLocationsMatching.first!.matching![i]
+                        .userpostroutes![0].endingCoordinates!.last)
+              };
+
+              _getPolyline(route, i);
               addMarkerFunctionForMapPage(
                 myFriendsLocationsMatching.first!.matching![i].id!,
                 MarkerId(myFriendsLocationsMatching.first!.matching![i].id
@@ -270,47 +284,65 @@ class MapPageController extends GetxController {
                     .first!.matching![i].userpostroutes!.first.startingCity!,
                 myFriendsLocationsMatching
                     .first!.matching![i].userpostroutes!.first.endingCity!,
-                "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+                myFriendsLocationsMatching.first!.matching![i].userpostroutes!
+                        .first.routeDescription ??
+                    "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
                 myFriendsLocationsMatching.first!.matching![i].profilePicture!,
               );
+            } else {
+              // Map<String, LatLng> route;
+              // route = {
+              //   "start": LatLng(
+              //       myFriendsLocationsMatching.first!.matching![i]
+              //           .userpostroutes![0].startingCoordinates!.first,
+              //       myFriendsLocationsMatching.first!.matching![i]
+              //           .userpostroutes![0].startingCoordinates!.last),
+              //   "end": LatLng(
+              //       myFriendsLocationsMatching.first!.matching![i]
+              //           .userpostroutes![0].endingCoordinates!.first,
+              //       myFriendsLocationsMatching.first!.matching![i]
+              //           .userpostroutes![0].endingCoordinates!.last)
+              // };
+
+              // _getPolyline(route, i);
             }
           }
 
-          for (var i = 0; i < myFriendsLocations.length; i++) {
-            print("MATCHİNGROTADATA my fri ${myFriendsLocations.length}");
-            addMarkerFunctionForMapPage(
-              myFriendsLocations[i]!.followed!.id!,
-              MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
-              LatLng(
-                  myFriendsLocations[i]!
-                      .followed!
-                      .userpostroutes![0]
-                      .currentRoute![0],
-                  myFriendsLocations[i]!
-                      .followed!
-                      .userpostroutes![0]
-                      .currentRoute![1]),
-              BitmapDescriptor.fromBytes(
-                  customMarkerIconController.myFriendsLocation!),
-              context,
-              "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
-              myFriendsLocations[i]!
-                  .followed!
-                  .userpostroutes![0]
-                  .departureDate
-                  .toString(),
-              myFriendsLocations[i]!
-                  .followed!
-                  .userpostroutes![0]
-                  .arrivalDate
-                  .toString(),
-              "Tır",
-              myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
-              myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
-              "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-              myFriendsLocations[i]!.followed!.profilePicture!,
-            );
-          }
+          // for (var i = 0; i < myFriendsLocations.length; i++) {
+          //   print("MATCHİNGROTADATA my fri ${myFriendsLocations.length}");
+          //   addMarkerFunctionForMapPage(
+          //     myFriendsLocations[i]!.followed!.id!,
+          //     MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
+          //     LatLng(
+          //         myFriendsLocations[i]!
+          //             .followed!
+          //             .userpostroutes![0]
+          //             .currentRoute![0],
+          //         myFriendsLocations[i]!
+          //             .followed!
+          //             .userpostroutes![0]
+          //             .currentRoute![1]),
+          //     BitmapDescriptor.fromBytes(
+          //         customMarkerIconController.myFriendsLocation!),
+          //     context,
+          //     "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
+          //     myFriendsLocations[i]!
+          //         .followed!
+          //         .userpostroutes![0]
+          //         .departureDate
+          //         .toString(),
+          //     myFriendsLocations[i]!
+          //         .followed!
+          //         .userpostroutes![0]
+          //         .arrivalDate
+          //         .toString(),
+          //     "Tır",
+          //     myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
+          //     myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
+          //     "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+          //     myFriendsLocations[i]!.followed!.profilePicture!,
+          //   );
+          // }
         },
       );
     } catch (e) {
@@ -393,7 +425,8 @@ class MapPageController extends GetxController {
         myPastsRoutes = getMyRouteResponseModel.data![0].allRoutes!.pastRoutes;
         mynotStartedRoutes =
             getMyRouteResponseModel.data![0].allRoutes!.notStartedRoutes;
-        isRouteVisibilty.value = myActivesRoutes!.first.isInvisible!;
+        isRouteVisibilty.value =
+            myActivesRoutes!.first.isInvisible! ? false : true;
         isRouteAvability.value = myActivesRoutes!.first.isAvailable!;
         print(
             "VİSİBİLİTY -> ${isRouteVisibilty.value} avabilty -> ${isRouteAvability.value}");
@@ -422,6 +455,8 @@ class MapPageController extends GetxController {
       width: 4,
     );
     polylines[generalPolylineId] = polyline;
+    polyliness[0] = (polyline);
+    print("CARTYPLE POLY MY");
     update(["mapPageController"]);
   }
 
@@ -494,6 +529,10 @@ class MapPageController extends GetxController {
       mapPageRouteStartLatitude2.value = position.latitude;
       mapPageRouteStartLongitude2.value = position.longitude;
       if (polylines.isNotEmpty) {
+        updatePolyline(LatLng(position.latitude, position.longitude));
+      }
+      if (polyliness.isNotEmpty) {
+        print("POLYLİNEE -> ");
         updatePolyline(LatLng(position.latitude, position.longitude));
       }
       Marker newMarker1 = markers.firstWhere(
@@ -1004,5 +1043,27 @@ class MapPageController extends GetxController {
     );
     update(["mapPageController"]);
     return getPollylineResponseModel;
+  }
+
+  _getPolyline(Map<String, LatLng> route, int index) async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      AppConstants.googleMapsApiKey,
+      PointLatLng(route["start"]!.latitude, route["start"]!.longitude),
+      PointLatLng(route["end"]!.latitude, route["end"]!.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      List<LatLng> polylineCoordinates = [];
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+
+      polyliness.add(Polyline(
+        polylineId: PolylineId("polyline_$index"),
+        color: Colors.primaries[index % Colors.primaries.length],
+        points: polylineCoordinates,
+        width: 5,
+      ));
+    }
   }
 }

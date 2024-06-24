@@ -1,0 +1,38 @@
+{
+  "" : {
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/video_compress-master.dia",
+    "emit-module-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/video_compress-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/video_compress-master-emit-module.dia",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/video_compress-master.swiftdeps"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.2/macos/Classes/AvController.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/AvController~partial.swiftmodule"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.2/macos/Classes/Utility.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/Utility~partial.swiftmodule"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.2/macos/Classes/VideoCompressPlugin.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/video_compress.build/Objects-normal/arm64/VideoCompressPlugin~partial.swiftmodule"
+  }
+}
