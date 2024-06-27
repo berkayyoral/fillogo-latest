@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 
 import '../views/route_calculate_view/route_calculate_last.dart';
@@ -81,9 +82,13 @@ class BottomNavigationBarView extends StatelessWidget {
               unselectedItemColor: AppConstants().ltLogoGrey,
               showSelectedLabels: false,
               showUnselectedLabels: false,
-              onTap: (index) async{
+              onTap: (index) async {
                 await _drawerControlIndex();
                 bottomNavigationBarController.changeIndex(index);
+                if (index == 1) {
+                  print("MAPPAGECONTROLLER YÜKLENDİ");
+                  MapPageController controller = Get.put(MapPageController());
+                }
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,
               items: [

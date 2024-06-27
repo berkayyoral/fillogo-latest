@@ -22,6 +22,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
       UpdateUserProfileRequest();
   int? carId;
   int dropdownValue = 0;
+  String? carType;
   List<DropdownMenuItem<int>> aracTipleri = [
     DropdownMenuItem<int>(
       value: 0,
@@ -170,6 +171,11 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                       onChanged: (value) {
                         setState(() {
                           dropdownValue = value ?? 0;
+                          carType = dropdownValue == 0
+                              ? "Tır"
+                              : dropdownValue == 1
+                                  ? "Otomobil"
+                                  : "Motorsiklet";
                         });
                       },
                     ),
@@ -254,6 +260,8 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                   LocaleManager.instance.setInt(
                                       PreferencesKeys.carTypeId,
                                       dropdownValue + 1);
+                                  LocaleManager.instance.setString(
+                                      PreferencesKeys.carType, carType!);
                                 } else {
                                   print(response.success);
                                   print(response.message);

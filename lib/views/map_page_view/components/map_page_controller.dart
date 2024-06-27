@@ -29,6 +29,7 @@ class MapPageController extends GetxController {
 
   @override
   void onInit() async {
+    print("MAPPAGECONTROLER CREATE");
     await getMyRoutesServicesRequestRefreshable();
     await updateMyLocationMarkers();
 
@@ -164,6 +165,8 @@ class MapPageController extends GetxController {
     calculatedRouteDistance.value = "";
     calculatedRouteTime.value = "";
 
+    polyliness.clear();
+
     polylinePoints2 = PolylinePoints();
     markers2.clear();
     markers3.clear();
@@ -290,6 +293,7 @@ class MapPageController extends GetxController {
                 myFriendsLocationsMatching.first!.matching![i].profilePicture!,
               );
             } else {
+              print("MATCHİNGROTADATA benim rotam $i");
               // Map<String, LatLng> route;
               // route = {
               //   "start": LatLng(
@@ -456,7 +460,7 @@ class MapPageController extends GetxController {
     );
     polylines[generalPolylineId] = polyline;
     polyliness[0] = (polyline);
-    print("CARTYPLE POLY MY");
+    print("MATCHİNGROTADATA benim rotamm ");
     update(["mapPageController"]);
   }
 
@@ -479,6 +483,8 @@ class MapPageController extends GetxController {
       width: 4,
     );
     polylines2[generalPolylineId2] = polyline;
+    polyliness[0] = (polyline);
+    print("MATCHİNGROTADATA benim rotamm 2");
     update(["mapPageController"]);
   }
 
@@ -855,6 +861,7 @@ class MapPageController extends GetxController {
       mapPageRouteFinishLatitude2.value,
       mapPageRouteFinishLongitude2.value,
     ).then((value) async {
+      print("NEWROUTEEM polyline encode");
       calculatedRouteDistance.value =
           "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
       calculatedRouteTime.value =
@@ -969,6 +976,7 @@ class MapPageController extends GetxController {
     double lati2,
     double longi2,
   ) async {
+    print("NEWROUTEEM polyyy");
     GetPollylineResponseModel getPollylineResponseModel =
         GetPollylineResponseModel();
     // GetPollylineResponseModel getPollylineResponseModel =

@@ -71,7 +71,7 @@ class MapPageView extends GetView<MapPageController> {
   RxBool showFilterOption = false.obs;
   RxList<bool> filterSelectedList = [true, true, true].obs;
   List<String> carTpeList = [];
-  String? polyLine;
+// String? myPolyLine;
 
   @override
   Widget build(BuildContext context) {
@@ -165,8 +165,9 @@ class MapPageView extends GetView<MapPageController> {
                                 .activeRoutes![0].polylineEncode,
                             carType: carTpeList);
 
-                        polyLine = getMyRouteResponseModel.data![0].allRoutes!
-                            .activeRoutes![0].polylineEncode;
+                        mapPageController.generalPolylineEncode.value =
+                            getMyRouteResponseModel.data![0].allRoutes!
+                                .activeRoutes![0].polylineEncode!;
 
                         mapPageController.myAllRoutes =
                             getMyRouteResponseModel.data![0].allRoutes!;
@@ -608,11 +609,13 @@ class MapPageView extends GetView<MapPageController> {
 
                                             print(
                                                 "CARTYPLE LİST -> ${carTpeList.length}");
-                                            print(
-                                                "MAPPAGEİSLOAD POLY ->> ${polyLine!.trim()}");
+
                                             await mapPageController
                                                 .getMyFriendsMatchingRoutes(
-                                                    context, polyLine,
+                                                    context,
+                                                    mapPageController
+                                                        .generalPolylineEncode
+                                                        .value,
                                                     carType: carTpeList);
                                             mapPageController.isLoading.value =
                                                 false;
@@ -1328,7 +1331,9 @@ class MapPageView extends GetView<MapPageController> {
                                                   MapPageController
                                                       mappageController =
                                                       MapPageController();
-                                                  mappageController
+                                                  mapPageController
+                                                      .isLoading.value = true;
+                                                  mapPageController
                                                       .getMyRoutesServicesRequestRefreshable();
                                                   GeneralServicesTemp()
                                                       .makePatchRequest(
@@ -1399,6 +1404,20 @@ class MapPageView extends GetView<MapPageController> {
                                                       mapPageController
                                                           .polylineCoordinatesListForB
                                                           .clear();
+                                                      mapPageController
+                                                          .polyliness
+                                                          .clear();
+                                                      MapPageController
+                                                          controller = Get.put(
+                                                              MapPageController());
+
+                                                      mapPageController
+                                                          .update();
+                                                      mapPageController
+                                                          .update();
+                                                      mapPageController
+                                                          .isLoading
+                                                          .value = false;
                                                     } else {
                                                       print(response.success);
                                                       print(response.message);
@@ -1882,10 +1901,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   .routeContent =
                                               "${createRouteController.startCity.value} -> ${createRouteController.finishCity.value}"
                                                   .obs;
-                                          log("kankaaaa 1${createRouteController.startCity.value}");
-                                          log("kankaaaa 1${createRouteController.finishCity.value}");
-                                          log("kankaaaa 1${createPostPageController.routeContent}");
-                                          log("kankaaaa mfu${mfuController.sehirler}");
+                                          log("NEWROUTEEM ${createRouteController.startCity.value}");
+                                          log("NEWROUTEEM ${createRouteController.finishCity.value}");
+                                          log("NEWROUTEEM ${createPostPageController.routeContent}");
+                                          log("NEWROUTEEM ${mfuController.sehirler}");
 
                                           createRouteController
                                               .changeCalculateLevel(4);
@@ -2825,42 +2844,18 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                       final response =
                                           PostCreateRouteResponseModel.fromJson(
                                               jsonDecode(value));
-                                      log(response.message.toString());
-                                      log(response.success.toString());
+                                      log("NEWROUTEEM ${response.message.toString()}");
+                                      log("NEWROUTEEM ${response.success.toString()}");
                                       if (response.success == 1) {
                                         createPostPageController.routeId.value =
                                             response.data![0].id!;
-                                        log("ROUTEIDD: " +
+                                        log("NEWROUTEEM ROUTEIDD: " +
                                             createPostPageController
                                                 .routeId.value
                                                 .toString());
                                         createRouteController
                                             .mapPageRouteControllerClear();
 
-                                        // createRouteController.cikisController.clear();
-                                        // createRouteController.varisController.clear();
-                                        // createRouteController.kapasiteController.clear();
-                                        // createRouteController.aciklamaController.clear();
-                                        log("paylaşıldıııı");
-                                        // showDialog(
-                                        //   context: context,
-                                        //   builder: (BuildContext context) =>
-                                        //       showNewAllertDialog(
-                                        //           context,
-                                        //           response.data![0].startingCity!
-                                        //                   .toString() +
-                                        //               " -> " +
-                                        //               response
-                                        //                   .data![0].endingCity!
-                                        //                   .toString(),
-                                        //           "Furkan Semiz",
-                                        //           response.data![0].departureDate!
-                                        //               .toString()
-                                        //               .substring(0, 11),
-                                        //           response.data![0].arrivalDate!
-                                        //               .toString()
-                                        //               .substring(0, 11)),
-                                        // );
                                         if (DateTime.now().day.toString() ==
                                             DateTime.parse(createRouteController
                                                     .cikisController.text)
@@ -2959,7 +2954,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                 true.obs;
                                                             MapPageController
                                                                 mappageController =
-                                                                MapPageController();
+                                                                Get.put(
+                                                                    MapPageController());
                                                             mappageController
                                                                 .getMyRoutesServicesRequestRefreshable();
                                                             GeneralServicesTemp()
@@ -3062,8 +3058,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                               .varisController
                                                                               .value
                                                                               .toString()
-                                                                              .substring(0, 11),
-                                                                          0);
+                                                                              .substring(0,
+                                                                                  11),
+                                                                          0,
+                                                                          mapPageController:
+                                                                              mappageController);
                                                                     });
                                                                 MapPageController
                                                                     mapPageController =
@@ -3103,6 +3102,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .data![
                                                                               0]
                                                                           .allRoutes!;
+
                                                                   GoogleMapController
                                                                       googleMapController =
                                                                       await mapPageController
@@ -3244,6 +3244,16 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                         setCustomMarkerIconController
                                                                             .myRouteFinishIcon!),
                                                                   );
+                                                                  mapPageController.getMyFriendsMatchingRoutes(
+                                                                      context,
+                                                                      getMyRouteResponseModel
+                                                                          .data![
+                                                                              0]
+                                                                          .allRoutes!
+                                                                          .activeRoutes![
+                                                                              0]
+                                                                          .polylineEncode,
+                                                                      carType: []);
                                                                 });
                                                                 bottomNavigationBarController
                                                                     .selectedIndex
@@ -3270,9 +3280,17 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                               .varisController
                                                                               .value
                                                                               .toString()
-                                                                              .substring(0, 11),
-                                                                          0);
+                                                                              .substring(0,
+                                                                                  11),
+                                                                          0,
+                                                                          mapPageController:
+                                                                              mapPageController);
                                                                     });
+
+                                                                mapPageController
+                                                                    .update([
+                                                                  "mapPageController"
+                                                                ]);
                                                               } else {
                                                                 Get.back(
                                                                     closeOverlays:
@@ -3411,7 +3429,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
   }
 
   Widget showNewAllertDialog(BuildContext context, String? routeContent,
-      String? userName, String? startDate, String? endDate, int routeId) {
+      String? userName, String? startDate, String? endDate, int routeId,
+      {MapPageController? mapPageController}) {
     return AlertDialog(
       title: Text(
         'Tebrikler',
@@ -3475,6 +3494,10 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                   createPostPageController.routeEndDate.value = endDate!;
 
                   bottomNavigationBarController.selectedIndex.value = 1;
+                  if (mapPageController != null) {
+                    mapPageController.update();
+                  }
+
                   Get.back();
                   Get.back();
                   Get.toNamed(NavigationConstants.createPostPage,
@@ -3675,7 +3698,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                         .varisController.value
                                                         .toString()
                                                         .substring(0, 11),
-                                                    0);
+                                                    0,
+                                                    mapPageController:
+                                                        mapPageController);
                                               });
                                           Get.back();
 
@@ -3849,6 +3874,17 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   setCustomMarkerIconController
                                                       .myRouteFinishIcon!),
                                             );
+                                            await mapPageController
+                                                .getMyFriendsMatchingRoutes(
+                                                    context,
+                                                    getMyRouteResponseModel
+                                                        .data!
+                                                        .first
+                                                        .allRoutes!
+                                                        .activeRoutes!
+                                                        .first
+                                                        .polylineEncode,
+                                                    carType: []);
                                           });
                                         } else {
                                           Get.back(closeOverlays: true);
@@ -3960,8 +3996,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                               .arrivalDate!
                                                               .toString()
                                                               .substring(0, 11),
-                                                          response
-                                                              .data![0].id!),
+                                                          response.data![0].id!,
+                                                          mapPageController:
+                                                              mapPageController),
                                                 );
                                               } else if (response.success ==
                                                   -1) {
@@ -3988,6 +4025,8 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                             snackPosition: SnackPosition.BOTTOM,
                                             colorText: AppConstants().ltBlack);
                                       });
+                                      MapPageController controller =
+                                          Get.put(MapPageController());
                                       Get.back();
                                       Get.back();
                                     },
@@ -4110,7 +4149,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
           strictbounds: false,
           components: [Component(Component.country, 'tr')],
           onError: (err) {
-            print("VARIŞNOKTASIERR -> ${err.errorMessage}");
+            print("NEWROUTEEM VARIŞNOKTASIERR -> ${err.errorMessage}");
           },
         );
         await _displayPredictionFinishLocation(place!);
