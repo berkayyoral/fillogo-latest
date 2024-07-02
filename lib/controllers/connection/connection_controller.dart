@@ -11,9 +11,9 @@ class ConnectionController extends GetxController {
 
   connectionListen() {
     connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.none 
-      // &&
-      //     Get.currentRoute != NavigationConstants.connectionError
+      if (result == ConnectivityResult.none
+          // &&
+          //     Get.currentRoute != NavigationConstants.connectionError
           ) {
         Get.offAndToNamed(NavigationConstants.connectionError);
       }
@@ -22,11 +22,21 @@ class ConnectionController extends GetxController {
 
   checkConnection() async {
     ConnectivityResult result = await connectivity.checkConnectivity();
+    bool? firstLogin =
+        LocaleManager.instance.getBool(PreferencesKeys.firstLogin);
+    String? pass =
+        LocaleManager.instance.getString(PreferencesKeys.currentuserpassword);
     if (result != ConnectivityResult.none) {
+      print(
+          "DEBUGMODEM HATA CHECKC BAĞLANTI -> ${LocaleManager.instance.getBool(PreferencesKeys.firstLogin)}");
       Get.offAndToNamed(
-        LocaleManager.instance.getBool(PreferencesKeys.firstLogin) == false
-            ? NavigationConstants.onboardone
-            : NavigationConstants.bottomNavigationBar,
+        pass != null
+            ? NavigationConstants.bottomNavigationBar
+            : firstLogin != null
+                ? firstLogin == true
+                    ? NavigationConstants.onboardone
+                    : NavigationConstants.bottomNavigationBar
+                : NavigationConstants.onboardone,
       );
     } else {
       Get.snackbar('ConnectionError'.tr, 'YouAreNotConnectedToTheInternet'.tr,

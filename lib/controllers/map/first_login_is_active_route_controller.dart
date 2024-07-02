@@ -15,150 +15,159 @@ class FirstOpenIsActiveRoute extends GetxController {
   DateTime routeFinishDate = DateTime.now();
 
   void getIsActiveRoute() async {
-    await GeneralServicesTemp()
-        .makeGetRequest(
-      EndPoint.getMyRoutes,
-      ServicesConstants.appJsonWithToken,
-    )
-        .then(
-      (value) async {
-        GetMyRouteResponseModel getMyRouteResponseModel =
-            GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-        isActiveRoute =
-            getMyRouteResponseModel.data![0].allRoutes!.activeRoutes!.isEmpty
+    String? token =
+        LocaleManager.instance.getString(PreferencesKeys.accessToken);
+
+    if (token != null) {
+      await GeneralServicesTemp()
+          .makeGetRequest(
+        EndPoint.getMyRoutes,
+        ServicesConstants.appJsonWithToken,
+      )
+          .then(
+        (value) async {
+          GetMyRouteResponseModel? getMyRouteResponseModel =
+              GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
+          print("DEBUGMODEMM get -> ${jsonEncode(getMyRouteResponseModel)}");
+          if (getMyRouteResponseModel.data != null &&
+              getMyRouteResponseModel
+                  .data!.first.allRoutes!.activeRoutes!.isNotEmpty) {
+            isActiveRoute = getMyRouteResponseModel
+                    .data![0].allRoutes!.activeRoutes!.isEmpty
                 ? false
                 : true;
-        routeFinishDate = getMyRouteResponseModel
-            .data![0].allRoutes!.activeRoutes![0].arrivalDate!;
-      },
-    );
-    if (routeFinishDate.millisecondsSinceEpoch >
-        DateTime.now().millisecondsSinceEpoch + 300000) {
-    } else {
-      Get.dialog(
-          barrierDismissible: false,
-          Dialog(
-            backgroundColor: AppConstants().ltWhite,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Center(
-                    child: Text("Rotanızın bitiş saati geldi."),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 24),
-                    child: Text(
-                      "Rotayı sonlandırmak ister misiniz?",
+            routeFinishDate = getMyRouteResponseModel
+                    .data![0].allRoutes!.activeRoutes!.isNotEmpty
+                ? getMyRouteResponseModel
+                    .data![0].allRoutes!.activeRoutes![0].arrivalDate!
+                : DateTime.now();
+          }
+        },
+      );
+      if (routeFinishDate.millisecondsSinceEpoch >
+          DateTime.now().millisecondsSinceEpoch + 300000) {
+      } else {
+        Get.dialog(
+            barrierDismissible: false,
+            Dialog(
+              backgroundColor: AppConstants().ltWhite,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Text("Rotanızın bitiş saati geldi."),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          MapPageController mapPageController = Get.find<MapPageController>();
-                          MapPageController mappageController =
-                                            MapPageController();
-                                        mappageController
-                                            .getMyRoutesServicesRequestRefreshable();
-                                        GeneralServicesTemp().makePatchRequest(
-                                          EndPoint.activateRoute,
-                                          ActivateRouteRequestModel(
-                                              routeId: mapPageController
-                                                  .myActivesRoutes![0].id),
-                                          {
-                                            "Content-type": "application/json",
-                                            'Authorization':
-                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                          },
-                                        ).then((value) {
-                                          ActivateRouteResponseModel response =
-                                              ActivateRouteResponseModel
-                                                  .fromJson(jsonDecode(value!));
-                                          if (response.success == 1) {
-                                            BerkayController berkayController =
-                                                Get.find<BerkayController>();
-                                            berkayController
-                                                .isAlreadyHaveRoute = false.obs;
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 24),
+                      child: Text(
+                        "Rotayı sonlandırmak ister misiniz?",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            MapPageController mapPageController =
+                                Get.find<MapPageController>();
 
-                                            print(response.success);
-                                            print(response.message);
-                                            mapPageController
-                                                .changeCalculateLevel(1);
-                                            mapPageController
-                                                .selectedDispley(0);
+                            mapPageController
+                                .getMyRoutesServicesRequestRefreshable();
+                            () {
+                              GeneralServicesTemp().makePatchRequest(
+                                EndPoint.activateRoute,
+                                ActivateRouteRequestModel(
+                                    routeId: mapPageController
+                                        .myActivesRoutes![0].id),
+                                {
+                                  "Content-type": "application/json",
+                                  'Authorization':
+                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                },
+                              ).then((value) {
+                                ActivateRouteResponseModel response =
+                                    ActivateRouteResponseModel.fromJson(
+                                        jsonDecode(value!));
+                                if (response.success == 1) {
+                                  BerkayController berkayController =
+                                      Get.find<BerkayController>();
+                                  berkayController.isAlreadyHaveRoute =
+                                      false.obs;
 
-                                            mapPageController.markers.clear();
+                                  print(response.success);
+                                  print(response.message);
+                                  mapPageController.changeCalculateLevel(1);
+                                  mapPageController.selectedDispley(0);
 
-                                            mapPageController
-                                                .polylineCoordinates
-                                                .clear();
-                                            mapPageController
-                                                .polylineCoordinates2
-                                                .clear();
-                                            mapPageController
-                                                .polylineCoordinatesListForB
-                                                .clear();
-                                            mapPageController.polylines.clear();
-                                            mapPageController.polylines2
-                                                .clear();
-                                            mapPageController
-                                                .polylineCoordinatesListForB
-                                                .clear();
-                                          }
-                                        });
-                                          
-                          Get.back();
-                        },
-                        child: Center(
-                          child: Container(
-                            height: 36,
-                            width: 80,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: AppConstants().ltMainRed,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            child: Text(
-                              "Evet",
-                              style: TextStyle(color: AppConstants().ltWhite),
+                                  mapPageController.markers.clear();
+
+                                  mapPageController.polylineCoordinates.clear();
+                                  mapPageController.polylineCoordinates2
+                                      .clear();
+                                  mapPageController.polylineCoordinatesListForB
+                                      .clear();
+                                  mapPageController.polylines.clear();
+                                  mapPageController.polylines2.clear();
+                                  mapPageController.polylineCoordinatesListForB
+                                      .clear();
+                                }
+                              });
+                            };
+
+                            Get.back();
+                          },
+                          child: Center(
+                            child: Container(
+                              height: 36,
+                              width: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: AppConstants().ltMainRed,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              child: Text(
+                                "Evet",
+                                style: TextStyle(color: AppConstants().ltWhite),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Center(
-                          child: Container(
-                            height: 36,
-                            width: 80,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: AppConstants().ltWhiteGrey,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            child: const Text(
-                              "Hayır",
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Center(
+                            child: Container(
+                              height: 36,
+                              width: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: AppConstants().ltWhiteGrey,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              child: const Text(
+                                "Hayır",
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ));
+            ));
+      }
     }
   }
 

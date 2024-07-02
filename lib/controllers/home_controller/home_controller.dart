@@ -29,14 +29,17 @@ class HomeController extends GetxController {
     if (response == null) {
       return;
     }
-    totalPage.value = response.data![0].pagination!.totalPage!;
-    for (int i = 0; i < response.data![0].result!.length; i++) {
-      snapshotList.add(response.data![0].result![i]);
-      print(
-          "BUPINGILIZCENEDEN Ğ-> ${snapshotList[0]!.post!.createdAt!.toString()}");
-      print(
-          "BUPINGILIZCENEDEN Ğ-> ${timeago.format(DateTime.parse(snapshotList[0]!.post!.createdAt!.toString()), locale: "TR")}");
+    if (response.data!.isNotEmpty) {
+      totalPage.value = response.data![0].pagination!.totalPage!;
+      for (int i = 0; i < response.data![0].result!.length; i++) {
+        snapshotList.add(response.data![0].result![i]);
+        print(
+            "BUPINGILIZCENEDEN Ğ-> ${snapshotList[0]!.post!.createdAt!.toString()}");
+        print(
+            "BUPINGILIZCENEDEN Ğ-> ${timeago.format(DateTime.parse(snapshotList[0]!.post!.createdAt!.toString()), locale: "TR")}");
+      }
     }
+
     update(["homePage"]);
   }
 

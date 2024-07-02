@@ -85,10 +85,6 @@ class BottomNavigationBarView extends StatelessWidget {
               onTap: (index) async {
                 await _drawerControlIndex();
                 bottomNavigationBarController.changeIndex(index);
-                if (index == 1) {
-                  print("MAPPAGECONTROLLER YÜKLENDİ");
-                  MapPageController controller = Get.put(MapPageController());
-                }
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,
               items: [

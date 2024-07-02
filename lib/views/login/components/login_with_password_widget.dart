@@ -114,12 +114,13 @@ class LoginWithPassword extends StatelessWidget {
                     final response =
                         LoginResponseModel.fromJson(jsonDecode(value));
                     if (response.success == 1) {
-                      print(response.data![0].tokens!.accessToken);
+                      print(
+                          "ONESİGNALm ${response.data![0].tokens!.accessToken}");
                       LocaleManager.instance.setCryptedData(
                           PreferencesKeys.userCredentials,
                           '${loginController.userEmail.value}+${passwordController.text}');
 
-                      LocaleManager.instance.setInt(
+                      await LocaleManager.instance.setInt(
                           PreferencesKeys.currentUserId,
                           response.data![0].user!.id!);
                       // OneSignal().setExternalUserId(

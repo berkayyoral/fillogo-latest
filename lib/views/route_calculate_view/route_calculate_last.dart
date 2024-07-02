@@ -130,6 +130,9 @@ class RouteCalculateLastView extends StatelessWidget {
                           init: createRouteController,
                           initState: (_) async {
                             //await getMyCurrentLocationController.getMyCurrentLocation();
+                            SetCustomMarkerIconController controller =
+                                Get.put(SetCustomMarkerIconController());
+                            await controller.setCustomMarkerIcon3();
                             createRouteController.addMarkerFunction(
                               const MarkerId("myCurrentMarker"),
                               LatLng(
@@ -165,8 +168,8 @@ class RouteCalculateLastView extends StatelessWidget {
                                     createRouteController.polylines.values),
                                 mapController2:
                                     (GoogleMapController controller) async {
-                                  createRouteController.generalMapController
-                                      .complete(controller);
+                                  // createRouteController.generalMapController
+                                  //     .complete(controller);
                                 },
                               ),
                             );

@@ -75,13 +75,15 @@ class _MyProfilViewState extends State<MyProfilView> {
                               .carType!);
                       return response;
                     }
-                    return null;
                   }),
                   builder: (context, snapshot) {
-                    LocaleManager.instance.setString(
-                        PreferencesKeys.carType,
-                        snapshot.data!.data!.carInformations!
-                            .cartypetousercartypes!.carType!);
+                    print("DEBUGMODHATA -> ${snapshot.data}");
+                    if (snapshot.data != null) {
+                      LocaleManager.instance.setString(
+                          PreferencesKeys.carType,
+                          snapshot.data!.data!.carInformations!
+                              .cartypetousercartypes!.carType!);
+                    }
 
                     print(
                         "MYPROFİLEVEHİCLETYPE -> ${LocaleManager.instance.getString(PreferencesKeys.carType)}");

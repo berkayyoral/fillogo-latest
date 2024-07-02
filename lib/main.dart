@@ -15,11 +15,11 @@ void main() async {
   timeago.setLocaleMessages('tr', TurkishMessages());
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+  await OneSignalManager.setupOneSignal();
   await LocaleManager.instance.preferencesInit();
   // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();
 
-  await OneSignalManager.setupOneSignal();
   // OneSignalNotificationService();
   // OneSignalNotificationService().handleClickNotification();
   //HttpOverrides.global = MyHttpOverrides();

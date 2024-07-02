@@ -38,7 +38,6 @@ class InitialBinding implements Bindings {
     Get.put(UserStateController());
     Get.put(LifeCycleController());
     Get.put(FutureController());
-    Get.put(MapPageController());
     Get.put(GlobalChatController());
     Get.put(ConnectionsController());
     Get.put(PostController());

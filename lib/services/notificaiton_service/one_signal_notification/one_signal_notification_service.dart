@@ -8,8 +8,8 @@ class OneSignalManager {
   static Future<void> setupOneSignal() async {
     final int? id =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
-    print("ONESİGNAL burdayım");
-    print("ONESİGNAL İÇİN ID -> $id");
+    print("ONESİGNALm burdayım");
+    print("ONESİGNALm İÇİN ID -> $id");
     final String deviceLang =
         LocaleManager.instance.getString(PreferencesKeys.languageCode) ??
             Get.deviceLocale?.languageCode ??
@@ -18,7 +18,7 @@ class OneSignalManager {
     OneSignal.initialize(AppConstants.oneSignalAppId);
     if (id != null) {
       await OneSignal.login(id.toString())
-          .then((value) => print("ONESİGNAL LOGİN OLDUM"));
+          .then((value) => print("ONESİGNALm LOGİN OLDUM"));
     }
     OneSignal.User.setLanguage(deviceLang);
 
@@ -33,18 +33,19 @@ class OneSignalManager {
     });
 
     OneSignal.Notifications.addClickListener((event) {
-      debugPrint('EVENT: ${event.notification.additionalData}');
+      debugPrint('ONESİGNALm EVENT: ${event.notification.additionalData}');
       final Map<String, dynamic>? additionalData =
           event.notification.additionalData;
       if (additionalData != null) {
         final int type = additionalData["type"];
+        print("ONESİGNALm type -> $type");
         navigateToPage(type: type);
       }
     });
 
     OneSignal.User.pushSubscription.addObserver((stateChanges) async {
-      debugPrint('previous state ${stateChanges.previous.optedIn}');
-      debugPrint('current state ${stateChanges.current.optedIn}');
+      debugPrint('ONESİGNALm previous state ${stateChanges.previous.optedIn}');
+      debugPrint('ONESİGNALm current state ${stateChanges.current.optedIn}');
 
       if (stateChanges.current.optedIn == true) {
         OneSignal.logout();
@@ -78,7 +79,7 @@ class OneSignalManager {
 }
 
 void navigateToPage({required int type}) {
-  print("ONESİGNAL NOTİFY TYPOE -> $type");
+  print("ONESİGNALm NOTİFY TYPOE -> $type");
   switch (type) {
     // case 3:
     //   WidgetsBinding.instance.addPostFrameCallback((_) async {

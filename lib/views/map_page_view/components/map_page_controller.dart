@@ -174,6 +174,9 @@ class MapPageController extends GetxController {
     polylineCoordinates2 = [];
     generalPolylineEncode2.value = "";
 
+    SetCustomMarkerIconController controller =
+        Get.put(SetCustomMarkerIconController());
+    await controller.setCustomMarkerIcon3();
     addMarkerFunctionForMapPageWithoutOnTap2(
       const MarkerId("myLocationMarker"),
       LatLng(
@@ -423,17 +426,25 @@ class MapPageController extends GetxController {
             GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
 
         //myAllRoutes = getMyRouteResponseModel.data![0].allRoutes;
-
-        myActivesRoutes =
-            getMyRouteResponseModel.data![0].allRoutes!.activeRoutes;
-        myPastsRoutes = getMyRouteResponseModel.data![0].allRoutes!.pastRoutes;
-        mynotStartedRoutes =
-            getMyRouteResponseModel.data![0].allRoutes!.notStartedRoutes;
-        isRouteVisibilty.value =
-            myActivesRoutes!.first.isInvisible! ? false : true;
-        isRouteAvability.value = myActivesRoutes!.first.isAvailable!;
-        print(
-            "VİSİBİLİTY -> ${isRouteVisibilty.value} avabilty -> ${isRouteAvability.value}");
+        if (getMyRouteResponseModel.data!.isNotEmpty) {
+          print("DEBUGMODEM -> ${getMyRouteResponseModel.data!}");
+          myActivesRoutes =
+              getMyRouteResponseModel.data![0].allRoutes!.activeRoutes;
+          myPastsRoutes =
+              getMyRouteResponseModel.data![0].allRoutes!.pastRoutes;
+          mynotStartedRoutes =
+              getMyRouteResponseModel.data![0].allRoutes!.notStartedRoutes;
+          isRouteVisibilty.value = myActivesRoutes!.isNotEmpty
+              ? myActivesRoutes!.first.isInvisible!
+                  ? false
+                  : true
+              : true;
+          isRouteAvability.value = myActivesRoutes!.isNotEmpty
+              ? myActivesRoutes!.first.isAvailable!
+              : true;
+          print(
+              "VİSİBİLİTY -> ${isRouteVisibilty.value} avabilty -> ${isRouteAvability.value}");
+        }
       },
     );
     update(["mapPageController"]);
@@ -459,7 +470,7 @@ class MapPageController extends GetxController {
       width: 4,
     );
     polylines[generalPolylineId] = polyline;
-    polyliness[0] = (polyline);
+    polyliness.isEmpty ? polyliness.add(polyline) : polyliness[0] = (polyline);
     print("MATCHİNGROTADATA benim rotamm ");
     update(["mapPageController"]);
   }
@@ -471,7 +482,8 @@ class MapPageController extends GetxController {
     for (var point in result) {
       polylineCoordinates2.add(LatLng(point.latitude, point.longitude));
     }
-    log("polylineCoordinates2:  ${polylineCoordinates2.toString()}");
+    log("MATCHİNGROTADATA polylineCoordinates2 ben:  ${polylineCoordinates2.length}- ${calculateLevel.value}");
+    log("MATCHİNGROTADATA polylineCoordinates2:  ${polylineCoordinates2.toString()}");
     var newPolylineCoordinates = polylineCoordinates2.toSet().toList();
 
     Polyline polyline = Polyline(
@@ -483,9 +495,10 @@ class MapPageController extends GetxController {
       width: 4,
     );
     polylines2[generalPolylineId2] = polyline;
-    polyliness[0] = (polyline);
-    print("MATCHİNGROTADATA benim rotamm 2");
-    update(["mapPageController"]);
+    polyliness.isEmpty ? polyliness.add(polyline) : polyliness[0] = (polyline);
+    print(
+        "MATCHİNGROTADATA polylineCoordinates2 benim rotamm ${polyliness.length}");
+    // update(["mapPageController"]);
   }
 
   updatePolyline(LatLng newPoint) {
@@ -506,7 +519,7 @@ class MapPageController extends GetxController {
 
     if (distanceToDestination > thresholdDistance) {
       drawIntoMapPolyline2();
-      getMyFriendsRoutesCircular(newPoint);
+      // getMyFriendsRoutesCircular(newPoint);
     }
   }
 
@@ -700,6 +713,7 @@ class MapPageController extends GetxController {
   ) {
     try {
       print("MATCHİNGROTADATA mARKER İD -> $markerId");
+
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
@@ -861,13 +875,15 @@ class MapPageController extends GetxController {
       mapPageRouteFinishLatitude2.value,
       mapPageRouteFinishLongitude2.value,
     ).then((value) async {
-      print("NEWROUTEEM polyline encode");
-      calculatedRouteDistance.value =
-          "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
-      calculatedRouteTime.value =
-          "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
-      generalPolylineEncode2.value =
-          value.routes![0].polyline!.encodedPolyline!;
+      print("Finish NEWROUTEEM polyline encode");
+      if (value.routes != null) {
+        calculatedRouteDistance.value =
+            "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+        calculatedRouteTime.value =
+            "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
+        generalPolylineEncode2.value =
+            value.routes![0].polyline!.encodedPolyline!;
+      }
 
       update(["mapPageController"]);
     });
@@ -922,12 +938,14 @@ class MapPageController extends GetxController {
       mapPageRouteFinishLatitude2.value,
       mapPageRouteFinishLongitude2.value,
     ).then((value) async {
-      calculatedRouteDistance.value =
-          "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
-      calculatedRouteTime.value =
-          "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
-      generalPolylineEncode2.value =
-          value.routes![0].polyline!.encodedPolyline!;
+      if (value.routes!.isNotEmpty) {
+        calculatedRouteDistance.value =
+            "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+        calculatedRouteTime.value =
+            "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
+        generalPolylineEncode2.value =
+            value.routes![0].polyline!.encodedPolyline!;
+      }
 
       update(["mapPageController"]);
     });
@@ -976,7 +994,9 @@ class MapPageController extends GetxController {
     double lati2,
     double longi2,
   ) async {
-    print("NEWROUTEEM polyyy");
+    print("Finish NEWROUTEEM polyyy");
+    print(
+        "finish lati11/long -> ${lati1} ${lati1} // lati12/long -> ${lati2} ${lati2}");
     GetPollylineResponseModel getPollylineResponseModel =
         GetPollylineResponseModel();
     // GetPollylineResponseModel getPollylineResponseModel =
@@ -1029,20 +1049,23 @@ class MapPageController extends GetxController {
         .then(
       (value) {
         if (value != null) {
-          print("ZAAAAAAAAAAA");
           getPollylineResponseModel =
               GetPollylineResponseModel.fromJson(convert.json.decode(value));
-          calculatedRouteDistance.value =
-              "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
-          calculatedRouteDistanceInt =
-              getPollylineResponseModel.routes![0].distanceMeters! ~/ 1000;
-          int calculatedTime = int.parse(
-              getPollylineResponseModel.routes![0].duration!.split("s")[0]);
-          calculatedRouteTime.value =
-              "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
-          calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
-              ((calculatedTime / 60) % 60).toInt();
-          getPollylineResponseModel.routes![0].polyline!.encodedPolyline!;
+          print("Finish ZAAAAAAAAAAA ${jsonEncode(getPollylineResponseModel)}");
+          if (getPollylineResponseModel.routes!.isNotEmpty) {
+            calculatedRouteDistance.value =
+                "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+            calculatedRouteDistanceInt =
+                getPollylineResponseModel.routes![0].distanceMeters! ~/ 1000;
+            int calculatedTime = int.parse(
+                getPollylineResponseModel.routes![0].duration!.split("s")[0]);
+            calculatedRouteTime.value =
+                "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
+            calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
+                ((calculatedTime / 60) % 60).toInt();
+            getPollylineResponseModel.routes![0].polyline!.encodedPolyline!;
+          }
+
           update(["mapPageController"]);
           return getPollylineResponseModel;
         }

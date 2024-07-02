@@ -87,6 +87,8 @@ class NotificationsView extends StatelessWidget {
                 }),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    print(
+                        "BİLDİRİLEREKRANINDATYIM -> ${jsonEncode(snapshot.data)}");
                     return (snapshot.data!.data![0].formatted!.today!.isEmpty &&
                             snapshot
                                 .data!.data![0].formatted!.thisWeek!.isEmpty &&

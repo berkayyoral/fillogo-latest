@@ -2,7 +2,6 @@ import 'package:fillogo/export.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class NotificationController extends GetxController {
   RxBool value = false.obs;
 
@@ -34,10 +33,15 @@ class NotificationController extends GetxController {
 
   final AndroidInitializationSettings _androidInitializationSettings =
       const AndroidInitializationSettings('ic_stat_notifications');
+
+  final DarwinInitializationSettings _darwinInitializationSettings =
+      DarwinInitializationSettings(
+    onDidReceiveLocalNotification: (id, title, body, payload) async {},
+  );
   void initializeNotifications() async {
     InitializationSettings initializationSettings = InitializationSettings(
-      android: _androidInitializationSettings,
-    );
+        android: _androidInitializationSettings,
+        iOS: _darwinInitializationSettings);
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -74,6 +78,7 @@ class NotificationController extends GetxController {
       iOS: DarwinNotificationDetails(),
     );
   }
+
   Future<void> requestNotificationPermission() async {
     final PermissionStatus permissionStatus =
         await Permission.notification.request();

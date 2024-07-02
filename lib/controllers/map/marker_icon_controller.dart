@@ -59,37 +59,41 @@ class SetCustomMarkerIconController extends GetxController {
   }
 
   setCustomMarkerIcon3() async {
-    myLocation = ClipPath(
-      clipper: ShildIconCustomPainter(),
-      child: Container(
-        height: 100,
-        width: 100,
-        color: AppConstants().ltWhite,
-        child: Image.network(
-          LocaleManager.instance
-                  .getString(PreferencesKeys.currentUserProfilPhoto)! ??
-              'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
-          fit: BoxFit.cover,
+    String photoUrl = LocaleManager.instance
+            .getString(PreferencesKeys.currentUserProfilPhoto) ??
+        "https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png";
+    if (photoUrl != null) {
+      myLocation = ClipPath(
+        clipper: ShildIconCustomPainter(),
+        child: Container(
+          height: 100,
+          width: 100,
+          color: AppConstants().ltWhite,
+          child: Image.network(
+            photoUrl ??
+                'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    );
+      );
+      mayLocationIcon =
+          (await NetworkAssetBundle(Uri.parse(photoUrl)).load(photoUrl))
+              .buffer
+              .asUint8List();
+    }
 
-    mayLocationIcon = (await NetworkAssetBundle(Uri.parse(LocaleManager.instance
-                .getString(PreferencesKeys.currentUserProfilPhoto)!))
-            .load(LocaleManager.instance
-                .getString(PreferencesKeys.currentUserProfilPhoto)!))
-        .buffer
-        .asUint8List();
-    String myCarType =
-        LocaleManager.instance.getString(PreferencesKeys.carType)!;
+    String? myCarType =
+        LocaleManager.instance.getString(PreferencesKeys.carType);
 
-    String iconPath = myCarType == "Otomobil"
-        ? 'assets/icons/myLocationLightCommercial.png'
-        : myCarType == "Tır"
-            ? 'assets/icons/myLocationTruck.png'
-            : 'assets/icons/myLocationMotorcycle.png';
+    if (myCarType != null) {
+      String iconPath = myCarType == "Otomobil"
+          ? 'assets/icons/myLocationLightCommercial.png'
+          : myCarType == "Tır"
+              ? 'assets/icons/myLocationTruck.png'
+              : 'assets/icons/myLocationMotorcycle.png';
 
-    mayLocationIcon = await getBytesFromAsset(iconPath, 100);
+      mayLocationIcon = await getBytesFromAsset(iconPath, 100);
+    }
 
     // await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
   }

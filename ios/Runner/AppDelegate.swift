@@ -15,7 +15,7 @@ import GoogleMaps
         
         // OneSignal initialization
     OneSignal.initialize("ef065656-adab-4c84-b66e-245e0bdba8c6", withLaunchOptions: launchOptions)
-        
+      
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

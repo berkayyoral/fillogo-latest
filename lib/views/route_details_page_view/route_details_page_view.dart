@@ -331,7 +331,7 @@ class RouteDetailsPageView extends StatelessWidget {
                                 if (response.success == 1) {
                                   // Get.back(closeOverlays: true);
                                   MapPageController mapPageController =
-                                      Get.put(MapPageController());
+                                      Get.find();
                                   SetCustomMarkerIconController
                                       setCustomMarkerIconController =
                                       Get.put(SetCustomMarkerIconController());
