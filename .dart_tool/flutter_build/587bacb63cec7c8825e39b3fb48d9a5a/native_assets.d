@@ -1,1 +1,0 @@
- /Users/istechsoft/Desktop/adsız\ klasör\ 2/fillogo-latest/.dart_tool/flutter_build/587bacb63cec7c8825e39b3fb48d9a5a/native_assets.yaml: 
