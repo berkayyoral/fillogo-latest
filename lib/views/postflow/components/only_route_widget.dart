@@ -242,7 +242,7 @@ class OnlyRouteWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(NavigationConstants.comments,
-                          arguments: postId);
+                          arguments: [postId]);
                     },
                     child: SvgPicture.asset(
                       'assets/icons/comment-icon.svg',
@@ -355,7 +355,7 @@ class OnlyRouteWidget extends StatelessWidget {
           builder: (controller) {
             return GestureDetector(
               onTap: () {
-                Get.toNamed(NavigationConstants.comments, arguments: postId);
+                Get.toNamed(NavigationConstants.comments, arguments: [postId]);
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),

@@ -377,7 +377,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(NavigationConstants.comments,
-                          arguments: widget.postId);
+                          arguments: [widget.postId]);
                     },
                     child: SvgPicture.asset(
                       'assets/icons/comment-icon.svg',
@@ -522,7 +522,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
       // ),
       GestureDetector(
         onTap: () {
-          Get.toNamed(NavigationConstants.comments, arguments: widget.postId);
+          Get.toNamed(NavigationConstants.comments, arguments: [widget.postId]);
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
