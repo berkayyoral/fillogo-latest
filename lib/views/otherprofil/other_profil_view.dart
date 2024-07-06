@@ -10,6 +10,7 @@ import 'package:fillogo/models/user/block_user.dart';
 import 'package:fillogo/models/user/follow_user.dart';
 import 'package:fillogo/models/user/other_profile/other_profile.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/views/chat/chats_view/chat_controller.dart';
 import 'package:fillogo/views/connection_view/components/connection_controller.dart';
@@ -274,20 +275,20 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
                           ),
                         ),
                         1.h.spaceY,
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 12.w,
-                                ),
-                                child: Text(
-                                  "@${snapshot.data!.data!.users!.username} ",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                              12.h.spaceY,
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 12.w,
+                          ),
+                          child: Text(
+                            "@${snapshot.data!.data!.users!.username} ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: AppConstants().ltLogoGrey,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        12.h.spaceY,
                         UserVehicleInfosWidget(
                           vehicleType:
                               snapshot.data!.data!.carInformations == null
@@ -353,37 +354,69 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
                                                 jsonDecode(value!));
                                         if (response.message ==
                                             "User followed") {
-                                          SocketService.instance().socket.emit(
-                                              'notification',
-                                              NotificationModel(
-                                                sender: LocaleManager.instance
-                                                    .getInt(PreferencesKeys
-                                                        .currentUserId),
-                                                receiver:
-                                                    otherProfileRequest.userID,
-                                                type: 1,
-                                                params: [
-                                                  otherProfileRequest.userID!
-                                                ],
-                                                message: NotificaitonMessage(
-                                                    text: NotificationText(
-                                                      content:
-                                                          "adlı kullanıcı seni takip etmeye başladı",
-                                                      name: LocaleManager
+                                          OneSignalSenNotification()
+                                              .sendNotification(
+                                                  notificationModel:
+                                                      NotificationModel(
+                                            sender: LocaleManager.instance
+                                                .getInt(PreferencesKeys
+                                                    .currentUserId),
+                                            receiver:
+                                                otherProfileRequest.userID,
+                                            type: 1,
+                                            params: [
+                                              otherProfileRequest.userID!
+                                            ],
+                                            message: NotificaitonMessage(
+                                                text: NotificationText(
+                                                  content:
+                                                      "adlı kullanıcı seni takip etmeye başladı",
+                                                  name: LocaleManager.instance
+                                                      .getString(PreferencesKeys
+                                                          .currentUserUserName),
+                                                  surname: "" ?? "",
+                                                  username: LocaleManager
                                                           .instance
                                                           .getString(PreferencesKeys
-                                                              .currentUserUserName),
-                                                      surname: "" ?? "",
-                                                      username: LocaleManager
-                                                              .instance
-                                                              .getString(
-                                                                  PreferencesKeys
-                                                                      .currentUserUserName) ??
-                                                          "",
-                                                    ),
-                                                    link: "" //,
-                                                    ),
-                                              ));
+                                                              .currentUserUserName) ??
+                                                      "",
+                                                ),
+                                                link: "" //,
+                                                ),
+                                          ));
+
+                                          // SocketService.instance().socket.emit(
+                                          //     'notification',
+                                          //     NotificationModel(
+                                          //       sender: LocaleManager.instance
+                                          //           .getInt(PreferencesKeys
+                                          //               .currentUserId),
+                                          //       receiver:
+                                          //           otherProfileRequest.userID,
+                                          //       type: 1,
+                                          //       params: [
+                                          //         otherProfileRequest.userID!
+                                          //       ],
+                                          //       message: NotificaitonMessage(
+                                          //           text: NotificationText(
+                                          //             content:
+                                          //                 "adlı kullanıcı seni takip etmeye başladı",
+                                          //             name: LocaleManager
+                                          //                 .instance
+                                          //                 .getString(PreferencesKeys
+                                          //                     .currentUserUserName),
+                                          //             surname: "" ?? "",
+                                          //             username: LocaleManager
+                                          //                     .instance
+                                          //                     .getString(
+                                          //                         PreferencesKeys
+                                          //                             .currentUserUserName) ??
+                                          //                 "",
+                                          //           ),
+                                          //           link: "" //,
+                                          //           ),
+                                          //     ));
+
                                           setState(() {
                                             followersCount = (snapshot.data!
                                                         .data!.followerCount! +

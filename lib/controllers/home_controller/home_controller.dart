@@ -3,11 +3,13 @@ import 'dart:developer';
 
 import 'package:fillogo/models/post/get_home_post.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../export.dart';
 
 class HomeController extends GetxController {
+  RxBool isLoading = false.obs;
   final RxInt currentPage = 1.obs;
   final RxInt totalPage = 1.obs;
   final RxDouble scrollOffset = (600.0).obs;

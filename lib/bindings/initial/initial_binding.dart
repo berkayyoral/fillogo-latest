@@ -6,6 +6,7 @@ import 'package:fillogo/controllers/future_controller.dart';
 import 'package:fillogo/controllers/life_cycle/life_cycle_controller.dart';
 import 'package:fillogo/controllers/map/first_login_is_active_route_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/controllers/post_controller/posts_detail_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
@@ -44,5 +45,6 @@ class InitialBinding implements Bindings {
     Get.put(LikeController());
     Get.put(VehicleInfoController());
     Get.put(FirstOpenIsActiveRoute());
+    Get.put(NotificationController());
   }
 }

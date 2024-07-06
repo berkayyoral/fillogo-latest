@@ -9,9 +9,9 @@ class AppConstants {
   static int indexNavigation = 0;
   static int selectedDestination = 0;
   static const String oneSignalAppId =
-      "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"; //'43ddc771-f2eb-4ecf-bcc8-95434809b1dc'; ef065656-adab-4c84-b66e-245e0bdba8c6
+      "ef065656-adab-4c84-b66e-245e0bdba8c6"; //'43ddc771-f2eb-4ecf-bcc8-95434809b1dc'; ef065656-adab-4c84-b66e-245e0bdba8c6
   static const String googleMapsApiKey =
-      "AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA";
+      "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"; //"AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"
   static const String googleMapsGetPolylineLink =
       "https://routes.googleapis.com/directions/v2:computeRoutes";
 

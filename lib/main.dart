@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/models/user/login/login_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/notificaiton_service/local_notification/local_notification_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -15,11 +17,11 @@ void main() async {
   timeago.setLocaleMessages('tr', TurkishMessages());
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  await OneSignalManager.setupOneSignal();
   await LocaleManager.instance.preferencesInit();
   // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();
 
+  await OneSignalManager.setupOneSignal();
   // OneSignalNotificationService();
   // OneSignalNotificationService().handleClickNotification();
   //HttpOverrides.global = MyHttpOverrides();

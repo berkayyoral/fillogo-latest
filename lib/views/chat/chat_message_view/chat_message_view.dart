@@ -7,8 +7,10 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/chat/chat_message/chat_message_response_model.dart';
 import 'package:fillogo/models/chat/chat_message/create_chat_message/chat_message_request_model.dart';
 import 'package:fillogo/models/chat/chats/chat_response_model.dart';
+import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/notificaiton_service/local_notification/local_notification_service.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/views/chat/chat_message_view/chat_message_controller.dart';
 import 'package:fillogo/views/chat/chat_message_view/components/chat_message_text_field.dart';
@@ -391,6 +393,8 @@ class ChatMessageView extends StatelessWidget {
             createdAt: DateTime.now().toString(),
             sender: Sender(id: currentUserId, username: currentUserName),
           );
+
+          /// SEND MESSAGE WİTH SOCKET
           SocketService.instance().socket.emit(
             'send-message',
             {
@@ -400,21 +404,41 @@ class ChatMessageView extends StatelessWidget {
               "senderId": currentUserId,
             },
           );
+
           globalChatController.messageSeen = "sent";
+
           if (chatMessagesController.usersInChat.length == 2) {
             SocketService.instance().socket.emit(
               "message-seen-status",
               {"chatId": chatController.chatId},
             );
+          } else {
+            // OneSignalSenNotification().sendNotification(
+            //   notificationModel: NotificationModel(
+            //     message: NotificaitonMessage(
+            //       text: NotificationText(
+            //         username: currentUserName!,
+            //         surname: "",
+            //         content: ": ${chatTextController.text}",
+            //       ),
+            //     ),
+            //     sender: currentUserId,
+            //     receiver: receiverUser.id!,
+            //     type: 5,
+            //   ),
+            // );
           }
 
           chatMessagesController.addMessageToEnd(messageJson);
           messageJson = Messages();
           chatMessagesController.chatMessages.refresh();
 
+          ///SEND MESSAGE WİTH ONESİGNAL
+
           LocalNotificationService().pushNotification(
             receiver: receiverUser.id!,
             type: 5,
+            username: currentUserName!,
             name: currentUserName!,
             content: ": ${chatTextController.text}",
             params: [chatController.chatId],

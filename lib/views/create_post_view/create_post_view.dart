@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
@@ -46,13 +47,14 @@ import '../../core/init/ui_helper/ui_helper.dart';
 class CreatePostPageView extends StatelessWidget {
   CreatePostPageView({super.key});
 
-  CreatePostPageController createPostPageController = Get.find<CreatePostPageController>();
+  CreatePostPageController createPostPageController =
+      Get.find<CreatePostPageController>();
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
   TextEditingController discriptionTextController = TextEditingController();
 
-   MfuController mfuController = Get.find<MfuController>();
+  MfuController mfuController = Get.find<MfuController>();
 
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
@@ -129,15 +131,13 @@ class CreatePostPageView extends StatelessWidget {
                           EdgeInsets.only(left: 16.w, right: 16.w, top: 10.h),
                       child: (createPostPageController.haveRoute.value == 1)
                           ? RouteViewWidgetNewPostPage(
-                            // burada ekliyo
+                              // burada ekliyo
                               closeButtonVisible: true,
                               userName: createPostPageController.userName.value,
-                              routeContent:
-                                  mfuController.sehirler.value,
+                              routeContent: mfuController.sehirler.value,
                               routeStartDate:
                                   mfuController.baslangictarihi.value,
-                              routeEndDate:
-                                  mfuController.bitistarihi.value,
+                              routeEndDate: mfuController.bitistarihi.value,
                             )
                           : SizedBox(
                               height: 0.h,
@@ -317,8 +317,21 @@ class CreatePostPageView extends StatelessWidget {
                               final response = PostCreateResponse.fromJson(
                                   jsonDecode(value));
                               if (response.success == 1) {
-                                bottomNavigationBarController
-                                    .selectedIndex.value = 1;
+                                if (bottomNavigationBarController
+                                        .selectedIndex.value ==
+                                    1) {
+                                  bottomNavigationBarController
+                                      .selectedIndex.value = 1;
+                                } else {
+                                  final HomeController homeContoller =
+                                      Get.put(HomeController());
+                                  bottomNavigationBarController
+                                      .selectedIndex.value = 0;
+                                  homeContoller.currentPage.value = 1;
+                                  homeContoller.scrollOffset.value = 600;
+                                  homeContoller.snapshotList.clear();
+                                  homeContoller.fillList(1);
+                                }
 
                                 showDialog(
                                   context: context,
@@ -590,7 +603,7 @@ class CreatePostPageView extends StatelessWidget {
                       ),
                     ),
                   );
-                  Get.back();
+
                   Get.back();
                 },
                 iconPath: '',

@@ -7,6 +7,7 @@ import 'dart:ui' as ui;
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
@@ -72,6 +73,7 @@ class MapPageView extends GetView<MapPageController> {
   RxList<bool> filterSelectedList = [true, true, true].obs;
   List<String> carTpeList = [];
 // String? myPolyLine;
+  NotificationController notificationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -104,33 +106,58 @@ class MapPageView extends GetView<MapPageController> {
             GestureDetector(
               onTap: () {
                 Get.toNamed(NavigationConstants.notifications);
+                notificationController.isUnOpenedNotification.value = false;
               },
               child: Padding(
                 padding: EdgeInsets.only(
                   right: 5.w,
                 ),
-                child: SvgPicture.asset(
-                  height: 25.h,
-                  width: 25.w,
-                  'assets/icons/notification-icon.svg',
-                  color: AppConstants().ltLogoGrey,
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    SvgPicture.asset(
+                      height: 25.h,
+                      width: 25.w,
+                      'assets/icons/notification-icon.svg',
+                      color: AppConstants().ltLogoGrey,
+                    ),
+                    Obx(() =>
+                        notificationController.isUnOpenedNotification.value
+                            ? CircleAvatar(
+                                radius: 6.h,
+                                backgroundColor: AppConstants().ltMainRed,
+                              )
+                            : SizedBox())
+                  ],
                 ),
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 Get.toNamed(NavigationConstants.message);
+                notificationController.isUnReadMessage.value = false;
               },
               child: Padding(
                 padding: EdgeInsets.only(
                   left: 5.w,
                   right: 20.w,
                 ),
-                child: SvgPicture.asset(
-                  'assets/icons/message-icon.svg',
-                  height: 25.h,
-                  width: 25.w,
-                  color: const Color(0xff3E3E3E),
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/message-icon.svg',
+                      height: 25.h,
+                      width: 25.w,
+                      color: const Color(0xff3E3E3E),
+                    ),
+                    Obx(() => notificationController.isUnReadMessage.value
+                        ? CircleAvatar(
+                            radius: 6.h,
+                            backgroundColor: AppConstants().ltMainRed,
+                          )
+                        : SizedBox())
+                  ],
                 ),
               ),
             ),
@@ -3552,6 +3579,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                 text: 'Rotayı Paylaş',
                 textColor: AppConstants().ltWhite,
                 onpressed: () {
+                  print("PAYLAŞCAMMMMMM");
                   createPostPageController.haveRoute.value = 1;
                   createPostPageController.userName.value = userName!;
                   createPostPageController.routeContent.value = routeContent!;
@@ -3563,6 +3591,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                     mapPageController.update();
                   }
 
+                  Get.back();
                   Get.back();
                   Get.back();
                   Get.toNamed(NavigationConstants.createPostPage,
@@ -3715,7 +3744,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       bottom: 12.w, right: 12.w, left: 12.w),
                                   child: CustomButtonDesign(
-                                    text: 'Rotayı Başlatt',
+                                    text: 'Rotayı Başlat',
                                     textColor: AppConstants().ltWhite,
                                     onpressed: () {
                                       MapPageController mapPageController =

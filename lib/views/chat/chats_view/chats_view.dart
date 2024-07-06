@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/chat/chats/chat_response_model.dart';
@@ -24,8 +25,8 @@ class _ChatsViewState extends State<ChatsView> {
 
   @override
   Widget build(BuildContext context) {
-    print("Current User Id = ${LocaleManager.instance
-            .getInt(PreferencesKeys.currentUserId)}");
+    print(
+        "Current User Id = ${LocaleManager.instance.getInt(PreferencesKeys.currentUserId)}");
     currentUserId =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
     return Scaffold(
@@ -195,6 +196,7 @@ class _ChatsViewState extends State<ChatsView> {
   }
 
   AppBarGenel buildAppBar() {
+    NotificationController notificationController = Get.find();
     return AppBarGenel(
       leading: GestureDetector(
         onTap: () {
@@ -225,16 +227,28 @@ class _ChatsViewState extends State<ChatsView> {
         GestureDetector(
           onTap: () {
             Get.toNamed(NavigationConstants.notifications);
+            notificationController.isUnOpenedNotification.value = false;
           },
           child: Padding(
             padding: EdgeInsets.only(
-              right: 20.w,
+              right: 5.w,
             ),
-            child: SvgPicture.asset(
-              height: 25.h,
-              width: 25.w,
-              'assets/icons/notification-icon.svg',
-              color: AppConstants().ltLogoGrey,
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                SvgPicture.asset(
+                  height: 25.h,
+                  width: 25.w,
+                  'assets/icons/notification-icon.svg',
+                  color: AppConstants().ltLogoGrey,
+                ),
+                Obx(() => notificationController.isUnOpenedNotification.value
+                    ? CircleAvatar(
+                        radius: 6.h,
+                        backgroundColor: AppConstants().ltMainRed,
+                      )
+                    : SizedBox())
+              ],
             ),
           ),
         ),

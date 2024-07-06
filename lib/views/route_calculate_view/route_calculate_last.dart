@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
@@ -36,6 +37,8 @@ class RouteCalculateLastView extends StatelessWidget {
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
+  NotificationController notificationController =
+      Get.put(NotificationController());
   @override
   Widget build(BuildContext context) {
     CameraPosition initialLocation = CameraPosition(
@@ -73,33 +76,57 @@ class RouteCalculateLastView extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Get.toNamed(NavigationConstants.notifications);
+              notificationController.isUnOpenedNotification.value = false;
             },
             child: Padding(
               padding: EdgeInsets.only(
                 right: 5.w,
               ),
-              child: SvgPicture.asset(
-                height: 25.h,
-                width: 25.w,
-                'assets/icons/notification-icon.svg',
-                color: AppConstants().ltLogoGrey,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  SvgPicture.asset(
+                    height: 25.h,
+                    width: 25.w,
+                    'assets/icons/notification-icon.svg',
+                    color: AppConstants().ltLogoGrey,
+                  ),
+                  Obx(() => notificationController.isUnOpenedNotification.value
+                      ? CircleAvatar(
+                          radius: 6.h,
+                          backgroundColor: AppConstants().ltMainRed,
+                        )
+                      : SizedBox())
+                ],
               ),
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               Get.toNamed(NavigationConstants.message);
+              notificationController.isUnReadMessage.value = false;
             },
             child: Padding(
               padding: EdgeInsets.only(
                 left: 5.w,
                 right: 20.w,
               ),
-              child: SvgPicture.asset(
-                'assets/icons/message-icon.svg',
-                height: 25.h,
-                width: 25.w,
-                color: AppConstants().ltLogoGrey,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/message-icon.svg',
+                    height: 25.h,
+                    width: 25.w,
+                    color: const Color(0xff3E3E3E),
+                  ),
+                  Obx(() => notificationController.isUnReadMessage.value
+                      ? CircleAvatar(
+                          radius: 6.h,
+                          backgroundColor: AppConstants().ltMainRed,
+                        )
+                      : SizedBox())
+                ],
               ),
             ),
           ),

@@ -1,11 +1,16 @@
+import 'dart:convert';
+
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
+import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../export.dart';
 
 class OneSignalManager {
   static Future<void> setupOneSignal() async {
+    OneSignal.initialize(AppConstants.oneSignalAppId);
     final int? id =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
     print("ONESİGNALm burdayım");
@@ -15,40 +20,50 @@ class OneSignalManager {
             Get.deviceLocale?.languageCode ??
             AppConstants.defaultLanguage;
 
-    OneSignal.initialize(AppConstants.oneSignalAppId);
     if (id != null) {
+      print("NOTİFYCMM ONESİGNALm İÇİN IDm c -> $id");
       await OneSignal.login(id.toString())
           .then((value) => print("ONESİGNALm LOGİN OLDUM"));
     }
     OneSignal.User.setLanguage(deviceLang);
 
     OneSignal.Notifications.requestPermission(false).then((permission) async {
+      print("NOTİFYCMM ONESİGNALm permission $permission");
       await setupNotificationStatusInTheBackend(
           isNotificationActive: permission);
     });
 
     OneSignal.Notifications.addPermissionObserver((permission) async {
+      print("NOTİFYCMM ONESİGNALm permissionmm");
       await setupNotificationStatusInTheBackend(
           isNotificationActive: permission);
     });
 
     OneSignal.Notifications.addClickListener((event) {
-      debugPrint('ONESİGNALm EVENT: ${event.notification.additionalData}');
-      final Map<String, dynamic>? additionalData =
-          event.notification.additionalData;
-      if (additionalData != null) {
-        final int type = additionalData["type"];
-        print("ONESİGNALm type -> $type");
-        navigateToPage(type: type);
+      try {
+        int type = event.notification.additionalData!["type"];
+        int sender = event.notification.additionalData!["sender"];
+        List? params = event.notification.additionalData!["params"];
+        debugPrint(
+            'NOTİFYCMM ONESİGNALm EVENT: type -> $type param -> $params sender -> $sender');
+
+        // Get.toNamed(NavigationConstants.otherprofiles,
+        //     arguments: event.notification.additionalData!["params"]
+        //         .first);
+        navigateToPage(type: type, params: params ?? [], sender: sender);
+      } catch (e) {
+        print("NOTİFYCMM ONESİGNALm  click error -> $e");
       }
     });
 
     OneSignal.User.pushSubscription.addObserver((stateChanges) async {
-      debugPrint('ONESİGNALm previous state ${stateChanges.previous.optedIn}');
-      debugPrint('ONESİGNALm current state ${stateChanges.current.optedIn}');
+      debugPrint(
+          'NOTİFYCMM ONESİGNALm previous state ${stateChanges.previous.optedIn}');
+      debugPrint(
+          'NOTİFYCMM ONESİGNALm current state ${stateChanges.current.optedIn}');
 
       if (stateChanges.current.optedIn == true) {
-        OneSignal.logout();
+        // OneSignal.logout();
         await setupOneSignal();
       }
     });
@@ -78,9 +93,33 @@ class OneSignalManager {
   }
 }
 
-void navigateToPage({required int type}) {
-  print("ONESİGNALm NOTİFY TYPOE -> $type");
+void navigateToPage(
+    {required int type, required List? params, required int sender}) {
+  NotificationController notificationController = Get.find();
+  print("NOTİFYCMM NOTİFY TYPOE -> $type");
   switch (type) {
+    case 1:
+      print("NOTİFYCMM type 1");
+      Get.toNamed(NavigationConstants.otherprofiles, arguments: sender);
+      break;
+    case 3:
+      params!.isNotEmpty
+          ? Get.toNamed(NavigationConstants.comments, arguments: params)
+          : Get.toNamed(NavigationConstants.notifications, arguments: params);
+      break;
+    case 4:
+      params!.isNotEmpty
+          ? Get.toNamed(NavigationConstants.comments, arguments: params)
+          : Get.toNamed(NavigationConstants.notifications, arguments: params);
+      break;
+    case 5:
+      Get.toNamed(NavigationConstants.message, arguments: params);
+      notificationController.isUnReadMessage.value = false;
+      break;
+    case 99: //selektör
+      Get.toNamed(NavigationConstants.notifications, arguments: params);
+      notificationController.isUnOpenedNotification.value = false;
+      break;
     // case 3:
     //   WidgetsBinding.instance.addPostFrameCallback((_) async {
     //     await Get.offAllNamed(NavigationConstants.navigationPageview,
@@ -211,7 +250,6 @@ Future<void> setupNotificationStatusInTheBackend(
 //   },
 // };
 
-
 // import 'dart:developer';
 
 // import 'package:fillogo/export.dart';
@@ -231,8 +269,8 @@ Future<void> setupNotificationStatusInTheBackend(
 //       event.complete(event.notification);
 //     });
 
-    // /* _instance!.setExternalUserId(LocaleManager.instance
-    //     .getInt(PreferencesKeys.currentUserId)
+// /* _instance!.setExternalUserId(LocaleManager.instance
+//     .getInt(PreferencesKeys.currentUserId)
 //         .toString());*/
 
 //     _instance!.setPermissionObserver((OSPermissionStateChanges changes) {});

@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:fillogo/models/notification/notification_model.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -45,32 +49,53 @@ class SocketService {
     }
   }
 
-  connectSocket() {
+  connectSocket() async {
     socket.on("get-notification", (data) async {
+      print("NOTİFYCMM -> ${data}");
       NotificationController notificationController =
           Get.put(NotificationController());
 
       if (data['type'] != 5) {
-        NotificationController().notificationCount.value =
+        notificationController.notificationCount.value =
             NotificationController().notificationCount.value + 1;
 
         LocaleManager.instance.setInt(PreferencesKeys.notificationCount,
             notificationController.notificationCount.value);
       }
 
-      onTapNotification(data);
-      NotificationController().showNotification(
-        title: "FilloGO",
-        body: data['type'] != 5
-            ? "${data['message']['text']['name'].toString()} ${data['message']['text']['surname'].toString()} ${data['message']['text']['content'].toString()}"
-            : "${data['message']['text']['name'].toString()}:${data['message']['text']['surname'].toString()} ${data['message']['text']['content'].toString()}",
-      );
+      NotificationModel notificationModel = NotificationModel.fromJson(data);
+
+      if (notificationModel.type == 5) {
+        notificationController.isUnReadMessage.value = true;
+      } else if (notificationModel.type == 1 || notificationModel.type == 99) {
+        notificationController.isUnOpenedNotification.value = true;
+      }
+      print("NOTİFYCMM NOTİFİCAİTONMODEL -> ${notificationModel}");
+      String currentRoute = Get.currentRoute;
+      String previousRoute = Get.previousRoute;
+      print("NOTİFYCMM curret route -> $currentRoute");
+      if (currentRoute != NavigationConstants.message &&
+          (currentRoute != NavigationConstants.chatDetailsView &&
+              previousRoute != NavigationConstants.message)) {
+        OneSignalSenNotification()
+            .sendNotification(notificationModel: notificationModel);
+      }
+      // onTapNotification(data);
+
+      // notificationController.showNotification(
+      //   title: "FilloGO",
+      //   body: data['type'] != 5
+      //       ? "${data['message']['text']['name'].toString()} ${data['message']['text']['surname'].toString()} ${data['message']['text']['content'].toString()}"
+      //       : "${data['message']['text']['name'].toString()}:${data['message']['text']['surname'].toString()} ${data['message']['text']['content'].toString()}",
+      // );
     });
   }
 
   onTapNotification(data) {
     switch (data['type']) {
       default:
+        print("NOTİFYCMM değişti");
+        // Get.toNamed(NavigationConstants.notifications);
         NotificationController()
             .changeNavigationNotify(NavigationConstants.notifications);
     }

@@ -995,84 +995,96 @@ class MapPageController extends GetxController {
     double longi2,
   ) async {
     print("Finish NEWROUTEEM polyyy");
-    print(
-        "finish lati11/long -> ${lati1} ${lati1} // lati12/long -> ${lati2} ${lati2}");
     GetPollylineResponseModel getPollylineResponseModel =
         GetPollylineResponseModel();
-    // GetPollylineResponseModel getPollylineResponseModel =
-    //     GetPollylineResponseModel(
-    //   routes: [
-    //     RouteMyModel(
-    //       distanceMeters: 0,
-    //       duration: "0s",
-    //       polyline: PolylineMyModel(
-    //         encodedPolyline: "",
-    //       ),
-    //     ),
-    //   ],
-    // );
-    GetPollylineRequestModel getPollylineRequestModel =
-        GetPollylineRequestModel(
-      languageCode: "tr",
-      computeAlternativeRoutes: false,
-      //departureTime: "2023-10-15T15:01:23.045123456Z",
-      destination: OriginMyModel.fromJson(
-        {
-          "location": {
-            "latLng": {"latitude": lati2, "longitude": longi2}
+    try {
+      print(
+          "finish lati11/long -> ${lati1} ${lati1} // lati12/long -> ${lati2} ${lati2}");
+
+      // GetPollylineResponseModel getPollylineResponseModel =
+      //     GetPollylineResponseModel(
+      //   routes: [
+      //     RouteMyModel(
+      //       distanceMeters: 0,
+      //       duration: "0s",
+      //       polyline: PolylineMyModel(
+      //         encodedPolyline: "",
+      //       ),
+      //     ),
+      //   ],
+      // );
+      GetPollylineRequestModel getPollylineRequestModel =
+          GetPollylineRequestModel(
+        languageCode: "tr",
+        computeAlternativeRoutes: false,
+        //departureTime: "2023-10-15T15:01:23.045123456Z",
+        destination: OriginMyModel.fromJson(
+          {
+            "location": {
+              "latLng": {"latitude": lati2, "longitude": longi2}
+            }
+          },
+        ),
+        origin: OriginMyModel.fromJson(
+          {
+            "location": {
+              "latLng": {"latitude": lati1, "longitude": longi1}
+            }
+          },
+        ),
+        routeModifiers: RouteModifiersMyModel(
+          avoidTolls: false,
+          avoidHighways: false,
+          avoidFerries: false,
+        ),
+        routingPreference: "TRAFFIC_AWARE",
+        travelMode: "DRIVE",
+        units: "METRIC",
+      );
+      print("Finish NEWROUTEEM req");
+      await GeneralServicesTemp()
+          .makePostRequestForPolyline(
+        AppConstants.googleMapsGetPolylineLink,
+        getPollylineRequestModel,
+        ServicesConstants.getPolylineRequestHeader,
+      )
+          .then(
+        (value) {
+          try {
+            print("Finish NEWROUTEEM polyyy ");
+            if (value != null) {
+              getPollylineResponseModel = GetPollylineResponseModel.fromJson(
+                  convert.json.decode(value));
+
+              if (getPollylineResponseModel.routes!.isNotEmpty) {
+                calculatedRouteDistance.value =
+                    "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+                calculatedRouteDistanceInt =
+                    getPollylineResponseModel.routes![0].distanceMeters! ~/
+                        1000;
+                int calculatedTime = int.parse(getPollylineResponseModel
+                    .routes![0].duration!
+                    .split("s")[0]);
+                calculatedRouteTime.value =
+                    "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
+                calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
+                    ((calculatedTime / 60) % 60).toInt();
+                getPollylineResponseModel.routes![0].polyline!.encodedPolyline!;
+              }
+
+              update(["mapPageController"]);
+              return getPollylineResponseModel;
+            }
+            update(["mapPageController"]);
+          } catch (e) {
+            print("Finish NEWROUTEEM polyyy value  ERROR-> $e");
           }
         },
-      ),
-      origin: OriginMyModel.fromJson(
-        {
-          "location": {
-            "latLng": {"latitude": lati1, "longitude": longi1}
-          }
-        },
-      ),
-      routeModifiers: RouteModifiersMyModel(
-        avoidTolls: false,
-        avoidHighways: false,
-        avoidFerries: false,
-      ),
-      routingPreference: "TRAFFIC_AWARE",
-      travelMode: "DRIVE",
-      units: "METRIC",
-    );
-
-    await GeneralServicesTemp()
-        .makePostRequestForPolyline(
-      AppConstants.googleMapsGetPolylineLink,
-      getPollylineRequestModel,
-      ServicesConstants.getPolylineRequestHeader,
-    )
-        .then(
-      (value) {
-        if (value != null) {
-          getPollylineResponseModel =
-              GetPollylineResponseModel.fromJson(convert.json.decode(value));
-          print("Finish ZAAAAAAAAAAA ${jsonEncode(getPollylineResponseModel)}");
-          if (getPollylineResponseModel.routes!.isNotEmpty) {
-            calculatedRouteDistance.value =
-                "${((getPollylineResponseModel.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
-            calculatedRouteDistanceInt =
-                getPollylineResponseModel.routes![0].distanceMeters! ~/ 1000;
-            int calculatedTime = int.parse(
-                getPollylineResponseModel.routes![0].duration!.split("s")[0]);
-            calculatedRouteTime.value =
-                "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
-            calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
-                ((calculatedTime / 60) % 60).toInt();
-            getPollylineResponseModel.routes![0].polyline!.encodedPolyline!;
-          }
-
-          update(["mapPageController"]);
-          return getPollylineResponseModel;
-        }
-        update(["mapPageController"]);
-      },
-    );
-    update(["mapPageController"]);
+      );
+      update(["mapPageController"]);
+    } catch (e) {
+      print("Finish NEWROUTEEM polyyy error -> $e");
+    }
     return getPollylineResponseModel;
   }
 

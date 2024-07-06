@@ -34,7 +34,7 @@ class _CommentsViewState extends State<CommentsView> {
 
   TextEditingController commentTextController = TextEditingController();
 
-  int postId = Get.arguments;
+  var postId = Get.arguments[0];
 
   var nowComment = "".obs;
 

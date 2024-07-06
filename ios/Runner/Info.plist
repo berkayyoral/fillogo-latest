@@ -40,10 +40,13 @@
 	<string>Aramalar yaparken sesli bir şekilde arama yapmak istediğiniz için bu izne ihtiyacımız var.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Galerinizdeki fotoğraflardan seçip, post olarak paylaşabilmeniz için bu izine ihtiyacımız var.</string>
+	<key>com.onesignal.onesignalAppId</key>
+	<string>YOUR_ONESIGNAL_APP_ID</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

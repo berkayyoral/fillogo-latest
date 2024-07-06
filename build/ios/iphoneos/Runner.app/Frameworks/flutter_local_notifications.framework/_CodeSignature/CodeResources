@@ -8,9 +8,32 @@
 		<data>
 		3FxDShJxhkxaX9uhNKLiQtixonA=
 		</data>
+		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
+		<data>
+		zfG5MK6M9T8WeXE/0B2jwMPU2Jo=
+		</data>
+		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		TACQAjNH8aZiPGPN1ibJPOzuF+k=
+		</data>
 	</dict>
 	<key>files2</key>
-	<dict/>
+	<dict>
+		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			p2oRFOoyRSC5IlqAh/3a/xw7BLFFFk0lbmzbG/vnDbE=
+			</data>
+		</dict>
+		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			j0y/Om8Yt96qvIZGvSVd9FPw0QDe8HTsBeREY0N76dU=
+			</data>
+		</dict>
+	</dict>
 	<key>rules</key>
 	<dict>
 		<key>^.*</key>

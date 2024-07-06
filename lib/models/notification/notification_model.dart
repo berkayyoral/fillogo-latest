@@ -31,8 +31,6 @@ class NotificationModel {
   }
 }
 
-
-
 class NotificaitonMessage {
   NotificationText? text;
   String? link;
@@ -80,13 +78,11 @@ class NotificationText {
   }
 }
 
-
 class NotificationAllModel {
   String? message;
   List<int>? receiverIds;
 
-  NotificationAllModel(
-      {this.message, this.receiverIds});
+  NotificationAllModel({this.message, this.receiverIds});
 
   NotificationAllModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];

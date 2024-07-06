@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/home_controller/home_controller.dart';
+import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
 import 'package:fillogo/export.dart';
@@ -17,13 +18,13 @@ import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:fillogo/widgets/share_post_progressbar_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../route_calculate_view/components/create_route_controller.dart';
 
 class PostFlowView extends StatefulWidget {
-  
   PostFlowView({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +32,6 @@ class PostFlowView extends StatefulWidget {
 }
 
 class _PostFlowViewState extends State<PostFlowView> {
-  
   final PostService postService = PostService();
 
   GeneralDrawerController postFlowDrawerController =
@@ -50,6 +50,9 @@ class _PostFlowViewState extends State<PostFlowView> {
 
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
+
+  NotificationController notificationController =
+      Get.put(NotificationController());
 
   @override
   void initState() {
@@ -105,33 +108,57 @@ class _PostFlowViewState extends State<PostFlowView> {
           GestureDetector(
             onTap: () {
               Get.toNamed(NavigationConstants.notifications);
+              notificationController.isUnOpenedNotification.value = false;
             },
             child: Padding(
               padding: EdgeInsets.only(
                 right: 5.w,
               ),
-              child: SvgPicture.asset(
-                height: 25.h,
-                width: 25.w,
-                'assets/icons/notification-icon.svg',
-                color: AppConstants().ltLogoGrey,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  SvgPicture.asset(
+                    height: 25.h,
+                    width: 25.w,
+                    'assets/icons/notification-icon.svg',
+                    color: AppConstants().ltLogoGrey,
+                  ),
+                  Obx(() => notificationController.isUnOpenedNotification.value
+                      ? CircleAvatar(
+                          radius: 6.h,
+                          backgroundColor: AppConstants().ltMainRed,
+                        )
+                      : SizedBox())
+                ],
               ),
             ),
           ),
           GestureDetector(
             onTap: () async {
               Get.toNamed(NavigationConstants.message);
+              notificationController.isUnReadMessage.value = false;
             },
             child: Padding(
               padding: EdgeInsets.only(
                 left: 5.w,
                 right: 20.w,
               ),
-              child: SvgPicture.asset(
-                'assets/icons/message-icon.svg',
-                height: 25.h,
-                width: 25.w,
-                color: const Color(0xff3E3E3E),
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/message-icon.svg',
+                    height: 25.h,
+                    width: 25.w,
+                    color: const Color(0xff3E3E3E),
+                  ),
+                  Obx(() => notificationController.isUnReadMessage.value
+                      ? CircleAvatar(
+                          radius: 6.h,
+                          backgroundColor: AppConstants().ltMainRed,
+                        )
+                      : SizedBox())
+                ],
               ),
             ),
           ),
@@ -149,6 +176,7 @@ class _PostFlowViewState extends State<PostFlowView> {
                   homeContoller.fillList(1);
                 },
                 child: SingleChildScrollView(
+                  controller: homeContoller.scrollController,
                   child: Column(
                     children: [
                       NewPostCreateButtonView(),
@@ -166,257 +194,311 @@ class _PostFlowViewState extends State<PostFlowView> {
                               )
                             : const SizedBox();
                       }),
-                      GetBuilder<UserStateController>(
-                        id: 'comment',
-                        builder: (controller) {
-                          return GetBuilder<UserStateController>(
-                            id: 'like',
-                            builder: (controller) {
-                              if (homeContoller.snapshotList.isNotEmpty) {
-                                return Obx(() => ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        homeContoller.snapshotList.length,
-                                    itemBuilder: (context, index) {
-                                      return (homeContoller.snapshotList[index]!.post!.media!.isNotEmpty ||
-                                              homeContoller.snapshotList[index]!.post!.text !=
-                                                  "default text")
-                                          ? PostFlowWidget(
-                                              deletePost: false,
-                                              didILiked: homeContoller
-                                                  .snapshotList[index]!
-                                                  .didILiked!,
-                                              postId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .id!,
-                                              onlyPost: homeContoller
-                                                  .snapshotList[index]!
-                                                  .onlyPost!,
-                                              centerImageUrl: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .media!,
-                                              subtitle: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .text!,
-                                              name:
-                                                  "${homeContoller.snapshotList[index]!.post!.user!.name!} ${homeContoller.snapshotList[index]!.post!.user!.surname!}",
-                                              userId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .user!
-                                                  .id!,
-                                              userProfilePhoto: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .user!
-                                                  .profilePicture!,
-                                              locationName:
-                                                  homeContoller.snapshotList[index]!.post!.postroute != null
-                                                      ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
-                                                      : "",
-                                              beforeHours: timeago
-                                                  .format(DateTime.parse(homeContoller.snapshotList[index]!.post!.createdAt!.toString()),
-                                                      locale: "tr")
-                                                  .tr,
-                                              commentCount: homeContoller
-                                                  .snapshotList[index]!
-                                                  .commentNum!
-                                                  .toString(),
-                                              firstCommentName: "",
-                                              firstCommentTitle: "",
-                                              firstLikeName: "",
-                                              firstLikeUrl: "",
-                                              othersLikeCount: homeContoller
-                                                  .snapshotList[index]!
-                                                  .likedNum!
-                                                  .toString(),
-                                              secondLikeUrl: "",
-                                              thirdLikeUrl: "",
-                                              haveTag: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .postpostlabels!
-                                                  .isNotEmpty,
-                                              usersTagged: homeContoller.snapshotList[index]!.post!.postpostlabels!,
-                                              haveEmotion: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty,
-                                              emotion: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty ? homeContoller.snapshotList[index]!.post!.postemojis![0].emojis!.emoji! : "",
-                                              emotionContent: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty ? homeContoller.snapshotList[index]!.post!.postemojis![0].emojis!.name! : "",
-                                              likedStatus: homeContoller.snapshotList[index]!.didILiked!,
-                                              selectedRouteId: homeContoller.snapshotList[index]!.post!.routeId,
-                                              selectedRouteUserId: homeContoller.snapshotList[index]!.post!.user!.id)
-                                          : OnlyRouteWidget(
-                                              deletePost: false,
-                                              onTap: () {
-                                                selectedRouteController
-                                                        .selectedRouteId.value =
-                                                    homeContoller
-                                                        .snapshotList[index]!
-                                                        .post!
-                                                        .routeId!;
-                                                selectedRouteController
-                                                        .selectedRouteUserId
-                                                        .value =
-                                                    homeContoller
-                                                        .snapshotList[index]!
-                                                        .post!
-                                                        .user!
-                                                        .id!;
-                                                Get.toNamed(NavigationConstants
-                                                    .routeDetails);
+                      Obx(
+                        () {
+                          print(
+                              "LOADİDNDNGG -> ${homeContoller.isLoading.value}");
+
+                          return homeContoller.isLoading.value
+                              ? CircularProgressIndicator()
+                              : GetBuilder<UserStateController>(
+                                  id: 'comment',
+                                  builder: (controller) {
+                                    return GetBuilder<UserStateController>(
+                                      id: 'like',
+                                      builder: (controller) {
+                                        if (homeContoller
+                                            .snapshotList.isNotEmpty) {
+                                          return Obx(() => ListView.separated(
+                                              padding: EdgeInsets.zero,
+                                              scrollDirection: Axis.vertical,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: homeContoller
+                                                  .snapshotList.length,
+                                              itemBuilder: (context, index) {
+                                                return (homeContoller.snapshotList[index]!.post!.media!.isNotEmpty ||
+                                                        homeContoller.snapshotList[index]!.post!.text !=
+                                                            "default text")
+                                                    ? PostFlowWidget(
+                                                        deletePost: false,
+                                                        didILiked: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .didILiked!,
+                                                        postId: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .id!,
+                                                        onlyPost: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .onlyPost!,
+                                                        centerImageUrl:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .media!,
+                                                        subtitle: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .text!,
+                                                        name:
+                                                            "${homeContoller.snapshotList[index]!.post!.user!.name!} ${homeContoller.snapshotList[index]!.post!.user!.surname!}",
+                                                        userId: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .user!
+                                                            .id!,
+                                                        userProfilePhoto:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .user!
+                                                                .profilePicture!,
+                                                        locationName:
+                                                            homeContoller.snapshotList[index]!.post!.postroute != null
+                                                                ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
+                                                                : "",
+                                                        beforeHours: timeago
+                                                            .format(DateTime.parse(homeContoller.snapshotList[index]!.post!.createdAt!.toString()),
+                                                                locale: "tr")
+                                                            .tr,
+                                                        commentCount:
+                                                            homeContoller.snapshotList[index]!.commentNum!
+                                                                .toString(),
+                                                        firstCommentName: "",
+                                                        firstCommentTitle: "",
+                                                        firstLikeName: "",
+                                                        firstLikeUrl: "",
+                                                        othersLikeCount:
+                                                            homeContoller.snapshotList[index]!.likedNum!
+                                                                .toString(),
+                                                        secondLikeUrl: "",
+                                                        thirdLikeUrl: "",
+                                                        haveTag: homeContoller
+                                                            .snapshotList[index]!
+                                                            .post!
+                                                            .postpostlabels!
+                                                            .isNotEmpty,
+                                                        usersTagged: homeContoller.snapshotList[index]!.post!.postpostlabels!,
+                                                        haveEmotion: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty,
+                                                        emotion: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty ? homeContoller.snapshotList[index]!.post!.postemojis![0].emojis!.emoji! : "",
+                                                        emotionContent: homeContoller.snapshotList[index]!.post!.postemojis!.isNotEmpty ? homeContoller.snapshotList[index]!.post!.postemojis![0].emojis!.name! : "",
+                                                        likedStatus: homeContoller.snapshotList[index]!.didILiked!,
+                                                        selectedRouteId: homeContoller.snapshotList[index]!.post!.routeId,
+                                                        selectedRouteUserId: homeContoller.snapshotList[index]!.post!.user!.id)
+                                                    : OnlyRouteWidget(
+                                                        deletePost: false,
+                                                        onTap: () {
+                                                          selectedRouteController
+                                                                  .selectedRouteId
+                                                                  .value =
+                                                              homeContoller
+                                                                  .snapshotList[
+                                                                      index]!
+                                                                  .post!
+                                                                  .routeId!;
+                                                          selectedRouteController
+                                                                  .selectedRouteUserId
+                                                                  .value =
+                                                              homeContoller
+                                                                  .snapshotList[
+                                                                      index]!
+                                                                  .post!
+                                                                  .user!
+                                                                  .id!;
+                                                          Get.toNamed(
+                                                              NavigationConstants
+                                                                  .routeDetails);
+                                                        },
+                                                        didILiked: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .didILiked!,
+                                                        routeContent: "",
+                                                        // "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity!} -> ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}",
+                                                        routeStartDate: "",
+                                                        //  inputFormat
+                                                        //     .format(DateTime.parse(
+                                                        //         homeContoller
+                                                        //             .snapshotList[index]!
+                                                        //             .post!
+                                                        //             .postroute!
+                                                        //             .departureDate!
+                                                        //             .toString()))
+                                                        //     .toString(),
+                                                        routeEndDate: inputFormat
+                                                            .format(DateTime.parse(
+                                                                homeContoller
+                                                                    .snapshotList[
+                                                                        index]!
+                                                                    .post!
+                                                                    .postroute!
+                                                                    .arrivalDate!
+                                                                    .toString()))
+                                                            .toString(),
+                                                        postId: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .id!,
+                                                        onlyPost: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .onlyPost!,
+                                                        centerImageUrl:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .media!,
+                                                        subtitle: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .text!,
+                                                        name:
+                                                            "${homeContoller.snapshotList[index]!.post!.user!.name!} ${homeContoller.snapshotList[index]!.post!.user!.surname!}",
+                                                        userId: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .user!
+                                                            .id!,
+                                                        userProfilePhoto:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .user!
+                                                                .profilePicture!,
+                                                        locationName: homeContoller
+                                                                    .snapshotList[
+                                                                        index]!
+                                                                    .post!
+                                                                    .postroute !=
+                                                                null
+                                                            ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
+                                                            : "",
+                                                        beforeHours: timeago.format(
+                                                            DateTime.parse(
+                                                                homeContoller
+                                                                    .snapshotList[
+                                                                        index]!
+                                                                    .post!
+                                                                    .createdAt!
+                                                                    .toString()),
+                                                            locale: "tr"),
+                                                        commentCount:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .commentNum!
+                                                                .toString(),
+                                                        firstCommentName: "",
+                                                        firstCommentTitle: "",
+                                                        firstLikeName: "",
+                                                        firstLikeUrl: "",
+                                                        othersLikeCount:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .likedNum!
+                                                                .toString(),
+                                                        secondLikeUrl: "",
+                                                        thirdLikeUrl: "",
+                                                        haveTag: homeContoller
+                                                            .snapshotList[
+                                                                index]!
+                                                            .post!
+                                                            .postpostlabels!
+                                                            .isNotEmpty,
+                                                        usersTagged:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postpostlabels!,
+                                                        haveEmotion:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postemojis!
+                                                                .isNotEmpty,
+                                                        emotion: homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postemojis!
+                                                                .isNotEmpty
+                                                            ? homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postemojis![0]
+                                                                .emojis!
+                                                                .emoji!
+                                                            : "",
+                                                        emotionContent: homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postemojis!
+                                                                .isNotEmpty
+                                                            ? homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postemojis![0]
+                                                                .emojis!
+                                                                .name!
+                                                            : "",
+                                                        likedStatus:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .didILiked!,
+                                                        selectedRouteId:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .postroute!
+                                                                .id!,
+                                                        selectedRouteUserId:
+                                                            homeContoller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .post!
+                                                                .user!
+                                                                .id!,
+                                                      );
                                               },
-                                              didILiked: homeContoller
-                                                  .snapshotList[index]!
-                                                  .didILiked!,
-                                              routeContent: "",
-                                              // "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity!} -> ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}",
-                                              routeStartDate: "",
-                                              //  inputFormat
-                                              //     .format(DateTime.parse(
-                                              //         homeContoller
-                                              //             .snapshotList[index]!
-                                              //             .post!
-                                              //             .postroute!
-                                              //             .departureDate!
-                                              //             .toString()))
-                                              //     .toString(),
-                                              routeEndDate: inputFormat
-                                                  .format(DateTime.parse(
-                                                      homeContoller
-                                                          .snapshotList[index]!
-                                                          .post!
-                                                          .postroute!
-                                                          .arrivalDate!
-                                                          .toString()))
-                                                  .toString(),
-                                              postId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .id!,
-                                              onlyPost: homeContoller
-                                                  .snapshotList[index]!
-                                                  .onlyPost!,
-                                              centerImageUrl: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .media!,
-                                              subtitle: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .text!,
-                                              name:
-                                                  "${homeContoller.snapshotList[index]!.post!.user!.name!} ${homeContoller.snapshotList[index]!.post!.user!.surname!}",
-                                              userId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .user!
-                                                  .id!,
-                                              userProfilePhoto: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .user!
-                                                  .profilePicture!,
-                                              locationName: homeContoller
-                                                          .snapshotList[index]!
-                                                          .post!
-                                                          .postroute !=
-                                                      null
-                                                  ? "${homeContoller.snapshotList[index]!.post!.postroute!.startingCity} - ${homeContoller.snapshotList[index]!.post!.postroute!.endingCity!}"
-                                                  : "",
-                                              beforeHours: timeago.format(
-                                                  DateTime.parse(homeContoller
-                                                      .snapshotList[index]!
-                                                      .post!
-                                                      .createdAt!
-                                                      .toString()),
-                                                  locale: "tr"),
-                                              commentCount: homeContoller
-                                                  .snapshotList[index]!
-                                                  .commentNum!
-                                                  .toString(),
-                                              firstCommentName: "",
-                                              firstCommentTitle: "",
-                                              firstLikeName: "",
-                                              firstLikeUrl: "",
-                                              othersLikeCount: homeContoller
-                                                  .snapshotList[index]!
-                                                  .likedNum!
-                                                  .toString(),
-                                              secondLikeUrl: "",
-                                              thirdLikeUrl: "",
-                                              haveTag: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .postpostlabels!
-                                                  .isNotEmpty,
-                                              usersTagged: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .postpostlabels!,
-                                              haveEmotion: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .postemojis!
-                                                  .isNotEmpty,
-                                              emotion: homeContoller
-                                                      .snapshotList[index]!
-                                                      .post!
-                                                      .postemojis!
-                                                      .isNotEmpty
-                                                  ? homeContoller
-                                                      .snapshotList[index]!
-                                                      .post!
-                                                      .postemojis![0]
-                                                      .emojis!
-                                                      .emoji!
-                                                  : "",
-                                              emotionContent: homeContoller
-                                                      .snapshotList[index]!
-                                                      .post!
-                                                      .postemojis!
-                                                      .isNotEmpty
-                                                  ? homeContoller
-                                                      .snapshotList[index]!
-                                                      .post!
-                                                      .postemojis![0]
-                                                      .emojis!
-                                                      .name!
-                                                  : "",
-                                              likedStatus: homeContoller
-                                                  .snapshotList[index]!
-                                                  .didILiked!,
-                                              selectedRouteId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .postroute!
-                                                  .id!,
-                                              selectedRouteUserId: homeContoller
-                                                  .snapshotList[index]!
-                                                  .post!
-                                                  .user!
-                                                  .id!,
-                                            );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      if (((index) % 5 == 0)) {
-                                        return const AdMobWidget();
-                                      } else {
-                                        return const SizedBox();
-                                      }
-                                    }));
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                if (((index) % 5 == 0)) {
+                                                  return const AdMobWidget();
+                                                } else {
+                                                  return const SizedBox();
+                                                }
+                                              }));
+                                        } else {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  },
                                 );
-                              }
-                            },
-                          );
                         },
                       ),
                     ],

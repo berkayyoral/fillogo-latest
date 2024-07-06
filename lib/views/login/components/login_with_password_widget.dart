@@ -114,8 +114,6 @@ class LoginWithPassword extends StatelessWidget {
                     final response =
                         LoginResponseModel.fromJson(jsonDecode(value));
                     if (response.success == 1) {
-                      print(
-                          "ONESİGNALm ${response.data![0].tokens!.accessToken}");
                       LocaleManager.instance.setCryptedData(
                           PreferencesKeys.userCredentials,
                           '${loginController.userEmail.value}+${passwordController.text}');
@@ -123,9 +121,16 @@ class LoginWithPassword extends StatelessWidget {
                       await LocaleManager.instance.setInt(
                           PreferencesKeys.currentUserId,
                           response.data![0].user!.id!);
+                      print(
+                          "ONESİGNALm set id -> ${LocaleManager.instance.getInt(PreferencesKeys.currentUserId)}");
                       // OneSignal().setExternalUserId(
                       //     response.data![0].user!.id!.toString());
-                      await OneSignalManager.setupOneSignal();
+                      await OneSignalManager.setupOneSignal()
+                          .then((value) => print("ONESİGNALMMMM OLLLkk "));
+                      await OneSignal.login(
+                              response.data![0].user!.id!.toString())
+                          .then((value) => print("ONESİGNALm LOGİN OLDUMkkk"));
+
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentuserpassword,
                           passwordController.text);
@@ -164,6 +169,7 @@ class LoginWithPassword extends StatelessWidget {
                         PreferencesKeys.refreshToken,
                         response.data![0].tokens!.refreshToken!,
                       );
+
                       SocketService.instance()
                           .socket
                           .emit("new-user-add", response.data![0].user!.id!);
