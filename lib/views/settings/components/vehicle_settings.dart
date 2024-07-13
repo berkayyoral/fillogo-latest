@@ -75,8 +75,8 @@ class _VehicleSettingsState extends State<VehicleSettings> {
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
     }).then((value) {
       var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
-      print("aaa $response");
-      print("aaa $value");
+      print("cartype aaa res $response");
+      print("cartype aaa val $value");
 
       if (response.succes == 1) {
         capacityController.text =
@@ -86,7 +86,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
             response.data![0].userCarTypes![0].carBrand.toString();
         modelController.text =
             response.data![0].userCarTypes![0].carModel.toString();
-        print("aaa $carId");
+        print("cartype aaa id $carId");
       } else {
         print("Response Hata = ${response.message}");
         print("Response Hata = ${response.succes}");
@@ -222,10 +222,12 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                             discription1:
                                 "Araç değişiklikleriniz kaydedilsin mi?",
                             onPressed1: () {
+                              print(
+                                  "cartype aaa drop : ${dropdownValue} carty : $carId");
                               GeneralServicesTemp().makePatchRequest(
                                   EndPoint.updateUserCarInfos,
                                   UpdateUserCarInfosRequest(
-                                      carId: carId,
+                                      carId: carId!,
                                       carBrand: brandController.text,
                                       carModel: modelController.text,
                                       carCapacity:
@@ -244,6 +246,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                 var response =
                                     UpdateUserCarInfosResponse.fromJson(
                                         json.decode(value!));
+                                print("cartype aaa -> ${jsonEncode(response)}");
                                 if (response.success == 1) {
                                   Get.offAndToNamed(
                                       NavigationConstants.bottomNavigationBar);

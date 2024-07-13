@@ -1,0 +1,108 @@
+{
+  "main_library": {
+    "exported_symbols": [
+      {
+        "data": {
+          "global": [
+            "_$s14video_compress19VideoCompressPluginC7channelACSo20FlutterMethodChannelC_tcfc",
+            "_$s14video_compress12AvControllerC13getVideoAssetySo10AVURLAssetC10Foundation3URLVF",
+            "_$s14video_compress12AvControllerC19getVideoOrientationySiSgSSF",
+            "_$s14video_compress19VideoCompressPluginCfD",
+            "_$s14video_compress7UtilityC11fileManagerSo06NSFileE0CvgZ",
+            "_$s14video_compress7UtilityCACycfC",
+            "_$s14video_compress19VideoCompressPluginC8exporter33_AFB186236D26B7FD944401C09024D609LLSo20AVAssetExportSessionCSgvs",
+            "_$s14video_compress12AvControllerC16getMetaDataByTag_3keySSSo7AVAssetC_SStFTq",
+            "_$s14video_compress7UtilityC10getPathUrly10Foundation3URLVSSFZ",
+            "_$s14video_compress19VideoCompressPluginC12getMediaInfo33_AFB186236D26B7FD944401C09024D609LLyySS_yypSgXEtF",
+            "_$s14video_compress19VideoCompressPluginCMn",
+            "_$s14video_compress7UtilityC10deleteFile_5clearySS_SbtFZfA0_",
+            "_$s14video_compress19VideoCompressPluginC11stopCommand33_AFB186236D26B7FD944401C09024D609LLSbvs",
+            "_$s14video_compress19VideoCompressPluginC16getMediaInfoJsonySDySSypSgGSSF",
+            "_$s14video_compress7UtilityC10deleteFile_5clearySS_SbtFZ",
+            "_$s14video_compress19VideoCompressPluginC12avController33_AFB186236D26B7FD944401C09024D609LLAA02AvG0Cvpfi",
+            "_$s14video_compress19VideoCompressPluginC9getBitMap33_AFB186236D26B7FD944401C09024D609LLy10Foundation4DataVSgSS_So8NSNumberCAKyypSgXEtF",
+            "_video_compressVersionString",
+            "_$s14video_compress19VideoCompressPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF",
+            "_$s14video_compress19VideoCompressPluginC14updateProgress33_AFB186236D26B7FD944401C09024D609LL5timerySo7NSTimerC_tF",
+            "_$s14video_compress12AvControllerC8getTrackySo07AVAssetF0CSgSo10AVURLAssetCF",
+            "_$s14video_compress7UtilityC11fileManagerSo06NSFileE0CvpZ",
+            "_video_compressVersionNumber",
+            "_$s14video_compress19VideoCompressPluginC14getComposition33_AFB186236D26B7FD944401C09024D609LLySo7AVAssetCSb_So11CMTimeRangeaSo0N5TrackCtF",
+            "_$s14video_compress7UtilityCMa",
+            "_$s14video_compress19VideoCompressPluginC8exporter33_AFB186236D26B7FD944401C09024D609LLSo20AVAssetExportSessionCSgvM",
+            "_$s14video_compress19VideoCompressPluginC15getExportPreset33_AFB186236D26B7FD944401C09024D609LLySSSo8NSNumberCF",
+            "_$s14video_compress12AvControllerC13getVideoAssetySo10AVURLAssetC10Foundation3URLVFTq",
+            "_$s14video_compress12AvControllerCMa",
+            "_$s14video_compress19VideoCompressPluginC7channelACSo20FlutterMethodChannelC_tcfC",
+            "_$s14video_compress19VideoCompressPluginC7channelACSo20FlutterMethodChannelC_tcfCTq",
+            "_$s14video_compress12AvControllerCMn",
+            "_$s14video_compress7UtilityC14keyValueToJsonySSSDySSypSgGFZ",
+            "_$s14video_compress7UtilityCN",
+            "_$s14video_compress7UtilityC19excludeFileProtocolyS2SFZ",
+            "_$s14video_compress12AvControllerCACycfc",
+            "_$s14video_compress19VideoCompressPluginC8register4withySo07FlutterE9Registrar_p_tFZ",
+            "_$s14video_compress7UtilityC11getFileNameyS2SFZ",
+            "_$s14video_compress19VideoCompressPluginC8exporter33_AFB186236D26B7FD944401C09024D609LLSo20AVAssetExportSessionCSgvg",
+            "_$s14video_compress7UtilityC18stripFileExtensionyS2SFZ",
+            "_$s14video_compress7UtilityC11fileManagerSo06NSFileE0Cvau",
+            "_$s14video_compress19VideoCompressPluginC17cancelCompression33_AFB186236D26B7FD944401C09024D609LLyyyypSgXEF",
+            "_$s14video_compress12AvControllerCACycfC",
+            "_$s14video_compress12AvControllerCfD",
+            "_$s14video_compress19VideoCompressPluginC8exporter33_AFB186236D26B7FD944401C09024D609LLSo20AVAssetExportSessionCSgvpfi",
+            "_$s14video_compress19VideoCompressPluginCN",
+            "_$s14video_compress19VideoCompressPluginC16getFileThumbnail33_AFB186236D26B7FD944401C09024D609LLyySS_So8NSNumberCAGyypSgXEtF",
+            "_$s14video_compress7UtilityCfD",
+            "_$s14video_compress19VideoCompressPluginC11stopCommand33_AFB186236D26B7FD944401C09024D609LLSbvM",
+            "_$s14video_compress7UtilityC8basePathSSyFZ",
+            "_$s14video_compress12AvControllerC8getTrackySo07AVAssetF0CSgSo10AVURLAssetCFTq",
+            "_$s14video_compress12AvControllerC19getVideoOrientationySiSgSSFTq",
+            "_$s14video_compress19VideoCompressPluginCMa",
+            "_$s14video_compress19VideoCompressPluginC16getByteThumbnail33_AFB186236D26B7FD944401C09024D609LLyySS_So8NSNumberCAGyypSgXEtF",
+            "_$s14video_compress19VideoCompressPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctFTq",
+            "_$s14video_compress12AvControllerC16getMetaDataByTag_3keySSSo7AVAssetC_SStF",
+            "_$s14video_compress19VideoCompressPluginC16getMediaInfoJsonySDySSypSgGSSFTq",
+            "_$s14video_compress19VideoCompressPluginC0bC033_AFB186236D26B7FD944401C09024D609LLyySS_So8NSNumberCSbSdSgAHSbSgSiSgyypSgctF",
+            "_$s14video_compress19VideoCompressPluginCACycfc",
+            "_$s14video_compress19VideoCompressPluginC11stopCommand33_AFB186236D26B7FD944401C09024D609LLSbvg",
+            "_$s14video_compress7UtilityCACycfc",
+            "_$s14video_compress12AvControllerCN",
+            "_$s14video_compress19VideoCompressPluginC11channelName33_AFB186236D26B7FD944401C09024D609LLSSvpfi",
+            "_$s14video_compress19VideoCompressPluginCACycfC",
+            "_$s14video_compress7UtilityCMn",
+            "_$s14video_compress19VideoCompressPluginC11stopCommand33_AFB186236D26B7FD944401C09024D609LLSbvpfi"
+          ],
+          "objc_class": [
+            "PodsDummy_video_compress",
+            "_TtC14video_compress19VideoCompressPlugin",
+            "_TtC14video_compress12AvController",
+            "_TtC14video_compress7Utility"
+          ]
+        }
+      }
+    ],
+    "flags": [
+      {
+        "attributes": [
+          "not_app_extension_safe"
+        ]
+      }
+    ],
+    "install_names": [
+      {
+        "name": "@rpath/video_compress.framework/Versions/A/video_compress"
+      }
+    ],
+    "swift_abi": [
+      {
+        "abi": 7
+      }
+    ],
+    "target_info": [
+      {
+        "min_deployment": "11",
+        "target": "arm64-macos"
+      }
+    ]
+  },
+  "tapi_tbd_version": 5
+}

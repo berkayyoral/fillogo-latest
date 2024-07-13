@@ -2,7 +2,6 @@ import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 var url2 =
     Uri.https('www.googleapis.com', '/books/v1/volumes', {'q': '{http}'});
 var url = Uri.https('routes.googleapis.com/directions/v2:computeRoutes', '');
@@ -12,6 +11,7 @@ class GetPollylineRequest {
   void getPollylineRequest(
     GetPollylineRequestModel requestModel,
   ) async {
+    print("MAPTENPOLYLİNECODU ALDIM");
     var response = await http.post(
       url,
       body: requestModel,

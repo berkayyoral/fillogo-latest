@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:convert';
 import 'dart:developer';
@@ -71,10 +72,11 @@ class MapPageView extends GetView<MapPageController> {
 
   RxBool showFilterOption = false.obs;
   RxList<bool> filterSelectedList = [true, true, true].obs;
-  List<String> carTpeList = [];
+  List<String> carTypeList = ["Otomobil", "Tır", "Motorsiklet"];
 // String? myPolyLine;
   NotificationController notificationController = Get.find();
-
+  // Completer<GoogleMapController> mapCotroller3 =
+  //     Completer<GoogleMapController>();
   @override
   Widget build(BuildContext context) {
     mapPageController;
@@ -127,7 +129,7 @@ class MapPageView extends GetView<MapPageController> {
                                 radius: 6.h,
                                 backgroundColor: AppConstants().ltMainRed,
                               )
-                            : SizedBox())
+                            : const SizedBox())
                   ],
                 ),
               ),
@@ -156,7 +158,7 @@ class MapPageView extends GetView<MapPageController> {
                             radius: 6.h,
                             backgroundColor: AppConstants().ltMainRed,
                           )
-                        : SizedBox())
+                        : const SizedBox())
                   ],
                 ),
               ),
@@ -172,7 +174,10 @@ class MapPageView extends GetView<MapPageController> {
                   init: mapPageController,
                   initState: (_) async {
                     // mapPageController.getMyFriendsRoutesRequestRefreshable(context);
-
+                    await mapPageController.getUsersOnArea(
+                        context: context, carType: carTypeList);
+                    await mapPageController.getUsersOnArea(
+                        context: context, carType: carTypeList);
                     await GeneralServicesTemp().makeGetRequest(
                       EndPoint.getMyRoutes,
                       {
@@ -193,11 +198,15 @@ class MapPageView extends GetView<MapPageController> {
                         if (getMyRouteResponseModel.success == 1) {
                           if (getMyRouteResponseModel
                               .data![0].allRoutes!.activeRoutes!.isNotEmpty) {
-                            mapPageController.getMyFriendsMatchingRoutes(
-                                context,
-                                getMyRouteResponseModel.data![0].allRoutes!
-                                    .activeRoutes![0].polylineEncode,
-                                carType: carTpeList);
+                            // mapPageController.getMyFriendsMatchingRoutes(
+                            //     context,
+                            //     getMyRouteResponseModel.data![0].allRoutes!
+                            //         .activeRoutes![0].polylineEncode,
+                            //     carType: carTypeList);
+
+                            await mapPageController.getUsersOnArea(
+                                context: context, carType: carTypeList);
+
                             mapPageController.generalPolylineEncode.value =
                                 getMyRouteResponseModel.data![0].allRoutes!
                                     .activeRoutes![0].polylineEncode!;
@@ -391,8 +400,8 @@ class MapPageView extends GetView<MapPageController> {
                                           ? 340.h
                                           : Get.height,
                                   width: Get.width,
-                                  child: GeneralMapViewClass(
-                                    markerSet: mapPageController
+                                  child: GoogleMap(
+                                    markers: mapPageController
                                                 .calculateLevel.value ==
                                             1
                                         ? Set<Marker>.from(
@@ -400,15 +409,31 @@ class MapPageView extends GetView<MapPageController> {
                                         : Set<Marker>.from(
                                             mapPageController.markers2),
                                     myLocationEnabled: true,
-                                    myLocationButtonEnabled: false,
+                                    myLocationButtonEnabled: true,
                                     mapType: MapType.normal,
                                     zoomGesturesEnabled: true,
                                     zoomControlsEnabled: false,
-                                    initialCameraPosition:
+                                    initialCameraPosition: CameraPosition(
+                                      bearing: 90,
+                                      tilt: 45,
+                                      target: LatLng(
                                         getMyCurrentLocationController
-                                            .initialLocation,
-                                    mapController2:
+                                            .myLocationLatitudeDo.value,
+                                        getMyCurrentLocationController
+                                            .myLocationLongitudeDo.value,
+                                      ),
+                                      zoom: 15,
+                                    ),
+                                    onMapCreated:
                                         (GoogleMapController controller) async {
+                                      print("HARİTAMYUKLENDİİİ");
+                                      print("HARİTAMYUKLENDİİİ else");
+                                      mapPageController.mapCotroller3 =
+                                          Completer();
+                                      mapPageController.mapCotroller3
+                                          .complete(controller);
+
+                                      // mapCotroller3.complete(controller);
                                       // mapPageController.mapCotroller3
                                       //     .complete(controller);
 
@@ -425,11 +450,11 @@ class MapPageView extends GetView<MapPageController> {
 
                                           double userBearing =
                                               userLocation.heading ?? 0.0;
-                                          GoogleMapController
-                                              googleMapController =
-                                              await mapPageController
-                                                  .mapCotroller3.future;
-                                          googleMapController.animateCamera(
+
+                                          getMyCurrentLocationController
+                                                  .myLocationMapController =
+                                              controller;
+                                          controller.animateCamera(
                                             CameraUpdate.newCameraPosition(
                                               CameraPosition(
                                                 bearing: userBearing,
@@ -469,9 +494,9 @@ class MapPageView extends GetView<MapPageController> {
                                         });
                                       }
                                     },
-                                    polygonsSet: const <Polygon>{},
-                                    tileOverlaysSet: const <TileOverlay>{},
-                                    polylinesSet: mapPageController
+                                    polygons: const <Polygon>{},
+                                    tileOverlays: const <TileOverlay>{},
+                                    polylines: mapPageController
                                                 .calculateLevel.value ==
                                             1
                                         ? Set<Polyline>.of(
@@ -479,6 +504,92 @@ class MapPageView extends GetView<MapPageController> {
                                         : Set<Polyline>.of(
                                             mapPageController.polyliness),
                                   ),
+                                  //  GeneralMapViewClass(
+                                  //   // markerSet: mapPageController
+                                  //   //             .calculateLevel.value ==
+                                  //   //         1
+                                  //   //     ? Set<Marker>.from(
+                                  //   //         mapPageController.markers)
+                                  //   //     : Set<Marker>.from(
+                                  //   //         mapPageController.markers2),
+                                  //   // myLocationEnabled: true,
+                                  //   // myLocationButtonEnabled: true,
+                                  //   // mapType: MapType.normal,
+                                  //   // zoomGesturesEnabled: true,
+                                  //   // zoomControlsEnabled: false,
+                                  //   // initialCameraPosition: initialLocation,
+                                  //   // getMyCurrentLocationController
+                                  //   //     .initialLocation,
+                                  //   // mapController2:
+                                  //   //     (GoogleMapController controller) async {
+                                  //   //   print("HARİTAMYUKLENDİİİ");
+                                  //   //   mapCotroller3.complete(controller);
+                                  //   //   mapPageController.mapCotroller3
+                                  //   //       .complete(controller);
+                                  //   //   getMyCurrentLocationController
+                                  //   //           .streamSubscription =
+                                  //   //       Geolocator.getPositionStream().listen(
+                                  //   //           (Position position) async {
+                                  //   //     if (mapPageController
+                                  //   //             .iWantTrackerMyLocation.value !=
+                                  //   //         1) {
+                                  //   //       LocationData userLocation =
+                                  //   //           await LocationService.location
+                                  //   //               .getLocation();
+                                  //   //       double userBearing =
+                                  //   //           userLocation.heading ?? 0.0;
+                                  //   //       getMyCurrentLocationController
+                                  //   //               .myLocationMapController =
+                                  //   //           controller;
+                                  //   //       controller.animateCamera(
+                                  //   //         CameraUpdate.newCameraPosition(
+                                  //   //           CameraPosition(
+                                  //   //             bearing: userBearing,
+                                  //   //             tilt: 67,
+                                  //   //             //Zoom ayarı burada
+                                  //   //             zoom: 16.5,
+                                  //   //             target: LatLng(
+                                  //   //               position.latitude,
+                                  //   //               position.longitude,
+                                  //   //             ),
+                                  //   //           ),
+                                  //   //         ),
+                                  //   //       );
+                                  //   //     }
+                                  //   //   });
+                                  //   // },
+                                  //   // onCameraMoveStarted: () async {
+                                  //   //   mapPageController
+                                  //   //       .iWantTrackerMyLocation.value = 1;
+                                  //   // },
+                                  //   // onCameraMove:
+                                  //   //     (CameraPosition position) async {
+                                  //   //   if (mapPageController
+                                  //   //           .iWantTrackerMyLocation.value ==
+                                  //   //       1) {
+                                  //   //     Future.delayed(
+                                  //   //         const Duration(seconds: 10), () {
+                                  //   //       if (mapPageController
+                                  //   //               .iWantTrackerMyLocation
+                                  //   //               .value ==
+                                  //   //           1) {
+                                  //   //         mapPageController
+                                  //   //             .iWantTrackerMyLocation
+                                  //   //             .value = 2;
+                                  //   //       }
+                                  //   //     });
+                                  //   //   }
+                                  //   // },
+                                  //   // polygonsSet: const <Polygon>{},
+                                  //   // tileOverlaysSet: const <TileOverlay>{},
+                                  //   // polylinesSet: mapPageController
+                                  //   //             .calculateLevel.value ==
+                                  //   //         1
+                                  //   //     ? Set<Polyline>.of(
+                                  //   //         mapPageController.polyliness)
+                                  //   //     : Set<Polyline>.of(
+                                  //   //         mapPageController.polyliness),
+                                  // ),
                                 ),
                         ),
                         Obx(
@@ -523,32 +634,27 @@ class MapPageView extends GetView<MapPageController> {
                                                         mapPageController
                                                             .myFriendsLocations[
                                                                 i]!
-                                                            .followed!
                                                             .profilePicture!,
                                                     id: mapPageController
                                                         .myFriendsLocations[i]!
-                                                        .followed!
                                                         .userpostroutes![0]
                                                         .id!,
                                                     userName:
-                                                        "${mapPageController.myFriendsLocations[i]!.followed!.name!} ${mapPageController.myFriendsLocations[i]!.followed!.surname!}",
+                                                        "${mapPageController.myFriendsLocations[i]!.name!} ${mapPageController.myFriendsLocations[i]!.surname!}",
                                                     startAdress:
                                                         mapPageController
                                                             .myFriendsLocations[
                                                                 i]!
-                                                            .followed!
                                                             .userpostroutes![0]
                                                             .startingCity!,
                                                     endAdress: mapPageController
                                                         .myFriendsLocations[i]!
-                                                        .followed!
                                                         .userpostroutes![0]
                                                         .endingCity!,
                                                     startDateTime:
                                                         mapPageController
                                                             .myFriendsLocations[
                                                                 i]!
-                                                            .followed!
                                                             .userpostroutes![0]
                                                             .departureDate!
                                                             .toString()
@@ -557,14 +663,12 @@ class MapPageView extends GetView<MapPageController> {
                                                         mapPageController
                                                             .myFriendsLocations[
                                                                 i]!
-                                                            .followed!
                                                             .userpostroutes![0]
                                                             .arrivalDate!
                                                             .toString()
                                                             .split(" ")[0],
                                                     userId: mapPageController
                                                         .myFriendsLocations[i]!
-                                                        .followed!
                                                         .id!,
                                                   );
                                                 },
@@ -593,19 +697,20 @@ class MapPageView extends GetView<MapPageController> {
                               width: 220.w,
                               decoration: BoxDecoration(
                                 color: showFilterOption.value
-                                    ? AppConstants().ltBlue
+                                    ? AppConstants().ltMainRed
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(10.w),
                               ),
                               child: Visibility(
-                                visible: mapPageController
-                                            .calculateLevel.value ==
-                                        1 &&
-                                    (mapPageController.selectedDispley.value ==
-                                            5 ||
-                                        mapPageController
-                                                .selectedDispley.value ==
-                                            2),
+                                visible: true,
+                                // mapPageController
+                                //             .calculateLevel.value ==
+                                //         1 &&
+                                //     (mapPageController.selectedDispley.value ==
+                                //             5 ||
+                                //         mapPageController
+                                //                 .selectedDispley.value ==
+                                //             2),
                                 child: Row(
                                   mainAxisAlignment: showFilterOption.value
                                       ? MainAxisAlignment.spaceBetween
@@ -652,37 +757,38 @@ class MapPageView extends GetView<MapPageController> {
                                             mapPageController.markers.clear();
                                             print(
                                                 "MAPPAGEİSLOAD -> ${mapPageController.isLoading.value}");
-
-                                            carTpeList.clear();
-                                            // mapPageController.polyliness
-                                            //     .clear();
+                                            carTypeList.clear();
                                             mapPageController.polyliness
-                                                .removeRange(
-                                                    1,
-                                                    mapPageController
-                                                        .polyliness.length);
+                                                .clear();
+                                            // mapPageController.polyliness
+                                            //     .removeRange(
+                                            //         1,
+                                            //         mapPageController
+                                            //             .polyliness.length);
                                             if (filterSelectedList[0]) {
-                                              carTpeList.add("Otomobil");
+                                              carTypeList.add("Otomobil");
                                             }
                                             if (filterSelectedList[1]) {
-                                              carTpeList.add("Tır");
+                                              carTypeList.add("Tır");
                                             }
                                             if (filterSelectedList[2]) {
-                                              carTpeList.add("Motorsiklet");
+                                              carTypeList.add("Motorsiklet");
                                             }
-
                                             print(
-                                                "CARTYPLE LİST -> ${carTpeList.length}");
+                                                "CARTYPLE LİST -> ${carTypeList.length}");
 
                                             await mapPageController
-                                                .getMyFriendsMatchingRoutes(
-                                                    context,
-                                                    mapPageController
-                                                        .generalPolylineEncode
-                                                        .value,
-                                                    carType: carTpeList);
+                                                .getUsersOnArea(
+                                                    context: context,
+                                                    carType: carTypeList);
+                                            await mapPageController
+                                                .getUsersOnArea(
+                                                    context: context,
+                                                    carType: carTypeList);
                                             mapPageController.isLoading.value =
                                                 false;
+                                            mapPageController
+                                                .update(["mapPageController"]);
                                           } catch (e) {
                                             print("MAPPAGEİSLOAD ERR -> $e");
                                           }
@@ -693,7 +799,7 @@ class MapPageView extends GetView<MapPageController> {
                                       child: Container(
                                           height: 65.w,
                                           decoration: BoxDecoration(
-                                            color: AppConstants().ltBlue,
+                                            color: AppConstants().ltMainRed,
                                             borderRadius:
                                                 BorderRadius.circular(10.w),
                                           ),
@@ -713,9 +819,9 @@ class MapPageView extends GetView<MapPageController> {
                                                             color: const ui
                                                                 .Color.fromARGB(
                                                                 255,
-                                                                23,
-                                                                30,
-                                                                222),
+                                                                255,
+                                                                255,
+                                                                255),
                                                             fontSize: 10.sp),
                                                       )
                                                     : Container()
@@ -861,27 +967,36 @@ class MapPageView extends GetView<MapPageController> {
 
                         Obx(
                           () => Positioned(
-                            top: 250.h,
+                            top: 220.h,
                             right: 0,
                             child: Container(
                               height: 230.h,
                               child: Visibility(
-                                visible: mapPageController
+                                visible: (mapPageController
                                             .calculateLevel.value ==
-                                        1 &&
+                                        1) &&
                                     (mapPageController.selectedDispley.value ==
-                                            5 ||
+                                            0 ||
                                         mapPageController
                                                 .selectedDispley.value ==
-                                            2),
+                                            5),
+                                // mapPageController
+                                //             .calculateLevel.value ==
+                                //         1 &&
+                                //     (mapPageController.selectedDispley.value ==
+                                //             5 ||
+                                //         mapPageController
+                                //                 .selectedDispley.value ==
+                                //             2),
                                 child: Column(
                                   children: [
                                     ///GÖRÜNÜRLÜK
                                     Expanded(
                                       child: Visibility(
-                                        visible: mapPageController
-                                                .selectedDispley.value ==
-                                            5,
+                                        visible: true,
+                                        // mapPageController
+                                        //         .selectedDispley.value ==
+                                        //     5,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 16.w),
                                           child: Align(
@@ -892,17 +1007,19 @@ class MapPageView extends GetView<MapPageController> {
                                                         .value =
                                                     !controller
                                                         .isRouteVisibilty.value;
+
                                                 await GeneralServicesTemp()
-                                                    .makePatchRequest(
-                                                  EndPoint
-                                                      .changeRouteVisibility,
+                                                    .makePostRequest(
+                                                  EndPoint.updateStatus,
                                                   {
-                                                    "isInvisible": !controller
+                                                    "visible": controller
                                                         .isRouteVisibilty.value,
-                                                    "routeID": controller
-                                                        .myActivesRoutes!
-                                                        .first
-                                                        .id
+                                                    "available": controller
+                                                        .isRouteAvability.value
+                                                    // ? controller
+                                                    //     .isRouteAvability
+                                                    //     .value
+                                                    // : false,
                                                   },
                                                   {
                                                     "Content-type":
@@ -911,7 +1028,7 @@ class MapPageView extends GetView<MapPageController> {
                                                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                   },
                                                 ).then((value) => print(
-                                                        "VİSİBİLİTY noldu kız"));
+                                                        "VİSİBİLİTY değişti  visib -> ${controller.isRouteVisibilty.value} avabil -> ${controller.isRouteAvability.value} re -> ${value}"));
 
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -920,6 +1037,8 @@ class MapPageView extends GetView<MapPageController> {
                                                         "Görünürlüğünüz ${controller.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}."),
                                                   ),
                                                 );
+
+                                                ///
                                               },
                                               child: Container(
                                                   height: 50.w,
@@ -949,10 +1068,12 @@ class MapPageView extends GetView<MapPageController> {
                                     ///MÜSAİTLİK DURUMU
                                     Expanded(
                                       child: Visibility(
-                                        visible: mapPageController
-                                                    .selectedDispley.value ==
-                                                5 &&
+                                        visible:
                                             controller.isRouteVisibilty.value,
+                                        //  mapPageController
+                                        //             .selectedDispley.value ==
+                                        //         5 &&
+                                        //     controller.isRouteVisibilty.value,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 16.w),
                                           child: Align(
@@ -964,16 +1085,11 @@ class MapPageView extends GetView<MapPageController> {
                                                     !controller
                                                         .isRouteAvability.value;
                                                 await GeneralServicesTemp()
-                                                    .makePatchRequest(
-                                                  EndPoint
-                                                      .changeRouteAvailability,
+                                                    .makePostRequest(
+                                                  EndPoint.updateStatus,
                                                   {
-                                                    "isAvailable": controller
+                                                    "available": controller
                                                         .isRouteAvability.value,
-                                                    "routeID": controller
-                                                        .myActivesRoutes!
-                                                        .first
-                                                        .id
                                                   },
                                                   {
                                                     "Content-type":
@@ -982,7 +1098,7 @@ class MapPageView extends GetView<MapPageController> {
                                                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                   },
                                                 ).then((value) => print(
-                                                        "VİSİBİLİTY noldu kız"));
+                                                        "AVABİLİTY değişti"));
 
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -1041,6 +1157,7 @@ class MapPageView extends GetView<MapPageController> {
                                   alignment: Alignment.bottomRight,
                                   child: GestureDetector(
                                     onTap: () async {
+                                      print("KESİŞENROTAMLRIARIM : -> ");
                                       await GeneralServicesTemp()
                                           .makeGetRequest(
                                         EndPoint.getMyRoutes,
@@ -1050,6 +1167,7 @@ class MapPageView extends GetView<MapPageController> {
                                               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                         },
                                       ).then((value) {
+                                        print("BENBUNADOKDUM");
                                         GetMyRouteResponseModel
                                             getMyRouteResponseModel =
                                             GetMyRouteResponseModel.fromJson(
@@ -1063,7 +1181,7 @@ class MapPageView extends GetView<MapPageController> {
                                                     .allRoutes!
                                                     .activeRoutes![0]
                                                     .polylineEncode,
-                                                carType: carTpeList);
+                                                carType: carTypeList);
                                       });
                                       if (mapPageController
                                               .selectedDispley.value ==
@@ -1121,17 +1239,61 @@ class MapPageView extends GetView<MapPageController> {
                               alignment: Alignment.topRight,
                               child: GestureDetector(
                                 onTap: () async {
-                                  await googleMapsGeneralWidgetsController
-                                      .animatedCameraPosition(
-                                    mapPageController.mapCotroller3,
-                                    LatLng(
-                                      getMyCurrentLocationController
-                                          .myLocationLatitudeDo.value,
-                                      getMyCurrentLocationController
-                                          .myLocationLongitudeDo.value,
-                                    ),
-                                    "mapPageController",
-                                  );
+                                  try {
+                                    print("KONUMUMUGETİR");
+
+                                    print(
+                                        "KONUMUMUGETİR 2 ${getMyCurrentLocationController.myLocationLatitudeDo.value}");
+
+                                    mapPageController.isLoading.value = true;
+
+                                    final GoogleMapController controller2 =
+                                        await mapPageController
+                                            .mapCotroller3.future;
+                                    controller2.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          bearing: 90,
+                                          tilt: 45,
+                                          target: LatLng(
+                                              getMyCurrentLocationController
+                                                  .myLocationLatitudeDo.value,
+                                              getMyCurrentLocationController
+                                                  .myLocationLongitudeDo.value),
+                                          zoom: 15,
+                                        ),
+                                      ),
+                                    );
+                                    mapPageController.isLoading.value = false;
+                                    // GoogleMapController googleMapController =
+                                    //     await mapPageController
+                                    //         .mapCotroller3.future;
+                                    // await googleMapController.animateCamera(
+                                    //   CameraUpdate.newCameraPosition(
+                                    //       CameraPosition(
+
+                                    //     target: LatLng(
+                                    //       getMyCurrentLocationController
+                                    //           .myLocationLatitudeDo.value,
+                                    //       getMyCurrentLocationController
+                                    //           .myLocationLongitudeDo.value,
+                                    //     ),
+                                    //     zoom: 15,
+                                    //   )),
+                                    // );
+
+                                    // googleMapController.animateCamera(
+                                    //   CameraUpdate.newCameraPosition(
+                                    //     CameraPosition(
+                                    //       bearing: 90,
+                                    //       target: LatLng(41.0287, 28.6884),
+                                    //       zoom: 10,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                  } catch (e) {
+                                    print("KONUMUMUGETİR ERR -> $e");
+                                  }
                                 },
                                 child: Container(
                                   height: 50.w,
@@ -1406,7 +1568,7 @@ class MapPageView extends GetView<MapPageController> {
                                                       'Authorization':
                                                           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                                     },
-                                                  ).then((value) {
+                                                  ).then((value) async {
                                                     mapPageController
                                                         .isLoading.value = true;
                                                     ActivateRouteResponseModel
@@ -1470,8 +1632,7 @@ class MapPageView extends GetView<MapPageController> {
 
                                                       mapPageController
                                                           .update();
-                                                      mapPageController
-                                                          .update();
+
                                                       mapPageController
                                                           .isLoading
                                                           .value = false;
@@ -1479,8 +1640,42 @@ class MapPageView extends GetView<MapPageController> {
                                                       print(response.success);
                                                       print(response.message);
                                                     }
+                                                    await mapPageController
+                                                        .getUsersOnArea(
+                                                            context: context,
+                                                            carType:
+                                                                carTypeList);
+                                                    await mapPageController
+                                                        .getUsersOnArea(
+                                                            context: context,
+                                                            carType:
+                                                                carTypeList);
                                                     mapPageController.update(
                                                         ["mapPageController"]);
+                                                    GoogleMapController
+                                                        googleMapController =
+                                                        await mapPageController
+                                                            .mapCotroller3
+                                                            .future;
+                                                    print(
+                                                        "KONUMUMUGETİR 2 ${getMyCurrentLocationController.myLocationLatitudeDo.value}");
+                                                    googleMapController
+                                                        .animateCamera(
+                                                      CameraUpdate
+                                                          .newCameraPosition(
+                                                        CameraPosition(
+                                                          zoom: 20,
+                                                          target: LatLng(
+                                                            getMyCurrentLocationController
+                                                                .myLocationLatitudeDo
+                                                                .value,
+                                                            getMyCurrentLocationController
+                                                                .myLocationLongitudeDo
+                                                                .value,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
                                                     mapPageController.isLoading
                                                         .value = false;
                                                   });
@@ -1532,11 +1727,11 @@ class MapPageView extends GetView<MapPageController> {
         margin: EdgeInsets.all(1.w),
         padding: EdgeInsets.all(2.w),
         decoration: BoxDecoration(
-          color: AppConstants().ltBlue,
+          color: AppConstants().ltMainRed,
           borderRadius: BorderRadius.circular(10.w),
           border: filterSelectedList[index]
               ? Border.all(
-                  color: const ui.Color.fromARGB(255, 24, 39, 161),
+                  color: const ui.Color.fromARGB(255, 177, 174, 174),
                   width: 2,
                 )
               : null,
@@ -3176,32 +3371,32 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .allRoutes!;
                                                                   print(
                                                                       "başlattımm 8-> ");
-                                                                  // GoogleMapController
-                                                                  //     googleMapController =
-                                                                  //     await mapPageController
-                                                                  //         .mapCotroller3
-                                                                  //         .future;
-                                                                  // googleMapController
-                                                                  //     .animateCamera(
-                                                                  //   CameraUpdate
-                                                                  //       .newCameraPosition(
-                                                                  //     CameraPosition(
-                                                                  //       bearing:
-                                                                  //           90,
-                                                                  //       target:
-                                                                  //           LatLng(
-                                                                  //         getMyCurrentLocationController
-                                                                  //             .myLocationLatitudeDo
-                                                                  //             .value,
-                                                                  //         getMyCurrentLocationController
-                                                                  //             .myLocationLongitudeDo
-                                                                  //             .value,
-                                                                  //       ),
-                                                                  //       zoom:
-                                                                  //           10,
-                                                                  //     ),
-                                                                  //   ),
-                                                                  // );
+                                                                  GoogleMapController
+                                                                      googleMapController =
+                                                                      await mapPageController
+                                                                          .mapCotroller3
+                                                                          .future;
+                                                                  googleMapController
+                                                                      .animateCamera(
+                                                                    CameraUpdate
+                                                                        .newCameraPosition(
+                                                                      CameraPosition(
+                                                                        bearing:
+                                                                            90,
+                                                                        target:
+                                                                            LatLng(
+                                                                          getMyCurrentLocationController
+                                                                              .myLocationLatitudeDo
+                                                                              .value,
+                                                                          getMyCurrentLocationController
+                                                                              .myLocationLongitudeDo
+                                                                              .value,
+                                                                        ),
+                                                                        zoom:
+                                                                            10,
+                                                                      ),
+                                                                    ),
+                                                                  );
                                                                   print(
                                                                       "başlattımm 9-> ");
                                                                   mapPageController
@@ -3330,16 +3525,24 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                   //     .isLoading
                                                                   //     .value = true;
 
-                                                                  mapPageController.getMyFriendsMatchingRoutes(
-                                                                      context,
-                                                                      getMyRouteResponseModel
-                                                                          .data![
-                                                                              0]
-                                                                          .allRoutes!
-                                                                          .activeRoutes![
-                                                                              0]
-                                                                          .polylineEncode,
-                                                                      carType: []);
+                                                                  // mapPageController.getMyFriendsMatchingRoutes(
+                                                                  //     context,
+                                                                  //     getMyRouteResponseModel
+                                                                  //         .data![
+                                                                  //             0]
+                                                                  //         .allRoutes!
+                                                                  //         .activeRoutes![
+                                                                  //             0]
+                                                                  //         .polylineEncode,
+                                                                  //     carType: []);
+                                                                  await mapPageController.getUsersOnArea(
+                                                                      context:
+                                                                          context,
+                                                                      carType: [
+                                                                        "Otomobil",
+                                                                        "Tır",
+                                                                        "Motorsiklet"
+                                                                      ]);
                                                                 });
                                                                 print(
                                                                     "başlattımm 14-> ");
@@ -3968,17 +4171,25 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   setCustomMarkerIconController
                                                       .myRouteFinishIcon!),
                                             );
+                                            // await mapPageController
+                                            //     .getMyFriendsMatchingRoutes(
+                                            //         context,
+                                            //         getMyRouteResponseModel
+                                            //             .data!
+                                            //             .first
+                                            //             .allRoutes!
+                                            //             .activeRoutes!
+                                            //             .first
+                                            //             .polylineEncode,
+                                            //         carType: []);
                                             await mapPageController
-                                                .getMyFriendsMatchingRoutes(
-                                                    context,
-                                                    getMyRouteResponseModel
-                                                        .data!
-                                                        .first
-                                                        .allRoutes!
-                                                        .activeRoutes!
-                                                        .first
-                                                        .polylineEncode,
-                                                    carType: []);
+                                                .getUsersOnArea(
+                                                    context: context,
+                                                    carType: [
+                                                  "Otomobil",
+                                                  "Motorsiklet",
+                                                  "Tır"
+                                                ]);
                                           });
                                         } else {
                                           Get.back(closeOverlays: true);

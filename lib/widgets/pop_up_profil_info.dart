@@ -179,90 +179,102 @@ class PopupPrifilInfo extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "Rota: ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                  Text(
-                    "$startCity -> $endCity",
-                    style: TextStyle(
-                        fontFamily: "Sfregular",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "Doluluk Oranı: ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                  Text(
-                    "% $emptyPercent DOLU",
-                    style: TextStyle(
-                        fontFamily: "Sfregular",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "Çıkış Tarihi: ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                  Text(
-                    firstDestination.split(" ")[0],
-                    style: TextStyle(
-                        fontFamily: "Sfregular",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "Varış Tarihi: ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                  Text(
-                    secondDestination.split(" ")[0],
-                    style: TextStyle(
-                        fontFamily: "Sfregular",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                ],
-              ),
-            ),
+            Visibility(
+                visible: startCity.isNotEmpty ? true : false,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Rota: ",
+                            style: TextStyle(
+                                fontFamily: "Sfbold",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                          Text(
+                            "$startCity -> $endCity",
+                            style: TextStyle(
+                                fontFamily: "Sfregular",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    ///* DOLULUK ORANI (daha sonra eklenebilir) *////
+                    // Padding(
+                    //   padding:
+                    //       EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "Doluluk Oranı: ",
+                    //         style: TextStyle(
+                    //             fontFamily: "Sfbold",
+                    //             fontSize: 14.sp,
+                    //             color: AppConstants().ltBlack),
+                    //       ),
+                    //       Text(
+                    //         "% $emptyPercent DOLU",
+                    //         style: TextStyle(
+                    //             fontFamily: "Sfregular",
+                    //             fontSize: 14.sp,
+                    //             color: AppConstants().ltBlack),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Çıkış Tarihi: ",
+                            style: TextStyle(
+                                fontFamily: "Sfbold",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                          Text(
+                            firstDestination.split(" ")[0],
+                            style: TextStyle(
+                                fontFamily: "Sfregular",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Varış Tarihi: ",
+                            style: TextStyle(
+                                fontFamily: "Sfbold",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                          Text(
+                            secondDestination.split(" ")[0],
+                            style: TextStyle(
+                                fontFamily: "Sfregular",
+                                fontSize: 14.sp,
+                                color: AppConstants().ltBlack),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
             15.h.spaceY,
             RedButton(
               text: 'Profile Git',

@@ -74,6 +74,7 @@ class _PolylineScreenState extends State<PolylineScreen> {
   }
 
   void drawPolyline() async {
+    print("MAPTENPOLYLİNECODU polyliyeScren drawPolyline");
     var response = await http.post(Uri.parse(
         "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&units=metric&origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&mode=driving"));
 

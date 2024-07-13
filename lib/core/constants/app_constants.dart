@@ -11,7 +11,7 @@ class AppConstants {
   static const String oneSignalAppId =
       "ef065656-adab-4c84-b66e-245e0bdba8c6"; //'43ddc771-f2eb-4ecf-bcc8-95434809b1dc'; ef065656-adab-4c84-b66e-245e0bdba8c6
   static const String googleMapsApiKey =
-      "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"; //"AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"
+      "AIzaSyBSrOeLs0icZqEaTt4v0txBXKS4wPckGUs"; // "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME";
   static const String googleMapsGetPolylineLink =
       "https://routes.googleapis.com/directions/v2:computeRoutes";
 
@@ -68,6 +68,10 @@ class EndPoint {
   static const String changeRouteVisibility = "/routes/change-route-visibility";
   static const String changeRouteAvailability =
       "/routes/change-route-availability";
+  static const String updateStatus =
+      "/users/update-status"; //for visibility or available
+  static const String getUsersOnArea = "/users/get-users-on-area";
+  static const String updateLocation = "/users/update-location";
 }
 
 class ServicesConstants {

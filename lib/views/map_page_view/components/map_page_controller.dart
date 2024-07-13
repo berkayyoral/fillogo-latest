@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:typed_data';
+import 'dart:ffi';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
+import 'package:fillogo/models/routes_models/get_users_on_area.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'dart:convert' as convert;
@@ -13,26 +12,23 @@ import 'dart:convert' as convert;
 import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
 import '../../../export.dart';
-import '../../../models/routes_models/get_friends_routes_circular.dart';
-import '../../../models/routes_models/get_my_friends_routes_model.dart';
 import '../../../models/routes_models/get_my_routes_model.dart';
 import '../../../services/general_sevices_template/general_services.dart';
-import '../../../services/notificaiton_service/local_notification/local_notification_service.dart';
 import '../../testFolder/test19/route_api_models.dart';
 
 class MapPageController extends GetxController {
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
-  late BuildContext context;
+
   late Timer timer;
 
   @override
   void onInit() async {
     print("MAPPAGECONTROLER CREATE");
+
     await getMyRoutesServicesRequestRefreshable();
     await updateMyLocationMarkers();
-
     super.onInit();
   }
 
@@ -80,9 +76,8 @@ class MapPageController extends GetxController {
   int calculatedRouteDistanceInt = 0;
   int calculatedRouteTimeInt = 0;
 
-  Completer<GoogleMapController> mapCotroller3 =
-      Completer<GoogleMapController>();
-
+  Completer<GoogleMapController> mapCotroller3 = Completer();
+  // GoogleMapController mapController;
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
@@ -129,8 +124,9 @@ class MapPageController extends GetxController {
 
   late StreamSubscription<Position> streamSubscriptionForMyMarker;
 
-  List<GetMyFriendsResDatum?> myFriendsLocations = [];
+  List<Matching?> myFriendsLocations = [];
   List<GetMyFriendsMatchingResDatum?> myFriendsLocationsMatching = [];
+  List<GetUsersOnAreaResDatum?> usersOnArea = [];
   AllRoutes? myAllRoutes;
 
   void changeCalculateLevel(int newCalculateLevel) {
@@ -196,6 +192,145 @@ class MapPageController extends GetxController {
       BitmapDescriptor.fromBytes(customMarkerIconController.mayLocationIcon!),
     );
     update(["mapPageController"]);
+  }
+
+  getUsersOnArea(
+      {required BuildContext context, required List<String>? carType}) async {
+    try {
+      print("ONAREA CARTYPE -> ${carType}");
+      await GeneralServicesTemp().makePostRequest(
+        EndPoint.getUsersOnArea,
+        {
+          "filter": carType,
+          "radius": 190000,
+          "visibility": true,
+          "availability": true
+        },
+        {
+          "Content-type": "application/json",
+          'Authorization':
+              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+        },
+      ).then((value) async {
+        UsersOnArea response =
+            UsersOnArea.fromJson(convert.json.decode(value!));
+
+        print("ONAREA  Success = ${response.succes}");
+
+        usersOnArea = response.data!.first;
+        print("ONAREA  LENGT ->  = ${usersOnArea.length}");
+        for (var i = 0; i < usersOnArea.length; i++) {
+          if (usersOnArea[i]!.userId !=
+              LocaleManager.instance.getInt(PreferencesKeys.currentUserId)) {
+            String carType = usersOnArea[i]!
+                .usertousercartypes!
+                .first
+                .cartypetousercartypes!
+                .carType!;
+            String iconPath = carType == "Otomobil"
+                ? 'assets/icons/friendsLocationLightCommercial.png'
+                : carType == "Tır"
+                    ? 'assets/icons/friendsLocationTruck.png'
+                    : 'assets/icons/friendsLocationMotorcycle.png';
+            // polyliness.add();
+            if (usersOnArea[i]!.userpostroutes!.isNotEmpty) {
+              print("ONAREA ROTASI VAR");
+              Map<String, LatLng> route;
+              route = {
+                "start": LatLng(
+                    usersOnArea[i]!
+                        .userpostroutes![0]
+                        .startingCoordinates!
+                        .first,
+                    usersOnArea[i]!
+                        .userpostroutes![0]
+                        .startingCoordinates!
+                        .last),
+                "end": LatLng(
+                    usersOnArea[i]!.userpostroutes![0].endingCoordinates!.first,
+                    usersOnArea[i]!.userpostroutes![0].endingCoordinates!.last)
+              };
+              // _getPolyline(route, i);
+              addMarkerFunctionForMapPage(
+                usersOnArea[i]!.userId!,
+                MarkerId(usersOnArea[i]!.userId.toString()),
+                LatLng(
+                    usersOnArea[i]!
+                        .userpostroutes!
+                        .first
+                        .polylineDecode!
+                        .first
+                        .first,
+                    usersOnArea[i]!
+                        .userpostroutes!
+                        .first
+                        .polylineDecode!
+                        .first
+                        .last),
+                BitmapDescriptor.fromBytes(await customMarkerIconController
+                    .getBytesFromAsset(iconPath, 100)),
+                "${usersOnArea[i]!.name!} ${usersOnArea[i]!.surname!}",
+                usersOnArea[i]!.userpostroutes![0].departureDate.toString(),
+                usersOnArea[i]!.userpostroutes![0].arrivalDate.toString(),
+                usersOnArea[i]!
+                    .usertousercartypes![0]
+                    .cartypetousercartypes!
+                    .carType!,
+                usersOnArea[i]!.userpostroutes!.first.startingCity!,
+                usersOnArea[i]!.userpostroutes!.first.endingCity!,
+                usersOnArea[i]!.userpostroutes!.first.routeDescription ??
+                    "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+                usersOnArea[i]!.profilePic!,
+                context,
+              );
+            } else {
+              ///ROTASI YOKSA
+              print("ONAREA ROTASI YOK");
+              addMarkerFunctionForMapPage(
+                usersOnArea[i]!.userId!,
+                MarkerId(usersOnArea[i]!.userId.toString()),
+                LatLng(
+                  usersOnArea[i]!.latitude!,
+                  usersOnArea[i]!.longitude!,
+                ),
+                BitmapDescriptor.fromBytes(await customMarkerIconController
+                    .getBytesFromAsset(iconPath, 100)),
+                "${usersOnArea[i]!.name!} ${usersOnArea[i]!.surname!}",
+                "",
+                "",
+                usersOnArea[i]!
+                    .usertousercartypes![0]
+                    .cartypetousercartypes!
+                    .carType!,
+                "",
+                "",
+                "",
+                usersOnArea[i]!.profilePic!,
+                context,
+              );
+            }
+          } else {
+            print("ONAREA MATCHİNGROTADATA benim rotam $i");
+            // Map<String, LatLng> route;
+            // route = {
+            //   "start": LatLng(
+            //       myFriendsLocationsMatching.first!.matching![i]
+            //           .userpostroutes![0].startingCoordinates!.first,
+            //       myFriendsLocationsMatching.first!.matching![i]
+            //           .userpostroutes![0].startingCoordinates!.last),
+            //   "end": LatLng(
+            //       myFriendsLocationsMatching.first!.matching![i]
+            //           .userpostroutes![0].endingCoordinates!.first,
+            //       myFriendsLocationsMatching.first!.matching![i]
+            //           .userpostroutes![0].endingCoordinates!.last)
+            // };
+            // _getPolyline(route, i);
+          }
+        }
+      });
+    } catch (e) {
+      print("ONAREA GET USERS ON AREA ERR -> $e");
+    }
   }
 
   getMyFriendsMatchingRoutes(BuildContext context, polylineEncode,
@@ -266,35 +401,35 @@ class MapPageController extends GetxController {
 
               _getPolyline(route, i);
               addMarkerFunctionForMapPage(
-                myFriendsLocationsMatching.first!.matching![i].id!,
-                MarkerId(myFriendsLocationsMatching.first!.matching![i].id
-                    .toString()),
-                LatLng(
-                    myFriendsLocationsMatching.first!.matching![i]
-                        .userpostroutes!.first.polylineDecode!.first.first,
-                    myFriendsLocationsMatching.first!.matching![i]
-                        .userpostroutes!.first.polylineDecode!.first.last),
-                BitmapDescriptor.fromBytes(await customMarkerIconController
-                    .getBytesFromAsset(iconPath, 100)),
-                context,
-                "${myFriendsLocationsMatching.first!.matching![i].name!} ${myFriendsLocationsMatching.first!.matching![i].surname!}",
-                myFriendsLocationsMatching
-                    .first!.matching![i].userpostroutes![0].departureDate
-                    .toString(),
-                myFriendsLocationsMatching
-                    .first!.matching![i].userpostroutes![0].arrivalDate
-                    .toString(),
-                myFriendsLocationsMatching.first!.matching![i]
-                    .usertousercartypes![0].cartypetousercartypes!.carType!,
-                myFriendsLocationsMatching
-                    .first!.matching![i].userpostroutes!.first.startingCity!,
-                myFriendsLocationsMatching
-                    .first!.matching![i].userpostroutes!.first.endingCity!,
-                myFriendsLocationsMatching.first!.matching![i].userpostroutes!
-                        .first.routeDescription ??
-                    "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-                myFriendsLocationsMatching.first!.matching![i].profilePicture!,
-              );
+                  myFriendsLocationsMatching.first!.matching![i].id!,
+                  MarkerId(myFriendsLocationsMatching.first!.matching![i].id
+                      .toString()),
+                  LatLng(
+                      myFriendsLocationsMatching.first!.matching![i]
+                          .userpostroutes!.first.polylineDecode!.first.first,
+                      myFriendsLocationsMatching.first!.matching![i]
+                          .userpostroutes!.first.polylineDecode!.first.last),
+                  BitmapDescriptor.fromBytes(await customMarkerIconController
+                      .getBytesFromAsset(iconPath, 100)),
+                  "${myFriendsLocationsMatching.first!.matching![i].name!} ${myFriendsLocationsMatching.first!.matching![i].surname!}",
+                  myFriendsLocationsMatching
+                      .first!.matching![i].userpostroutes![0].departureDate
+                      .toString(),
+                  myFriendsLocationsMatching
+                      .first!.matching![i].userpostroutes![0].arrivalDate
+                      .toString(),
+                  myFriendsLocationsMatching.first!.matching![i]
+                      .usertousercartypes![0].cartypetousercartypes!.carType!,
+                  myFriendsLocationsMatching
+                      .first!.matching![i].userpostroutes!.first.startingCity!,
+                  myFriendsLocationsMatching
+                      .first!.matching![i].userpostroutes!.first.endingCity!,
+                  myFriendsLocationsMatching.first!.matching![i].userpostroutes!
+                          .first.routeDescription ??
+                      "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+                  myFriendsLocationsMatching
+                      .first!.matching![i].profilePicture!,
+                  context);
             } else {
               print("MATCHİNGROTADATA benim rotam $i");
               // Map<String, LatLng> route;
@@ -358,7 +493,6 @@ class MapPageController extends GetxController {
   }
 
   getMyFriendsRoutesRequestRefreshable(BuildContext context) async {
-    this.context = context;
     await GeneralServicesTemp().makeGetRequest(
       EndPoint.getMyfriendsRoute,
       {
@@ -368,45 +502,45 @@ class MapPageController extends GetxController {
       },
     ).then(
       (value) async {
-        GetMyFriendsRouteResponseModel getMyFriendsRouteResponseModel =
-            GetMyFriendsRouteResponseModel.fromJson(
-                convert.json.decode(value!));
-        myFriendsLocations = getMyFriendsRouteResponseModel.data!;
-        //Anlık arkadaş konumu bağlandı
-        for (var i = 0; i < myFriendsLocations.length; i++) {
-          addMarkerFunctionForMapPage(
-            myFriendsLocations[i]!.followed!.id!,
-            MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
-            LatLng(
-                myFriendsLocations[i]!
-                    .followed!
-                    .userpostroutes![0]
-                    .currentRoute![0],
-                myFriendsLocations[i]!
-                    .followed!
-                    .userpostroutes![0]
-                    .currentRoute![1]),
-            BitmapDescriptor.fromBytes(
-                customMarkerIconController.myFriendsLocation!),
-            context,
-            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .departureDate
-                .toString(),
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .arrivalDate
-                .toString(),
-            "Tır",
-            myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
-            myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
-            "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-            myFriendsLocations[i]!.followed!.profilePicture!,
-          );
-        }
+        // GetMyFriendsRouteResponseModel getMyFriendsRouteResponseModel =
+        //     GetMyFriendsRouteResponseModel.fromJson(
+        //         convert.json.decode(value!));
+        // myFriendsLocations = getMyFriendsRouteResponseModel.data;
+        // //Anlık arkadaş konumu bağlandı
+        // for (var i = 0; i < myFriendsLocations.length; i++) {
+        //   addMarkerFunctionForMapPage(
+        //     myFriendsLocations[i]!.followed!.id!,
+        //     MarkerId(myFriendsLocations[i]!.followed!.id.toString()),
+        //     LatLng(
+        //         myFriendsLocations[i]!
+        //             .followed!
+        //             .userpostroutes![0]
+        //             .currentRoute![0],
+        //         myFriendsLocations[i]!
+        //             .followed!
+        //             .userpostroutes![0]
+        //             .currentRoute![1]),
+        //     BitmapDescriptor.fromBytes(
+        //         customMarkerIconController.myFriendsLocation!),
+        //     context,
+        //     "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
+        //     myFriendsLocations[i]!
+        //         .followed!
+        //         .userpostroutes![0]
+        //         .departureDate
+        //         .toString(),
+        //     myFriendsLocations[i]!
+        //         .followed!
+        //         .userpostroutes![0]
+        //         .arrivalDate
+        //         .toString(),
+        //     "Tır",
+        //     myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
+        //     myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
+        //     "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+        //     myFriendsLocations[i]!.followed!.profilePicture!,
+        //   );
+        // }
       },
     );
   }
@@ -462,13 +596,13 @@ class MapPageController extends GetxController {
     var newPolylineCoordinates = polylineCoordinates.toSet().toList();
 
     Polyline polyline = Polyline(
-      polylineId: generalPolylineId,
-      color: selectedPolyline.value != 3
-          ? AppConstants().ltBlue
-          : AppConstants().ltLogoGrey,
-      points: newPolylineCoordinates,
-      width: 4,
-    );
+        polylineId: generalPolylineId,
+        color: selectedPolyline.value != 3
+            ? AppConstants().ltBlue
+            : AppConstants().ltLogoGrey,
+        points: newPolylineCoordinates,
+        width: 11,
+        zIndex: 1);
     polylines[generalPolylineId] = polyline;
     polyliness.isEmpty ? polyliness.add(polyline) : polyliness[0] = (polyline);
     print("MATCHİNGROTADATA benim rotamm ");
@@ -492,10 +626,12 @@ class MapPageController extends GetxController {
           ? AppConstants().ltMainRed
           : AppConstants().ltLogoGrey,
       points: newPolylineCoordinates,
-      width: 4,
+      width: 11,
+      zIndex: 1,
     );
     polylines2[generalPolylineId2] = polyline;
     polyliness.isEmpty ? polyliness.add(polyline) : polyliness[0] = (polyline);
+
     print(
         "MATCHİNGROTADATA polylineCoordinates2 benim rotamm ${polyliness.length}");
     // update(["mapPageController"]);
@@ -545,6 +681,9 @@ class MapPageController extends GetxController {
     }
     streamSubscriptionForMyMarker =
         Geolocator.getPositionStream().listen((Position position) async {
+      await updateLocation(lat: position.latitude, long: position.longitude)
+          .then(
+              (value) => print("updateMyLocationMarkers LOCATİON GÜNCELLENDİ"));
       mapPageRouteStartLatitude2.value = position.latitude;
       mapPageRouteStartLongitude2.value = position.longitude;
       if (polylines.isNotEmpty) {
@@ -596,59 +735,50 @@ class MapPageController extends GetxController {
   List<int> friendList = [];
   //Belirli bir alandaki arkadaşları getiren istek
   getMyFriendsRoutesCircular(LatLng point) async {
-    await GeneralServicesTemp()
-        .makePostRequest(
-            EndPoint.getMyFriendsCircular,
-            {"lat": point.latitude, "long": point.longitude},
-            ServicesConstants.appJsonWithToken)
-        .then((value) {
-      log("Circular request response -> {$value}");
-      Marker newMarker3 = markers3.firstWhere(
-          (marker) => marker.markerId.value == "myFriendsLocationMarker",
-          orElse: () => const Marker(markerId: MarkerId("")));
-      markers3.remove(newMarker3);
-      if (value != null) {
-        final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
+    // await GeneralServicesTemp()
+    //     .makePostRequest(
+    //         EndPoint.getMyFriendsCircular,
+    //         {"lat": point.latitude, "long": point.longitude},
+    //         ServicesConstants.appJsonWithToken)
+    //     .then((value) {
+    //   log("Circular request response -> {$value}");
+    //   Marker newMarker3 = markers3.firstWhere(
+    //       (marker) => marker.markerId.value == "myFriendsLocationMarker",
+    //       orElse: () => const Marker(markerId: MarkerId("")));
+    //   markers3.remove(newMarker3);
+    //   if (value != null) {
+    //     final response = FriendsRoutesCircular.fromJson(jsonDecode(value));
 
-        for (int i = 0; i < response.data.length; i++) {
-          if (!friendList.contains(response.data[i].userID)) {
-            LocalNotificationService().showNotification(
-                title: "Arkadaşın Yakınında", body: response.data[i].message!);
-            friendList.add(response.data[i].userID!);
-          }
-          customMarkerIconController
-              .setCustomMarkerIcon5(response.data[i].profilePic!);
-          addMarkerFunctionForMapPage(
-            response.data[i].userID!,
-            const MarkerId("myFriendsLocationMarker"),
-            LatLng(
-              response.data[i].latitude as double,
-              response.data[i].longitude as double,
-            ),
-            BitmapDescriptor.fromBytes(
-                customMarkerIconController.myFriendsLocation!),
-            context,
-            "${myFriendsLocations[i]!.followed!.name!} ${myFriendsLocations[i]!.followed!.surname!}",
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .departureDate
-                .toString(),
-            myFriendsLocations[i]!
-                .followed!
-                .userpostroutes![0]
-                .arrivalDate
-                .toString(),
-            "Tır",
-            myFriendsLocations[i]!.followed!.userpostroutes![0].startingCity!,
-            myFriendsLocations[i]!.followed!.userpostroutes![0].endingCity!,
-            "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-            myFriendsLocations[i]!.followed!.profilePicture!,
-          );
-        }
-      }
-      update(["mapPageController"]);
-    });
+    //     for (int i = 0; i < response.data.length; i++) {
+    //       if (!friendList.contains(response.data[i].userID)) {
+    //         LocalNotificationService().showNotification(
+    //             title: "Arkadaşın Yakınında", body: response.data[i].message!);
+    //         friendList.add(response.data[i].userID!);
+    //       }
+    //       customMarkerIconController
+    //           .setCustomMarkerIcon5(response.data[i].profilePic!);
+    //       addMarkerFunctionForMapPage(
+    //         response.data[i].userID!,
+    //         const MarkerId("myFriendsLocationMarker"),
+    //         LatLng(
+    //           response.data[i].latitude as double,
+    //           response.data[i].longitude as double,
+    //         ),
+    //         BitmapDescriptor.fromBytes(
+    //             customMarkerIconController.myFriendsLocation!),
+    //         "${myFriendsLocations[i]!.name!} ${myFriendsLocations[i]!.surname!}",
+    //         myFriendsLocations[i]!.userpostroutes![0].departureDate.toString(),
+    //         myFriendsLocations[i]!.userpostroutes![0].arrivalDate.toString(),
+    //         "Tır",
+    //         myFriendsLocations[i]!.userpostroutes![0].startingCity!,
+    //         myFriendsLocations[i]!.userpostroutes![0].endingCity!,
+    //         "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
+    //         myFriendsLocations[i]!.profilePicture!,context
+    //       );
+    //     }
+    //   }
+    //   update(["mapPageController"]);
+    // });
   }
 
   void mapDisplayAnimationFuncMap1() async {
@@ -697,27 +827,27 @@ class MapPageController extends GetxController {
   }
 
   bool addMarkerFunctionForMapPage(
-    int userID,
-    MarkerId markerId,
-    LatLng latLng,
-    BitmapDescriptor icon,
-    BuildContext context,
-    String name,
-    String firstDestination,
-    String secondDestination,
-    String vehicleType,
-    String startCity,
-    String endCity,
-    String description,
-    String userProfilePhotoLink,
-  ) {
+      int userID,
+      MarkerId markerId,
+      LatLng latLng,
+      BitmapDescriptor icon,
+      String name,
+      String firstDestination,
+      String secondDestination,
+      String vehicleType,
+      String startCity,
+      String endCity,
+      String description,
+      String userProfilePhotoLink,
+      BuildContext context) {
     try {
-      print("MATCHİNGROTADATA mARKER İD -> $markerId");
+      print("MARKERİD -> $markerId");
 
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
         icon: icon,
+        zIndex: markerId.value == "myLocationMarker" ? 1 : 0.5,
         onTap: () {
           showModalBottomSheet(
             context: context,
@@ -762,9 +892,11 @@ class MapPageController extends GetxController {
     BitmapDescriptor? icon,
   ) {
     try {
+      print("MARKERİD -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
+        zIndex: markerId.value == "myLocationMarker" ? 1 : 0.5,
         infoWindow: InfoWindow(
           //title: title,
           snippet: address,
@@ -789,8 +921,10 @@ class MapPageController extends GetxController {
     String address,
   ) {
     try {
+      print("MARKERİD -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
+        zIndex: markerId.value == "myLocationMarker" ? 1 : 0.5,
         position: latLng,
         infoWindow: InfoWindow(
           //title: title,
@@ -816,9 +950,11 @@ class MapPageController extends GetxController {
     BitmapDescriptor icon,
   ) {
     try {
+      print("MARKERİD -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
+        zIndex: markerId.value == "myLocationMarker" ? 1 : 0.5,
         infoWindow: InfoWindow(
           //title: title,
           snippet: address,
@@ -843,9 +979,11 @@ class MapPageController extends GetxController {
     BitmapDescriptor icon,
   ) {
     try {
+      print("MARKERİD -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
+        zIndex: markerId.value == "myLocationMarker" ? 1 : 0.5,
         infoWindow: InfoWindow(
           //title: title,
           snippet: address,
@@ -1041,7 +1179,8 @@ class MapPageController extends GetxController {
         travelMode: "DRIVE",
         units: "METRIC",
       );
-      print("Finish NEWROUTEEM req");
+      print("MAPTENPOLYLİNECODU getpolylineEncode");
+
       await GeneralServicesTemp()
           .makePostRequestForPolyline(
         AppConstants.googleMapsGetPolylineLink,
@@ -1089,6 +1228,7 @@ class MapPageController extends GetxController {
   }
 
   _getPolyline(Map<String, LatLng> route, int index) async {
+    print("MAPTENPOLYLİNECODU -> mapPageController _getPolyline()");
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       AppConstants.googleMapsApiKey,
       PointLatLng(route["start"]!.latitude, route["start"]!.longitude),
@@ -1105,8 +1245,24 @@ class MapPageController extends GetxController {
         polylineId: PolylineId("polyline_$index"),
         color: Colors.primaries[index % Colors.primaries.length],
         points: polylineCoordinates,
-        width: 5,
+        width: 11,
       ));
+    }
+  }
+
+  Future updateLocation({required double lat, required double long}) async {
+    try {
+      await GeneralServicesTemp().makePostRequest(
+        EndPoint.updateLocation,
+        {"lat": lat, "long": long},
+        {
+          "Content-type": "application/json",
+          'Authorization':
+              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+        },
+      );
+    } catch (e) {
+      print("UPDATELOCATİON ERR -> $e");
     }
   }
 }
