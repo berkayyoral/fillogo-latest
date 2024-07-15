@@ -50,11 +50,13 @@ class CreateRouteController extends GetxController {
 
   //Anlık arkadas konumu bağlandı
   void addNewMarkersForSearchingRoute(BuildContext context) async {
-    /*  if (searchByCityDatum!.isNotEmpty) {
+    print("BURDAYIMaddNewMarkersForSearchingRoute");
+    if (searchByCityDatum!.isNotEmpty) {
       for (var i = 0; i < searchByCityDatum!.length; i++) {
         addMarkerFunctionForSearchRoutePage(
+          searchByCityDatum![i].id!,
           searchByCityDatum![i].userId!,
-          const MarkerId("i"),
+          MarkerId("${searchByCityDatum![i].userId!}"),
           LatLng(searchByCityDatum![i].startingCoordinates![0],
               searchByCityDatum![i].startingCoordinates![1]),
           BitmapDescriptor.fromBytes(
@@ -70,7 +72,7 @@ class CreateRouteController extends GetxController {
           "",
         );
       }
-    }*/
+    }
   }
 
   void createRouteControllerClear() async {
@@ -104,6 +106,7 @@ class CreateRouteController extends GetxController {
 
   bool addMarkerFunctionForSearchRoutePage(
     int userID,
+    int routeID,
     MarkerId markerId,
     LatLng latLng,
     BitmapDescriptor icon,
@@ -134,6 +137,7 @@ class CreateRouteController extends GetxController {
             builder: (builder) {
               return PopupPrifilInfo(
                 userId: userID,
+                routeId: routeID,
                 name: name,
                 emptyPercent: 70,
                 firstDestination: firstDestination,

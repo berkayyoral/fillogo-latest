@@ -1,5 +1,6 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/homepopup/follow_controller.dart';
+import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 
 import '../export.dart';
@@ -8,6 +9,7 @@ class PopupPrifilInfo extends StatelessWidget {
   PopupPrifilInfo({
     Key? key,
     required this.userId,
+    required this.routeId,
     required this.name,
     required this.vehicleType,
     required this.description,
@@ -20,6 +22,7 @@ class PopupPrifilInfo extends StatelessWidget {
   }) : super(key: key);
 
   final int userId;
+  final int routeId;
   final String name;
   final String vehicleType;
   final String description;
@@ -30,7 +33,8 @@ class PopupPrifilInfo extends StatelessWidget {
   final String endCity;
   final PopUpController followController = PopUpController();
   final String userProfilePhotoLink;
-
+  SelectedRouteController selectedRouteController =
+      Get.find<SelectedRouteController>();
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
   @override
@@ -187,20 +191,59 @@ class PopupPrifilInfo extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Rota: ",
-                            style: TextStyle(
-                                fontFamily: "Sfbold",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
+                          Row(
+                            children: [
+                              Text(
+                                "Rota: ",
+                                style: TextStyle(
+                                    fontFamily: "Sfbold",
+                                    fontSize: 14.sp,
+                                    color: AppConstants().ltBlack),
+                              ),
+                              Text(
+                                "$startCity -> $endCity",
+                                style: TextStyle(
+                                    fontFamily: "Sfregular",
+                                    fontSize: 14.sp,
+                                    color: AppConstants().ltBlack),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "$startCity -> $endCity",
-                            style: TextStyle(
-                                fontFamily: "Sfregular",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
+                          GestureDetector(
+                            onTap: () {
+                              selectedRouteController.selectedRouteId.value =
+                                  routeId;
+                              selectedRouteController
+                                  .selectedRouteUserId.value = routeId;
+                              Get.toNamed(NavigationConstants.routeDetails);
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/route-icon.svg',
+                                  height: 25.h,
+                                  color: AppConstants().ltMainRed,
+                                ),
+                                5.w.spaceX,
+                                RichText(
+                                  textAlign: TextAlign.left,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Rotayı Göster',
+                                        style: TextStyle(
+                                          fontFamily: "Sfregular",
+                                          fontSize: 10.sp,
+                                          color: AppConstants().ltBlack,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

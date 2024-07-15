@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -7,6 +9,8 @@ import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
+import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:geocoder2/geocoder2.dart';
@@ -39,6 +43,7 @@ class RouteCalculateLastView extends StatelessWidget {
 
   NotificationController notificationController =
       Get.put(NotificationController());
+  Completer<GoogleMapController> mapCotroller = Completer();
   @override
   Widget build(BuildContext context) {
     CameraPosition initialLocation = CameraPosition(
@@ -178,10 +183,18 @@ class RouteCalculateLastView extends StatelessWidget {
                             return SizedBox(
                               height: Get.height,
                               width: Get.width,
-                              child: GeneralMapViewClass(
-                                markerSet: Set<Marker>.from(
+                              child: GoogleMap(
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(
+                                    getMyCurrentLocationController
+                                        .myLocationLatitudeDo.value,
+                                    getMyCurrentLocationController
+                                        .myLocationLongitudeDo.value,
+                                  ),
+                                  zoom: 15.0,
+                                ),
+                                markers: Set<Marker>.from(
                                     createRouteController.markers),
-                                initialCameraPosition: initialLocation,
                                 myLocationEnabled: true,
                                 myLocationButtonEnabled: false,
                                 mapType: MapType.normal,
@@ -189,16 +202,47 @@ class RouteCalculateLastView extends StatelessWidget {
                                 zoomControlsEnabled: false,
                                 onCameraMoveStarted: () {},
                                 onCameraMove: (p0) {},
-                                polygonsSet: const <Polygon>{},
-                                tileOverlaysSet: const <TileOverlay>{},
-                                polylinesSet: Set<Polyline>.of(
+                                polygons: const <Polygon>{},
+                                tileOverlays: const <TileOverlay>{},
+                                polylines: Set<Polyline>.of(
                                     createRouteController.polylines.values),
-                                mapController2:
+                                onMapCreated:
                                     (GoogleMapController controller) async {
                                   // createRouteController.generalMapController
                                   //     .complete(controller);
+                                  mapCotroller = Completer();
+                                  mapCotroller.complete(controller);
                                 },
                               ),
+                              //  GeneralMapViewClass(
+                              //     // markerSet: Set<Marker>.from(
+                              //     //     createRouteController.markers),
+                              //     // initialCameraPosition: CameraPosition(
+                              //     //   target: LatLng(
+                              //     //     getMyCurrentLocationController
+                              //     //         .myLocationLatitudeDo.value,
+                              //     //     getMyCurrentLocationController
+                              //     //         .myLocationLongitudeDo.value,
+                              //     //   ),
+                              //     //   zoom: 15.0,
+                              //     // ),
+                              //     // myLocationEnabled: true,
+                              //     // myLocationButtonEnabled: false,
+                              //     // mapType: MapType.normal,
+                              //     // zoomGesturesEnabled: true,
+                              //     // zoomControlsEnabled: false,
+                              //     // onCameraMoveStarted: () {},
+                              //     // onCameraMove: (p0) {},
+                              //     // polygonsSet: const <Polygon>{},
+                              //     // tileOverlaysSet: const <TileOverlay>{},
+                              //     // polylinesSet: Set<Polyline>.of(
+                              //     //     createRouteController.polylines.values),
+                              //     // mapController2:
+                              //     //     (GoogleMapController controller) async {
+                              //     //   // createRouteController.generalMapController
+                              //     //   //     .complete(controller);
+                              //     // },
+                              //   ),
                             );
                           },
                         ),
@@ -216,11 +260,11 @@ class RouteCalculateLastView extends StatelessWidget {
                               );
                             },
                             child: RouteCalculateButtomSheet(
-                              key: ValueKey<int>(
-                                  createRouteController.calculateLevel.value),
-                              calculateLevel:
-                                  createRouteController.calculateLevel.value,
-                            ),
+                                key: ValueKey<int>(
+                                    createRouteController.calculateLevel.value),
+                                calculateLevel:
+                                    createRouteController.calculateLevel.value,
+                                mapController: mapCotroller),
                           ),
                         ),
                       ],
@@ -237,9 +281,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   RouteCalculateButtomSheet({
     super.key,
     required this.calculateLevel,
+    required this.mapController,
   });
 
   late int calculateLevel;
+  Completer<GoogleMapController> mapController;
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
@@ -251,11 +297,13 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (calculateLevel == 1) {
-      return _calculateLevelTwo(context);
+      return _calculateLevelTwo(
+          context, mapController, getMyCurrentLocationController);
     } else if (calculateLevel == 2) {
       return _calculateLevelThree(context);
     } else {
-      return _calculateLevelTwo(context);
+      return _calculateLevelTwo(
+          context, mapController, getMyCurrentLocationController);
     }
   }
 
@@ -320,7 +368,10 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   //   );
   // }
 
-  Widget _calculateLevelTwo(BuildContext context) {
+  Widget _calculateLevelTwo(
+      BuildContext context,
+      Completer<GoogleMapController> mapController,
+      GetMyCurrentLocationController getMyCurrentLocationController) {
     return Stack(
       children: [
         Align(
@@ -376,11 +427,63 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             ),
           ),
         ),
+        Visibility(
+          visible: true,
+          child: Padding(
+            padding: EdgeInsets.only(right: 10.w, bottom: 90.h),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: GestureDetector(
+                onTap: () async {
+                  try {
+                    print("KONUMUMUGETİR");
+
+                    // mapPageController.isLoading.value = true;
+
+                    final GoogleMapController controller2 =
+                        await mapController.future;
+                    controller2.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(
+                          bearing: 90,
+                          tilt: 45,
+                          target: LatLng(
+                              getMyCurrentLocationController
+                                  .myLocationLatitudeDo.value,
+                              getMyCurrentLocationController
+                                  .myLocationLongitudeDo.value),
+                          zoom: 15,
+                        ),
+                      ),
+                    );
+                  } catch (e) {
+                    print("KONUMUMUGETİR ERR -> $e");
+                  }
+                },
+                child: Container(
+                  height: 50.w,
+                  width: 50.w,
+                  decoration: BoxDecoration(
+                    color: AppConstants().ltMainRed,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.w),
+                    child: SvgPicture.asset(
+                      "assets/icons/getMyLocationIcon2.svg",
+                      height: 24.w,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
         Obx(
           () => Visibility(
             visible: createRouteController.calculateLevel.value == 1,
             child: Padding(
-              padding: const EdgeInsets.only(right: 10, bottom: 10),
+              padding: EdgeInsets.only(right: 10.w, bottom: 10.h),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(

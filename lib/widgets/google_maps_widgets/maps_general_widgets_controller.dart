@@ -113,6 +113,7 @@ class GoogleMapsGeneralWidgetsController extends GetxController {
     String userProfilePhotoLink,
     Set<Marker> markers,
     String getxBuilderId,
+    int routeID,
   ) async {
     try {
       Marker marker = Marker(
@@ -131,6 +132,7 @@ class GoogleMapsGeneralWidgetsController extends GetxController {
             builder: (builder) {
               return PopupPrifilInfo(
                 userId: userID,
+                routeId: routeID,
                 name: name,
                 emptyPercent: 70,
                 firstDestination: firstDestination,

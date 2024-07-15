@@ -19,7 +19,9 @@ import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -687,151 +689,188 @@ class MapPageView extends GetView<MapPageController> {
 
                         /// FİLTRELEME
                         Obx(
-                          () => Positioned(
-                            top: 8.h,
-                            left: 12.w,
-                            child: Container(
-                              padding: EdgeInsets.all(4.w),
-                              alignment: Alignment.center,
-                              height: 65.h,
-                              width: 220.w,
-                              decoration: BoxDecoration(
-                                color: showFilterOption.value
-                                    ? AppConstants().ltMainRed
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(10.w),
-                              ),
-                              child: Visibility(
-                                visible: true,
-                                // mapPageController
-                                //             .calculateLevel.value ==
-                                //         1 &&
-                                //     (mapPageController.selectedDispley.value ==
-                                //             5 ||
-                                //         mapPageController
-                                //                 .selectedDispley.value ==
-                                //             2),
-                                child: Row(
-                                  mainAxisAlignment: showFilterOption.value
-                                      ? MainAxisAlignment.spaceBetween
-                                      : MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Visibility(
-                                      visible: showFilterOption.value,
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          print("MAPPAGEİSLOAD burda");
-                                          // showFilterOption.value =
-                                          //   !showFilterOption.value;
-                                        },
-                                        child: Row(
-                                          children: [
-                                            filterOptionWidget(
-                                                logo:
-                                                    'assets/icons/filterLightCommercial.png',
-                                                index: 0),
-                                            filterOptionWidget(
-                                                logo:
-                                                    'assets/icons/filterTruck.png',
-                                                index: 1),
-                                            filterOptionWidget(
-                                                logo:
-                                                    'assets/icons/filterMotorcycle.png',
-                                                index: 2),
-                                          ],
-                                        ),
-                                      ),
+                          () => Container(
+                            padding: EdgeInsets.all(4.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Positioned(
+                                  top: 8.h,
+                                  left: 12.w,
+                                  child: Container(
+                                    padding: EdgeInsets.all(4.w),
+                                    alignment: Alignment.center,
+                                    height: 65.h,
+                                    width: 175.w,
+                                    decoration: BoxDecoration(
+                                      color: showFilterOption.value
+                                          ? AppConstants().ltMainRed
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(10.w),
                                     ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        print(
-                                            "MAPPAGEİSLOADhu -> ${mapPageController.calculateLevel.value}");
-
-                                        if (showFilterOption.value) {
-                                          try {
-                                            showFilterOption.value = false;
-                                            print("MAPPAGEİSLOAD ben");
-                                            mapPageController.isLoading.value =
-                                                true;
-                                            mapPageController.markers.clear();
-                                            print(
-                                                "MAPPAGEİSLOAD -> ${mapPageController.isLoading.value}");
-                                            carTypeList.clear();
-                                            mapPageController.polyliness
-                                                .clear();
-                                            // mapPageController.polyliness
-                                            //     .removeRange(
-                                            //         1,
-                                            //         mapPageController
-                                            //             .polyliness.length);
-                                            if (filterSelectedList[0]) {
-                                              carTypeList.add("Otomobil");
-                                            }
-                                            if (filterSelectedList[1]) {
-                                              carTypeList.add("Tır");
-                                            }
-                                            if (filterSelectedList[2]) {
-                                              carTypeList.add("Motorsiklet");
-                                            }
-                                            print(
-                                                "CARTYPLE LİST -> ${carTypeList.length}");
-
-                                            await mapPageController
-                                                .getUsersOnArea(
-                                                    context: context,
-                                                    carType: carTypeList);
-                                            await mapPageController
-                                                .getUsersOnArea(
-                                                    context: context,
-                                                    carType: carTypeList);
-                                            mapPageController.isLoading.value =
-                                                false;
-                                            mapPageController
-                                                .update(["mapPageController"]);
-                                          } catch (e) {
-                                            print("MAPPAGEİSLOAD ERR -> $e");
-                                          }
-                                        } else {
-                                          showFilterOption.value = true;
-                                        }
-                                      },
-                                      child: Container(
-                                          height: 65.w,
-                                          decoration: BoxDecoration(
-                                            color: AppConstants().ltMainRed,
-                                            borderRadius:
-                                                BorderRadius.circular(10.w),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8.w),
-                                            child: Column(
+                                    child: Row(
+                                      mainAxisAlignment: showFilterOption.value
+                                          ? MainAxisAlignment.center
+                                          : MainAxisAlignment.start,
+                                      children: [
+                                        Visibility(
+                                          visible: showFilterOption.value,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              print("MAPPAGEİSLOAD burda");
+                                              // showFilterOption.value =
+                                              //   !showFilterOption.value;
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
-                                                Expanded(
-                                                    child: Image.asset(
-                                                  'assets/icons/filter.png',
-                                                  fit: BoxFit.cover,
-                                                )),
-                                                showFilterOption.value
-                                                    ? Text(
-                                                        "Filtrele",
-                                                        style: TextStyle(
-                                                            color: const ui
-                                                                .Color.fromARGB(
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                255),
-                                                            fontSize: 10.sp),
-                                                      )
-                                                    : Container()
+                                                filterOptionWidget(
+                                                    logo:
+                                                        'assets/icons/filterLightCommercial.png',
+                                                    index: 0),
+                                                filterOptionWidget(
+                                                    logo:
+                                                        'assets/icons/filterTruck.png',
+                                                    index: 1),
+                                                filterOptionWidget(
+                                                    logo:
+                                                        'assets/icons/filterMotorcycle.png',
+                                                    index: 2),
                                               ],
                                             ),
-                                          )),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: !showFilterOption.value,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              print(
+                                                  "MAPPAGEİSLOADhu -> ${mapPageController.calculateLevel.value}");
+
+                                              showFilterOption.value = true;
+                                            },
+                                            child: Container(
+                                                height: 65.w,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppConstants().ltMainRed,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.w),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.w),
+                                                  child: Column(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Image.asset(
+                                                        'assets/icons/filter.png',
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                Visibility(
+                                  visible: showFilterOption.value,
+                                  child: Container(
+                                      width: 75.w,
+                                      padding: EdgeInsets.all(4.w),
+                                      decoration: BoxDecoration(
+                                        color: showFilterOption.value
+                                            ? AppConstants().ltMainRed
+                                            : Colors.transparent,
+
+                                        borderRadius:
+                                            BorderRadius.circular(5.w),
+                                        border: Border.all(
+                                          color: ui.Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          width: 2,
+                                        ),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: AppConstants()
+                                        //         .ltDarkGrey
+                                        //         .withOpacity(0.15),
+                                        //     spreadRadius: 5.r,
+                                        //     blurRadius: 7.r,
+                                        //     offset: Offset(0, 3.h),
+                                        //   ),
+                                        // ],
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            AppConstants().ltBlack,
+                                            AppConstants().ltMainRed
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.center,
+                                        ),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          if (showFilterOption.value) {
+                                            try {
+                                              showFilterOption.value = false;
+                                              print("MAPPAGEİSLOAD ben");
+                                              mapPageController
+                                                  .isLoading.value = true;
+                                              mapPageController.markers.clear();
+                                              print(
+                                                  "MAPPAGEİSLOAD -> ${mapPageController.isLoading.value}");
+                                              carTypeList.clear();
+                                              mapPageController.polyliness
+                                                  .clear();
+                                              if (filterSelectedList[0]) {
+                                                carTypeList.add("Otomobil");
+                                              }
+                                              if (filterSelectedList[1]) {
+                                                carTypeList.add("Tır");
+                                              }
+                                              if (filterSelectedList[2]) {
+                                                carTypeList.add("Motorsiklet");
+                                              }
+                                              print(
+                                                  "CARTYPLE LİST -> ${carTypeList.length}");
+
+                                              await mapPageController
+                                                  .getUsersOnArea(
+                                                      context: context,
+                                                      carType: carTypeList);
+                                              await mapPageController
+                                                  .getUsersOnArea(
+                                                      context: context,
+                                                      carType: carTypeList);
+                                              mapPageController
+                                                  .isLoading.value = false;
+                                              mapPageController.update(
+                                                  ["mapPageController"]);
+                                            } catch (e) {
+                                              print("MAPPAGEİSLOAD ERR -> $e");
+                                            }
+                                          }
+                                        },
+                                        child: Center(
+                                          child: Text(
+                                            "Uygula",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13.sp,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -1735,6 +1774,14 @@ class MapPageView extends GetView<MapPageController> {
                   width: 2,
                 )
               : null,
+          // gradient: LinearGradient(
+          //   colors: [
+          //     AppConstants().ltMainRed,
+          //     AppConstants().ltBlack,
+          //   ],
+          //   begin: Alignment.center,
+          //   end: Alignment.bottomCenter,
+          // ),
         ),
         child: Image.asset(
           logo,

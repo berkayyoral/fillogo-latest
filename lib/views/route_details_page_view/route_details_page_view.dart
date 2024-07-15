@@ -22,6 +22,12 @@ class RouteDetailsPageView extends StatelessWidget {
   RouteDetailsPageView({super.key, required this.routeId});
 
   int routeId;
+  //  String iconPath = carType == "Otomobil"
+  //             ? 'assets/icons/friendsLocationLightCommercial.png'
+  //             : carType == "Tır"
+  //                 ? 'assets/icons/friendsLocationTruck.png'
+  //                 : 'assets/icons/friendsLocationMotorcycle.png';
+  //         print("MATCHİNGROTADATA CAR TYPE -> $iconPath");
 
   RouteDetailsPageController routeDetailsPageController =
       Get.find<RouteDetailsPageController>();
@@ -446,9 +452,16 @@ class RouteDetailsPageView extends StatelessWidget {
                                               .activeRoutes![0]
                                               .startingCoordinates![1]),
                                       "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
-                                      BitmapDescriptor.fromBytes(
-                                          setCustomMarkerIconController
-                                              .myRouteStartIcon!),
+                                      mapPageController.myAllRoutes!
+                                                  .activeRoutes![0].id
+                                                  .toString() ==
+                                              "myLocationMarker"
+                                          ? BitmapDescriptor.fromBytes(
+                                              setCustomMarkerIconController
+                                                  .myRouteStartIcon!)
+                                          : BitmapDescriptor.fromBytes(
+                                              setCustomMarkerIconController
+                                                  .myFriendsLocation!),
                                     );
                                     mapPageController
                                         .addMarkerFunctionForMapPageWithoutOnTap(

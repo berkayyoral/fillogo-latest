@@ -253,6 +253,7 @@ class MapPageController extends GetxController {
               // _getPolyline(route, i);
               addMarkerFunctionForMapPage(
                 usersOnArea[i]!.userId!,
+                usersOnArea[i]!.userpostroutes!.first.id!,
                 MarkerId(usersOnArea[i]!.userId.toString()),
                 LatLng(
                     usersOnArea[i]!
@@ -288,6 +289,7 @@ class MapPageController extends GetxController {
               print("ONAREA ROTASI YOK");
               addMarkerFunctionForMapPage(
                 usersOnArea[i]!.userId!,
+                usersOnArea[i]!.userpostroutes!.first.id!,
                 MarkerId(usersOnArea[i]!.userId.toString()),
                 LatLng(
                   usersOnArea[i]!.latitude!,
@@ -398,10 +400,11 @@ class MapPageController extends GetxController {
                     myFriendsLocationsMatching.first!.matching![i]
                         .userpostroutes![0].endingCoordinates!.last)
               };
-
               _getPolyline(route, i);
               addMarkerFunctionForMapPage(
                   myFriendsLocationsMatching.first!.matching![i].id!,
+                  myFriendsLocationsMatching
+                      .first!.matching![i].userpostroutes!.first.id!,
                   MarkerId(myFriendsLocationsMatching.first!.matching![i].id
                       .toString()),
                   LatLng(
@@ -828,6 +831,7 @@ class MapPageController extends GetxController {
 
   bool addMarkerFunctionForMapPage(
       int userID,
+      int routeID,
       MarkerId markerId,
       LatLng latLng,
       BitmapDescriptor icon,
@@ -841,7 +845,7 @@ class MapPageController extends GetxController {
       String userProfilePhotoLink,
       BuildContext context) {
     try {
-      print("MARKERİD -> $markerId");
+      print("MARKERİDbenim -> $markerId");
 
       Marker marker = Marker(
         markerId: markerId,
@@ -860,6 +864,7 @@ class MapPageController extends GetxController {
             builder: (builder) {
               return PopupPrifilInfo(
                 userId: userID,
+                routeId: routeID,
                 name: name,
                 emptyPercent: 70,
                 firstDestination: firstDestination,
@@ -892,7 +897,7 @@ class MapPageController extends GetxController {
     BitmapDescriptor? icon,
   ) {
     try {
-      print("MARKERİD -> $markerId");
+      print("MARKERİDmnekibenim -> $markerId");
       Marker marker = Marker(
         markerId: markerId,
         position: latLng,
