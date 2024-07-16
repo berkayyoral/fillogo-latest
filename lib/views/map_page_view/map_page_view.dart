@@ -694,90 +694,78 @@ class MapPageView extends GetView<MapPageController> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Positioned(
-                                  top: 8.h,
-                                  left: 12.w,
-                                  child: Container(
-                                    padding: EdgeInsets.all(4.w),
-                                    alignment: Alignment.center,
-                                    height: 65.h,
-                                    width: 175.w,
-                                    decoration: BoxDecoration(
-                                      color: showFilterOption.value
-                                          ? AppConstants().ltMainRed
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(10.w),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: showFilterOption.value
-                                          ? MainAxisAlignment.center
-                                          : MainAxisAlignment.start,
-                                      children: [
-                                        Visibility(
-                                          visible: showFilterOption.value,
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              print("MAPPAGEİSLOAD burda");
-                                              // showFilterOption.value =
-                                              //   !showFilterOption.value;
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                filterOptionWidget(
-                                                    logo:
-                                                        'assets/icons/filterLightCommercial.png',
-                                                    index: 0),
-                                                filterOptionWidget(
-                                                    logo:
-                                                        'assets/icons/filterTruck.png',
-                                                    index: 1),
-                                                filterOptionWidget(
-                                                    logo:
-                                                        'assets/icons/filterMotorcycle.png',
-                                                    index: 2),
-                                              ],
-                                            ),
+                                Container(
+                                  padding: EdgeInsets.all(4.w),
+                                  alignment: Alignment.center,
+                                  height: 65.h,
+                                  width: 175.w,
+                                  decoration: BoxDecoration(
+                                    color: showFilterOption.value
+                                        ? AppConstants().ltMainRed
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(10.w),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: showFilterOption.value
+                                        ? MainAxisAlignment.center
+                                        : MainAxisAlignment.start,
+                                    children: [
+                                      Visibility(
+                                        visible: showFilterOption.value,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            print("MAPPAGEİSLOAD burda");
+                                            // showFilterOption.value =
+                                            //   !showFilterOption.value;
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              filterOptionWidget(
+                                                  logo:
+                                                      'assets/icons/filterLightCommercial.png',
+                                                  index: 0),
+                                              filterOptionWidget(
+                                                  logo:
+                                                      'assets/icons/filterTruck.png',
+                                                  index: 1),
+                                              filterOptionWidget(
+                                                  logo:
+                                                      'assets/icons/filterMotorcycle.png',
+                                                  index: 2),
+                                            ],
                                           ),
                                         ),
-                                        Visibility(
-                                          visible: !showFilterOption.value,
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              print(
-                                                  "MAPPAGEİSLOADhu -> ${mapPageController.calculateLevel.value}");
+                                      ),
+                                      Visibility(
+                                        visible: !showFilterOption.value,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            print(
+                                                "MAPPAGEİSLOADhu -> ${mapPageController.calculateLevel.value}");
 
-                                              showFilterOption.value = true;
-                                            },
-                                            child: Container(
-                                                height: 65.w,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      AppConstants().ltMainRed,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.w),
+                                            showFilterOption.value = true;
+                                          },
+                                          child: Container(
+                                              height: 65.w,
+                                              decoration: BoxDecoration(
+                                                color: AppConstants().ltMainRed,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.w),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(8.w),
+                                                child: Image.asset(
+                                                  'assets/icons/filter.png',
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(8.w),
-                                                  child: Column(
-                                                    children: [
-                                                      Expanded(
-                                                          child: Image.asset(
-                                                        'assets/icons/filter.png',
-                                                        fit: BoxFit.cover,
-                                                      )),
-                                                    ],
-                                                  ),
-                                                )),
-                                          ),
+                                              )),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Visibility(
