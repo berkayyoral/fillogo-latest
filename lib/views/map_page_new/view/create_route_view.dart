@@ -1,7 +1,6 @@
 import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_info_widget.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';

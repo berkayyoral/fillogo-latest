@@ -6,6 +6,7 @@ import 'package:fillogo/models/post/post_like_response.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/route_view_widget_new_post.dart';
 import 'package:fillogo/views/like_list_view/components/like_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import '../../../controllers/bottom_navigation_bar_controller.dart';
 import '../../../export.dart';
 import '../../../widgets/popup_post_details.dart';
@@ -92,8 +93,8 @@ class OnlyRouteWidget extends StatelessWidget {
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
 
-  MapPageController mapPageController = Get.find<MapPageController>();
-
+  // MapPageController mapPageController = Get.find<MapPageController>();
+  MapPageMController mapPageController = Get.find();
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
   LikeController likeController = Get.find();
@@ -118,7 +119,9 @@ class OnlyRouteWidget extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if (mapPageController.myUserId.value != userId) {
+                      var myUserId = LocaleManager.instance
+                          .getInt(PreferencesKeys.currentUserId);
+                      if (myUserId != userId) {
                         Get.toNamed(NavigationConstants.otherprofiles,
                             arguments: userId);
                       } else {

@@ -1,25 +1,25 @@
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../../controllers/map/get_current_location_and_listen.dart';
-import '../../map_page_view/components/map_page_controller.dart';
 
 class CreatePostAddRoutePageView extends StatelessWidget {
   CreatePostAddRoutePageView({super.key});
 
-  CreatePostPageController createPostPageController = Get.find();
-  BottomNavigationBarController bottomNavigationBarController =
+  final CreatePostPageController createPostPageController = Get.find();
+  final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
-  GetMyCurrentLocationController getMyCurrentLocationController =
+  final GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
-  MapPageController mapPageController = Get.find<MapPageController>();
-  String currentUserName =
+  // MapPageController mapPageController = Get.find<MapPageController>();
+  final MapPageMController mapPageController = Get.find();
+  final String currentUserName =
       LocaleManager.instance.getString(PreferencesKeys.currentUserUserName)!;
   @override
   Widget build(BuildContext context) {
@@ -51,10 +51,10 @@ class CreatePostAddRoutePageView extends StatelessWidget {
           ),
         ),
       ),
-      body: GetBuilder<MapPageController>(
-        id: "mapPageController",
+      body: GetBuilder<MapPageMController>(
+        id: "mapPageMController",
         initState: (_) async {
-          mapPageController.getMyRoutesServicesRequestRefreshable();
+          // mapPageController.getMyRoutesServicesRequestRefreshable();
         },
         builder: (_) {
           return SizedBox(
@@ -71,22 +71,14 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                       textColor: AppConstants().ltWhite,
                       onpressed: () {
                         bottomNavigationBarController.selectedIndex.value = 1;
-                        mapPageController.selectedDispley.value = 0;
-                        mapPageController.iWantTrackerMyLocation.value = 2;
-                        mapPageController.changeCalculateLevel(2);
-                        mapPageController
-                            .addMarkerFunctionForMapPageWithoutOnTap2(
-                          const MarkerId("myLocationMarker"),
-                          LatLng(
-                            getMyCurrentLocationController
-                                .myLocationLatitudeDo.value,
-                            getMyCurrentLocationController
-                                .myLocationLongitudeDo.value,
-                          ),
-                          mapPageController.mapPageRouteStartAddress2.value,
-                          BitmapDescriptor.fromBytes(mapPageController
-                              .customMarkerIconController.mayLocationIcon!),
-                        );
+
+                        mapPageController.addMarkerIcon(
+                            markerID: "myLocationMarker",
+                            location: LatLng(
+                                getMyCurrentLocationController
+                                    .myLocationLatitudeDo.value,
+                                getMyCurrentLocationController
+                                    .myLocationLongitudeDo.value));
                         Get.back();
                         Get.back();
                       },
@@ -119,34 +111,37 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                           children: [
                             SizedBox(
                               //height: 95.h,
-                              child: mapPageController
-                                      .myActivesRoutes!.isNotEmpty
-                                  ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: mapPageController
-                                          .myActivesRoutes!.length,
-                                      itemBuilder: (context, i) {
-                                        return AddRouteIntoPostWidget(
-                                          startAdress: mapPageController
-                                              .myActivesRoutes![i]
-                                              .startingCity!,
-                                          endAdress: mapPageController
-                                              .myActivesRoutes![i].endingCity!,
-                                          userName: mapPageController
-                                              .myNameAndSurname.value,
-                                          endDateTime: mapPageController
-                                              .myActivesRoutes![i].arrivalDate!,
-                                          id: mapPageController
-                                              .myActivesRoutes![i].id!,
-                                          startDateTime: mapPageController
-                                              .myActivesRoutes![i]
-                                              .departureDate!,
-                                        );
-                                      },
-                                    )
-                                  : UiHelper.notFoundAnimationWidget(
-                                      context, "Şu an aktif rotan yok!"),
+                              child:
+                                  mapPageController.myActivesRoutes!.isNotEmpty
+                                      ? ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: mapPageController
+                                              .myActivesRoutes!.length,
+                                          itemBuilder: (context, i) {
+                                            return AddRouteIntoPostWidget(
+                                              startAdress: mapPageController
+                                                  .myActivesRoutes![i]
+                                                  .startingCity,
+                                              endAdress: mapPageController
+                                                  .myActivesRoutes![i]
+                                                  .endingCity,
+                                              userName:
+                                                  "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
+                                              endDateTime: mapPageController
+                                                  .myActivesRoutes![i]
+                                                  .arrivalDate,
+                                              id: mapPageController
+                                                  .myActivesRoutes![i].id,
+                                              startDateTime: mapPageController
+                                                  .myActivesRoutes![i]
+                                                  .departureDate,
+                                            );
+                                          },
+                                        )
+                                      : UiHelper.notFoundAnimationWidget(
+                                          context, "Şu an aktif rotan yok!"),
                             ),
                           ],
                         ),
@@ -176,7 +171,8 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                               child: mapPageController
                                       .mynotStartedRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .mynotStartedRoutes!.length,
@@ -184,20 +180,20 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                                         return AddRouteIntoPostWidget(
                                           startAdress: mapPageController
                                               .mynotStartedRoutes![i]
-                                              .startingCity!,
+                                              .startingCity,
                                           endAdress: mapPageController
                                               .mynotStartedRoutes![i]
-                                              .endingCity!,
-                                          userName: mapPageController
-                                              .myNameAndSurname.value,
+                                              .endingCity,
+                                          userName:
+                                              ("${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}"),
                                           endDateTime: mapPageController
                                               .mynotStartedRoutes![i]
-                                              .arrivalDate!,
+                                              .arrivalDate,
                                           id: mapPageController
-                                              .mynotStartedRoutes![i].id!,
+                                              .mynotStartedRoutes![i].id,
                                           startDateTime: mapPageController
                                               .mynotStartedRoutes![i]
-                                              .departureDate!,
+                                              .departureDate,
                                         );
                                       },
                                     )
@@ -231,24 +227,25 @@ class CreatePostAddRoutePageView extends StatelessWidget {
                               //height: 595.h,
                               child: mapPageController.myPastsRoutes!.isNotEmpty
                                   ? ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: mapPageController
                                           .myPastsRoutes!.length,
                                       itemBuilder: (context, i) {
                                         return AddRouteIntoPostWidget(
                                           startAdress: mapPageController
-                                              .myPastsRoutes![i].startingCity!,
+                                              .myPastsRoutes![i].startingCity,
                                           endAdress: mapPageController
-                                              .myPastsRoutes![i].endingCity!,
-                                          userName: mapPageController
-                                              .myNameAndSurname.value,
+                                              .myPastsRoutes![i].endingCity,
+                                          userName:
+                                              ("${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}"),
                                           endDateTime: mapPageController
-                                              .myPastsRoutes![i].arrivalDate!,
+                                              .myPastsRoutes![i].arrivalDate,
                                           id: mapPageController
-                                              .myPastsRoutes![i].id!,
+                                              .myPastsRoutes![i].id,
                                           startDateTime: mapPageController
-                                              .myPastsRoutes![i].departureDate!,
+                                              .myPastsRoutes![i].departureDate,
                                         );
                                       },
                                     )

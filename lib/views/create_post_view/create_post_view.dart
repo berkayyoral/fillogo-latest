@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/home_controller/home_controller.dart';
@@ -15,6 +14,7 @@ import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/constants/navigation_constants.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/widgets/appbar_genel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +27,6 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 // import 'package:fillogo/export.dart';
-import 'package:http_parser/http_parser.dart' as parser;
 import 'package:fillogo/models/post/create/post_create_response.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/add_property_create_post.dart';
@@ -36,7 +35,6 @@ import 'package:fillogo/views/create_post_view/components/create_post_page_contr
 import 'package:fillogo/views/create_post_view/components/discription_textfield_widget.dart';
 import 'package:fillogo/views/create_post_view/components/emotion_and_tag_string_create_post_witget.dart';
 import 'package:fillogo/views/create_post_view/components/route_view_widget_new_post.dart';
-import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:fillogo/widgets/video_player_widget.dart';
@@ -581,15 +579,16 @@ class CreatePostPageView extends StatelessWidget {
                 text: 'Tamam',
                 textColor: AppConstants().ltWhite,
                 onpressed: () async {
-                  MapPageController mapPageController =
-                      Get.find<MapPageController>();
+                  // MapPageController mapPageController =
+                  //     Get.find<MapPageController>();
+                  MapPageMController mapPageController = Get.find();
                   GetMyCurrentLocationController
                       getMyCurrentLocationController = Get.find();
                   createPostPageController.clearPostCreateInfoController();
                   Get.back();
                   Get.back();
                   GoogleMapController googleMapController =
-                      await mapPageController.mapCotroller3.future;
+                      mapPageController.mapController;
                   googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(

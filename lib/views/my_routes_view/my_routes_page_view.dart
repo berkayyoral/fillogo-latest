@@ -7,29 +7,28 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
-import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-
 import '../../controllers/map/get_current_location_and_listen.dart';
-import '../map_page_view/components/map_page_controller.dart';
 import '../route_details_page_view/components/selected_route_controller.dart';
 
 class MyRoutesPageView extends StatelessWidget {
   MyRoutesPageView({super.key});
 
-  CreatePostPageController createPostPageController = Get.find();
-  BottomNavigationBarController bottomNavigationBarController =
+  final CreatePostPageController createPostPageController = Get.find();
+  final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
-  MapPageController mapPageController = Get.find<MapPageController>();
-  GetMyCurrentLocationController getMyCurrentLocationController =
+  // MapPageController mapPageController = Get.find<MapPageController>();
+  final MapPageMController mapPageController = Get.find();
+  final GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
-  DateFormat inputFormat = DateFormat('dd.MM.yyyy');
+  final DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 
-  BerkayController berkayController = Get.find<BerkayController>();
-  SelectedRouteController selectedRouteController =
+  final BerkayController berkayController = Get.find<BerkayController>();
+  final SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
 
   @override
@@ -62,11 +61,11 @@ class MyRoutesPageView extends StatelessWidget {
           ),
         ),
       ),
-      body: GetBuilder<MapPageController>(
+      body: GetBuilder<MapPageMController>(
         id: "mapPageController",
         initState: (_) async {
-          //mapPageController.getMyRoutesServicesRequestRefreshable();
-          mapPageController.getMyRoutesServicesRequestRefreshable();
+          // mapPageController.getMyRoutesServicesRequestRefreshable();
+          await mapPageController.getMyRoutes();
         },
         builder: (_) {
           return SizedBox(
@@ -78,50 +77,11 @@ class MyRoutesPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // CustomButtonDesign(
-                    //   text: 'Yeni Rota Oluştur',
-                    //   textColor: AppConstants().ltWhite,
-                    //   onpressed: () {
-                    //     print(
-                    //         "asd456a4 ${mapPageController.myActivesRoutes!.isEmpty}");
-                    //     if (!mapPageController.myActivesRoutes!.isEmpty) {
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         SnackBar(
-                    //           content: Text(
-                    //               'Lütfen önce rotanızı tamamlayınız veya aktif rotadan kaldırınız.'),
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       bottomNavigationBarController.selectedIndex.value = 1;
-                    //       mapPageController.selectedDispley.value = 0;
-                    //       mapPageController.iWantTrackerMyLocation.value = 2;
-                    //       mapPageController.changeCalculateLevel(2);
-                    //       mapPageController
-                    //           .addMarkerFunctionForMapPageWithoutOnTap2(
-                    //         const MarkerId("myLocationMarker"),
-                    //         LatLng(
-                    //           getMyCurrentLocationController
-                    //               .myLocationLatitudeDo.value,
-                    //           getMyCurrentLocationController
-                    //               .myLocationLongitudeDo.value,
-                    //         ),
-                    //         mapPageController.mapPageRouteStartAddress2.value,
-                    //         BitmapDescriptor.fromBytes(mapPageController
-                    //             .customMarkerIconController.mayLocationIcon!),
-                    //       );
-                    //       Get.back();
-                    //     }
-                    //   },
-                    //   iconPath: '',
-                    //   color: AppConstants().ltMainRed,
-                    //   height: 50.h,
-                    //   width: 341.w,
-                    // ),
                     SizedBox(
                       height: 20.h,
                     ),
                     Visibility(
-                      visible: mapPageController.myActivesRoutes!.isNotEmpty,
+                      visible: mapPageController.myActivesRoutes.isNotEmpty,
                       child: Text(
                         'Aktif Rotam',
                         style: TextStyle(
@@ -178,7 +138,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                     mapPageController
                                                                         .myActivesRoutes![
                                                                             i]
-                                                                        .id!),
+                                                                        .id),
                                                             {
                                                               "Content-type":
                                                                   "application/json",
@@ -194,30 +154,14 @@ class MyRoutesPageView extends StatelessWidget {
                                                             if (response
                                                                     .success ==
                                                                 1) {
-                                                              //  mapPageController
-                                                              //    .updateMyRoutesView();
                                                               mapPageController
-                                                                  .selectedDispley(
-                                                                      1);
+                                                                  .markers
+                                                                  .clear();
 
-                                                              mapPageController
-                                                                  .markers2
-                                                                  .clear();
-                                                              mapPageController
-                                                                  .polylineCoordinates
-                                                                  .clear();
-                                                              mapPageController
-                                                                  .polylineCoordinates2
-                                                                  .clear();
-                                                              mapPageController
-                                                                  .polylineCoordinatesListForB
-                                                                  .clear();
                                                               mapPageController
                                                                   .polylines
                                                                   .clear();
-                                                              mapPageController
-                                                                  .polylines2
-                                                                  .clear();
+
                                                               CameraPosition(
                                                                 bearing: 90,
                                                                 tilt: 45,
@@ -232,8 +176,8 @@ class MyRoutesPageView extends StatelessWidget {
                                                                 zoom: 14,
                                                               );
 
-                                                              mapPageController
-                                                                  .getMyRoutesServicesRequestRefreshable();
+                                                              await mapPageController
+                                                                  .getMyRoutes();
                                                               Get.back(
                                                                   closeOverlays:
                                                                       true);
@@ -297,18 +241,17 @@ class MyRoutesPageView extends StatelessWidget {
                                               selectedRouteController
                                                       .selectedRouteId.value =
                                                   mapPageController
-                                                      .myActivesRoutes![i].id!;
+                                                      .myActivesRoutes![i].id;
                                               Get.toNamed(NavigationConstants
                                                   .routeDetails);
                                             },
                                             startPoint: mapPageController
                                                 .myActivesRoutes![i]
-                                                .startingCity!,
+                                                .startingCity,
                                             endPoint: mapPageController
-                                                .myActivesRoutes![i]
-                                                .endingCity!,
-                                            userName: mapPageController
-                                                .myNameAndSurname.value,
+                                                .myActivesRoutes![i].endingCity,
+                                            userName:
+                                                "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
                                             endDate: mapPageController
                                                 .myActivesRoutes![i].arrivalDate
                                                 .toString()
@@ -390,7 +333,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                     mapPageController
                                                                         .mynotStartedRoutes![
                                                                             i]
-                                                                        .id!),
+                                                                        .id),
                                                             {
                                                               "Content-type":
                                                                   "application/json",
@@ -407,7 +350,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                     .success ==
                                                                 1) {
                                                               mapPageController
-                                                                  .getMyRoutesServicesRequestRefreshable();
+                                                                  .getMyRoutes();
                                                               Get.back(
                                                                   closeOverlays:
                                                                       true);
@@ -465,18 +408,18 @@ class MyRoutesPageView extends StatelessWidget {
                                                       .selectedRouteId.value =
                                                   mapPageController
                                                       .mynotStartedRoutes![i]
-                                                      .id!;
+                                                      .id;
                                               Get.toNamed(NavigationConstants
                                                   .routeDetails);
                                             },
                                             startPoint: mapPageController
                                                 .mynotStartedRoutes![i]
-                                                .startingCity!,
+                                                .startingCity,
                                             endPoint: mapPageController
                                                 .mynotStartedRoutes![i]
-                                                .endingCity!,
-                                            userName: mapPageController
-                                                .myNameAndSurname.value,
+                                                .endingCity,
+                                            userName:
+                                                "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
                                             endDate: inputFormat.format(
                                                 DateTime.parse(mapPageController
                                                     .mynotStartedRoutes![i]
@@ -557,7 +500,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                     mapPageController
                                                                         .myPastsRoutes![
                                                                             i]
-                                                                        .id!),
+                                                                        .id),
                                                             {
                                                               "Content-type":
                                                                   "application/json",
@@ -574,7 +517,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                     .success ==
                                                                 1) {
                                                               mapPageController
-                                                                  .getMyRoutesServicesRequestRefreshable();
+                                                                  .getMyRoutes();
                                                               Get.back(
                                                                   closeOverlays:
                                                                       true);
@@ -631,17 +574,16 @@ class MyRoutesPageView extends StatelessWidget {
                                               selectedRouteController
                                                       .selectedRouteId.value =
                                                   mapPageController
-                                                      .myPastsRoutes![i].id!;
+                                                      .myPastsRoutes![i].id;
                                               Get.toNamed(NavigationConstants
                                                   .routeDetails);
                                             },
                                             startPoint: mapPageController
-                                                .myPastsRoutes![i]
-                                                .startingCity!,
+                                                .myPastsRoutes![i].startingCity,
                                             endPoint: mapPageController
-                                                .myPastsRoutes![i].endingCity!,
-                                            userName: mapPageController
-                                                .myNameAndSurname.value,
+                                                .myPastsRoutes![i].endingCity,
+                                            userName:
+                                                "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
                                             endDate: inputFormat.format(
                                                 DateTime.parse(mapPageController
                                                     .myPastsRoutes![i]
@@ -690,14 +632,14 @@ class RouteDetailsIntoRoutesWidget extends StatelessWidget {
       required this.endDate,
       required this.onTap});
 
-  String startPoint;
-  String endPoint;
-  String userName;
-  String startDate;
-  String endDate;
+  final String startPoint;
+  final String endPoint;
+  final String userName;
+  final String startDate;
+  final String endDate;
 
-  CreatePostPageController createPostPageController = Get.find();
-  StartEndAdressController startEndAdressController =
+  final CreatePostPageController createPostPageController = Get.find();
+  final StartEndAdressController startEndAdressController =
       Get.find<StartEndAdressController>();
 
   final void Function()? onTap;

@@ -9,6 +9,7 @@ import 'package:fillogo/models/post/delete_post.dart';
 import 'package:fillogo/models/user/profile/user_profile.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/connection_view/components/connection_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/postflow/components/only_route_widget.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
@@ -21,7 +22,6 @@ import 'package:fillogo/widgets/followers_count_row_widget.dart';
 import 'package:fillogo/widgets/profile_header_widget.dart';
 
 import '../../controllers/map/get_current_location_and_listen.dart';
-import '../map_page_view/components/map_page_controller.dart';
 import 'components/edit_banner_photo.dart';
 import 'components/edit_profile_photo_widget.dart';
 
@@ -40,8 +40,8 @@ class _MyProfilViewState extends State<MyProfilView> {
   final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
-  MapPageController mapPageController = Get.find<MapPageController>();
-
+  // MapPageController mapPageController = Get.find<MapPageController>();
+  MapPageMController mapPageController = Get.find();
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
@@ -65,35 +65,28 @@ class _MyProfilViewState extends State<MyProfilView> {
                     'Authorization':
                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                   }).then((value) {
-                    if (value != null) {
-                      UserGetMyProfileResponse response =
-                          UserGetMyProfileResponse.fromJson(json.decode(value));
-
-                      LocaleManager.instance.setString(
-                          PreferencesKeys.carType,
-                          response.data!.carInformations!.cartypetousercartypes!
-                              .carType!);
-                      return response;
-                    }
+                    UserGetMyProfileResponse response =
+                        UserGetMyProfileResponse.fromJson(json.decode(value!));
+                    LocaleManager.instance.setString(
+                        PreferencesKeys.carType,
+                        response.data!.carInformations!.cartypetousercartypes!
+                            .carType!);
+                    return response;
                   }),
                   builder: (context, snapshot) {
-                    print("DEBUGMODHATA -> ${snapshot.data}");
                     if (snapshot.data != null) {
                       LocaleManager.instance.setString(
                           PreferencesKeys.carType,
                           snapshot.data!.data!.carInformations!
                               .cartypetousercartypes!.carType!);
                     }
-
-                    print(
-                        "MYPROFİLEVEHİCLETYPE -> ${LocaleManager.instance.getString(PreferencesKeys.carType)}");
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator.adaptive();
                     } else {
-                      mapPageController.myNameAndSurname.value =
-                          "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}";
-                      mapPageController.myUserId.value =
-                          snapshot.data!.data!.users!.id!;
+                      // mapPageController.myNameAndSurname.value =
+                      //     "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}";
+                      // mapPageController.myUserId.value =
+                      //     snapshot.data!.data!.users!.id!;
                       return Scaffold(
                         key: myProfilePageDrawerController
                             .myProfilePageScaffoldKey,
@@ -407,26 +400,13 @@ class _MyProfilViewState extends State<MyProfilView> {
                                   onpressed: () {
                                     bottomNavigationBarController
                                         .selectedIndex.value = 1;
-                                    mapPageController.selectedDispley.value = 0;
-                                    mapPageController
-                                        .iWantTrackerMyLocation.value = 2;
-                                    mapPageController.changeCalculateLevel(2);
-                                    mapPageController
-                                        .addMarkerFunctionForMapPageWithoutOnTap2(
-                                      const MarkerId("myLocationMarker"),
-                                      LatLng(
-                                        getMyCurrentLocationController
-                                            .myLocationLatitudeDo.value,
-                                        getMyCurrentLocationController
-                                            .myLocationLongitudeDo.value,
-                                      ),
-                                      mapPageController
-                                          .mapPageRouteStartAddress2.value,
-                                      BitmapDescriptor.fromBytes(
-                                          mapPageController
-                                              .customMarkerIconController
-                                              .mayLocationIcon!),
-                                    );
+                                    mapPageController.addMarkerIcon(
+                                        markerID: "myLocationMarker",
+                                        location: LatLng(
+                                            getMyCurrentLocationController
+                                                .myLocationLatitudeDo.value,
+                                            getMyCurrentLocationController
+                                                .myLocationLongitudeDo.value));
                                   },
                                   iconPath: 'assets/icons/plus-add-icon.svg',
                                 ),
@@ -492,37 +472,20 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                       UiHelper.showSuccessSnackBar(
                                                           context,
                                                           "Başarıyla Gönderiniz Silindi");
-                                                      mapPageController
-                                                          .selectedDispley
-                                                          .value = 0;
-                                                      mapPageController
-                                                          .selectedDispley(0);
 
-                                                      mapPageController.markers2
+                                                      mapPageController.markers
                                                           .clear();
-                                                      mapPageController
-                                                          .polylineCoordinates
-                                                          .clear();
-                                                      mapPageController
-                                                          .polylineCoordinates2
-                                                          .clear();
-                                                      mapPageController
-                                                          .polylineCoordinatesListForB
-                                                          .clear();
+
                                                       mapPageController
                                                           .polylines
                                                           .clear();
-                                                      mapPageController
-                                                          .polylines2
-                                                          .clear();
+
                                                       setState(() {});
                                                     } else {
                                                       Get.back();
                                                       UiHelper.showWarningSnackBar(
                                                           context,
                                                           "Bir hata ile karşılaşıldı Lütfen Tekrar Deneyiniz.");
-                                                      print(response.success);
-                                                      print(response.message);
                                                     }
                                                   });
                                                 },

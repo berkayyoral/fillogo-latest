@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/create_post_view/components/mfuController.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 
 class RouteViewWidgetNewPostPage extends StatelessWidget {
   RouteViewWidgetNewPostPage({
@@ -21,11 +23,14 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
   final String routeEndDate;
   final bool closeButtonVisible;
 
-  CreatePostPageController createPostPageController = Get.put(CreatePostPageController());
+  CreatePostPageController createPostPageController =
+      Get.put(CreatePostPageController());
+  MfuController mfuController = Get.find();
 
+  CreateRouteController createRouteController = Get.find();
   @override
   Widget build(BuildContext context) {
-    log("kankaaaa ${createPostPageController.routeContent}");
+    log("CREATEPOST ROUTE ${createPostPageController.routeContent}");
     return Container(
       height: 70.h,
       decoration: BoxDecoration(
@@ -78,7 +83,7 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
                         right: 10.w,
                       ),
                       child: Text(
-                        routeContent,
+                        mfuController.sehirler.value,
                         style: TextStyle(
                           fontFamily: 'Sfmedium',
                           fontSize: 16.sp,

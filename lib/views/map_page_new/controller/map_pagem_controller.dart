@@ -26,7 +26,9 @@ class MapPageMController extends GetxController implements MapPageService {
   RxBool isRouteAvability = true.obs;
 
   AllRoutes myAllRoutes = AllRoutes();
-  List<MyRoutesDetails>? myActivesRoutes;
+  List<MyRoutesDetails> myActivesRoutes = [];
+  List<MyRoutesDetails> myPastsRoutes = [];
+  List<MyRoutesDetails> mynotStartedRoutes = [];
 
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   GetMyCurrentLocationController currentLocationController =
@@ -61,11 +63,7 @@ class MapPageMController extends GetxController implements MapPageService {
         markerID: "myLocationMarker",
         location: LatLng(currentLocationController.myLocationLatitudeDo.value,
             currentLocationController.myLocationLongitudeDo.value));
-    getMyRoutes().then((value) {
-      if (value!.data.isNotEmpty) {
-        print("GETMYROUTES active -> ${myActivesRoutes}");
-      }
-    });
+    getMyRoutes().then((value) {});
     super.onInit();
   }
 
@@ -85,8 +83,17 @@ class MapPageMController extends GetxController implements MapPageService {
             GetMyRouteResponseModel.fromJson(json.decode(value!));
         myAllRoutes = myRouteResponseModel.data[0].allRoutes;
         print("GETMYROUTES -> ${myAllRoutes.activeRoutes!.length}");
+        if (myRouteResponseModel
+            .data[0].allRoutes.notStartedRoutes!.isNotEmpty) {
+          mynotStartedRoutes =
+              myRouteResponseModel.data[0].allRoutes.notStartedRoutes!;
+        }
+        if (myRouteResponseModel.data[0].allRoutes.pastRoutes!.isNotEmpty) {
+          myPastsRoutes = myRouteResponseModel.data[0].allRoutes.pastRoutes!;
+        }
         if (myRouteResponseModel.data[0].allRoutes.activeRoutes!.isNotEmpty) {
-          myActivesRoutes = myRouteResponseModel.data[0].allRoutes.activeRoutes;
+          myActivesRoutes =
+              myRouteResponseModel.data[0].allRoutes.activeRoutes!;
           print("GETMYROUTES -> ${myActivesRoutes!.first.endingCity}");
           isThereActiveRoute.value = myActivesRoutes!.isNotEmpty ? true : false;
           if (isThereActiveRoute.value) {
@@ -126,6 +133,7 @@ class MapPageMController extends GetxController implements MapPageService {
     } catch (e) {
       print("GETMYROUTES error -> $e");
     }
+    return null;
   }
 
   addMarkerIcon({

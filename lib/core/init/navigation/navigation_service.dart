@@ -114,12 +114,12 @@ class NavigationService {
       name: NavigationConstants.postflow,
       page: () => PostFlowView(),
     ),
-    GetPage(
-      transition: Transition.noTransition,
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.mapPage,
-      page: () => MapPageView(),
-    ),
+    // GetPage(
+    //   transition: Transition.noTransition,
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.mapPage,
+    //   page: () => MapPageView(),
+    // ),
     GetPage(
       transition: Transition.noTransition,
       transitionDuration: const Duration(milliseconds: 0),

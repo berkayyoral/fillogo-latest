@@ -106,7 +106,7 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
   String? currentUserName =
       LocaleManager.instance.getString(PreferencesKeys.currentUserUserName);
 
-  MapPageController mapPageController = Get.find<MapPageController>();
+  // MapPageController mapPageController = Get.find<MapPageController>();
 
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
@@ -962,7 +962,7 @@ class EmotionAndTagStringCreate extends StatelessWidget {
   final bool haveTag;
   final bool haveEmotion;
 
-  MapPageController mapPageController = Get.find<MapPageController>();
+  // MapPageController mapPageController = Get.find<MapPageController>();
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
   @override
@@ -976,7 +976,10 @@ class EmotionAndTagStringCreate extends StatelessWidget {
           GestureDetector(
             onTap: () {
               log(userId.toString());
-              if (mapPageController.myUserId.value != userId) {
+
+              if (LocaleManager.instance
+                      .getInt(PreferencesKeys.currentUserId) !=
+                  userId) {
                 Get.toNamed(NavigationConstants.otherprofiles,
                     arguments: userId);
               } else {

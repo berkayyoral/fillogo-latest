@@ -59,6 +59,8 @@ void main() async {
               PreferencesKeys.currentUserId, response.data![0].user!.id!);
           LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,
               response.data![0].user!.username!);
+          LocaleManager.instance.setInt(
+              PreferencesKeys.currentUserId, response.data![0].user!.id!);
           LocaleManager.instance.setString(
               PreferencesKeys.currentUserProfilPhoto,
               response.data![0].user!.profilePicture ??

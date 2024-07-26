@@ -4,6 +4,7 @@ import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/models/user/delete_account.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/permission.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -15,8 +16,9 @@ import 'components/settings_listTile.dart';
 class SettingsView extends StatelessWidget {
   SettingsView({Key? key}) : super(key: key);
 
-  MapPageController mapPageController = Get.find<MapPageController>();
-  BottomNavigationBarController bottomIndex = Get.find();
+  // MapPageController mapPageController = Get.find<MapPageController>();
+  final MapPageMController mapPageController = Get.find();
+  final BottomNavigationBarController bottomIndex = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -140,24 +142,13 @@ class SettingsView extends StatelessWidget {
                                       Get.offAllNamed(
                                           NavigationConstants.welcomelogin);
 
-                                      mapPageController.markers2.clear();
-                                      mapPageController.polylineCoordinates
-                                          .clear();
-                                      mapPageController.polylineCoordinates2
-                                          .clear();
-                                      mapPageController
-                                          .polylineCoordinatesListForB
-                                          .clear();
+                                      mapPageController.markers.clear();
                                       mapPageController.polylines.clear();
-                                      mapPageController.polylines2.clear();
-                                      mapPageController.selectedDispley(0);
-                                      mapPageController
-                                          .changeSelectedDispley(0);
 
                                       bottomIndex.selectedIndex.value = 0;
 
-                                      mapPageController
-                                          .mapPageRouteControllerClear();
+                                      mapPageController.myActivesRoutes!
+                                          .clear();
 
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(

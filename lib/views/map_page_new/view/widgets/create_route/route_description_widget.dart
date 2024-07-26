@@ -5,12 +5,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class RouteDescriptionWidget extends StatelessWidget {
+class RouteDescriptionWidget extends StatefulWidget {
   const RouteDescriptionWidget({super.key});
 
   @override
+  State<RouteDescriptionWidget> createState() => _RouteDescriptionWidgetState();
+}
+
+class _RouteDescriptionWidgetState extends State<RouteDescriptionWidget>
+    with WidgetsBindingObserver {
+  final CreateRouteController createRouteController =
+      Get.find<CreateRouteController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    final newValue = bottomInset > 0.0;
+    if (newValue != createRouteController.isKeyboardVisible.value) {
+      setState(() {
+        createRouteController.isKeyboardVisible.value = newValue;
+      });
+      print("Keyboard is " +
+          (createRouteController.isKeyboardVisible.value
+              ? "visible"
+              : "hidden"));
+
+      if (createRouteController.isKeyboardVisible.value) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          createRouteController.scrollController.animateTo(
+            createRouteController.scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final createRouteController = Get.find<CreateRouteController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

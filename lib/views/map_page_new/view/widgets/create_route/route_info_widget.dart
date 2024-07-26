@@ -1,24 +1,9 @@
-import 'dart:convert';
-
-import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
-import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
-import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
-import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/models/routes_models/activate_route_model.dart';
-import 'package:fillogo/models/routes_models/create_route_post_models.dart';
-import 'package:fillogo/models/routes_models/delete_route_model.dart';
-import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
-import 'package:fillogo/services/general_sevices_template/general_services.dart';
-import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/date_picker_widget.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_description_widget.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/vehicle_type_widget.dart';
-import 'package:fillogo/widgets/custom_button_design.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateRouteInfoWidget extends StatelessWidget {
   const CreateRouteInfoWidget({super.key});
@@ -26,7 +11,6 @@ class CreateRouteInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CreateRouteController createRouteController = Get.find();
-    final MapPageMController mapPageController = Get.find();
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
@@ -141,8 +125,11 @@ class CreateRouteInfoWidget extends StatelessWidget {
             () => createRouteController.isOpenRouteDetailEntrySection.value
                 ? SingleChildScrollView(
                     child: Container(
-                      height: 450.h,
+                      height: createRouteController.isKeyboardVisible.value
+                          ? 300.h
+                          : 450.h,
                       child: ListView(
+                        controller: createRouteController.scrollController,
                         children: [
                           const RouteDateTimePicker(isDeparture: true),
                           const RouteDateTimePicker(isDeparture: false),

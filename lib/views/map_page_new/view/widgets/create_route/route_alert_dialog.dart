@@ -301,8 +301,7 @@ class RouteAlertDialog {
                                                 createPostPageController
                                                         .routeId.value =
                                                     response.data![0].id!;
-                                                // createRouteController
-                                                //     .mapPageRouteControllerClear();
+
                                                 Get.back();
                                                 showDialog(
                                                   context: context,
@@ -521,6 +520,8 @@ class RouteAlertDialog {
                   createRouteController.isOpenRouteDetailEntrySection.value =
                       false;
                   mapPageMController.getMyLocationInMap();
+
+                  createRouteController.routeControllerClear();
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,
@@ -558,6 +559,7 @@ class RouteAlertDialog {
                       ),
                     ),
                   );
+                  createRouteController.routeControllerClear();
                 },
                 iconPath: '',
                 color: AppConstants().ltDarkGrey,

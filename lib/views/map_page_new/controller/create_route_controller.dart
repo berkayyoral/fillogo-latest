@@ -14,8 +14,10 @@ import 'package:fillogo/views/create_post_view/components/create_post_page_contr
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/service/polyline_service.dart';
+import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_alert_dialog.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -31,6 +33,9 @@ class CreateRouteController extends GetxController implements PolylineService {
     setDate();
     super.onInit();
   }
+
+  RxBool isKeyboardVisible = false.obs;
+  ScrollController scrollController = ScrollController();
 
   MapPageMController mapPageMController = Get.find();
   GetMyCurrentLocationController currentLocationController =
@@ -66,6 +71,7 @@ class CreateRouteController extends GetxController implements PolylineService {
   Rx<DateTime?> pickedDate = DateTime.now().obs;
 
   getRouteInfo({bool isStartLocation = true}) async {
+    MfuController mfuController = Get.find();
     GeoData data = await Geocoder2.getDataFromCoordinates(
         latitude: isStartLocation
             ? startRouteLocation.value.latitude
@@ -84,6 +90,9 @@ class CreateRouteController extends GetxController implements PolylineService {
       finishRouteAdress.value = data.address;
       finishRouteCity = data.state;
 
+      mfuController.sehirler.value = "$startRouteCity -> $finishRouteCity";
+      print("CREATEROUTE START -> ${startRouteCity} finif -> $finishRouteCity");
+      print("CREATEROUTE ${mfuController.sehirler.value}");
       await getRoute(
           startRouteLocation.value.latitude,
           startRouteLocation.value.longitude,
@@ -393,15 +402,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                                             arrivalController.value.text);
                                         String cikisdate = tarihiAl(
                                             departureController.value.text);
-                                        MfuController mfuController =
-                                            Get.put(MfuController());
-
-                                        mfuController.sehirler.value =
-                                            "$startRouteCity -> $finishRouteCity";
-                                        mfuController.baslangictarihi.value =
-                                            cikisdate;
-                                        mfuController.bitistarihi.value =
-                                            varisdate;
 
                                         createPostPageController.update();
 
@@ -416,21 +416,21 @@ class CreateRouteController extends GetxController implements PolylineService {
                                         await showDialog(
                                             context: context,
                                             builder: (BuildContext context2) {
-                                              return showShareRouteAllertDialog(
-                                                  context,
-                                                  "$startRouteCity -> $finishRouteCity",
-                                                  (LocaleManager.instance
-                                                      .getString(PreferencesKeys
-                                                          .currentUserUserName)),
-                                                  dateTimeFormatDeparture.value
-                                                      .toString()
-                                                      .substring(0, 11),
-                                                  dateTimeFormatArrival.value
-                                                      .toString()
-                                                      .substring(0, 11),
-                                                  0,
-                                                  mapPageController:
-                                                      mapPageMController);
+                                              return RouteAlertDialog()
+                                                  .showShareRouteAllertDialog(
+                                                context,
+                                                "$startRouteCity -> $finishRouteCity",
+                                                (LocaleManager.instance
+                                                    .getString(PreferencesKeys
+                                                        .currentUserUserName)),
+                                                dateTimeFormatDeparture.value
+                                                    .toString()
+                                                    .substring(0, 11),
+                                                dateTimeFormatArrival.value
+                                                    .toString()
+                                                    .substring(0, 11),
+                                                0,
+                                              );
                                             });
 
                                         UiHelper.showLoadingAnimation(context);
@@ -507,19 +507,20 @@ class CreateRouteController extends GetxController implements PolylineService {
                                     await showDialog(
                                         context: context,
                                         builder: (BuildContext context2) {
-                                          return showShareRouteAllertDialog(
-                                              context,
-                                              "$startRouteCity -> $finishRouteCity",
-                                              (LocaleManager.instance.getString(
-                                                  PreferencesKeys
-                                                      .currentUserUserName)),
-                                              departureController.value.text
-                                                  .toString()
-                                                  .substring(0, 11),
-                                              arrivalController.value.text
-                                                  .toString()
-                                                  .substring(0, 11),
-                                              0);
+                                          return RouteAlertDialog()
+                                              .showShareRouteAllertDialog(
+                                                  context,
+                                                  "$startRouteCity -> $finishRouteCity",
+                                                  (LocaleManager.instance
+                                                      .getString(PreferencesKeys
+                                                          .currentUserUserName)),
+                                                  departureController.value.text
+                                                      .toString()
+                                                      .substring(0, 11),
+                                                  arrivalController.value.text
+                                                      .toString()
+                                                      .substring(0, 11),
+                                                  0);
                                         });
 
                                     await mapPageMController.getMyRoutes(
@@ -542,8 +543,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                 createPostPageController.routeId.value = response.data![0].id!;
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      showSelectDeleteOrShareDialog(
+                  builder: (BuildContext context) => RouteAlertDialog()
+                      .showSelectDeleteOrShareDialog(
                           context, response.data![0].id!),
                 );
               } else {
@@ -561,553 +562,553 @@ class CreateRouteController extends GetxController implements PolylineService {
     }
   }
 
-  Widget showShareRouteAllertDialog(BuildContext context, String? routeContent,
-      String? userName, String? startDate, String? endDate, int routeId,
-      {MapPageMController? mapPageController}) {
-    BottomNavigationBarController bottomNavigationBarController =
-        Get.find<BottomNavigationBarController>();
-    CreatePostPageController createPostPageController =
-        Get.put(CreatePostPageController());
-    GetMyCurrentLocationController getMyCurrentLocationController =
-        Get.find<GetMyCurrentLocationController>();
-    return AlertDialog(
-      title: Text(
-        'Tebrikler',
-        style: TextStyle(
-          fontFamily: 'Sfsemibold',
-          fontSize: 16.sp,
-          color: AppConstants().ltLogoGrey,
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Column(
-            children: [
-              Text(
-                "Rotanız başarıyla oluşturuldu.",
-                style: TextStyle(
-                  fontFamily: 'Sfregular',
-                  fontSize: 16.sp,
-                  color: AppConstants().ltDarkGrey,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          Text(
-            "Yeni rotanızı duvarınızda yayınlamak ve arkadaşlarınız ile paylaşmak ister misiniz?",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-          10.h.spaceY,
-          Text(
-            "Rotayı paylaşmak istemezseniz arkadaşlarınız ve diğer kullanıcılar rota araması yaparak rotanızı görüntüleyebilecek.",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: CustomButtonDesign(
-                text: 'Rotayı Paylaş',
-                textColor: AppConstants().ltWhite,
-                onpressed: () {
-                  print("PAYLAŞCAMMMMMM");
-                  createPostPageController.haveRoute.value = 1;
-                  createPostPageController.userName.value = userName!;
-                  createPostPageController.routeContent.value = routeContent!;
-                  createPostPageController.routeStartDate.value = startDate!;
-                  createPostPageController.routeEndDate.value = endDate!;
+  // Widget showShareRouteAllertDialog(BuildContext context, String? routeContent,
+  //     String? userName, String? startDate, String? endDate, int routeId,
+  //     {MapPageMController? mapPageController}) {
+  //   BottomNavigationBarController bottomNavigationBarController =
+  //       Get.find<BottomNavigationBarController>();
+  //   CreatePostPageController createPostPageController =
+  //       Get.put(CreatePostPageController());
+  //   GetMyCurrentLocationController getMyCurrentLocationController =
+  //       Get.find<GetMyCurrentLocationController>();
+  //   return AlertDialog(
+  //     title: Text(
+  //       'Tebrikler',
+  //       style: TextStyle(
+  //         fontFamily: 'Sfsemibold',
+  //         fontSize: 16.sp,
+  //         color: AppConstants().ltLogoGrey,
+  //       ),
+  //     ),
+  //     content: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Column(
+  //           children: [
+  //             Text(
+  //               "Rotanız başarıyla oluşturuldu.",
+  //               style: TextStyle(
+  //                 fontFamily: 'Sfregular',
+  //                 fontSize: 16.sp,
+  //                 color: AppConstants().ltDarkGrey,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(
+  //           height: 20.h,
+  //         ),
+  //         Text(
+  //           "Yeni rotanızı duvarınızda yayınlamak ve arkadaşlarınız ile paylaşmak ister misiniz?",
+  //           style: TextStyle(
+  //             fontFamily: 'Sfregular',
+  //             fontSize: 14.sp,
+  //             color: AppConstants().ltLogoGrey,
+  //           ),
+  //         ),
+  //         10.h.spaceY,
+  //         Text(
+  //           "Rotayı paylaşmak istemezseniz arkadaşlarınız ve diğer kullanıcılar rota araması yaparak rotanızı görüntüleyebilecek.",
+  //           style: TextStyle(
+  //             fontFamily: 'Sfregular',
+  //             fontSize: 14.sp,
+  //             color: AppConstants().ltLogoGrey,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     actions: <Widget>[
+  //       Column(
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: CustomButtonDesign(
+  //               text: 'Rotayı Paylaş',
+  //               textColor: AppConstants().ltWhite,
+  //               onpressed: () {
+  //                 print("PAYLAŞCAMMMMMM");
+  //                 createPostPageController.haveRoute.value = 1;
+  //                 createPostPageController.userName.value = userName!;
+  //                 createPostPageController.routeContent.value = routeContent!;
+  //                 createPostPageController.routeStartDate.value = startDate!;
+  //                 createPostPageController.routeEndDate.value = endDate!;
 
-                  bottomNavigationBarController.selectedIndex.value = 1;
-                  if (mapPageController != null) {
-                    mapPageController.update();
-                  }
+  //                 bottomNavigationBarController.selectedIndex.value = 1;
+  //                 if (mapPageController != null) {
+  //                   mapPageController.update();
+  //                 }
 
-                  Get.back();
-                  Get.back();
-                  Get.back();
-                  Get.toNamed(NavigationConstants.createPostPage,
-                      arguments: routeId);
-                  mapPageMController.isCreateRoute.value = false;
-                  isOpenRouteDetailEntrySection.value = false;
-                  mapPageMController.getMyLocationInMap();
-                },
-                iconPath: '',
-                color: AppConstants().ltMainRed,
-                height: 50.h,
-                width: 341.w,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: CustomButtonDesign(
-                text: 'Rotayı Paylaşma',
-                textColor: AppConstants().ltWhite,
-                onpressed: () async {
-                  MapPageMController mapPageController =
-                      Get.find<MapPageMController>();
-                  bottomNavigationBarController.selectedIndex.value = 1;
-                  Get.back();
-                  Get.back();
-                  Get.back();
-                  mapPageMController.isCreateRoute.value = false;
-                  isOpenRouteDetailEntrySection.value = false;
-                  GoogleMapController googleMapController =
-                      mapPageController.mapController!;
-                  googleMapController.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                      CameraPosition(
-                        zoom: 13.5,
-                        target: LatLng(
-                          getMyCurrentLocationController
-                              .myLocationLatitudeDo.value,
-                          getMyCurrentLocationController
-                              .myLocationLongitudeDo.value,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                iconPath: '',
-                color: AppConstants().ltDarkGrey,
-                height: 50.h,
-                width: 341.w,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  //                 Get.back();
+  //                 Get.back();
+  //                 Get.back();
+  //                 Get.toNamed(NavigationConstants.createPostPage,
+  //                     arguments: routeId);
+  //                 mapPageMController.isCreateRoute.value = false;
+  //                 isOpenRouteDetailEntrySection.value = false;
+  //                 mapPageMController.getMyLocationInMap();
+  //               },
+  //               iconPath: '',
+  //               color: AppConstants().ltMainRed,
+  //               height: 50.h,
+  //               width: 341.w,
+  //             ),
+  //           ),
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: CustomButtonDesign(
+  //               text: 'Rotayı Paylaşma',
+  //               textColor: AppConstants().ltWhite,
+  //               onpressed: () async {
+  //                 MapPageMController mapPageController =
+  //                     Get.find<MapPageMController>();
+  //                 bottomNavigationBarController.selectedIndex.value = 1;
+  //                 Get.back();
+  //                 Get.back();
+  //                 Get.back();
+  //                 mapPageMController.isCreateRoute.value = false;
+  //                 isOpenRouteDetailEntrySection.value = false;
+  //                 GoogleMapController googleMapController =
+  //                     mapPageController.mapController!;
+  //                 googleMapController.animateCamera(
+  //                   CameraUpdate.newCameraPosition(
+  //                     CameraPosition(
+  //                       zoom: 13.5,
+  //                       target: LatLng(
+  //                         getMyCurrentLocationController
+  //                             .myLocationLatitudeDo.value,
+  //                         getMyCurrentLocationController
+  //                             .myLocationLongitudeDo.value,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 );
+  //               },
+  //               iconPath: '',
+  //               color: AppConstants().ltDarkGrey,
+  //               height: 50.h,
+  //               width: 341.w,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget showSelectDeleteOrShareDialog(BuildContext context, int id) {
-    BottomNavigationBarController bottomNavigationBarController =
-        Get.find<BottomNavigationBarController>();
-    CreateRouteController createRouteController = Get.find();
-    return AlertDialog(
-      title: Text(
-        'Uyarı',
-        style: TextStyle(
-          fontFamily: 'Sfsemibold',
-          fontSize: 16.sp,
-          color: AppConstants().ltLogoGrey,
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Column(
-            children: [
-              Text(
-                "Belirlenen tarihlerde mevcut rotanız bulunmakta.",
-                style: TextStyle(
-                  fontFamily: 'Sfregular',
-                  fontSize: 16.sp,
-                  color: AppConstants().ltDarkGrey,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          Text(
-            "Daha önceki rotanız silip yeni oluşturduğunuz rotayı bu tarihler arasında oluşturmak ister misiniz?",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: CustomButtonDesign(
-                text: 'Eski rotayı sil ve yenisini ekle',
-                textColor: AppConstants().ltWhite,
-                onpressed: () {
-                  GeneralServicesTemp().makeDeleteRequest(
-                    EndPoint.deleteRoute,
-                    DeleteRouteRequestModel(routeId: id),
-                    {
-                      "Content-type": "application/json",
-                      'Authorization':
-                          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                    },
-                  ).then((value) async {
-                    var response1 =
-                        DeleteRouteResponseModel.fromJson(jsonDecode(value!));
-                    if (response1.success == 1) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text("UYARI!"),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Column(
-                                children: [
-                                  Text(
-                                    "Görünüşe göre anlık bir rota oluşturdunuz.",
-                                    style: TextStyle(
-                                      fontFamily: 'Sfregular',
-                                      fontSize: 16.sp,
-                                      color: AppConstants().ltDarkGrey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                "Rotayı başlatmak ister misiniz?",
-                                style: TextStyle(
-                                  fontFamily: 'Sfregular',
-                                  fontSize: 14.sp,
-                                  color: AppConstants().ltLogoGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: 12.w, right: 12.w, left: 12.w),
-                                  child: CustomButtonDesign(
-                                    text: 'Rotayı Başlat',
-                                    textColor: AppConstants().ltWhite,
-                                    onpressed: () {
-                                      MapPageMController mapPageController =
-                                          MapPageMController();
+  // Widget showSelectDeleteOrShareDialog(BuildContext context, int id) {
+  //   BottomNavigationBarController bottomNavigationBarController =
+  //       Get.find<BottomNavigationBarController>();
+  //   CreateRouteController createRouteController = Get.find();
+  //   return AlertDialog(
+  //     title: Text(
+  //       'Uyarı',
+  //       style: TextStyle(
+  //         fontFamily: 'Sfsemibold',
+  //         fontSize: 16.sp,
+  //         color: AppConstants().ltLogoGrey,
+  //       ),
+  //     ),
+  //     content: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Column(
+  //           children: [
+  //             Text(
+  //               "Belirlenen tarihlerde mevcut rotanız bulunmakta.",
+  //               style: TextStyle(
+  //                 fontFamily: 'Sfregular',
+  //                 fontSize: 16.sp,
+  //                 color: AppConstants().ltDarkGrey,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(
+  //           height: 20.h,
+  //         ),
+  //         Text(
+  //           "Daha önceki rotanız silip yeni oluşturduğunuz rotayı bu tarihler arasında oluşturmak ister misiniz?",
+  //           style: TextStyle(
+  //             fontFamily: 'Sfregular',
+  //             fontSize: 14.sp,
+  //             color: AppConstants().ltLogoGrey,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     actions: <Widget>[
+  //       Column(
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: CustomButtonDesign(
+  //               text: 'Eski rotayı sil ve yenisini ekle',
+  //               textColor: AppConstants().ltWhite,
+  //               onpressed: () {
+  //                 GeneralServicesTemp().makeDeleteRequest(
+  //                   EndPoint.deleteRoute,
+  //                   DeleteRouteRequestModel(routeId: id),
+  //                   {
+  //                     "Content-type": "application/json",
+  //                     'Authorization':
+  //                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+  //                   },
+  //                 ).then((value) async {
+  //                   var response1 =
+  //                       DeleteRouteResponseModel.fromJson(jsonDecode(value!));
+  //                   if (response1.success == 1) {
+  //                     showDialog(
+  //                       context: context,
+  //                       builder: (BuildContext context) => AlertDialog(
+  //                         title: const Text("UYARI!"),
+  //                         content: Column(
+  //                           mainAxisSize: MainAxisSize.min,
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: <Widget>[
+  //                             Column(
+  //                               children: [
+  //                                 Text(
+  //                                   "Görünüşe göre anlık bir rota oluşturdunuz.",
+  //                                   style: TextStyle(
+  //                                     fontFamily: 'Sfregular',
+  //                                     fontSize: 16.sp,
+  //                                     color: AppConstants().ltDarkGrey,
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             SizedBox(
+  //                               height: 20.h,
+  //                             ),
+  //                             Text(
+  //                               "Rotayı başlatmak ister misiniz?",
+  //                               style: TextStyle(
+  //                                 fontFamily: 'Sfregular',
+  //                                 fontSize: 14.sp,
+  //                                 color: AppConstants().ltLogoGrey,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         actions: <Widget>[
+  //                           Column(
+  //                             children: [
+  //                               Padding(
+  //                                 padding: EdgeInsets.only(
+  //                                     bottom: 12.w, right: 12.w, left: 12.w),
+  //                                 child: CustomButtonDesign(
+  //                                   text: 'Rotayı Başlat',
+  //                                   textColor: AppConstants().ltWhite,
+  //                                   onpressed: () {
+  //                                     MapPageMController mapPageController =
+  //                                         MapPageMController();
 
-                                      SetCustomMarkerIconController
-                                          setCustomMarkerIconController =
-                                          Get.put(
-                                              SetCustomMarkerIconController());
-                                      GeneralServicesTemp().makePatchRequest(
-                                        EndPoint.activateRoute,
-                                        ActivateRouteRequestModel(routeId: id),
-                                        {
-                                          "Content-type": "application/json",
-                                          'Authorization':
-                                              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                        },
-                                      ).then((value) async {
-                                        ActivateRouteResponseModel response =
-                                            ActivateRouteResponseModel.fromJson(
-                                                jsonDecode(value!));
-                                        if (response.success == 1) {
-                                          await showDialog(
-                                              context: context,
-                                              builder: (BuildContext context2) {
-                                                return showShareRouteAllertDialog(
-                                                    context,
-                                                    "${createRouteController.startRouteCity} -> ${createRouteController.finishRouteCity}",
-                                                    (LocaleManager.instance
-                                                        .getString(PreferencesKeys
-                                                            .currentUserUserName)),
-                                                    createRouteController
-                                                        .dateTimeFormatDeparture
-                                                        .value
-                                                        .toString()
-                                                        .substring(0, 11),
-                                                    createRouteController
-                                                        .dateTimeFormatArrival
-                                                        .value
-                                                        .toString()
-                                                        .substring(0, 11),
-                                                    0,
-                                                    mapPageController:
-                                                        mapPageController);
-                                              });
-                                          Get.back();
+  //                                     SetCustomMarkerIconController
+  //                                         setCustomMarkerIconController =
+  //                                         Get.put(
+  //                                             SetCustomMarkerIconController());
+  //                                     GeneralServicesTemp().makePatchRequest(
+  //                                       EndPoint.activateRoute,
+  //                                       ActivateRouteRequestModel(routeId: id),
+  //                                       {
+  //                                         "Content-type": "application/json",
+  //                                         'Authorization':
+  //                                             'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+  //                                       },
+  //                                     ).then((value) async {
+  //                                       ActivateRouteResponseModel response =
+  //                                           ActivateRouteResponseModel.fromJson(
+  //                                               jsonDecode(value!));
+  //                                       if (response.success == 1) {
+  //                                         await showDialog(
+  //                                             context: context,
+  //                                             builder: (BuildContext context2) {
+  //                                               return showShareRouteAllertDialog(
+  //                                                   context,
+  //                                                   "${createRouteController.startRouteCity} -> ${createRouteController.finishRouteCity}",
+  //                                                   (LocaleManager.instance
+  //                                                       .getString(PreferencesKeys
+  //                                                           .currentUserUserName)),
+  //                                                   createRouteController
+  //                                                       .dateTimeFormatDeparture
+  //                                                       .value
+  //                                                       .toString()
+  //                                                       .substring(0, 11),
+  //                                                   createRouteController
+  //                                                       .dateTimeFormatArrival
+  //                                                       .value
+  //                                                       .toString()
+  //                                                       .substring(0, 11),
+  //                                                   0,
+  //                                                   mapPageController:
+  //                                                       mapPageController);
+  //                                             });
+  //                                         Get.back();
 
-                                          await GeneralServicesTemp()
-                                              .makeGetRequest(
-                                            EndPoint.getMyRoutes,
-                                            {
-                                              "Content-type":
-                                                  "application/json",
-                                              'Authorization':
-                                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                            },
-                                          ).then((value) async {
-                                            BerkayController berkayController =
-                                                Get.find<BerkayController>();
-                                            berkayController
-                                                .isAlreadyHaveRoute = true.obs;
-                                            GetMyRouteResponseModel
-                                                getMyRouteResponseModel =
-                                                GetMyRouteResponseModel
-                                                    .fromJson(
-                                                        json.decode(value!));
+  //                                         await GeneralServicesTemp()
+  //                                             .makeGetRequest(
+  //                                           EndPoint.getMyRoutes,
+  //                                           {
+  //                                             "Content-type":
+  //                                                 "application/json",
+  //                                             'Authorization':
+  //                                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+  //                                           },
+  //                                         ).then((value) async {
+  //                                           BerkayController berkayController =
+  //                                               Get.find<BerkayController>();
+  //                                           berkayController
+  //                                               .isAlreadyHaveRoute = true.obs;
+  //                                           GetMyRouteResponseModel
+  //                                               getMyRouteResponseModel =
+  //                                               GetMyRouteResponseModel
+  //                                                   .fromJson(
+  //                                                       json.decode(value!));
 
-                                            GoogleMapController
-                                                googleMapController =
-                                                mapPageController
-                                                    .mapController!;
-                                            googleMapController.animateCamera(
-                                              CameraUpdate.newCameraPosition(
-                                                CameraPosition(
-                                                  bearing: 90,
-                                                  target: LatLng(
-                                                    createRouteController
-                                                        .currentLocationController
-                                                        .myLocationLatitudeDo
-                                                        .value,
-                                                    createRouteController
-                                                        .currentLocationController
-                                                        .myLocationLongitudeDo
-                                                        .value,
-                                                  ),
-                                                  zoom: 10,
-                                                ),
-                                              ),
-                                            );
-                                            await mapPageController
-                                                .getUsersOnArea(
-                                              carTypeFilter: [
-                                                "Otomobil",
-                                                "Motorsiklet",
-                                                "Tır"
-                                              ],
-                                            );
-                                          });
-                                        } else {
-                                          Get.back(closeOverlays: true);
-                                          Get.snackbar(
-                                              "Hata!", "${response.message}",
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              colorText:
-                                                  AppConstants().ltBlack);
-                                        }
-                                        await GeneralServicesTemp()
-                                            .makePostRequest(
-                                          EndPoint.routesNew,
-                                          PostCreateRouteRequestModel(
-                                            departureDate: createRouteController
-                                                .departureController.value.text,
-                                            arrivalDate: createRouteController
-                                                .arrivalController.value.text,
-                                            routeDescription: createRouteController
-                                                        .routeDescriptionController
-                                                        .text ==
-                                                    ""
-                                                ? "${createRouteController.dateTimeFormatDeparture.value} tarihinde ${createRouteController.startRouteCity} şehrinden başlayan yolculuk ${createRouteController.dateTimeFormatArrival.value} tarihinde ${createRouteController.finishRouteCity} şehrinde son bulacak."
-                                                : createRouteController
-                                                    .routeDescriptionController
-                                                    .text,
-                                            vehicleCapacity: 100,
-                                            startingCoordinates: [
-                                              createRouteController
-                                                  .startRouteLocation
-                                                  .value
-                                                  .latitude,
-                                              createRouteController
-                                                  .startRouteLocation
-                                                  .value
-                                                  .longitude
-                                            ],
-                                            startingOpenAdress:
-                                                createRouteController
-                                                    .startRouteAdress.value,
-                                            startingCity: createRouteController
-                                                .startRouteCity,
-                                            endingCoordinates: [
-                                              createRouteController
-                                                  .finishRouteLocation
-                                                  .value
-                                                  .latitude,
-                                              createRouteController
-                                                  .finishRouteLocation
-                                                  .value
-                                                  .longitude
-                                            ],
-                                            endingOpenAdress:
-                                                createRouteController
-                                                    .finishRouteAdress.value,
-                                            endingCity: createRouteController
-                                                .finishRouteCity,
-                                            distance: int.parse(
-                                                createRouteController
-                                                    .calculatedRouteDistance
-                                                    .value),
-                                            travelTime: createRouteController
-                                                .calculatedRouteTimeInt,
-                                            polylineEncode:
-                                                createRouteController
-                                                    .routePolyline,
-                                          ),
-                                          {
-                                            "Content-type": "application/json",
-                                            'Authorization':
-                                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                          },
-                                        ).then(
-                                          (value) async {
-                                            if (value != null) {
-                                              final response =
-                                                  PostCreateRouteResponseModel
-                                                      .fromJson(
-                                                          jsonDecode(value));
-                                              CreatePostPageController
-                                                  createPostPageController =
-                                                  Get.put(
-                                                      CreatePostPageController());
-                                              if (response.success == 1) {
-                                                createPostPageController
-                                                        .routeId.value =
-                                                    response.data![0].id!;
-                                                // createRouteController
-                                                //     .mapPageRouteControllerClear();
-                                                Get.back();
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      showShareRouteAllertDialog(
-                                                          context,
-                                                          "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
-                                                          "Furkan Semiz",
-                                                          response.data![0]
-                                                              .departureDate!
-                                                              .toString()
-                                                              .substring(0, 11),
-                                                          response.data![0]
-                                                              .arrivalDate!
-                                                              .toString()
-                                                              .substring(0, 11),
-                                                          response.data![0].id!,
-                                                          mapPageController:
-                                                              mapPageController),
-                                                );
-                                              } else if (response.success ==
-                                                  -1) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      showSelectDeleteOrShareDialog(
-                                                          context,
-                                                          response
-                                                              .data![0].id!),
-                                                );
-                                              } else {
-                                                UiHelper.showWarningSnackBar(
-                                                    context,
-                                                    'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
-                                                Get.back();
-                                              }
-                                            }
-                                          },
-                                        );
-                                        Get.snackbar("Başarılı!",
-                                            "Rota başarıyla silindi.",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            colorText: AppConstants().ltBlack);
-                                      });
+  //                                           GoogleMapController
+  //                                               googleMapController =
+  //                                               mapPageController
+  //                                                   .mapController!;
+  //                                           googleMapController.animateCamera(
+  //                                             CameraUpdate.newCameraPosition(
+  //                                               CameraPosition(
+  //                                                 bearing: 90,
+  //                                                 target: LatLng(
+  //                                                   createRouteController
+  //                                                       .currentLocationController
+  //                                                       .myLocationLatitudeDo
+  //                                                       .value,
+  //                                                   createRouteController
+  //                                                       .currentLocationController
+  //                                                       .myLocationLongitudeDo
+  //                                                       .value,
+  //                                                 ),
+  //                                                 zoom: 10,
+  //                                               ),
+  //                                             ),
+  //                                           );
+  //                                           await mapPageController
+  //                                               .getUsersOnArea(
+  //                                             carTypeFilter: [
+  //                                               "Otomobil",
+  //                                               "Motorsiklet",
+  //                                               "Tır"
+  //                                             ],
+  //                                           );
+  //                                         });
+  //                                       } else {
+  //                                         Get.back(closeOverlays: true);
+  //                                         Get.snackbar(
+  //                                             "Hata!", "${response.message}",
+  //                                             snackPosition:
+  //                                                 SnackPosition.BOTTOM,
+  //                                             colorText:
+  //                                                 AppConstants().ltBlack);
+  //                                       }
+  //                                       await GeneralServicesTemp()
+  //                                           .makePostRequest(
+  //                                         EndPoint.routesNew,
+  //                                         PostCreateRouteRequestModel(
+  //                                           departureDate: createRouteController
+  //                                               .departureController.value.text,
+  //                                           arrivalDate: createRouteController
+  //                                               .arrivalController.value.text,
+  //                                           routeDescription: createRouteController
+  //                                                       .routeDescriptionController
+  //                                                       .text ==
+  //                                                   ""
+  //                                               ? "${createRouteController.dateTimeFormatDeparture.value} tarihinde ${createRouteController.startRouteCity} şehrinden başlayan yolculuk ${createRouteController.dateTimeFormatArrival.value} tarihinde ${createRouteController.finishRouteCity} şehrinde son bulacak."
+  //                                               : createRouteController
+  //                                                   .routeDescriptionController
+  //                                                   .text,
+  //                                           vehicleCapacity: 100,
+  //                                           startingCoordinates: [
+  //                                             createRouteController
+  //                                                 .startRouteLocation
+  //                                                 .value
+  //                                                 .latitude,
+  //                                             createRouteController
+  //                                                 .startRouteLocation
+  //                                                 .value
+  //                                                 .longitude
+  //                                           ],
+  //                                           startingOpenAdress:
+  //                                               createRouteController
+  //                                                   .startRouteAdress.value,
+  //                                           startingCity: createRouteController
+  //                                               .startRouteCity,
+  //                                           endingCoordinates: [
+  //                                             createRouteController
+  //                                                 .finishRouteLocation
+  //                                                 .value
+  //                                                 .latitude,
+  //                                             createRouteController
+  //                                                 .finishRouteLocation
+  //                                                 .value
+  //                                                 .longitude
+  //                                           ],
+  //                                           endingOpenAdress:
+  //                                               createRouteController
+  //                                                   .finishRouteAdress.value,
+  //                                           endingCity: createRouteController
+  //                                               .finishRouteCity,
+  //                                           distance: int.parse(
+  //                                               createRouteController
+  //                                                   .calculatedRouteDistance
+  //                                                   .value),
+  //                                           travelTime: createRouteController
+  //                                               .calculatedRouteTimeInt,
+  //                                           polylineEncode:
+  //                                               createRouteController
+  //                                                   .routePolyline,
+  //                                         ),
+  //                                         {
+  //                                           "Content-type": "application/json",
+  //                                           'Authorization':
+  //                                               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+  //                                         },
+  //                                       ).then(
+  //                                         (value) async {
+  //                                           if (value != null) {
+  //                                             final response =
+  //                                                 PostCreateRouteResponseModel
+  //                                                     .fromJson(
+  //                                                         jsonDecode(value));
+  //                                             CreatePostPageController
+  //                                                 createPostPageController =
+  //                                                 Get.put(
+  //                                                     CreatePostPageController());
+  //                                             if (response.success == 1) {
+  //                                               createPostPageController
+  //                                                       .routeId.value =
+  //                                                   response.data![0].id!;
+  //                                               // createRouteController
+  //                                               //     .mapPageRouteControllerClear();
+  //                                               Get.back();
+  //                                               showDialog(
+  //                                                 context: context,
+  //                                                 builder: (BuildContext
+  //                                                         context) =>
+  //                                                     showShareRouteAllertDialog(
+  //                                                         context,
+  //                                                         "${response.data![0].startingCity!} -> ${response.data![0].endingCity!}",
+  //                                                         "Furkan Semiz",
+  //                                                         response.data![0]
+  //                                                             .departureDate!
+  //                                                             .toString()
+  //                                                             .substring(0, 11),
+  //                                                         response.data![0]
+  //                                                             .arrivalDate!
+  //                                                             .toString()
+  //                                                             .substring(0, 11),
+  //                                                         response.data![0].id!,
+  //                                                         mapPageController:
+  //                                                             mapPageController),
+  //                                               );
+  //                                             } else if (response.success ==
+  //                                                 -1) {
+  //                                               showDialog(
+  //                                                 context: context,
+  //                                                 builder: (BuildContext
+  //                                                         context) =>
+  //                                                     showSelectDeleteOrShareDialog(
+  //                                                         context,
+  //                                                         response
+  //                                                             .data![0].id!),
+  //                                               );
+  //                                             } else {
+  //                                               UiHelper.showWarningSnackBar(
+  //                                                   context,
+  //                                                   'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
+  //                                               Get.back();
+  //                                             }
+  //                                           }
+  //                                         },
+  //                                       );
+  //                                       Get.snackbar("Başarılı!",
+  //                                           "Rota başarıyla silindi.",
+  //                                           snackPosition: SnackPosition.BOTTOM,
+  //                                           colorText: AppConstants().ltBlack);
+  //                                     });
 
-                                      Get.back();
-                                      Get.back();
-                                    },
-                                    iconPath: '',
-                                    color: AppConstants().ltMainRed,
-                                    height: 50.h,
-                                    width: 341.w,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: 12.w, right: 12.w, left: 12.w),
-                                  child: CustomButtonDesign(
-                                    text: 'Rotayı Başlatma',
-                                    textColor: AppConstants().ltWhite,
-                                    onpressed: () async {
-                                      await showDialog(
-                                          context: context,
-                                          builder: (BuildContext context2) {
-                                            return showShareRouteAllertDialog(
-                                                context,
-                                                "${createRouteController.startRouteCity} -> ${createRouteController.finishRouteCity}",
-                                                (LocaleManager.instance
-                                                    .getString(PreferencesKeys
-                                                        .currentUserUserName)),
-                                                createRouteController
-                                                    .dateTimeFormatDeparture
-                                                    .value
-                                                    .toString()
-                                                    .substring(0, 11),
-                                                createRouteController
-                                                    .dateTimeFormatArrival.value
-                                                    .toString()
-                                                    .substring(0, 11),
-                                                0);
-                                          });
-                                    },
-                                    iconPath: '',
-                                    color: AppConstants().ltDarkGrey,
-                                    height: 50.h,
-                                    width: 341.w,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  });
-                },
-                iconPath: '',
-                color: AppConstants().ltMainRed,
-                height: 50.h,
-                width: 341.w,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
-              child: CustomButtonDesign(
-                text: 'Eski rotayı silme',
-                textColor: AppConstants().ltWhite,
-                onpressed: () {
-                  bottomNavigationBarController.selectedIndex.value = 1;
-                  Get.back();
-                  Get.back();
-                },
-                iconPath: '',
-                color: AppConstants().ltDarkGrey,
-                height: 50.h,
-                width: 341.w,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  //                                     Get.back();
+  //                                     Get.back();
+  //                                   },
+  //                                   iconPath: '',
+  //                                   color: AppConstants().ltMainRed,
+  //                                   height: 50.h,
+  //                                   width: 341.w,
+  //                                 ),
+  //                               ),
+  //                               Padding(
+  //                                 padding: EdgeInsets.only(
+  //                                     bottom: 12.w, right: 12.w, left: 12.w),
+  //                                 child: CustomButtonDesign(
+  //                                   text: 'Rotayı Başlatma',
+  //                                   textColor: AppConstants().ltWhite,
+  //                                   onpressed: () async {
+  //                                     await showDialog(
+  //                                         context: context,
+  //                                         builder: (BuildContext context2) {
+  //                                           return showShareRouteAllertDialog(
+  //                                               context,
+  //                                               "${createRouteController.startRouteCity} -> ${createRouteController.finishRouteCity}",
+  //                                               (LocaleManager.instance
+  //                                                   .getString(PreferencesKeys
+  //                                                       .currentUserUserName)),
+  //                                               createRouteController
+  //                                                   .dateTimeFormatDeparture
+  //                                                   .value
+  //                                                   .toString()
+  //                                                   .substring(0, 11),
+  //                                               createRouteController
+  //                                                   .dateTimeFormatArrival.value
+  //                                                   .toString()
+  //                                                   .substring(0, 11),
+  //                                               0);
+  //                                         });
+  //                                   },
+  //                                   iconPath: '',
+  //                                   color: AppConstants().ltDarkGrey,
+  //                                   height: 50.h,
+  //                                   width: 341.w,
+  //                                 ),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     );
+  //                   }
+  //                 });
+  //               },
+  //               iconPath: '',
+  //               color: AppConstants().ltMainRed,
+  //               height: 50.h,
+  //               width: 341.w,
+  //             ),
+  //           ),
+  //           Padding(
+  //             padding: EdgeInsets.only(bottom: 12.w, right: 12.w, left: 12.w),
+  //             child: CustomButtonDesign(
+  //               text: 'Eski rotayı silme',
+  //               textColor: AppConstants().ltWhite,
+  //               onpressed: () {
+  //                 bottomNavigationBarController.selectedIndex.value = 1;
+  //                 Get.back();
+  //                 Get.back();
+  //               },
+  //               iconPath: '',
+  //               color: AppConstants().ltDarkGrey,
+  //               height: 50.h,
+  //               width: 341.w,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

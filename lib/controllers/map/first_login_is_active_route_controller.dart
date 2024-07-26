@@ -6,6 +6,7 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'dart:convert' as convert;
 
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
@@ -78,11 +79,8 @@ class FirstOpenIsActiveRoute extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            MapPageController mapPageController =
-                                Get.find<MapPageController>();
+                            MapPageMController mapPageController = Get.find();
 
-                            mapPageController
-                                .getMyRoutesServicesRequestRefreshable();
                             () {
                               GeneralServicesTemp().makePatchRequest(
                                 EndPoint.activateRoute,
@@ -104,22 +102,10 @@ class FirstOpenIsActiveRoute extends GetxController {
                                   berkayController.isAlreadyHaveRoute =
                                       false.obs;
 
-                                  print(response.success);
-                                  print(response.message);
-                                  mapPageController.changeCalculateLevel(1);
-                                  mapPageController.selectedDispley(0);
-
                                   mapPageController.markers.clear();
 
-                                  mapPageController.polylineCoordinates.clear();
-                                  mapPageController.polylineCoordinates2
-                                      .clear();
-                                  mapPageController.polylineCoordinatesListForB
-                                      .clear();
                                   mapPageController.polylines.clear();
-                                  mapPageController.polylines2.clear();
-                                  mapPageController.polylineCoordinatesListForB
-                                      .clear();
+                                  mapPageController.markers.clear();
                                 }
                               });
                             };

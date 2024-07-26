@@ -2,141 +2,116 @@ import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import '../controllers/map/get_current_location_and_listen.dart';
-import '../views/map_page_view/components/map_page_controller.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   NavigationDrawerWidget({super.key});
 
-  GeneralDrawerController drawerControl = Get.find<GeneralDrawerController>();
-  BottomNavigationBarController bottomNavigationBarController =
+  final GeneralDrawerController drawerControl =
+      Get.find<GeneralDrawerController>();
+  final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
-  MapPageController mapPageController = Get.find<MapPageController>();
-  GetMyCurrentLocationController getMyCurrentLocationController =
+  final MapPageMController mapPageController = Get.find<MapPageMController>();
+  final GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        child: ListView(
-          children: [
-            buildDrawerHeader(),
-            DrawerItem(
-              iconPath: 'assets/icons/profil-icon.svg',
-              title: 'Profilim',
-              onTap: () async {
-                await _drawerControlIndex();
-                bottomNavigationBarController.selectedIndex.value = 3;
-              },
-            ),
-            DrawerItem(
-              iconPath: 'assets/icons/route-icon.svg',
-              title: 'Rotalarım',
-              onTap: () async {
-                await _drawerControlIndex();
-                Get.toNamed('/myRoutesPageView');
-              },
-            ),
-            // DrawerItem(
-            //   iconPath: 'assets/icons/create-route-icon.svg',
-            //   title: 'Yeni Rota Oluştur',
-            //   onTap: () async {
-            //     await _drawerControlIndex();
-            //     bottomNavigationBarController.selectedIndex.value = 1;
-            //     mapPageController.selectedDispley.value = 0;
-            //     mapPageController.iWantTrackerMyLocation.value = 2;
-            //     mapPageController.changeCalculateLevel(2);
-            //     mapPageController.addMarkerFunctionForMapPageWithoutOnTap2(
-            //       const MarkerId("myLocationMarker"),
-            //       LatLng(
-            //         getMyCurrentLocationController.myLocationLatitudeDo.value,
-            //         getMyCurrentLocationController.myLocationLongitudeDo.value,
-            //       ),
-            //       mapPageController.mapPageRouteStartAddress2.value,
-            //       BitmapDescriptor.fromBytes(mapPageController
-            //           .customMarkerIconController.mayLocationIcon!),
-            //     );
-            //     Get.back();
-            //   },
-            // ),
-            DrawerItem(
-              iconPath: 'assets/icons/intersecting-routes-search.svg',
-              title: 'Kesişen Rotaları Ara',
-              onTap: () async {
-                await _drawerControlIndex();
-                bottomNavigationBarController.selectedIndex.value = 2;
-              },
-            ),
-            DrawerItem(
-              iconPath: 'assets/icons/search-icon.svg',
-              title: 'Kullanıcı Ara',
-              onTap: () async {
-                await _drawerControlIndex();
-                Get.toNamed(NavigationConstants.searchUser);
-              },
-            ),
-            // DrawerItem(
-            //   iconPath: 'assets/icons/about_us.svg',
-            //   title: 'Hakkımızda',
-            //   onTap: () async {
-            //     await _drawerControlIndex();
-            //     Get.toNamed('/aboutUs');
-            //   },
-            // ),
-            DrawerItem(
-              iconPath: 'assets/icons/settings.svg',
-              title: 'Ayarlar',
-              onTap: () async {
-                await _drawerControlIndex();
-                Get.toNamed('/settings');
-              },
-            ),
-            /* DrawerItem(
-              iconPath: 'assets/icons/about_us.svg',
-              title: 'Sorun Bildir',
-              onTap: () async {
-                await _drawerControlIndex();
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          "Sorun Bildir",
-                          style: TextStyle(),
-                        ),
-                        content: Column(
-                          children: [TextField()],
-                        ),
-                        actions: [],
-                      );
-                    });
-              },
-            ),*/
-            DrawerItem(
-              iconPath: 'assets/icons/logout-icon.svg',
-              title: 'Çıkış Yap',
-              onTap: () async {
-                await _drawerControlIndex();
+      child: ListView(
+        children: [
+          buildDrawerHeader(),
+          DrawerItem(
+            iconPath: 'assets/icons/profil-icon.svg',
+            title: 'Profilim',
+            onTap: () async {
+              await _drawerControlIndex();
+              bottomNavigationBarController.selectedIndex.value = 3;
+            },
+          ),
+          DrawerItem(
+            iconPath: 'assets/icons/route-icon.svg',
+            title: 'Rotalarım',
+            onTap: () async {
+              await _drawerControlIndex();
+              Get.toNamed('/myRoutesPageView');
+            },
+          ),
+          DrawerItem(
+            iconPath: 'assets/icons/intersecting-routes-search.svg',
+            title: 'Kesişen Rotaları Ara',
+            onTap: () async {
+              await _drawerControlIndex();
+              bottomNavigationBarController.selectedIndex.value = 2;
+            },
+          ),
+          DrawerItem(
+            iconPath: 'assets/icons/search-icon.svg',
+            title: 'Kullanıcı Ara',
+            onTap: () async {
+              await _drawerControlIndex();
+              Get.toNamed(NavigationConstants.searchUser);
+            },
+          ),
+          // DrawerItem(
+          //   iconPath: 'assets/icons/about_us.svg',
+          //   title: 'Hakkımızda',
+          //   onTap: () async {
+          //     await _drawerControlIndex();
+          //     Get.toNamed('/aboutUs');
+          //   },
+          // ),
+          DrawerItem(
+            iconPath: 'assets/icons/settings.svg',
+            title: 'Ayarlar',
+            onTap: () async {
+              await _drawerControlIndex();
+              Get.toNamed('/settings');
+            },
+          ),
+          /* DrawerItem(
+            iconPath: 'assets/icons/about_us.svg',
+            title: 'Sorun Bildir',
+            onTap: () async {
+              await _drawerControlIndex();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        "Sorun Bildir",
+                        style: TextStyle(),
+                      ),
+                      content: Column(
+                        children: [TextField()],
+                      ),
+                      actions: [],
+                    );
+                  });
+            },
+          ),*/
+          DrawerItem(
+            iconPath: 'assets/icons/logout-icon.svg',
+            title: 'Çıkış Yap',
+            onTap: () async {
+              await _drawerControlIndex();
 
-                bottomNavigationBarController.selectedIndex.value = 0;
+              bottomNavigationBarController.selectedIndex.value = 0;
 
-                LocaleManager.instance.remove(PreferencesKeys.userCredentials);
-                LocaleManager.instance.remove(PreferencesKeys.accessToken);
-                ServicesConstants.appJsonWithToken.clear();
-                MapPageController().myAllRoutes = AllRoutes();
+              LocaleManager.instance.remove(PreferencesKeys.userCredentials);
+              LocaleManager.instance.remove(PreferencesKeys.accessToken);
+              ServicesConstants.appJsonWithToken.clear();
+              mapPageController.myAllRoutes = AllRoutes();
 
-                Get.offAllNamed(NavigationConstants.welcomelogin);
-              },
-            ),
-            const DrawerVersionText(
-              versionNumber: '1.0.12',
-            ),
-          ],
-        ),
+              Get.offAllNamed(NavigationConstants.welcomelogin);
+            },
+          ),
+          const DrawerVersionText(
+            versionNumber: '1.0.12',
+          ),
+        ],
       ),
     );
   }
