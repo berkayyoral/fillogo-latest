@@ -9,7 +9,7 @@ class PopupPrifilInfo extends StatelessWidget {
   PopupPrifilInfo({
     Key? key,
     required this.userId,
-    required this.routeId,
+    this.routeId,
     required this.name,
     required this.vehicleType,
     required this.description,
@@ -22,7 +22,7 @@ class PopupPrifilInfo extends StatelessWidget {
   }) : super(key: key);
 
   final int userId;
-  final int routeId;
+  final int? routeId;
   final String name;
   final String vehicleType;
   final String description;
@@ -33,9 +33,9 @@ class PopupPrifilInfo extends StatelessWidget {
   final String endCity;
   final PopUpController followController = PopUpController();
   final String userProfilePhotoLink;
-  SelectedRouteController selectedRouteController =
+  final SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
-  BottomNavigationBarController bottomNavigationBarController =
+  final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
   @override
   Widget build(BuildContext context) {
@@ -213,11 +213,13 @@ class PopupPrifilInfo extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              selectedRouteController.selectedRouteId.value =
-                                  routeId;
-                              selectedRouteController
-                                  .selectedRouteUserId.value = routeId;
-                              Get.toNamed(NavigationConstants.routeDetails);
+                              if (routeId != null) {
+                                selectedRouteController.selectedRouteId.value =
+                                    routeId!;
+                                selectedRouteController
+                                    .selectedRouteUserId.value = routeId!;
+                                Get.toNamed(NavigationConstants.routeDetails);
+                              }
                             },
                             child: Row(
                               children: [

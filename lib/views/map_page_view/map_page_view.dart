@@ -199,7 +199,7 @@ class MapPageView extends GetView<MapPageController> {
 
                         if (getMyRouteResponseModel.success == 1) {
                           if (getMyRouteResponseModel
-                              .data![0].allRoutes!.activeRoutes!.isNotEmpty) {
+                              .data[0].allRoutes.activeRoutes!.isNotEmpty) {
                             // mapPageController.getMyFriendsMatchingRoutes(
                             //     context,
                             //     getMyRouteResponseModel.data![0].allRoutes!
@@ -210,14 +210,14 @@ class MapPageView extends GetView<MapPageController> {
                                 context: context, carType: carTypeList);
 
                             mapPageController.generalPolylineEncode.value =
-                                getMyRouteResponseModel.data![0].allRoutes!
-                                    .activeRoutes![0].polylineEncode!;
+                                getMyRouteResponseModel.data[0].allRoutes
+                                    .activeRoutes![0].polylineEncode;
                             mapPageController.myAllRoutes =
-                                getMyRouteResponseModel.data![0].allRoutes!;
+                                getMyRouteResponseModel.data[0].allRoutes;
 
                             mapPageController.myActivesRoutes =
                                 getMyRouteResponseModel
-                                    .data![0].allRoutes!.activeRoutes;
+                                    .data[0].allRoutes.activeRoutes;
                             mapPageController.myPastsRoutes =
                                 mapPageController.myAllRoutes!.pastRoutes;
                             mapPageController.mynotStartedRoutes =
@@ -226,65 +226,57 @@ class MapPageView extends GetView<MapPageController> {
                             mapPageController.mapPageRouteStartLatitude.value =
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
-                                    ? mapPageController
-                                        .myAllRoutes!
-                                        .activeRoutes![0]
-                                        .startingCoordinates![0]
+                                    ? mapPageController.myAllRoutes!
+                                        .activeRoutes![0].startingCoordinates[0]
                                     : 0.0;
                             mapPageController.mapPageRouteStartLongitude.value =
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
-                                    ? mapPageController
-                                        .myAllRoutes!
-                                        .activeRoutes![0]
-                                        .startingCoordinates![1]
+                                    ? mapPageController.myAllRoutes!
+                                        .activeRoutes![0].startingCoordinates[1]
                                     : 0.0;
                             mapPageController.startLatLong = LatLng(
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
-                                    ? mapPageController
-                                        .myAllRoutes!
-                                        .activeRoutes![0]
-                                        .startingCoordinates![0]
+                                    ? mapPageController.myAllRoutes!
+                                        .activeRoutes![0].startingCoordinates[0]
                                     : 0.0,
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
-                                    ? mapPageController
-                                        .myAllRoutes!
-                                        .activeRoutes![0]
-                                        .startingCoordinates![1]
+                                    ? mapPageController.myAllRoutes!
+                                        .activeRoutes![0].startingCoordinates[1]
                                     : 0.0);
 
                             mapPageController.mapPageRouteFinishLatitude.value =
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
                                     ? mapPageController.myAllRoutes!
-                                        .activeRoutes![0].endingCoordinates![0]
+                                        .activeRoutes![0].endingCoordinates[0]
                                     : 0.0;
                             mapPageController
                                     .myAllRoutes!.activeRoutes!.isNotEmpty
                                 ? mapPageController
                                         .mapPageRouteFinishLongitude.value =
                                     mapPageController.myAllRoutes!
-                                        .activeRoutes![0].endingCoordinates![1]
+                                        .activeRoutes![0].endingCoordinates[1]
                                 : 0.0;
                             mapPageController.finishLatLong = LatLng(
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
                                     ? mapPageController.myAllRoutes!
-                                        .activeRoutes![0].endingCoordinates![0]
+                                        .activeRoutes![0].endingCoordinates[0]
                                     : 0.0,
                                 mapPageController
                                         .myAllRoutes!.activeRoutes!.isNotEmpty
                                     ? mapPageController.myAllRoutes!
-                                        .activeRoutes![0].endingCoordinates![1]
+                                        .activeRoutes![0].endingCoordinates[1]
                                     : 0.0);
                             mapPageController
                                     .myAllRoutes!.activeRoutes!.isNotEmpty
                                 ? mapPageController
                                         .generalPolylineEncode.value =
                                     mapPageController.myAllRoutes!
-                                        .activeRoutes![0].polylineEncode!
+                                        .activeRoutes![0].polylineEncode
                                 : "";
 
                             mapPageController.addPointIntoPolylineList(
@@ -303,11 +295,11 @@ class MapPageView extends GetView<MapPageController> {
                                     mapPageController
                                         .myAllRoutes!
                                         .activeRoutes![0]
-                                        .startingCoordinates![0],
+                                        .startingCoordinates[0],
                                     mapPageController
                                         .myAllRoutes!
                                         .activeRoutes![0]
-                                        .startingCoordinates![1]),
+                                        .startingCoordinates[1]),
                                 "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
                                 BitmapDescriptor.fromBytes(
                                     setCustomMarkerIconController
@@ -324,11 +316,9 @@ class MapPageView extends GetView<MapPageController> {
                                     "myRouteFinishMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                 LatLng(
                                     mapPageController.myAllRoutes!
-                                        .activeRoutes![0].endingCoordinates![0],
-                                    mapPageController
-                                        .myAllRoutes!
-                                        .activeRoutes![0]
-                                        .endingCoordinates![1]),
+                                        .activeRoutes![0].endingCoordinates[0],
+                                    mapPageController.myAllRoutes!
+                                        .activeRoutes![0].endingCoordinates[1]),
                                 "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
                                 BitmapDescriptor.fromBytes(
                                     setCustomMarkerIconController
@@ -375,11 +365,11 @@ class MapPageView extends GetView<MapPageController> {
                                     mapPageController
                                         .myAllRoutes!
                                         .activeRoutes![0]
-                                        .startingCoordinates![0],
+                                        .startingCoordinates[0],
                                     mapPageController
                                         .myAllRoutes!
                                         .activeRoutes![0]
-                                        .startingCoordinates![1]),
+                                        .startingCoordinates[1]),
                                 zoom: 15,
                               );
 
@@ -1204,8 +1194,8 @@ class MapPageView extends GetView<MapPageController> {
                                             .getMyFriendsMatchingRoutes(
                                                 context,
                                                 getMyRouteResponseModel
-                                                    .data![0]
-                                                    .allRoutes!
+                                                    .data[0]
+                                                    .allRoutes
                                                     .activeRoutes![0]
                                                     .polylineEncode,
                                                 carType: carTypeList);
@@ -1292,32 +1282,6 @@ class MapPageView extends GetView<MapPageController> {
                                       ),
                                     );
                                     mapPageController.isLoading.value = false;
-                                    // GoogleMapController googleMapController =
-                                    //     await mapPageController
-                                    //         .mapCotroller3.future;
-                                    // await googleMapController.animateCamera(
-                                    //   CameraUpdate.newCameraPosition(
-                                    //       CameraPosition(
-
-                                    //     target: LatLng(
-                                    //       getMyCurrentLocationController
-                                    //           .myLocationLatitudeDo.value,
-                                    //       getMyCurrentLocationController
-                                    //           .myLocationLongitudeDo.value,
-                                    //     ),
-                                    //     zoom: 15,
-                                    //   )),
-                                    // );
-
-                                    // googleMapController.animateCamera(
-                                    //   CameraUpdate.newCameraPosition(
-                                    //     CameraPosition(
-                                    //       bearing: 90,
-                                    //       target: LatLng(41.0287, 28.6884),
-                                    //       zoom: 10,
-                                    //     ),
-                                    //   ),
-                                    // );
                                   } catch (e) {
                                     print("KONUMUMUGETİR ERR -> $e");
                                   }
@@ -1395,13 +1359,13 @@ class MapPageView extends GetView<MapPageController> {
                                                             (mapPageController
                                                                     .myActivesRoutes![
                                                                         0]
-                                                                    .arrivalDate!
+                                                                    .arrivalDate
                                                                     .hour) +
                                                                 3,
                                                             mapPageController
                                                                 .myActivesRoutes![
                                                                     0]
-                                                                .arrivalDate!
+                                                                .arrivalDate
                                                                 .minute,
                                                           ))} varış"
                                                         : "",
@@ -1432,13 +1396,13 @@ class MapPageView extends GetView<MapPageController> {
                                                                 (mapPageController
                                                                         .myActivesRoutes![
                                                                             0]
-                                                                        .arrivalDate!
+                                                                        .arrivalDate
                                                                         .hour) +
                                                                     3,
                                                                 mapPageController
                                                                     .myActivesRoutes![
                                                                         0]
-                                                                    .arrivalDate!
+                                                                    .arrivalDate
                                                                     .minute,
                                                               ))
                                                             : "",
@@ -1476,7 +1440,7 @@ class MapPageView extends GetView<MapPageController> {
                                                             ? (mapPageController
                                                                     .myActivesRoutes![
                                                                         0]
-                                                                    .arrivalDate!
+                                                                    .arrivalDate
                                                                     .difference(
                                                                         DateTime
                                                                             .now())
@@ -2905,76 +2869,6 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                 ],
                               ),
                             )),
-                        // 3.h.spaceY,
-                        // SizedBox(
-                        //   width: 340.w,
-                        //   child: Text(
-                        //     'Aracının doluluk oranını % kaç? Arkadaşların için bu bilgi çok önemli!',
-                        //     style: TextStyle(
-                        //       fontFamily: 'Sflight',
-                        //       fontSize: 12.sp,
-                        //       color: AppConstants().ltLogoGrey,
-                        //     ),
-                        //   ),
-                        // ),
-                        // 10.h.spaceY,
-                        // Container(
-                        //   width: 340.w,
-                        //   height: 50.h,
-                        //   decoration: BoxDecoration(
-                        //     boxShadow: [
-                        //       BoxShadow(
-                        //         color: AppConstants()
-                        //             .ltDarkGrey
-                        //             .withOpacity(0.15),
-                        //         spreadRadius: 5.r,
-                        //         blurRadius: 7.r,
-                        //         offset: Offset(
-                        //             0, 3.h), // changes position of shadow
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   child: TextField(
-                        //     // onChanged: (value) {
-                        //     //   _controller3.text = "%";
-                        //     // },
-                        //     keyboardType: TextInputType.number,
-                        //     maxLength: 4,
-                        //     cursorColor: AppConstants().ltMainRed,
-                        //     controller:
-                        //         createRouteController.kapasiteController,
-                        //     inputFormatters: [
-                        //       MaskTextInputFormatter(
-                        //         mask: '% ##',
-                        //         filter: {"#": RegExp('[0-9]')},
-                        //         type: MaskAutoCompletionType.lazy,
-                        //       ),
-                        //     ],
-                        //     decoration: InputDecoration(
-                        //       counterText: '',
-                        //       filled: true,
-                        //       fillColor: AppConstants().ltWhite,
-                        //       hintStyle: TextStyle(
-                        //         fontFamily: "Sflight",
-                        //         fontSize: 14.sp,
-                        //         color: AppConstants().ltDarkGrey,
-                        //       ),
-                        //       border: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.all(
-                        //           Radius.circular(8.r),
-                        //         ),
-                        //         borderSide: BorderSide.none,
-                        //       ),
-                        //       contentPadding: EdgeInsets.all(15.w),
-                        //       hintText: 'Doluluk oranı giriniz',
-                        //     ),
-                        //     style: TextStyle(
-                        //       fontFamily: "Sflight",
-                        //       fontSize: 14.sp,
-                        //       color: AppConstants().ltBlack,
-                        //     ),
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: SizedBox(
@@ -3401,9 +3295,9 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                   mapPageController
                                                                           .myAllRoutes =
                                                                       getMyRouteResponseModel
-                                                                          .data![
+                                                                          .data[
                                                                               0]
-                                                                          .allRoutes!;
+                                                                          .allRoutes;
                                                                   print(
                                                                       "başlattımm 8-> ");
                                                                   GoogleMapController
@@ -3460,7 +3354,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .startingCoordinates![0];
+                                                                          .startingCoordinates[0];
                                                                   mapPageController
                                                                           .mapPageRouteStartLongitude
                                                                           .value =
@@ -3468,16 +3362,16 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .startingCoordinates![1];
+                                                                          .startingCoordinates[1];
                                                                   mapPageController.startLatLong = LatLng(
                                                                       mapPageController
-                                                                              .myAllRoutes!.activeRoutes![0].startingCoordinates![
+                                                                              .myAllRoutes!.activeRoutes![0].startingCoordinates[
                                                                           0],
                                                                       mapPageController
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .startingCoordinates![1]);
+                                                                          .startingCoordinates[1]);
 
                                                                   mapPageController
                                                                           .mapPageRouteFinishLatitude
@@ -3486,7 +3380,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .endingCoordinates![0];
+                                                                          .endingCoordinates[0];
                                                                   mapPageController
                                                                           .mapPageRouteFinishLongitude
                                                                           .value =
@@ -3494,16 +3388,16 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .endingCoordinates![1];
+                                                                          .endingCoordinates[1];
                                                                   mapPageController.finishLatLong = LatLng(
                                                                       mapPageController
-                                                                              .myAllRoutes!.activeRoutes![0].endingCoordinates![
+                                                                              .myAllRoutes!.activeRoutes![0].endingCoordinates[
                                                                           0],
                                                                       mapPageController
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .endingCoordinates![1]);
+                                                                          .endingCoordinates[1]);
                                                                   mapPageController
                                                                           .generalPolylineEncode
                                                                           .value =
@@ -3511,7 +3405,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                           .myAllRoutes!
                                                                           .activeRoutes![
                                                                               0]
-                                                                          .polylineEncode!;
+                                                                          .polylineEncode;
                                                                   print(
                                                                       "başlattımm 10-> ");
                                                                   mapPageController.addPointIntoPolylineList(
@@ -3525,12 +3419,12 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     MarkerId(
                                                                         "myRouteStartMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                                                     LatLng(
-                                                                        mapPageController.myAllRoutes!.activeRoutes![0].startingCoordinates![
+                                                                        mapPageController.myAllRoutes!.activeRoutes![0].startingCoordinates[
                                                                             0],
                                                                         mapPageController
                                                                             .myAllRoutes!
                                                                             .activeRoutes![0]
-                                                                            .startingCoordinates![1]),
+                                                                            .startingCoordinates[1]),
                                                                     "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
                                                                     BitmapDescriptor.fromBytes(
                                                                         setCustomMarkerIconController
@@ -3543,12 +3437,12 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                                     MarkerId(
                                                                         "myRouteFinishMarker:${mapPageController.myAllRoutes!.activeRoutes![0].id.toString()}"),
                                                                     LatLng(
-                                                                        mapPageController.myAllRoutes!.activeRoutes![0].endingCoordinates![
+                                                                        mapPageController.myAllRoutes!.activeRoutes![0].endingCoordinates[
                                                                             0],
                                                                         mapPageController
                                                                             .myAllRoutes!
                                                                             .activeRoutes![0]
-                                                                            .endingCoordinates![1]),
+                                                                            .endingCoordinates[1]),
                                                                     "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
                                                                     BitmapDescriptor.fromBytes(
                                                                         setCustomMarkerIconController
@@ -4044,11 +3938,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .startingCoordinates![0],
+                                                    .startingCoordinates[0],
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .startingCoordinates![1]),
+                                                    .startingCoordinates[1]),
                                             "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
                                           );
 
@@ -4075,7 +3969,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                         .decode(value!));
                                             mapPageController.myAllRoutes =
                                                 getMyRouteResponseModel
-                                                    .data![0].allRoutes!;
+                                                    .data[0].allRoutes;
                                             GoogleMapController
                                                 googleMapController =
                                                 await mapPageController
@@ -4115,23 +4009,24 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .startingCoordinates![0];
+                                                    .startingCoordinates[0];
                                             mapPageController
                                                     .mapPageRouteStartLongitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .startingCoordinates![1];
-                                            mapPageController.startLatLong = LatLng(
-                                                mapPageController
-                                                    .myAllRoutes!
-                                                    .activeRoutes![0]
-                                                    .startingCoordinates![0],
-                                                mapPageController
-                                                    .myAllRoutes!
-                                                    .activeRoutes![0]
-                                                    .startingCoordinates![1]);
+                                                    .startingCoordinates[1];
+                                            mapPageController.startLatLong =
+                                                LatLng(
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes![0]
+                                                        .startingCoordinates[0],
+                                                    mapPageController
+                                                        .myAllRoutes!
+                                                        .activeRoutes![0]
+                                                        .startingCoordinates[1]);
 
                                             mapPageController
                                                     .mapPageRouteFinishLatitude
@@ -4139,31 +4034,31 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .endingCoordinates![0];
+                                                    .endingCoordinates[0];
                                             mapPageController
                                                     .mapPageRouteFinishLongitude
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .endingCoordinates![1];
+                                                    .endingCoordinates[1];
                                             mapPageController.finishLatLong =
                                                 LatLng(
                                                     mapPageController
                                                         .myAllRoutes!
                                                         .activeRoutes![0]
-                                                        .endingCoordinates![0],
+                                                        .endingCoordinates[0],
                                                     mapPageController
                                                         .myAllRoutes!
                                                         .activeRoutes![0]
-                                                        .endingCoordinates![1]);
+                                                        .endingCoordinates[1]);
                                             mapPageController
                                                     .generalPolylineEncode
                                                     .value =
                                                 mapPageController
                                                     .myAllRoutes!
                                                     .activeRoutes![0]
-                                                    .polylineEncode!;
+                                                    .polylineEncode;
 
                                             mapPageController
                                                 .addPointIntoPolylineList(
@@ -4178,11 +4073,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   mapPageController
                                                       .myAllRoutes!
                                                       .activeRoutes![0]
-                                                      .startingCoordinates![0],
+                                                      .startingCoordinates[0],
                                                   mapPageController
                                                       .myAllRoutes!
                                                       .activeRoutes![0]
-                                                      .startingCoordinates![1]),
+                                                      .startingCoordinates[1]),
                                               "${mapPageController.myAllRoutes!.activeRoutes![0].startingOpenAdress}",
                                               BitmapDescriptor.fromBytes(
                                                   setCustomMarkerIconController
@@ -4196,11 +4091,11 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
                                                   mapPageController
                                                       .myAllRoutes!
                                                       .activeRoutes![0]
-                                                      .endingCoordinates![0],
+                                                      .endingCoordinates[0],
                                                   mapPageController
                                                       .myAllRoutes!
                                                       .activeRoutes![0]
-                                                      .endingCoordinates![1]),
+                                                      .endingCoordinates[1]),
                                               "${mapPageController.myAllRoutes!.activeRoutes![0].endingOpenAdress}",
                                               BitmapDescriptor.fromBytes(
                                                   setCustomMarkerIconController
@@ -4610,6 +4505,7 @@ class RouteCalculateButtomSheet2 extends StatelessWidget {
           },
         );
         await _displayPredictionStartLocation(place!);
+
         final plist = GoogleMapsPlaces(
           apiKey: AppConstants.googleMapsApiKey,
           apiHeaders: await const GoogleApiHeaders().getHeaders(),

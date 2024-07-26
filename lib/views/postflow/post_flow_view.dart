@@ -39,7 +39,7 @@ class _PostFlowViewState extends State<PostFlowView> {
 
   GetPollylineRequest getPollylineRequest = GetPollylineRequest();
 
-  CreateRouteController createRouteController = Get.find();
+  CreateeRouteController createRouteController = Get.find();
 
   DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 

@@ -4,23 +4,24 @@
 
 import 'dart:convert';
 
-UsersOnArea usersOnAreaFromJson(String str) =>
-    UsersOnArea.fromJson(json.decode(str));
+UsersOnAreaModel usersOnAreaFromJson(String str) =>
+    UsersOnAreaModel.fromJson(json.decode(str));
 
-String usersOnAreaToJson(UsersOnArea data) => json.encode(data.toJson());
+String usersOnAreaToJson(UsersOnAreaModel data) => json.encode(data.toJson());
 
-class UsersOnArea {
+class UsersOnAreaModel {
   int? succes;
   List<List<GetUsersOnAreaResDatum>>? data;
   String? message;
 
-  UsersOnArea({
+  UsersOnAreaModel({
     this.succes,
     this.data,
     this.message,
   });
 
-  factory UsersOnArea.fromJson(Map<String, dynamic> json) => UsersOnArea(
+  factory UsersOnAreaModel.fromJson(Map<String, dynamic> json) =>
+      UsersOnAreaModel(
         succes: json["succes"],
         data: json["data"] == null
             ? []

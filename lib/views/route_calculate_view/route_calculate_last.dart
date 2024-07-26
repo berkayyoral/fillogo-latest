@@ -28,8 +28,8 @@ import 'components/route_search_by_city_models.dart';
 class RouteCalculateLastView extends StatelessWidget {
   RouteCalculateLastView({super.key});
 
-  CreateRouteController createRouteController =
-      Get.find<CreateRouteController>();
+  CreateeRouteController createRouteController =
+      Get.find<CreateeRouteController>();
 
   //RouteCalculatesViewController currentLocation = Get.find();
 
@@ -138,7 +138,7 @@ class RouteCalculateLastView extends StatelessWidget {
         ],
       ),
       drawer: NavigationDrawerWidget(),
-      body: GetBuilder<CreateRouteController>(
+      body: GetBuilder<CreateeRouteController>(
         id: "createRouteController",
         init: createRouteController,
         initState: (_) {},
@@ -158,7 +158,7 @@ class RouteCalculateLastView extends StatelessWidget {
                           CircularProgressIndicator()) //UiHelper.loadingAnimationWidget(context)
                   : Stack(
                       children: <Widget>[
-                        GetBuilder<CreateRouteController>(
+                        GetBuilder<CreateeRouteController>(
                           init: createRouteController,
                           initState: (_) async {
                             //await getMyCurrentLocationController.getMyCurrentLocation();
@@ -291,8 +291,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
 
   SetCustomMarkerIconController customMarkerIconController = Get.find();
 
-  CreateRouteController createRouteController =
-      Get.find<CreateRouteController>();
+  CreateeRouteController createRouteController =
+      Get.find<CreateeRouteController>();
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ffi';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/models/routes_models/get_users_on_area.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -28,7 +27,7 @@ class MapPageController extends GetxController {
     print("MAPPAGECONTROLER CREATE");
 
     await getMyRoutesServicesRequestRefreshable();
-    await updateMyLocationMarkers();
+    // await updateMyLocationMarkers(); //NEWMAP
     super.onInit();
   }
 
@@ -212,8 +211,8 @@ class MapPageController extends GetxController {
               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
         },
       ).then((value) async {
-        UsersOnArea response =
-            UsersOnArea.fromJson(convert.json.decode(value!));
+        UsersOnAreaModel response =
+            UsersOnAreaModel.fromJson(convert.json.decode(value!));
 
         print("ONAREA  Success = ${response.succes}");
 
@@ -1026,6 +1025,8 @@ class MapPageController extends GetxController {
             "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
         generalPolylineEncode2.value =
             value.routes![0].polyline!.encodedPolyline!;
+
+        print("CALCULATEDİSTANCE -> ${calculatedRouteDistance.value}");
       }
 
       update(["mapPageController"]);
@@ -1234,7 +1235,7 @@ class MapPageController extends GetxController {
 
   _getPolyline(Map<String, LatLng> route, int index) async {
     print("MAPTENPOLYLİNECODU -> mapPageController _getPolyline()");
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
       AppConstants.googleMapsApiKey,
       PointLatLng(route["start"]!.latitude, route["start"]!.longitude),
       PointLatLng(route["end"]!.latitude, route["end"]!.longitude),

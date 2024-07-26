@@ -8,7 +8,7 @@ import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
 import '../../../export.dart';
 
-class CreateRouteController extends GetxController {
+class CreateeRouteController extends GetxController {
   @override
   void onInit() async {
     mapDisplayAnimationFunc2();

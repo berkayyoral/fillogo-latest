@@ -18,7 +18,7 @@ import GoogleMaps
 //       if #available(iOS 10.0, *) {
 //   UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
 // }
-      GMSServices.provideAPIKey("AIzaSyBSrOeLs0icZqEaTt4v0txBXKS4wPckGUs");//AIzaSyAFFLTo2huCvR-HiQTkDIpjJ5Yb-b-erN8 - AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA - AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME
+      GMSServices.provideAPIKey("AIzaSyB5n4c5gTUMY3NiWTXCcRhdKl82O7Z_Isw");//AIzaSyAFFLTo2huCvR-HiQTkDIpjJ5Yb-b-erN8 - AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA - AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME
     OneSignal.Debug.setLogLevel(.LL_VERBOSE)
      // OneSignal initialization
     OneSignal.initialize("ef065656-adab-4c84-b66e-245e0bdba8c6", withLaunchOptions: launchOptions)

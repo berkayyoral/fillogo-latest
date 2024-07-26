@@ -1,3 +1,4 @@
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/widgets/shild_icon_pinned.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
@@ -15,19 +16,22 @@ class SetCustomMarkerIconController extends GetxController {
 
   @override
   void onInit() async {
+    await setCustomMarkerIcon3(); //myLocationIcon
     await setCustomMarkerIcon(); //myRouteStartIcon
     await setCustomMarkerIcon2(); //myfriendLocationIcon
-    await setCustomMarkerIcon3(); //myLocationIcon
     await setCustomMarkerIconNoSee(); //myRouteStartIcon (baştakiyle aynı)
     await setCustomMarkerIcon4(); //bitisIcon6
     super.onInit();
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    print("cartypem");
     ByteData data = await rootBundle.load(path);
+    print("cartypem data -> $data");
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: 130);
     ui.FrameInfo fi = await codec.getNextFrame();
+    print("cartype getby ");
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
@@ -59,29 +63,6 @@ class SetCustomMarkerIconController extends GetxController {
   }
 
   setCustomMarkerIcon3() async {
-    String photoUrl = LocaleManager.instance
-            .getString(PreferencesKeys.currentUserProfilPhoto) ??
-        "https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png";
-    if (photoUrl != null) {
-      myLocation = ClipPath(
-        clipper: ShildIconCustomPainter(),
-        child: Container(
-          height: 100,
-          width: 100,
-          color: AppConstants().ltWhite,
-          child: Image.network(
-            photoUrl ??
-                'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-      mayLocationIcon =
-          (await NetworkAssetBundle(Uri.parse(photoUrl)).load(photoUrl))
-              .buffer
-              .asUint8List();
-    }
-
     String? myCarType =
         LocaleManager.instance.getString(PreferencesKeys.carType);
 
@@ -122,14 +103,34 @@ class SetCustomMarkerIconController extends GetxController {
       ),
     );
 
-    mayLocationIcon = (await NetworkAssetBundle(Uri.parse(LocaleManager.instance
-                .getString(PreferencesKeys.currentUserProfilPhoto)!))
-            .load(LocaleManager.instance
-                .getString(PreferencesKeys.currentUserProfilPhoto)!))
-        .buffer
-        .asUint8List();
+    // mayLocationIcon = (await NetworkAssetBundle(Uri.parse(LocaleManager.instance
+    //             .getString(PreferencesKeys.currentUserProfilPhoto)!))
+    //         .load(LocaleManager.instance
+    //             .getString(PreferencesKeys.currentUserProfilPhoto)!))
+    //     .buffer
+    //     .asUint8List();
 
     mayLocationIcon =
         await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
+  }
+
+  Future<Uint8List> friendsCustomMarkerIcon({required CarType carType}) async {
+    Uint8List? iconByCarType;
+    String iconPath;
+    switch (carType) {
+      case CarType.motorsiklet:
+        iconPath = 'assets/icons/friendsLocationMotorcycle.png';
+        break;
+      case CarType.tir:
+        iconPath = 'assets/icons/friendsLocationTruck.png';
+        break;
+      case CarType.otomobil:
+        iconPath = 'assets/icons/friendsLocationLightCommercial.png';
+        break;
+    }
+
+    iconByCarType = await getBytesFromAsset(iconPath, 100);
+
+    return iconByCarType;
   }
 }

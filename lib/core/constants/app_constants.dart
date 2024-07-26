@@ -11,7 +11,7 @@ class AppConstants {
   static const String oneSignalAppId =
       "ef065656-adab-4c84-b66e-245e0bdba8c6"; //'43ddc771-f2eb-4ecf-bcc8-95434809b1dc'; ef065656-adab-4c84-b66e-245e0bdba8c6
   static const String googleMapsApiKey =
-      "AIzaSyBSrOeLs0icZqEaTt4v0txBXKS4wPckGUs"; // "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME";
+      "AIzaSyB5n4c5gTUMY3NiWTXCcRhdKl82O7Z_Isw"; // "AIzaSyBSrOeLs0icZqEaTt4v0txBXKS4wPckGUs"; // "AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME";
   static const String googleMapsGetPolylineLink =
       "https://routes.googleapis.com/directions/v2:computeRoutes";
 
