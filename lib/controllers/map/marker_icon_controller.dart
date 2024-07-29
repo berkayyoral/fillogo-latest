@@ -62,18 +62,33 @@ class SetCustomMarkerIconController extends GetxController {
         await getBytesFromAsset('assets/icons/myFriendLocationIcon.png', 100);
   }
 
-  setCustomMarkerIcon3() async {
+  setCustomMarkerIcon3({bool isOffVisibility = false}) async {
     String? myCarType =
         LocaleManager.instance.getString(PreferencesKeys.carType);
 
+    isOffVisibility =
+        !LocaleManager.instance.getBool(PreferencesKeys.isVisibility)!;
+    print("VİSİVİBİLTRMARKER iconcont visib -> ${isOffVisibility}");
+    String iconPath;
     if (myCarType != null) {
-      String iconPath = myCarType == "Otomobil"
-          ? 'assets/icons/myLocationLightCommercial.png'
-          : myCarType == "Tır"
-              ? 'assets/icons/myLocationTruck.png'
-              : 'assets/icons/myLocationMotorcycle.png';
-
+      if (isOffVisibility) {
+        iconPath = myCarType == "Otomobil"
+            ? 'assets/icons/myLocationOffVisibilityLightCommercial.png'
+            : myCarType == "Tır"
+                ? 'assets/icons/myLocationOffVisibilityTruck.png'
+                : 'assets/icons/myLocationOffVisibilityMotorcycle.png';
+      } else {
+        iconPath = myCarType == "Otomobil"
+            ? 'assets/icons/myLocationLightCommercial.png'
+            : myCarType == "Tır"
+                ? 'assets/icons/myLocationTruck.png'
+                : 'assets/icons/myLocationMotorcycle.png';
+      }
+      print("VİSİVİBİLTRMARKER iconpath -> ${iconPath}");
       mayLocationIcon = await getBytesFromAsset(iconPath, 100);
+    } else {
+      mayLocationIcon =
+          await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
     }
 
     // await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);

@@ -1,4 +1,4 @@
-import 'package:fillogo/core/constants/app_constants.dart';
+import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
@@ -16,36 +16,58 @@ class VisibilityStatusWidget extends StatelessWidget {
         top: 220.h,
         right: 0,
         child: Container(
-          height: 230.h,
+          height: 200.h,
           child: Column(
             children: [
               /// GÖRÜNÜRLÜK
               Expanded(
                 child: visibilityOrAvabilityWidget(mapPageMController, context,
                     isForVisibility: true, onTap: () async {
-                  mapPageMController.isRouteVisibilty.value =
-                      !mapPageMController.isRouteVisibilty.value;
+                  SetCustomMarkerIconController customMarkerIconController =
+                      Get.find();
+                  await customMarkerIconController.setCustomMarkerIcon3(
+                      isOffVisibility: true);
+                  print(
+                      "AKTİFROTAM -> ${mapPageMController.isThereActiveRoute.value}");
+                  if (mapPageMController.isThereActiveRoute.value) {
+                    Get.snackbar("Başarısız!",
+                        "Aktif rotanız varken görünürlük bilginiz kapatılamaz",
+                        snackPosition: SnackPosition.BOTTOM,
+                        colorText: AppConstants().ltBlack);
+                  } else {
+                    mapPageMController.isRouteVisibilty.value =
+                        !mapPageMController.isRouteVisibilty.value;
 
-                  await GeneralServicesTemp().makePostRequest(
-                    EndPoint.updateStatus,
-                    {
-                      "visible": mapPageMController.isRouteVisibilty.value,
-                      "available": mapPageMController.isRouteAvability.value
-                    },
-                    {
-                      "Content-type": "application/json",
-                      'Authorization':
-                          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                    },
-                  ).then((value) => print(
-                      "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}"));
+                    await GeneralServicesTemp().makePostRequest(
+                      EndPoint.updateStatus,
+                      {
+                        "visible": mapPageMController.isRouteVisibilty.value,
+                        "available": mapPageMController.isRouteAvability.value
+                      },
+                      {
+                        "Content-type": "application/json",
+                        'Authorization':
+                            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                      },
+                    ).then((value) => print(
+                        "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}"));
+                    mapPageMController.markers.clear();
+                    LocaleManager.instance
+                        .setBool(PreferencesKeys.isVisibility,
+                            mapPageMController.isRouteVisibilty.value)
+                        .then((value) {
+                      print(
+                          "VİSİVİBİLTRMARKER -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
+                      return customMarkerIconController.setCustomMarkerIcon3(
+                          isOffVisibility:
+                              mapPageMController.isRouteVisibilty.value);
+                    });
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}."),
-                    ),
-                  );
+                    Get.snackbar("Başarılı!",
+                        "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}.",
+                        snackPosition: SnackPosition.BOTTOM,
+                        colorText: AppConstants().ltBlack);
+                  }
                 }),
               ),
 
@@ -67,12 +89,10 @@ class VisibilityStatusWidget extends StatelessWidget {
                     },
                   ).then((value) => print("AVABİLİTY değişti"));
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          "Müsaitlik bilginiz ${mapPageMController.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}."),
-                    ),
-                  );
+                  Get.snackbar("Başarılı!",
+                      "Müsaitlik bilginiz ${mapPageMController.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}.",
+                      snackPosition: SnackPosition.BOTTOM,
+                      colorText: AppConstants().ltBlack);
                 }),
               ),
 
@@ -118,9 +138,13 @@ class VisibilityStatusWidget extends StatelessWidget {
                 padding: EdgeInsets.all(8.w),
                 child: Icon(
                   isForVisibility ? Icons.remove_red_eye : Icons.car_repair,
-                  color: mapPageMController.isRouteVisibilty.value
-                      ? AppConstants().ltMainRed
-                      : AppConstants().ltDarkGrey,
+                  color: isForVisibility
+                      ? mapPageMController.isRouteVisibilty.value
+                          ? AppConstants().ltMainRed
+                          : AppConstants().ltDarkGrey
+                      : mapPageMController.isRouteAvability.value
+                          ? AppConstants().ltMainRed
+                          : AppConstants().ltDarkGrey,
                 ),
               ),
             ),

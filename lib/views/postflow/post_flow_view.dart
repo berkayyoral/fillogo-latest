@@ -15,17 +15,14 @@ import 'package:fillogo/views/route_details_page_view/components/selected_route_
 import 'package:fillogo/views/testFolder/test19/route_api_services.dart';
 import 'package:fillogo/widgets/admob.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
-import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:fillogo/widgets/share_post_progressbar_widget.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../route_calculate_view/components/create_route_controller.dart';
 
 class PostFlowView extends StatefulWidget {
-  PostFlowView({Key? key}) : super(key: key);
+  const PostFlowView({Key? key}) : super(key: key);
 
   @override
   State<PostFlowView> createState() => _PostFlowViewState();
@@ -93,9 +90,9 @@ class _PostFlowViewState extends State<PostFlowView> {
               right: 5.h,
             ),
             child: SvgPicture.asset(
+              'assets/icons/open-drawer-icon.svg',
               height: 25.h,
               width: 25.w,
-              'assets/icons/open-drawer-icon.svg',
               color: AppConstants().ltLogoGrey,
             ),
           ),
@@ -105,6 +102,23 @@ class _PostFlowViewState extends State<PostFlowView> {
           height: 45,
         ),
         actions: [
+          GestureDetector(
+            onTap: () async {
+              Get.toNamed(NavigationConstants.searchUser);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 5.w,
+                right: 10.w,
+              ),
+              child: SvgPicture.asset(
+                'assets/icons/search-icon.svg',
+                height: 25.h,
+                width: 25.w,
+                color: const Color(0xff3E3E3E),
+              ),
+            ),
+          ),
           GestureDetector(
             onTap: () {
               Get.toNamed(NavigationConstants.notifications);
@@ -180,7 +194,6 @@ class _PostFlowViewState extends State<PostFlowView> {
                   child: Column(
                     children: [
                       NewPostCreateButtonView(),
-                      searchUserWidget(),
                       StoryFlowWiew(),
                       Divider(
                         color: AppConstants().ltLogoGrey,
@@ -505,95 +518,6 @@ class _PostFlowViewState extends State<PostFlowView> {
                   ),
                 ));
           }),
-    );
-  }
-
-  Padding searchUserWidget() {
-    return Padding(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 20.h),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(NavigationConstants.searchUser);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppConstants().ltWhiteGrey,
-                borderRadius: BorderRadius.circular(
-                  8.r,
-                ),
-              ),
-              width: 48.w,
-              height: 48.w,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.w,
-                ),
-                child: SvgPicture.asset(
-                  'assets/icons/search-icon.svg',
-                  width: 24.w,
-                  color: AppConstants().ltMainRed,
-                ),
-              ),
-            ),
-          ),
-          12.w.spaceX,
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(NavigationConstants.searchUser);
-            },
-            child: Container(
-              width: 281.w,
-              height: 48.h,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: AppConstants().ltLogoGrey.withOpacity(0.2),
-                    spreadRadius: 0.r,
-                    blurRadius: 10.r,
-                  ),
-                ],
-                color: AppConstants().ltWhite,
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 12.w,
-                      bottom: 12.h,
-                      top: 12.h,
-                    ),
-                    child: Text(
-                      "Kullanıcı Ara",
-                      style: TextStyle(
-                        color: AppConstants().ltLogoGrey,
-                        fontFamily: "SfLight",
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: 12.w,
-                      bottom: 12.h,
-                      top: 12.h,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/search-icon.svg',
-                      color: AppConstants().ltMainRed,
-                      height: 24.h,
-                      width: 24.w,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

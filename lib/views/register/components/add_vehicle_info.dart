@@ -138,15 +138,6 @@ class AddVehicleInfoWidget extends StatelessWidget {
                 controller: modelController,
               ),
               CustomTextField(
-                textInputAction: TextInputAction.done,
-                labelText: 'Plaka',
-                controller: plateController,
-                inputFormatters: [
-                  MaskTextInputFormatter(
-                      mask: '#########', filter: {"#": RegExp('[A-Za-z0-9]')}),
-                ],
-              ),
-              CustomTextField(
                 onChanged: (value) {
                   if (!isNumeric(value)) {
                     capacityController.text =
@@ -157,6 +148,15 @@ class AddVehicleInfoWidget extends StatelessWidget {
                 labelText: 'Kapasite',
                 controller: capacityController,
                 keyboardType: TextInputType.number,
+              ),
+              CustomTextField(
+                textInputAction: TextInputAction.done,
+                labelText: 'Plaka',
+                controller: plateController,
+                inputFormatters: [
+                  MaskTextInputFormatter(
+                      mask: '#########', filter: {"#": RegExp('[A-Za-z0-9]')}),
+                ],
               ),
               RichText(
                 text: TextSpan(
@@ -269,6 +269,14 @@ class AddVehicleInfoWidget extends StatelessWidget {
                                     PreferencesKeys.userCredentials,
                                     '${registerController.emailController.value}+${registerController.passwordController.value}',
                                   );
+                                  // LocaleManager.instance.setBool(
+                                  //     PreferencesKeys.isVisibility,
+                                  //     !response.data![0].user!.isInvisible!);
+                                  // LocaleManager.instance.setBool(
+                                  //     PreferencesKeys.isAvability,
+                                  //     response.data![0].user!.isAvailable!);
+                                  // print(
+                                  //     "VİSİORAVA V -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
                                   LocaleManager.instance.setString(
                                     PreferencesKeys.accessToken,
                                     loginResponse.data![0].tokens!.accessToken!,

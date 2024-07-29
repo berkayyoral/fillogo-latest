@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
-import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -12,15 +10,15 @@ import 'package:intl/intl.dart';
 class ActiveRouteInfoWidget extends StatelessWidget {
   final BuildContext context;
 
-  ActiveRouteInfoWidget({
+  const ActiveRouteInfoWidget({
+    super.key,
     required this.context,
   });
 
   @override
   Widget build(BuildContext context) {
     final MapPageMController mapPageMController = Get.find();
-    final GetMyCurrentLocationController getMyCurrentLocationController =
-        Get.find();
+    ;
     return Obx(() => mapPageMController.isThereActiveRoute.value
         ? Align(
             alignment: Alignment.bottomCenter,
@@ -179,7 +177,8 @@ class ActiveRouteInfoWidget extends StatelessWidget {
                                           .value));
 
                               mapPageMController.polylines.clear();
-
+                              mapPageMController.polylineCoordinates.clear();
+                              mapPageMController.getMyRoutes();
                               mapPageMController.update();
                             }
 

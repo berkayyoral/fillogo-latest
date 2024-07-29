@@ -41,35 +41,24 @@
 // import 'package:google_api_headers/google_api_headers.dart';
 // import 'package:google_maps_webservice/places.dart';
 // import 'package:intl/intl.dart';
-
 // class MapPageView extends GetView<MapPageController> {
 //   MapPageView({super.key});
-
 //   bool statusRoute = true;
 //   GeneralDrawerController mapPageDrawerController =
 //       Get.find<GeneralDrawerController>();
-
 //   final SetCustomMarkerIconController setCustomMarkerIconController =
 //       Get.find();
-
 //   BottomNavigationBarController bottomNavigationBarController =
 //       Get.find<BottomNavigationBarController>();
-
 //   CreatePostPageController createPostPageController =
 //       Get.put(CreatePostPageController());
-
 //   MapPageController mapPageController = Get.find<MapPageController>();
-
 //   MfuController mfuController = Get.put(MfuController());
-
 //   GetMyCurrentLocationController getMyCurrentLocationController =
 //       Get.find<GetMyCurrentLocationController>();
-
 //   GoogleMapsGeneralWidgetsController googleMapsGeneralWidgetsController =
 //       Get.find<GoogleMapsGeneralWidgetsController>();
-
 //   late CameraPosition initialLocation;
-
 //   RxBool finishRouteButton = true.obs;
 
 //   RxBool showFilterOption = false.obs;

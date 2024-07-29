@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:developer';
 
-import '../../views/map_page_view/components/map_page_controller.dart';
-
 class GetMyCurrentLocationController extends GetxController {
   var myLocationLatitudeSt = ''.obs;
   var myLocationLongitudeSt = ''.obs;

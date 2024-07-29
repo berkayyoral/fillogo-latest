@@ -249,6 +249,9 @@ class CreateRouteController extends GetxController implements PolylineService {
       );
     } else {
       try {
+        print(
+            "ROTANIZINBİTİSSAATİ arrival  -> ${arrivalController.value.text} depar -> ${departureController.value.text}");
+
         UiHelper.showLoadingAnimation(context);
         GeneralServicesTemp().makePostRequest(
           EndPoint.routesNew,
@@ -286,7 +289,7 @@ class CreateRouteController extends GetxController implements PolylineService {
             if (value != null) {
               final response =
                   PostCreateRouteResponseModel.fromJson(jsonDecode(value));
-
+              print("ROTANIZINBİTİSSAATİ createroute ->  ${response}");
               print("DEPARTUREFORMAT _> ${dateTimeFormatDeparture.value}");
               if (response.success == 1) {
                 createPostPageController.routeId.value = response.data![0].id!;
@@ -504,6 +507,7 @@ class CreateRouteController extends GetxController implements PolylineService {
                                   text: 'Rotayı Başlatma',
                                   textColor: AppConstants().ltWhite,
                                   onpressed: () async {
+                                    mapPageMController.isLoading.value = true;
                                     await showDialog(
                                         context: context,
                                         builder: (BuildContext context2) {
@@ -525,6 +529,10 @@ class CreateRouteController extends GetxController implements PolylineService {
 
                                     await mapPageMController.getMyRoutes(
                                         isStartRoute: false);
+                                    mapPageMController.polylines.clear();
+                                    mapPageMController.polylineCoordinates
+                                        .clear();
+                                    mapPageMController.isLoading.value = false;
                                   },
                                   iconPath: '',
                                   color: AppConstants().ltDarkGrey,

@@ -29,25 +29,49 @@ class FirstOpenIsActiveRoute extends GetxController {
         (value) async {
           GetMyRouteResponseModel? getMyRouteResponseModel =
               GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-          print("DEBUGMODEMM get -> ${jsonEncode(getMyRouteResponseModel)}");
           if (getMyRouteResponseModel.data != null &&
               getMyRouteResponseModel
-                  .data!.first.allRoutes!.activeRoutes!.isNotEmpty) {
-            isActiveRoute = getMyRouteResponseModel
-                    .data![0].allRoutes!.activeRoutes!.isEmpty
-                ? false
-                : true;
+                  .data.first.allRoutes.activeRoutes!.isNotEmpty) {
+            isActiveRoute =
+                getMyRouteResponseModel.data[0].allRoutes.activeRoutes!.isEmpty
+                    ? false
+                    : true;
             routeFinishDate = getMyRouteResponseModel
-                    .data![0].allRoutes!.activeRoutes!.isNotEmpty
+                    .data[0].allRoutes.activeRoutes!.isNotEmpty
                 ? getMyRouteResponseModel
-                    .data![0].allRoutes!.activeRoutes![0].arrivalDate!
+                    .data[0].allRoutes.activeRoutes![0].arrivalDate
                 : DateTime.now();
+
+            routeFinishDate = routeFinishDate.add(Duration(hours: 3));
+
+            // print("ROTANIZINBİTİSSAATİ ${getMyRouteResponseModel
+            //   .data[0].allRoutes.activeRoutes![0].}");
           }
         },
       );
-      if (routeFinishDate.millisecondsSinceEpoch >
-          DateTime.now().millisecondsSinceEpoch + 300000) {
+
+      // Şu anki tarih ve saat
+      DateTime now = DateTime.now();
+
+      // İki tarih arasındaki farkı hesapla
+      Duration difference = routeFinishDate.difference(now);
+      print(
+          'ROTANIZINBİTİSSAATİ The given date is in the past by ${isActiveRoute}');
+
+      if (difference.isNegative) {
+        print(
+            'ROTANIZINBİTİSSAATİ The given date is in the past by ${difference.abs()}');
+      } else if (!difference.isNegative) {
+        print(
+            'ROTANIZINBİTİSSAATİ The given date is in the future by $difference');
       } else {
+        print('ROTANIZINBİTİSSAATİ The given date is now.');
+      }
+
+      // if (routeFinishDate != DateTime.now() &&
+      //     (routeFinishDate.millisecondsSinceEpoch >
+      //         (DateTime.now().millisecondsSinceEpoch + 300000)))
+      if (isActiveRoute && difference.isNegative) {
         Get.dialog(
             barrierDismissible: false,
             Dialog(
@@ -81,34 +105,31 @@ class FirstOpenIsActiveRoute extends GetxController {
                           onTap: () {
                             MapPageMController mapPageController = Get.find();
 
-                            () {
-                              GeneralServicesTemp().makePatchRequest(
-                                EndPoint.activateRoute,
-                                ActivateRouteRequestModel(
-                                    routeId: mapPageController
-                                        .myActivesRoutes![0].id),
-                                {
-                                  "Content-type": "application/json",
-                                  'Authorization':
-                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                },
-                              ).then((value) {
-                                ActivateRouteResponseModel response =
-                                    ActivateRouteResponseModel.fromJson(
-                                        jsonDecode(value!));
-                                if (response.success == 1) {
-                                  BerkayController berkayController =
-                                      Get.find<BerkayController>();
-                                  berkayController.isAlreadyHaveRoute =
-                                      false.obs;
+                            GeneralServicesTemp().makePatchRequest(
+                              EndPoint.activateRoute,
+                              ActivateRouteRequestModel(
+                                  routeId:
+                                      mapPageController.myActivesRoutes[0].id),
+                              {
+                                "Content-type": "application/json",
+                                'Authorization':
+                                    'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                              },
+                            ).then((value) {
+                              ActivateRouteResponseModel response =
+                                  ActivateRouteResponseModel.fromJson(
+                                      jsonDecode(value!));
+                              if (response.success == 1) {
+                                BerkayController berkayController =
+                                    Get.find<BerkayController>();
+                                berkayController.isAlreadyHaveRoute = false.obs;
 
-                                  mapPageController.markers.clear();
+                                mapPageController.markers.clear();
 
-                                  mapPageController.polylines.clear();
-                                  mapPageController.markers.clear();
-                                }
-                              });
-                            };
+                                mapPageController.polylines.clear();
+                                mapPageController.markers.clear();
+                              }
+                            });
 
                             Get.back();
                           },
@@ -153,7 +174,7 @@ class FirstOpenIsActiveRoute extends GetxController {
                 ),
               ),
             ));
-      }
+      } else {}
     }
   }
 

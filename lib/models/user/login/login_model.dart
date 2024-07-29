@@ -19,77 +19,75 @@ class LoginRequestModel {
 
 class LoginResponseModel {
   int? success;
-  List<Data>? data;
+  List<Datum>? data;
   String? message;
 
-  LoginResponseModel({this.success, this.data, this.message});
+  LoginResponseModel({
+    this.success,
+    this.data,
+    this.message,
+  });
 
-  LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
-    }
-    message = json['message'];
-  }
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
+      LoginResponseModel(
+        success: json["success"],
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        message: json["message"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    data['message'] = message;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "message": message,
+      };
 }
 
-class Data {
+class Datum {
   bool? isAcikmi;
   Tokens? tokens;
   User? user;
 
-  Data({this.isAcikmi, this.tokens, this.user});
+  Datum({
+    this.isAcikmi,
+    this.tokens,
+    this.user,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    isAcikmi = json['isAcikmi'];
-    tokens =
-        json['tokens'] != null ? Tokens.fromJson(json['tokens']) : null;
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
-  }
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        isAcikmi: json["isAcikmi"],
+        tokens: json["tokens"] == null ? null : Tokens.fromJson(json["tokens"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['isAcikmi'] = isAcikmi;
-    if (tokens != null) {
-      data['tokens'] = tokens!.toJson();
-    }
-    if (user != null) {
-      data['user'] = user!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "isAcikmi": isAcikmi,
+        "tokens": tokens?.toJson(),
+        "user": user?.toJson(),
+      };
 }
 
 class Tokens {
   String? accessToken;
   String? refreshToken;
 
-  Tokens({this.accessToken, this.refreshToken});
+  Tokens({
+    this.accessToken,
+    this.refreshToken,
+  });
 
-  Tokens.fromJson(Map<String, dynamic> json) {
-    accessToken = json['accessToken'];
-    refreshToken = json['refreshToken'];
-  }
+  factory Tokens.fromJson(Map<String, dynamic> json) => Tokens(
+        accessToken: json["accessToken"],
+        refreshToken: json["refreshToken"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['accessToken'] = accessToken;
-    data['refreshToken'] = refreshToken;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      };
 }
 
 class User {
@@ -98,61 +96,74 @@ class User {
   String? surname;
   String? username;
   String? mail;
-  String? phoneNumber;
+  dynamic phoneNumber;
   String? profilePicture;
   String? banner;
   String? title;
   bool? isPrivate;
   bool? isOpen;
   bool? isVerified;
-  String? createdAt;
+  bool? isInvisible;
+  bool? isAvailable;
+  String? location;
+  DateTime? createdAt;
 
-  User(
-      {this.id,
-      this.name,
-      this.surname,
-      this.username,
-      this.mail,
-      this.phoneNumber,
-      this.profilePicture,
-      this.banner,
-      this.title,
-      this.isPrivate,
-      this.isOpen,
-      this.isVerified,
-      this.createdAt});
+  User({
+    this.id,
+    this.name,
+    this.surname,
+    this.username,
+    this.mail,
+    this.phoneNumber,
+    this.profilePicture,
+    this.banner,
+    this.title,
+    this.isPrivate,
+    this.isOpen,
+    this.isVerified,
+    this.isInvisible,
+    this.isAvailable,
+    this.location,
+    this.createdAt,
+  });
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    surname = json['surname'];
-    username = json['username'];
-    mail = json['mail'];
-    phoneNumber = json['phoneNumber'];
-    profilePicture = json['profilePicture'];
-    banner = json['banner'];
-    title = json['title'];
-    isPrivate = json['isPrivate'];
-    isOpen = json['isOpen'];
-    isVerified = json['isVerified'];
-    createdAt = json['createdAt'];
-  }
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
+        name: json["name"],
+        surname: json["surname"],
+        username: json["username"],
+        mail: json["mail"],
+        phoneNumber: json["phoneNumber"],
+        profilePicture: json["profilePicture"],
+        banner: json["banner"],
+        title: json["title"],
+        isPrivate: json["isPrivate"],
+        isOpen: json["isOpen"],
+        isVerified: json["isVerified"],
+        isInvisible: json["isInvisible"],
+        isAvailable: json["isAvailable"],
+        location: json["location"],
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['surname'] = surname;
-    data['username'] = username;
-    data['mail'] = mail;
-    data['phoneNumber'] = phoneNumber;
-    data['profilePicture'] = profilePicture;
-    data['banner'] = banner;
-    data['title'] = title;
-    data['isPrivate'] = isPrivate;
-    data['isOpen'] = isOpen;
-    data['isVerified'] = isVerified;
-    data['createdAt'] = createdAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "surname": surname,
+        "username": username,
+        "mail": mail,
+        "phoneNumber": phoneNumber,
+        "profilePicture": profilePicture,
+        "banner": banner,
+        "title": title,
+        "isPrivate": isPrivate,
+        "isOpen": isOpen,
+        "isVerified": isVerified,
+        "isInvisible": isInvisible,
+        "isAvailable": isAvailable,
+        "location": location,
+        "createdAt": createdAt?.toIso8601String(),
+      };
 }

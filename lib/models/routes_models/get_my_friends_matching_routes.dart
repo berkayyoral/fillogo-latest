@@ -4,54 +4,52 @@
 
 import 'dart:convert';
 
-GetMyFriendsMatchingRoutesResponse getMyFriendsMatchingRoutesResponseFromJson(
+GetMatchingRoutesResponse getMyFriendsMatchingRoutesResponseFromJson(
         String str) =>
-    GetMyFriendsMatchingRoutesResponse.fromJson(json.decode(str));
+    GetMatchingRoutesResponse.fromJson(json.decode(str));
 
 String getMyFriendsMatchingRoutesResponseToJson(
-        GetMyFriendsMatchingRoutesResponse data) =>
+        GetMatchingRoutesResponse data) =>
     json.encode(data.toJson());
 
-class GetMyFriendsMatchingRoutesResponse {
+class GetMatchingRoutesResponse {
   int? success;
-  List<GetMyFriendsMatchingResDatum>? data;
+  List<MatchingRoutes>? matchingRoutes;
   String? message;
 
-  GetMyFriendsMatchingRoutesResponse({
+  GetMatchingRoutesResponse({
     this.success,
-    this.data,
+    this.matchingRoutes,
     this.message,
   });
 
-  factory GetMyFriendsMatchingRoutesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      GetMyFriendsMatchingRoutesResponse(
+  factory GetMatchingRoutesResponse.fromJson(Map<String, dynamic> json) =>
+      GetMatchingRoutesResponse(
         success: json["success"],
-        data: json["data"] == null
+        matchingRoutes: json["data"] == null
             ? []
-            : List<GetMyFriendsMatchingResDatum>.from(json["data"]!
-                .map((x) => GetMyFriendsMatchingResDatum.fromJson(x))),
+            : List<MatchingRoutes>.from(
+                json["data"]!.map((x) => MatchingRoutes.fromJson(x))),
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data == null
+        "data": matchingRoutes == null
             ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+            : List<dynamic>.from(matchingRoutes!.map((x) => x.toJson())),
         "message": message,
       };
 }
 
-class GetMyFriendsMatchingResDatum {
+class MatchingRoutes {
   List<Matching>? matching;
 
-  GetMyFriendsMatchingResDatum({
+  MatchingRoutes({
     this.matching,
   });
 
-  factory GetMyFriendsMatchingResDatum.fromJson(Map<String, dynamic> json) =>
-      GetMyFriendsMatchingResDatum(
+  factory MatchingRoutes.fromJson(Map<String, dynamic> json) => MatchingRoutes(
         matching: json["matching"] == null
             ? []
             : List<Matching>.from(

@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		BDUk3tCQpKO1hD9ixSlP6JPMzC4=
+		OO/Dg112mA9mkhhk7oc3DyXNEK4=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		nyAYKI44mUSLcFweihEO6PkhqAs=
+		zdtuO/01sfmxW8nsZ9wyyIqLOcM=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -436,6 +436,18 @@
 		<data>
 		ZOm7ouTRqCocibvRKLZNBZKpBsk=
 		</data>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityLightCommercial.png</key>
+		<data>
+		SE9BvlvB4T60Aq+xTYgPlmiYFKQ=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityMotorcycle.png</key>
+		<data>
+		PbNg1qfvL4lbi0mgK2yWvHod3eQ=
+		</data>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityTruck.png</key>
+		<data>
+		qj8Vvdv0/s0mUnPoMEyIvtWL4Fo=
+		</data>
 		<key>flutter_assets/assets/icons/myLocationTruck.png</key>
 		<data>
 		zxL0rfHL4LCEyrYA8FyIAHYbpG0=
@@ -734,7 +746,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		Std+wa+FI9SP6FQFnW7obi3UwMg=
+		rET4xChEy7zbcDXjiRourrqSPKQ=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -767,14 +779,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KHqrwgO2/Ev+eSPAp9nguVaXPs3E6WdWfCN9Y/KSg9M=
+			lZrgtZQkUVal+mJz/+4FXFO5ScBUAvdPjtNVt5uoyMs=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			LUUwoRbiLWWyioeDZ5YpQoiOAE0NjDsEl2/UsQF7b7A=
+			O5OLyCbKl4gVYUmeWIRIH5zFOitRMF+ykm6VrED22wQ=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -1491,6 +1503,27 @@
 			8VXC+aJvi2Qw2mb0Ys8PEwabMFo8D327s9EZCtVWrHE=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityLightCommercial.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Yb2AebJN1Vh1zdqt6bSywQdBifjtyzJ8SoUgITtHmO0=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityMotorcycle.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SowNKKQZdFhOmPWu9jRa3rhKRZg0LWrk8Ncj6YXldSI=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/icons/myLocationOffVisibilityTruck.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FeA7obR6voFlH1CiLfBoHy6SPwfgZfS9l+sbipnBv9k=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/icons/myLocationTruck.png</key>
 		<dict>
 			<key>hash2</key>
@@ -1985,7 +2018,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			u0UZMLzWrIWt5WYTdhz7szHDi0vYcNXFy3fwo9694bM=
+			PnjU3BnHEV+EnzbWlNUC5dicN3NZx+fA89YgLj2mhEc=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

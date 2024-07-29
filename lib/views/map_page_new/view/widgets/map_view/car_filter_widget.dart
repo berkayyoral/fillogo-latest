@@ -1,6 +1,5 @@
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
-import 'dart:ui' as ui;
 
 class CarFilterOptionWidget extends StatelessWidget {
   final MapPageMController mapPageMController;
@@ -10,25 +9,32 @@ class CarFilterOptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-          padding: EdgeInsets.all(4.h),
+          alignment: Alignment.topRight,
+          padding: EdgeInsets.all(10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.all(4.w),
                 alignment: Alignment.center,
-                height: 65.h,
-                width: 175.w,
+                height: 50.h,
+                width: mapPageMController.showFilterOption.value ? 170.w : 55.h,
                 decoration: BoxDecoration(
                   color: mapPageMController.showFilterOption.value
-                      ? AppConstants().ltMainRed
-                      : Colors.transparent,
+                      ? AppConstants().ltWhiteGrey
+                      : AppConstants().ltWhiteGrey,
                   borderRadius: BorderRadius.circular(10.w),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Row(
-                  mainAxisAlignment: mapPageMController.showFilterOption.value
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Visibility(
                       visible: mapPageMController.showFilterOption.value,
@@ -56,14 +62,15 @@ class CarFilterOptionWidget extends StatelessWidget {
                         child: Container(
                             height: 65.w,
                             decoration: BoxDecoration(
-                              color: AppConstants().ltMainRed,
+                              color: AppConstants().ltWhiteGrey,
                               borderRadius: BorderRadius.circular(10.w),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.all(8.w),
+                              padding: EdgeInsets.all(4.w),
                               child: Image.asset(
                                 'assets/icons/filter.png',
                                 fit: BoxFit.cover,
+                                color: AppConstants().ltMainRed,
                               ),
                             )),
                       ),
@@ -78,7 +85,7 @@ class CarFilterOptionWidget extends StatelessWidget {
                   padding: EdgeInsets.all(4.w),
                   decoration: BoxDecoration(
                     color: mapPageMController.showFilterOption.value
-                        ? AppConstants().ltMainRed
+                        ? AppConstants().ltWhiteGrey
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(5.w),
                     border: Border.all(
@@ -87,8 +94,8 @@ class CarFilterOptionWidget extends StatelessWidget {
                     ),
                     gradient: LinearGradient(
                       colors: [
-                        AppConstants().ltBlack,
-                        AppConstants().ltMainRed
+                        AppConstants().ltWhite,
+                        AppConstants().ltWhiteGrey
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.center,
@@ -96,15 +103,13 @@ class CarFilterOptionWidget extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      if (mapPageMController.showFilterOption.value) {
-                        await mapPageMController.filterButtonOnTap();
-                      }
+                      await mapPageMController.filterButtonOnTap();
                     },
                     child: Center(
                       child: Text(
                         "Uygula",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: AppConstants().ltMainRed,
                             fontSize: 13.sp,
                             fontWeight: FontWeight.bold),
                       ),
@@ -129,11 +134,12 @@ class CarFilterOptionWidget extends StatelessWidget {
         margin: EdgeInsets.all(1.w),
         padding: EdgeInsets.all(2.w),
         decoration: BoxDecoration(
-          color: AppConstants().ltMainRed,
+          color: AppConstants().ltWhiteGrey,
           borderRadius: BorderRadius.circular(10.w),
           border: mapPageMController.filterSelectedList[index]
               ? Border.all(
-                  color: const ui.Color.fromARGB(255, 177, 174, 174),
+                  color: AppConstants()
+                      .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
                   width: 2,
                 )
               : null,
@@ -149,6 +155,7 @@ class CarFilterOptionWidget extends StatelessWidget {
         child: Image.asset(
           logo,
           fit: BoxFit.cover,
+          color: AppConstants().ltMainRed,
         ),
       ),
     );

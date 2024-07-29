@@ -13,6 +13,7 @@ import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_control
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/connection_view/components/connection_controller.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/like_list_view/components/like_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
@@ -30,6 +31,7 @@ class InitialBinding implements Bindings {
     Get.put(SetCustomMarkerIconController());
     Get.put(CreateeRouteController());
     // Get.put(MapPageController());
+    Get.put(MfuController());
     Get.put(GoogleMapsGeneralWidgetsController());
     Get.put(GeneralDrawerController());
     Get.put(BottomNavigationBarController());

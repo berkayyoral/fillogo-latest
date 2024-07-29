@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:fillogo/export.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 class PolylineService {
   Future<Polyline?> getPolyline(
       double startLat, double startLng, double endLat, double endLng) async {
+    MapPageMController mapPageMController = Get.find();
     try {
       print(
           "GETMYROUTES start -> ${startLat} / $startLng end -> $endLat/$endLng");
@@ -24,7 +26,7 @@ class PolylineService {
         for (var point in result.points) {
           polylineCoordinates.add(LatLng(point.latitude, point.longitude));
         }
-
+        mapPageMController.polylineCoordinates = polylineCoordinates;
         Polyline polyline = Polyline(
           polylineId: const PolylineId("myRoute"),
           color: AppConstants().ltBlue,

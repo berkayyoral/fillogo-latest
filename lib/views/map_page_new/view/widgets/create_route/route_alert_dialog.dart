@@ -21,6 +21,7 @@ class RouteAlertDialog {
   Widget showSelectDeleteOrShareDialog(BuildContext context, int id) {
     BottomNavigationBarController bottomNavigationBarController =
         Get.find<BottomNavigationBarController>();
+    MapPageMController mapPageMController = Get.find();
     CreateRouteController createRouteController = Get.find();
     return AlertDialog(
       title: Text(
@@ -208,11 +209,8 @@ class RouteAlertDialog {
                                             );
                                             await mapPageController
                                                 .getUsersOnArea(
-                                              carTypeFilter: [
-                                                "Otomobil",
-                                                "Motorsiklet",
-                                                "Tır"
-                                              ],
+                                              carTypeFilter:
+                                                  mapPageController.carTypeList,
                                             );
                                           });
                                         } else {
@@ -364,6 +362,11 @@ class RouteAlertDialog {
                                     text: 'Rotayı Başlatma',
                                     textColor: AppConstants().ltWhite,
                                     onpressed: () async {
+                                      // mapPageMController.polylines.clear();
+                                      // mapPageMController.polylineCoordinates
+                                      //     .clear();
+                                      mapPageMController.getMyRoutes(
+                                          isStartRoute: false);
                                       await showDialog(
                                           context: context,
                                           builder: (BuildContext context2) {

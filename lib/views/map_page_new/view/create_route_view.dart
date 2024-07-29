@@ -90,14 +90,28 @@ class CreateRouteView extends StatelessWidget {
                 ? Container()
                 : GestureDetector(
                     onTap: () {
-                      isCreateRoute.value = true;
-                      if (createRouteController.startRouteCity == "") {
-                        createRouteController.startRouteLocation.value = LatLng(
-                            createRouteController.currentLocationController
-                                .myLocationLatitudeDo.value,
-                            createRouteController.currentLocationController
-                                .myLocationLongitudeDo.value);
-                        createRouteController.getRouteInfo();
+                      print(
+                          "ROUTEVİSİBLİYTTY -> ${mapPageMController.isRouteVisibilty.value}");
+                      if (!mapPageMController.isRouteVisibilty.value) {
+                        Get.snackbar("Başarısız!",
+                            "Görünürlüğünüz kapalıyken rota oluşturamazsınız..",
+                            snackPosition: SnackPosition.BOTTOM,
+                            colorText: AppConstants().ltBlack);
+                      } else {
+                        isCreateRoute.value = true;
+                        if (createRouteController.startRouteCity == "") {
+                          createRouteController.startRouteLocation.value =
+                              LatLng(
+                                  createRouteController
+                                      .currentLocationController
+                                      .myLocationLatitudeDo
+                                      .value,
+                                  createRouteController
+                                      .currentLocationController
+                                      .myLocationLongitudeDo
+                                      .value);
+                          createRouteController.getRouteInfo();
+                        }
                       }
                     },
                     child: Container(

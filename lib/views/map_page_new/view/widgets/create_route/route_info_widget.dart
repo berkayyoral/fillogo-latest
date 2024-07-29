@@ -145,7 +145,6 @@ class CreateRouteInfoWidget extends StatelessWidget {
                               onPressed: () {
                                 createRouteController.createRoute(
                                     context: context);
-                                createRouteController.routeControllerClear();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppConstants().ltMainRed,

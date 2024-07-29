@@ -130,7 +130,14 @@ class LoginWithPassword extends StatelessWidget {
                       await OneSignal.login(
                               response.data![0].user!.id!.toString())
                           .then((value) => print("ONESİGNALm LOGİN OLDUMkkk"));
-
+                      LocaleManager.instance.setBool(
+                          PreferencesKeys.isVisibility,
+                          !response.data![0].user!.isInvisible!);
+                      LocaleManager.instance.setBool(
+                          PreferencesKeys.isAvability,
+                          response.data![0].user!.isAvailable!);
+                      print(
+                          "VİSİORAVA -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
                       LocaleManager.instance.setString(
                           PreferencesKeys.currentuserpassword,
                           passwordController.text);

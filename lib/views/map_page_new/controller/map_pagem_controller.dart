@@ -1,46 +1,64 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
 import 'package:fillogo/models/routes_models/get_users_on_area.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
 import 'package:fillogo/views/map_page_new/service/map_page_service.dart';
 import 'package:fillogo/views/map_page_new/service/polyline_service.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert';
 
 class MapPageMController extends GetxController implements MapPageService {
   late BuildContext context;
+  RxBool isLoading = false.obs;
+  MapPageService mapPageService = MapPageService();
+
+  SetCustomMarkerIconController customMarkerIconController = Get.find();
+  GetMyCurrentLocationController currentLocationController =
+      Get.find<GetMyCurrentLocationController>();
+
+  /// MAP İÇİN
+  late GoogleMapController mapController;
+  late Position currentPosition;
+  RxSet<Marker> markers = <Marker>{}.obs;
+  final Rx<LatLng> mapCenter = Rx<LatLng>(const LatLng(0.0, 0.0));
+  //aktif rotar için
+  String myActiveRoutePolylineCode = "";
+  final Set<Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
+  List<LatLng> polylineCoordinates = [];
+  StreamSubscription<Position>? positionSubscription;
 
   final RxBool isCreateRoute = false.obs;
-  RxBool isLoading = false.obs;
+
   RxBool isThereActiveRoute = false.obs; //aktif rotam var mı
   RxBool finishRouteButton =
       false.obs; //aktif rotam varsa rotayı bitir butonu görünsün mü
 
+  ///GÖRÜNÜRLÜK VE MÜSAİTLİK
   RxBool isRouteVisibilty = true.obs;
   RxBool isRouteAvability = true.obs;
 
+  ///ROTALARIM
   AllRoutes myAllRoutes = AllRoutes();
   List<MyRoutesDetails> myActivesRoutes = [];
   List<MyRoutesDetails> myPastsRoutes = [];
   List<MyRoutesDetails> mynotStartedRoutes = [];
 
-  SetCustomMarkerIconController customMarkerIconController = Get.find();
-  GetMyCurrentLocationController currentLocationController =
-      Get.find<GetMyCurrentLocationController>();
-  MapPageService mapPageService = MapPageService();
+  ///KESİŞEN ROTALAR
+  RxBool isOpenMatchingRoutesWidget = false.obs;
+  RxList<Matching>? matchingRoutes = <Matching>[].obs;
 
-  final Set<Polyline> polylines = {};
-
+  ///çevremdeki kişiler
   List<GetUsersOnAreaResDatum?> usersOnArea = [];
-  late GoogleMapController mapController;
-  RxSet<Marker> markers = <Marker>{}.obs;
-  final Rx<LatLng> mapCenter = Rx<LatLng>(const LatLng(0.0, 0.0));
 
   ///FİLTER CAR
   RxBool showFilterOption = false.obs;
@@ -52,19 +70,69 @@ class MapPageMController extends GetxController implements MapPageService {
   bool isListenMap = true;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentLocationController.myLocationLatitudeDo.value =
+        currentPosition.latitude;
+    currentLocationController.myLocationLongitudeDo.value =
+        currentPosition.longitude;
+
     _startLocationUpdates();
 
-    getUsersOnArea(carTypeFilter: carTypeList);
-    updateLocation(
+    await getMyRoutes().then((value) {});
+    await updateLocation(
         lat: currentLocationController.myLocationLatitudeDo.value,
         long: currentLocationController.myLocationLongitudeDo.value);
     addMarkerIcon(
         markerID: "myLocationMarker",
         location: LatLng(currentLocationController.myLocationLatitudeDo.value,
             currentLocationController.myLocationLongitudeDo.value));
-    getMyRoutes().then((value) {});
+
+    await getUsersOnArea(carTypeFilter: carTypeList);
+    bool isLocaleVisi =
+        LocaleManager.instance.getBool(PreferencesKeys.isVisibility)!;
+    bool isLocaleAvabi =
+        LocaleManager.instance.getBool(PreferencesKeys.isAvability)!;
+    isRouteVisibilty.value = isLocaleVisi;
+    isRouteAvability.value = isLocaleAvabi;
+    print(
+        "VİSİORAVA VİSİ-> ${isRouteVisibilty.value} AVA -> ${isRouteAvability.value}");
+    getMyLocationInMap();
     super.onInit();
+  }
+
+  void startLocationTracking() {
+    print("startLocationTracking başladı");
+
+    positionSubscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10,
+      ),
+    ).listen((Position position) {
+      print("startLocationTracking dinledi");
+      if (polylineCoordinates.isNotEmpty) {
+        // Bulunan ilk koordinatı kaldır
+        print(
+            "startLocationTracking silecek -> ${polylineCoordinates[0]} / ${position.latitude}-${position.longitude}");
+
+        double distanceInMeters = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          polylineCoordinates[0].latitude,
+          polylineCoordinates[0].longitude,
+        );
+        print("startLocationTracking METRE -> $distanceInMeters");
+        if (distanceInMeters > 20 && distanceInMeters < 40) {
+          polylineCoordinates.removeAt(0);
+          print("startLocationTracking METRE sildii");
+        } else {
+          print("startLocationTracking ekledi");
+        }
+        updatePolyline();
+      }
+    });
   }
 
   Future<GetMyRouteResponseModel?> getMyRoutes(
@@ -95,18 +163,37 @@ class MapPageMController extends GetxController implements MapPageService {
           myActivesRoutes =
               myRouteResponseModel.data[0].allRoutes.activeRoutes!;
           print("GETMYROUTES -> ${myActivesRoutes!.first.endingCity}");
-          isThereActiveRoute.value = myActivesRoutes!.isNotEmpty ? true : false;
+          isThereActiveRoute.value = myActivesRoutes.isNotEmpty ? true : false;
+
           if (isThereActiveRoute.value) {
+            isRouteVisibilty.value = !myActivesRoutes.first.isInvisible;
+            isRouteAvability.value = myActivesRoutes.first.isAvailable;
             if (isStartRoute) {
               Polyline? polyline = await PolylineService().getPolyline(
-                  myActivesRoutes![0].startingCoordinates.first,
-                  myActivesRoutes![0].startingCoordinates.last,
+                  currentLocationController.myLocationLatitudeDo.value,
+                  currentLocationController.myLocationLongitudeDo.value,
                   myActivesRoutes![0].endingCoordinates.first,
                   myActivesRoutes![0].endingCoordinates.last);
-              print("GETMYROUTES POLYLİNE ${polyline}");
 
+              if (polyline == null) {
+                List<List<double>> coordinatesList =
+                    myActivesRoutes[0].polylineDecode;
+
+                for (var coord in coordinatesList) {
+                  polylineCoordinates.add(LatLng(coord[0], coord[1]));
+                }
+                polyline = Polyline(
+                  polylineId: const PolylineId("myRoute"),
+                  color: AppConstants().ltBlue,
+                  points: polylineCoordinates,
+                  width: 9,
+                );
+              }
               polylines.add(polyline!);
+              myActiveRoutePolylineCode = myRouteResponseModel
+                  .data[0].allRoutes.activeRoutes![0].polylineEncode;
             }
+            updatePolyline();
 
             ///start
             addMarkerIcon(
@@ -125,10 +212,11 @@ class MapPageMController extends GetxController implements MapPageService {
               ),
               markerID: 'myLocationFinishMarker',
             );
+            startLocationTracking();
           }
         }
 
-        await getUsersOnArea(carTypeFilter: ["Otomobil", "Tır", "Motorsiklet"]);
+        await getUsersOnArea(carTypeFilter: carTypeList);
       });
     } catch (e) {
       print("GETMYROUTES error -> $e");
@@ -142,14 +230,15 @@ class MapPageMController extends GetxController implements MapPageService {
     Function()? onTap,
     CarType? carType,
   }) async {
-    await customMarkerIconController.setCustomMarkerIcon3();
+    // await customMarkerIconController.setCustomMarkerIcon3();
     Uint8List iconByteData = markerID == "myLocationMarker"
         ? customMarkerIconController.mayLocationIcon!
         : markerID == "myLocationFinishMarker"
             ? customMarkerIconController.myRouteFinishIcon!
             : await customMarkerIconController.friendsCustomMarkerIcon(
                 carType: carType!);
-
+    print(
+        "VİSİVİBİLTRMARKER addmar -> ${customMarkerIconController.mayLocationIcon!.last}");
     markers.add(
       Marker(
         markerId: MarkerId(markerID),
@@ -191,9 +280,26 @@ class MapPageMController extends GetxController implements MapPageService {
           }
 
           updateLocation(lat: position.latitude, long: position.longitude);
+          // print(
+          //     "startLocationTracking silecek -> ${polylineCoordinates[0]} / ${position.latitude}-${position.longitude}");
+          // polylineCoordinates.removeAt(0);
+          // print("startLocationTracking sildii");
+          // updatePolyline();
         }
       }
     });
+  }
+
+  void updatePolyline() {
+    Polyline polyline = Polyline(
+      polylineId: const PolylineId("myRoute"),
+      color: AppConstants().ltBlue,
+      points: polylineCoordinates,
+      width: 9,
+    );
+    polylines.clear();
+    polylines.add(polyline);
+    print("startLocationTracking güncelledi");
   }
 
   ///Haritada bulunduğum konumu ortalar
@@ -219,10 +325,14 @@ class MapPageMController extends GetxController implements MapPageService {
 
   filterButtonOnTap() async {
     try {
+      isLoading.value = true;
+      markers.value.clear();
+
       showFilterOption.value = false;
 
-      isLoading.value = true;
-      markers.clear();
+      // isLoading.value = true;
+      print("FİLTERCARTYPE marekers -> ${markers.length}");
+
       addMarkerIcon(
           markerID: "myLocationMarker",
           location: LatLng(currentLocationController.myLocationLatitudeDo.value,
@@ -245,10 +355,9 @@ class MapPageMController extends GetxController implements MapPageService {
         carTypeList.add("Motorsiklet");
       }
 
-      await getUsersOnArea(carTypeFilter: filterSelectedList);
-
+      print("FİLTERCARTYPE listselected-> ${carTypeList}");
       isLoading.value = false;
-      // update(["mapPageController"]);
+      await getUsersOnArea(carTypeFilter: carTypeList);
     } catch (e) {
       print("MAPPAGEİSLOAD ERR -> $e");
     }
@@ -256,15 +365,20 @@ class MapPageMController extends GetxController implements MapPageService {
 
   @override
   Future<UsersOnAreaModel?> getUsersOnArea(
-      {required List carTypeFilter}) async {
+      {required List<String> carTypeFilter}) async {
     try {
-      mapPageService
-          .getUsersOnArea(carTypeFilter: carTypeList)
+      // isLoading.value = true;
+
+      await mapPageService
+          .getUsersOnArea(carTypeFilter: carTypeFilter)
           .then((value) async {
-        print("MAPPAGECONTROLLER ONAREA ${jsonEncode(value)} ");
+        print("FİLTERCARTYPE MAPPAGECONTROLLER ONAREA ${jsonEncode(value)} ");
+        // markers.add(value);
+
         usersOnArea = value!.data!.first;
 
-        print("MAPPAGECONTROLLER ONAREA -> ${usersOnArea.length}");
+        print(
+            "FİLTERCARTYPE MAPPAGECONTROLLER ONAREA -> ${usersOnArea.length}");
 
         for (var i = 0; i < usersOnArea.length; i++) {
           if (usersOnArea[i]!.userId !=
@@ -279,6 +393,7 @@ class MapPageMController extends GetxController implements MapPageService {
                 : userCarType == "Tır"
                     ? CarType.tir
                     : CarType.motorsiklet;
+
             addMarkerIcon(
               markerID: usersOnArea[i]!.userId!.toString(),
               location: usersOnArea[i]!.userpostroutes!.isNotEmpty
@@ -363,6 +478,8 @@ class MapPageMController extends GetxController implements MapPageService {
           }
         }
       });
+
+      // isLoading.value = false;
     } catch (e) {
       print("MAPPAGECONTROLLER error getUsersOnArea -> $e");
     }
@@ -375,6 +492,23 @@ class MapPageMController extends GetxController implements MapPageService {
       await mapPageService.updateLocation(lat: lat, long: long);
     } catch (e) {
       print("MAPPAGECONTROLLER error -> $e");
+    }
+  }
+
+  @override
+  Future<List<Matching>?> getMatchingRoutes(
+      {required String routePolylineCode}) async {
+    try {
+      isLoading.value = true;
+      mapPageService
+          .getMatchingRoutes(routePolylineCode: routePolylineCode)
+          .then((value) {
+        matchingRoutes!.value = value!;
+        print("getMatchingRoutes -> ${matchingRoutes}");
+      });
+      isLoading.value = false;
+    } catch (e) {
+      print("Mappagecontroller getMatchingRoutes error -> $e");
     }
   }
 }

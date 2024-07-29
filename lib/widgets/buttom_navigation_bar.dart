@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/export.dart';
-import 'package:fillogo/views/map_page_new/view/widgets/map_page_viewm.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
+import 'package:fillogo/views/map_page_new/view/map_page_viewm.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 
@@ -86,6 +87,10 @@ class BottomNavigationBarView extends StatelessWidget {
               showUnselectedLabels: false,
               onTap: (index) async {
                 await _drawerControlIndex();
+                if (index == 1) {
+                  MapPageMController mapPageMController = Get.find();
+                  mapPageMController.getMyLocationInMap();
+                }
                 bottomNavigationBarController.changeIndex(index);
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,

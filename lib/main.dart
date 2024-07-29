@@ -52,9 +52,17 @@ void main() async {
       ServicesConstants.appJsonWithoutAuth,
     )
         .then((value) {
+      print("VİSİORAVA GİRİŞ");
       if (value != null) {
         final response = LoginResponseModel.fromJson(jsonDecode(value));
         if (response.success == 1) {
+          LocaleManager.instance.setBool(PreferencesKeys.isVisibility,
+              !response.data![0].user!.isInvisible!);
+          LocaleManager.instance.setBool(PreferencesKeys.isAvability,
+              response.data![0].user!.isAvailable!);
+          print(
+              "VİSİORAVA A -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)} // ${response.data![0].user!.isInvisible}");
+
           LocaleManager.instance.setInt(
               PreferencesKeys.currentUserId, response.data![0].user!.id!);
           LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,

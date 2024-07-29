@@ -53,7 +53,7 @@ class EndPoint {
   static const String getUsersWithStories = "/stories/users-with-stories";
   static const String haveIStory = "/stories/my-stories?page=1";
   static const String followUser = "/users/follow-user/";
-  static const String getMyfriendsMatchingRoutes = "/routes/matching";
+  static const String getMatchingRoutes = "/routes/matching";
   static const String deleteAccount = "/users/delete-account";
   static const String getCarTypes = "/users/get-car-types";
   static const String searchUserRoutes = "/users/search-user-routes";

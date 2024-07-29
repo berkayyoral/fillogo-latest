@@ -52,8 +52,8 @@
 //   var dateTimeFormatLast = DateTime.now().obs;
 
 //   List<MyRoutesDetails>? myActivesRoutes;
-  // List<MyRoutesDetails>? myPastsRoutes;
-  // List<MyRoutesDetails>? mynotStartedRoutes;
+//   List<MyRoutesDetails>? myPastsRoutes;
+//   List<MyRoutesDetails>? mynotStartedRoutes;
 
 //   TextEditingController cikisController = TextEditingController();
 //   TextEditingController varisController = TextEditingController();
@@ -123,7 +123,7 @@
 //   late StreamSubscription<Position> streamSubscriptionForMyMarker;
 
 //   List<Matching?> myFriendsLocations = [];
-//   List<GetMyFriendsMatchingResDatum?> myFriendsLocationsMatching = [];
+//   List<MatchingRoutes?> myFriendsLocationsMatching = [];
 //   List<GetUsersOnAreaResDatum?> usersOnArea = [];
 //   AllRoutes? myAllRoutes;
 
@@ -338,7 +338,7 @@
 //     try {
 //       print("CARTYPLE MAPPAGEİSLOADMATCHİNG ${carType!.length}");
 //       await GeneralServicesTemp().makePostRequest(
-//         EndPoint.getMyfriendsMatchingRoutes,
+//         EndPoint.getMatchingRoutes,
 //         GetMyFriendsMatchingRoutesRequest(
 //           startingCity: "",
 //           endingCity: "",
@@ -353,19 +353,18 @@
 //       ).then(
 //         (value) async {
 //           print("MATCHİNGROTADATANNNN");
-//           GetMyFriendsMatchingRoutesResponse response =
-//               GetMyFriendsMatchingRoutesResponse.fromJson(
-//                   convert.json.decode(value!));
+//           GetMatchingRoutesResponse response =
+//               GetMatchingRoutesResponse.fromJson(convert.json.decode(value!));
 
 //           print(
-//               "MATCHİNGROTADATA -> ${response.data!.first.matching!.first.usertousercartypes!.first.cartypetousercartypes!.carType}");
+//               "MATCHİNGROTADATA -> ${response.matchingRoutes!.first.matching!.first.usertousercartypes!.first.cartypetousercartypes!.carType}");
 //           print("MATCHİNGROTADATA Matching Success = ${response.success}");
 //           print("MATCHİNGROTADATA Matching Message = ${response.message}");
 
 //           print(
-//               "MATCHİNGROTADATA Matching response data = ${response.data!.length}");
+//               "MATCHİNGROTADATA Matching response data = ${response.matchingRoutes!.length}");
 
-//           myFriendsLocationsMatching = response.data!;
+//           myFriendsLocationsMatching = response.matchingRoutes!;
 //           print(
 //               "MATCHİNGROTADATA userloc -> ${myFriendsLocationsMatching.first!.matching!.first.userpostroutes!.first.userLocation}");
 //           for (var i = 0;

@@ -22,7 +22,7 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        height: 220.h,
+        height: 250.h,
         width: 375.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(0.r),
@@ -44,176 +44,180 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
           right: 0.w,
           bottom: 0.h,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.w,
-              ),
-              child: InkWell(
-                onTap: () async {
-                  mediaPickerController.media =
-                      await BussinessHelper.pickFile(context).then((value) {
-                    if (value != null) {
-                      Logger().e("Yes Picked");
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.w,
+                ),
+                child: InkWell(
+                  onTap: () async {
+                    mediaPickerController.media =
+                        await BussinessHelper.pickFile(context).then((value) {
+                      if (value != null) {
+                        Logger().e("Yes Picked");
 
-                      //log('file picked ${value.name}');
-                      mediaPickerController.isMediaPicked = true;
-                      createPostPageController.havePostPhoto.value = 1;
+                        //log('file picked ${value.name}');
+                        mediaPickerController.isMediaPicked = true;
+                        createPostPageController.havePostPhoto.value = 1;
 
-                      if (value.name.split('.').last == 'mp4') {
-                        mediaPickerController.isVideo = true;
+                        if (value.name.split('.').last == 'mp4') {
+                          mediaPickerController.isVideo = true;
+                        } else {
+                          mediaPickerController.isVideo = false;
+                        }
                       } else {
                         mediaPickerController.isVideo = false;
                       }
-                    } else {
-                      mediaPickerController.isVideo = false;
-                    }
 
-                    return value;
-                  });
+                      return value;
+                    });
 
-                  setState(() {});
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/gallery-add.svg',
-                      height: 28.w,
-                      width: 28.w,
-                      color: (createPostPageController.havePostPhoto.value == 1)
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltLogoGrey,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15.w,
+                    setState(() {});
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/gallery-add.svg',
+                        height: 28.w,
+                        width: 28.w,
+                        color:
+                            (createPostPageController.havePostPhoto.value == 1)
+                                ? AppConstants().ltMainRed
+                                : AppConstants().ltLogoGrey,
                       ),
-                      child: Text(
-                        'Fotoğraf / video ekle',
-                        style: TextStyle(
-                          fontFamily: 'Sfmedium',
-                          fontSize: 14.sp,
-                          color: AppConstants().ltLogoGrey,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                        ),
+                        child: Text(
+                          'Fotoğraf / video ekle',
+                          style: TextStyle(
+                            fontFamily: 'Sfmedium',
+                            fontSize: 14.sp,
+                            color: AppConstants().ltLogoGrey,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.w,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed('/createPostPageAddRoute');
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/route-icon.svg',
-                      height: 28.w,
-                      width: 28.w,
-                      color: (createPostPageController.haveRoute.value == 1)
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltLogoGrey,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15.w,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.w,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed('/createPostPageAddRoute');
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/route-icon.svg',
+                        height: 28.w,
+                        width: 28.w,
+                        color: (createPostPageController.haveRoute.value == 1)
+                            ? AppConstants().ltMainRed
+                            : AppConstants().ltLogoGrey,
                       ),
-                      child: Text(
-                        'Rota ekle',
-                        style: TextStyle(
-                          fontFamily: 'Sfmedium',
-                          fontSize: 14.sp,
-                          color: AppConstants().ltLogoGrey,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                        ),
+                        child: Text(
+                          'Rota ekle',
+                          style: TextStyle(
+                            fontFamily: 'Sfmedium',
+                            fontSize: 14.sp,
+                            color: AppConstants().ltLogoGrey,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.w,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed('/createPostPageAddTags');
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/add-tag-icon.svg',
-                      height: 28.w,
-                      width: 28.w,
-                      color: (createPostPageController.haveTag.value == 1)
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltLogoGrey,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15.w,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.w,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed('/createPostPageAddTags');
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/add-tag-icon.svg',
+                        height: 28.w,
+                        width: 28.w,
+                        color: (createPostPageController.haveTag.value == 1)
+                            ? AppConstants().ltMainRed
+                            : AppConstants().ltLogoGrey,
                       ),
-                      child: Text(
-                        'Kişileri etiketle',
-                        style: TextStyle(
-                          fontFamily: 'Sfmedium',
-                          fontSize: 14.sp,
-                          color: AppConstants().ltLogoGrey,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                        ),
+                        child: Text(
+                          'Kişileri etiketle',
+                          style: TextStyle(
+                            fontFamily: 'Sfmedium',
+                            fontSize: 14.sp,
+                            color: AppConstants().ltLogoGrey,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.w,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed('/createPostPageAddEmotion');
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/add-emotion-icon.svg',
-                      height: 28.w,
-                      width: 28.w,
-                      color: (createPostPageController.isSelectedEmotion.value)
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltLogoGrey,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15.w,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.w,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed('/createPostPageAddEmotion');
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/add-emotion-icon.svg',
+                        height: 28.w,
+                        width: 28.w,
+                        color:
+                            (createPostPageController.isSelectedEmotion.value)
+                                ? AppConstants().ltMainRed
+                                : AppConstants().ltLogoGrey,
                       ),
-                      child: Text(
-                        'His / hareket ekle',
-                        style: TextStyle(
-                          fontFamily: 'Sfmedium',
-                          fontSize: 14.sp,
-                          color: AppConstants().ltLogoGrey,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                        ),
+                        child: Text(
+                          'His / hareket ekle',
+                          style: TextStyle(
+                            fontFamily: 'Sfmedium',
+                            fontSize: 14.sp,
+                            color: AppConstants().ltLogoGrey,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

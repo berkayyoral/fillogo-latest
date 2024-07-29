@@ -104,6 +104,10 @@ class NavigationDrawerWidget extends StatelessWidget {
               LocaleManager.instance.remove(PreferencesKeys.accessToken);
               ServicesConstants.appJsonWithToken.clear();
               mapPageController.myAllRoutes = AllRoutes();
+              mapPageController.markers.clear();
+              mapPageController.polylines.clear();
+              mapPageController.polylineCoordinates.clear();
+              mapPageController.myActivesRoutes.clear();
 
               Get.offAllNamed(NavigationConstants.welcomelogin);
             },
