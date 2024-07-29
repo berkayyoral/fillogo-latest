@@ -51,7 +51,8 @@ class VisibilityStatusWidget extends StatelessWidget {
                       },
                     ).then((value) => print(
                         "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}"));
-                    mapPageMController.markers.clear();
+                    mapPageMController.markers.removeWhere((marker) =>
+                        marker.markerId.value == 'myLocationMarker');
                     LocaleManager.instance
                         .setBool(PreferencesKeys.isVisibility,
                             mapPageMController.isRouteVisibilty.value)
