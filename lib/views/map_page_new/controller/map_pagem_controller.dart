@@ -374,7 +374,8 @@ class MapPageMController extends GetxController implements MapPageService {
           .then((value) async {
         print("FİLTERCARTYPE MAPPAGECONTROLLER ONAREA ${jsonEncode(value)} ");
         // markers.add(value);
-
+        usersOnArea.clear();
+        markers.value.clear();
         usersOnArea = value!.data!.first;
 
         print(
@@ -504,6 +505,11 @@ class MapPageMController extends GetxController implements MapPageService {
           .getMatchingRoutes(routePolylineCode: routePolylineCode)
           .then((value) {
         matchingRoutes!.value = value!;
+        markers.removeWhere(
+            (marker) => marker.markerId.value == 'myLocationMarker');
+        matchingRoutes!.value.removeWhere((element) =>
+            element.id ==
+            LocaleManager.instance.getInt(PreferencesKeys.currentUserId));
         print("getMatchingRoutes -> ${matchingRoutes}");
       });
       isLoading.value = false;

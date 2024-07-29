@@ -138,8 +138,7 @@ class RouteDetailsPageView extends StatelessWidget {
                 padding: EdgeInsets.only(
                     left: 16.w, right: 16.w, top: 20, bottom: 20),
                 child: Text(
-                  "asd " +
-                      routeDetailsPageController.ownerRouteDiscription.value,
+                  routeDetailsPageController.ownerRouteDiscription.value,
                   style: TextStyle(
                     fontFamily: 'Sfmedium',
                     fontSize: 14.sp,
