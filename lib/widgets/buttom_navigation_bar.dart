@@ -90,6 +90,7 @@ class BottomNavigationBarView extends StatelessWidget {
                 if (index == 1) {
                   MapPageMController mapPageMController = Get.find();
                   mapPageMController.getMyLocationInMap();
+                  await mapPageMController.getMyRoutes();
                 }
                 bottomNavigationBarController.changeIndex(index);
               },

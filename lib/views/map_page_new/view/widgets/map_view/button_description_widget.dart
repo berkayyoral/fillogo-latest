@@ -14,6 +14,14 @@ class ButtonTitleWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppConstants().ltWhiteGrey,
         borderRadius: BorderRadius.circular(4.w),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Text(
         title,
