@@ -32,7 +32,7 @@ class MapPageMController extends GetxController implements MapPageService {
   final Rx<LatLng> mapCenter = Rx<LatLng>(const LatLng(0.0, 0.0));
   //aktif rotar için
   String myActiveRoutePolylineCode = "";
-  final Set<Polyline> polylines = {};
+  final RxSet<Polyline> polylines = <Polyline>{}.obs;
   PolylinePoints polylinePoints = PolylinePoints();
   List<LatLng> polylineCoordinates = [];
   StreamSubscription<Position>? positionSubscription;
@@ -308,15 +308,16 @@ class MapPageMController extends GetxController implements MapPageService {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            bearing: 90,
-            tilt: 45,
+            bearing: isThereActiveRoute.value ? 50 : 90,
+            tilt: isThereActiveRoute.value ? 100 : 45,
             target: LatLng(
                 getMyCurrentLocationController.myLocationLatitudeDo.value,
                 getMyCurrentLocationController.myLocationLongitudeDo.value),
-            zoom: 15,
+            zoom: isThereActiveRoute.value ? 17 : 15,
           ),
         ),
       );
+
       shouldUpdateLocation.value = true;
     } catch (e) {
       print("NEWMAP getMyLocationButton -> $e");
@@ -327,6 +328,7 @@ class MapPageMController extends GetxController implements MapPageService {
     try {
       isLoading.value = true;
       markers.value.clear();
+      usersOnArea.clear();
 
       showFilterOption.value = false;
 
@@ -374,8 +376,7 @@ class MapPageMController extends GetxController implements MapPageService {
           .then((value) async {
         print("FİLTERCARTYPE MAPPAGECONTROLLER ONAREA ${jsonEncode(value)} ");
         // markers.add(value);
-        usersOnArea.clear();
-        markers.value.clear();
+
         usersOnArea = value!.data!.first;
 
         print(

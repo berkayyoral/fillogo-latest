@@ -124,8 +124,7 @@ class FirstOpenIsActiveRoute extends GetxController {
                                     Get.find<BerkayController>();
                                 berkayController.isAlreadyHaveRoute = false.obs;
 
-                                mapPageController.markers.clear();
-
+                                mapPageController.polylineCoordinates.clear();
                                 mapPageController.polylines.clear();
                                 mapPageController.markers.clear();
                               }

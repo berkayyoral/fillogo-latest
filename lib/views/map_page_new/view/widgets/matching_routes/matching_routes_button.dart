@@ -33,8 +33,8 @@ class MatchingRoutesButton extends StatelessWidget {
               }
             },
             child: Container(
-              height: 45.w,
-              width: 45.w,
+              height: 50.w,
+              width: 50.w,
               decoration: BoxDecoration(
                 color: AppConstants().ltWhiteGrey,
                 shape: BoxShape.circle,

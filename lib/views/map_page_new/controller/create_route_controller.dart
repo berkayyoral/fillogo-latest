@@ -51,7 +51,7 @@ class CreateRouteController extends GetxController implements PolylineService {
   RxString finishRouteAdress = "".obs;
   String finishRouteCity = "";
 
-  String routePolyline = "";
+  RxString routePolyline = "".obs;
 
   var calculatedRouteDistance = "".obs;
   var calculatedRouteTime = "".obs;
@@ -98,6 +98,11 @@ class CreateRouteController extends GetxController implements PolylineService {
           startRouteLocation.value.longitude,
           finishRouteLocation.value.latitude,
           finishRouteLocation.value.longitude);
+      // await getPolyline(
+      //     startRouteLocation.value.latitude,
+      //     startRouteLocation.value.longitude,
+      //     finishRouteLocation.value.latitude,
+      //     finishRouteLocation.value.longitude);
 
       // calculatedRouteDistance = GetPolylineService().calculateDistance(
       //     startRouteLocation.value.latitude,
@@ -140,6 +145,8 @@ class CreateRouteController extends GetxController implements PolylineService {
           .getRoute(startLat, startLng, endLat, endLng)
           .then((value) async {
         if (value!.routes != null) {
+          getPolyline(startLat, startLng, endLat, endLng);
+          routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           calculatedRouteDistance.value =
               "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
           calculatedRouteTime.value =
@@ -151,7 +158,7 @@ class CreateRouteController extends GetxController implements PolylineService {
           calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
               ((calculatedTime / 60) % 60).toInt();
 
-          routePolyline = value.routes![0].polyline!.encodedPolyline!;
+          routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           print("GETPOLYLİNE -> $routePolyline");
           dateTimeFormatArrival.value =
               DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
@@ -166,20 +173,22 @@ class CreateRouteController extends GetxController implements PolylineService {
             ),
           ));
           arrivalController.value.text = dateTimeFormatArrival.value;
-          getPolyline(startLat, startLng, endLat, endLng);
+
           mapPageMController.addMarkerIcon(
             location: LatLng(endLat, endLng),
             markerID: 'myLocationFinishMarker',
           );
-          mapPageMController.mapController!.animateCamera(
+
+          mapPageMController.mapController.animateCamera(
             CameraUpdate.newCameraPosition(
-              CameraPosition(
-                bearing: 90,
-                tilt: 45,
-                target: LatLng(
-                    currentLocationController.myLocationLatitudeDo.value,
-                    currentLocationController.myLocationLongitudeDo.value),
-                zoom: 7,
+              const CameraPosition(
+                bearing: 0,
+                tilt: 180,
+                target: LatLng(31.224422, 34.261775
+                    // getMyCurrentLocationController.myLocationLatitudeDo.value,
+                    //getMyCurrentLocationController.myLocationLongitudeDo.value
+                    ),
+                zoom: 5.2,
               ),
             ),
           );
@@ -196,9 +205,10 @@ class CreateRouteController extends GetxController implements PolylineService {
   getPolyline(
       double startLat, double startLng, double endLat, double endLng) async {
     try {
-      PolylineService()
+      await PolylineService()
           .getPolyline(startLat, startLng, endLat, endLng)
           .then((value) {
+        print("GETPOLYLİNE -> ${value}");
         mapPageMController.polylines.add(value!);
       });
     } catch (e) {
@@ -216,7 +226,7 @@ class CreateRouteController extends GetxController implements PolylineService {
     finishRouteAdress = "".obs;
     finishRouteCity = "";
 
-    routePolyline = "";
+    routePolyline.value = "";
 
     calculatedRouteDistance = "".obs;
     calculatedRouteTime = "".obs;
@@ -277,7 +287,7 @@ class CreateRouteController extends GetxController implements PolylineService {
             distance: int.parse(calculatedRouteDistance.value
                 .replaceAll(RegExp(r'[^0-9]'), '')),
             travelTime: calculatedRouteTimeInt,
-            polylineEncode: routePolyline,
+            polylineEncode: routePolyline.value,
           ),
           {
             "Content-type": "application/json",

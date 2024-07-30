@@ -277,7 +277,7 @@ class RouteAlertDialog {
                                                 .calculatedRouteTimeInt,
                                             polylineEncode:
                                                 createRouteController
-                                                    .routePolyline,
+                                                    .routePolyline.value,
                                           ),
                                           {
                                             "Content-type": "application/json",

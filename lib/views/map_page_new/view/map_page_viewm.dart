@@ -2,6 +2,7 @@ import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/create_route_view.dart';
 import 'package:fillogo/views/map_page_new/view/matching_routes_view.dart';
@@ -162,7 +163,8 @@ class MapPageViewM extends StatelessWidget {
                       },
                       markers:
                           Set<Marker>.from(mapPageMController.markers.value),
-                      polylines: Set<Polyline>.of(mapPageMController.polylines),
+                      polylines:
+                          Set<Polyline>.of(mapPageMController.polylines.value),
                       myLocationEnabled: true,
                       compassEnabled: false,
                       myLocationButtonEnabled: false,
@@ -200,91 +202,95 @@ class MapPageViewM extends StatelessWidget {
 
   Obx getMapCenter() {
     return Obx(
-      () => mapPageMController.shouldUpdateLocation.value
-          ? Container()
-          : Positioned(
-              bottom: mapPageMController.isThereActiveRoute.value
-                  ? mapPageMController.finishRouteButton.value
-                      ? 170.h
-                      : 110.h
-                  : 65.h,
-              left: 6.w,
-              child: InkWell(
-                onTap: () async {
-                  mapPageMController.getMyLocationInMap();
-                },
-                child: Container(
-                  width: 100.w,
-                  margin: EdgeInsets.all(4.w),
-                  padding: EdgeInsets.all(8.w),
-                  decoration: BoxDecoration(
-                    color: AppConstants().ltMainRed.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(10.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(Icons.location_on),
-                      Text(
-                        "Ortala",
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+      () {
+        return mapPageMController.shouldUpdateLocation.value
+            ? Container()
+            : Positioned(
+                bottom: mapPageMController.isThereActiveRoute.value
+                    ? mapPageMController.finishRouteButton.value
+                        ? 170.h
+                        : 110.h
+                    : 65.h,
+                left: 6.w,
+                child: InkWell(
+                  onTap: () async {
+                    mapPageMController.getMyLocationInMap();
+                  },
+                  child: Container(
+                    width: 100.w,
+                    margin: EdgeInsets.all(4.w),
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: AppConstants().ltMainRed.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(10.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: const Offset(0, 2),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Icon(Icons.location_on),
+                        Text(
+                          "Ortala",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+      },
+    );
+  }
+
+  getMyLocationButton({required bool isActiveRoute}) {
+    return Obx(() => mapPageMController.isCreateRoute.value
+        ? Container()
+        : Positioned(
+            top: 145.h,
+            right: 5.w,
+            child: InkWell(
+              onTap: () async {
+                mapPageMController.getMyLocationInMap();
+                mapPageMController.getUsersOnArea(
+                    carTypeFilter: mapPageMController.carTypeList);
+              },
+              child: Container(
+                height: 50.w,
+                width: 50.w,
+                decoration: BoxDecoration(
+                  color: AppConstants().ltWhiteGrey,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10.w),
+                  child: SvgPicture.asset(
+                    "assets/icons/getMyLocationIcon2.svg",
+                    height: 24.w,
+                    color: AppConstants().ltMainRed,
                   ),
                 ),
               ),
             ),
-    );
-  }
-
-  Positioned getMyLocationButton({required bool isActiveRoute}) {
-    return Positioned(
-      top: 145.h,
-      right: 5.w,
-      child: InkWell(
-        onTap: () async {
-          mapPageMController.getMyLocationInMap();
-          mapPageMController.getUsersOnArea(
-              carTypeFilter: mapPageMController.carTypeList);
-        },
-        child: Container(
-          height: 50.w,
-          width: 50.w,
-          decoration: BoxDecoration(
-            color: AppConstants().ltWhiteGrey,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(10.w),
-            child: SvgPicture.asset(
-              "assets/icons/getMyLocationIcon2.svg",
-              height: 24.w,
-              color: AppConstants().ltMainRed,
-            ),
-          ),
-        ),
-      ),
-    );
+          ));
   }
 
   int getSameDigitsCount(String str1, String str2) {

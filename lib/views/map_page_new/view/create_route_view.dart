@@ -48,9 +48,10 @@ class CreateRouteView extends StatelessWidget {
                           isCreateRoute.value = false;
                           createRouteController
                               .isOpenRouteDetailEntrySection.value = false;
-                          createRouteController.routePolyline = "";
-                          createRouteController.mapPageMController.polylines
-                              .clear();
+                          createRouteController.routePolyline.value = "";
+                          createRouteController.routePolyline.value = "";
+                          mapPageMController.polylines.clear();
+                          mapPageMController.polylineCoordinates.clear();
                           mapPageMController.markers.clear();
                           mapPageMController.addMarkerIcon(
                               markerID: "myLocationMarker",

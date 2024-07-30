@@ -168,10 +168,6 @@ class MyRoutesPageView extends StatelessWidget {
                                                                               ).then((value) async {
                                                                                 var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
                                                                                 if (response.success == 1) {
-                                                                                  mapPageController.markers.clear();
-
-                                                                                  mapPageController.polylines.clear();
-
                                                                                   CameraPosition(
                                                                                     bearing: 90,
                                                                                     tilt: 45,
@@ -188,6 +184,11 @@ class MyRoutesPageView extends StatelessWidget {
                                                                                   bottomNavigationBarController.selectedIndex.value = 1;
 
                                                                                   Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  mapPageController.markers.clear();
+
+                                                                                  mapPageController.polylines.clear();
+                                                                                  mapPageController.polylineCoordinates.clear();
+                                                                                  mapPageController.isThereActiveRoute.value = false;
                                                                                 } else {
                                                                                   Get.back(closeOverlays: true);
                                                                                   Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);

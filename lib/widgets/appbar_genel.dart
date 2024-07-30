@@ -18,10 +18,11 @@ class AppBarGenel extends StatelessWidget implements PreferredSizeWidget {
       leading: leading,
       title: title,
       backgroundColor: AppConstants().ltWhite,
+
       //backgroundColor: isDarkMode ? AppConstants().ltBlack : AppConstants().ltWhite,
       actions: actions,
       centerTitle: true,
-      elevation: 3,
+      elevation: 0,
     );
   }
 
