@@ -308,7 +308,7 @@ class MapPageMController extends GetxController implements MapPageService {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            bearing: isThereActiveRoute.value ? 50 : 90,
+            bearing: isThereActiveRoute.value ? 0 : 90,
             tilt: isThereActiveRoute.value ? 100 : 45,
             target: LatLng(
                 getMyCurrentLocationController.myLocationLatitudeDo.value,
