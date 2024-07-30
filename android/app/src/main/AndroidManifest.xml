@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.istechsoft.fillogo">
+    package="com.istechsoft55.fillogo">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission  android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission  android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
@@ -9,7 +11,7 @@
         android:icon="@mipmap/ic_launcher">
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA"/>
+            android:value="AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME"/>
         <meta-data  android:name="com.google.android.gms.version"
 		    android:value="@integer/google_play_services_version" />
         <activity

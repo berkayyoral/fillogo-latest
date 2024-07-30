@@ -1,4 +1,4 @@
-package com.istechsoft.fillogo
+package com.istechsoft55.fillogo
 
 import io.flutter.embedding.android.FlutterActivity
 
