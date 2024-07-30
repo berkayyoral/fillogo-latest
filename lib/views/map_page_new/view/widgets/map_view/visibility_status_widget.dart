@@ -2,6 +2,8 @@ import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
+import 'package:fillogo/views/map_page_new/view/widgets/map_view/button_description_widget.dart';
+import 'package:flutter/widgets.dart';
 
 class VisibilityStatusWidget extends StatelessWidget {
   const VisibilityStatusWidget({
@@ -16,8 +18,9 @@ class VisibilityStatusWidget extends StatelessWidget {
         top: 220.h,
         right: 0,
         child: Container(
-          height: 200.h,
+          height: 270.h,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               /// GÖRÜNÜRLÜK
               Expanded(
@@ -115,39 +118,54 @@ class VisibilityStatusWidget extends StatelessWidget {
       visible:
           isForVisibility ? true : mapPageMController.isRouteVisibilty.value,
       child: Padding(
-        padding: EdgeInsets.only(right: 10.w),
+        padding: EdgeInsets.only(right: 5.w),
         child: Align(
           alignment: Alignment.bottomRight,
           child: GestureDetector(
             onTap: onTap,
-            child: Container(
-              height: 45.w,
-              width: 45.w,
-              decoration: BoxDecoration(
-                color: AppConstants().ltWhiteGrey,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: const Offset(0, 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  height: 50.w,
+                  width: 50.w,
+                  decoration: BoxDecoration(
+                    color: AppConstants().ltWhiteGrey,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.w),
-                child: Icon(
-                  isForVisibility ? Icons.remove_red_eye : Icons.car_repair,
-                  color: isForVisibility
-                      ? mapPageMController.isRouteVisibilty.value
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltDarkGrey
-                      : mapPageMController.isRouteAvability.value
-                          ? AppConstants().ltMainRed
-                          : AppConstants().ltDarkGrey,
+                  child: Padding(
+                    padding: EdgeInsets.all(4.w),
+                    child: Icon(
+                      isForVisibility ? Icons.remove_red_eye : Icons.car_repair,
+                      color: isForVisibility
+                          ? mapPageMController.isRouteVisibilty.value
+                              ? AppConstants().ltMainRed
+                              : AppConstants().ltDarkGrey
+                          : mapPageMController.isRouteAvability.value
+                              ? AppConstants().ltMainRed
+                              : AppConstants().ltDarkGrey,
+                    ),
+                  ),
                 ),
-              ),
+                ButtonTitleWidget(
+                  title: isForVisibility
+                      ? mapPageMController.isRouteVisibilty.value
+                          ? "\tGörünür Olma\t"
+                          : "\t\t\t\tGörünür Ol\t\t\t\t"
+                      : mapPageMController.isRouteAvability.value
+                          ? "\tMüsait\t"
+                          : "\tMüsait Değil\t",
+                )
+              ],
             ),
           ),
         ),

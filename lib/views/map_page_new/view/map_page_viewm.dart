@@ -180,7 +180,6 @@ class MapPageViewM extends StatelessWidget {
           const VisibilityStatusWidget(),
 
           /// ORTALA BUTONU
-
           // getMapCenter(),
 
           /// ORTALAMA BUTONU (sağ üstteki)
@@ -252,8 +251,8 @@ class MapPageViewM extends StatelessWidget {
 
   Positioned getMyLocationButton({required bool isActiveRoute}) {
     return Positioned(
-      top: 165.h,
-      right: 10.w,
+      top: 145.h,
+      right: 5.w,
       child: InkWell(
         onTap: () async {
           mapPageMController.getMyLocationInMap();
@@ -261,8 +260,8 @@ class MapPageViewM extends StatelessWidget {
               carTypeFilter: mapPageMController.carTypeList);
         },
         child: Container(
-          height: 45.w,
-          width: 45.w,
+          height: 50.w,
+          width: 50.w,
           decoration: BoxDecoration(
             color: AppConstants().ltWhiteGrey,
             shape: BoxShape.circle,

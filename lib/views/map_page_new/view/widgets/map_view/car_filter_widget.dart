@@ -1,5 +1,6 @@
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
+import 'package:fillogo/views/map_page_new/view/widgets/map_view/button_description_widget.dart';
 
 class CarFilterOptionWidget extends StatelessWidget {
   final MapPageMController mapPageMController;
@@ -10,15 +11,15 @@ class CarFilterOptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Container(
           alignment: Alignment.topRight,
-          padding: EdgeInsets.all(10.h),
+          padding: EdgeInsets.only(top: 10.h, right: 5.w),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 padding: EdgeInsets.all(4.w),
                 alignment: Alignment.center,
-                height: 50.h,
-                width: mapPageMController.showFilterOption.value ? 170.w : 55.h,
+                height: 45.h,
+                width: mapPageMController.showFilterOption.value ? 170.w : 50.h,
                 decoration: BoxDecoration(
                   color: mapPageMController.showFilterOption.value
                       ? AppConstants().ltWhiteGrey
@@ -60,22 +61,29 @@ class CarFilterOptionWidget extends StatelessWidget {
                           mapPageMController.showFilterOption.value = true;
                         },
                         child: Container(
-                            height: 65.w,
-                            decoration: BoxDecoration(
-                              color: AppConstants().ltWhiteGrey,
-                              borderRadius: BorderRadius.circular(10.w),
+                          height: 70.w,
+                          decoration: BoxDecoration(
+                            color: AppConstants().ltWhiteGrey,
+                            borderRadius: BorderRadius.circular(10.w),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(4.w),
+                            child: Image.asset(
+                              'assets/icons/filter.png',
+                              fit: BoxFit.cover,
+                              color: AppConstants().ltMainRed,
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.all(4.w),
-                              child: Image.asset(
-                                'assets/icons/filter.png',
-                                fit: BoxFit.cover,
-                                color: AppConstants().ltMainRed,
-                              ),
-                            )),
+                          ),
+                        ),
                       ),
                     ),
                   ],
+                ),
+              ),
+              Visibility(
+                visible: !mapPageMController.showFilterOption.value,
+                child: const ButtonTitleWidget(
+                  title: "\t\tAraç Cinsi\t\t",
                 ),
               ),
               Visibility(
