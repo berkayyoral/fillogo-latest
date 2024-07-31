@@ -27,8 +27,9 @@ class NewPostCreateButtonView extends StatelessWidget {
                 height: 48.h,
                 width: 48.w,
                 url: LocaleManager.instance.getString(
-                  PreferencesKeys.currentUserProfilPhoto,
-                )),
+                      PreferencesKeys.currentUserProfilPhoto,
+                    ) ??
+                    'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png'),
           ),
           12.w.spaceX,
           GestureDetector(

@@ -40,7 +40,8 @@ class SearchProfileCard extends StatelessWidget {
                   ProfilePhoto(
                     height: 48.h,
                     width: 48.w,
-                    url: profilPhoto,
+                    url: profilPhoto ??
+                        'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
                   ),
                   10.w.spaceX,
                   Column(

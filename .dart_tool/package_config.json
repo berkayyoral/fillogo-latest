@@ -227,7 +227,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/istechsoft/development/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "flutter_background_service",
@@ -338,6 +338,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_staggered_grid_view",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_svg-1.1.6",
       "packageUri": "lib/",
@@ -353,7 +359,7 @@
       "name": "flutter_test",
       "rootUri": "file:///Users/istechsoft/development/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "flutter_web_plugins",
@@ -615,15 +621,15 @@
     },
     {
       "name": "infinite_scroll_pagination",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/infinite_scroll_pagination-3.2.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/infinite_scroll_pagination-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "intl",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/intl-0.18.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/intl-0.19.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "js",
@@ -645,21 +651,21 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker-10.0.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker-10.0.4",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-2.0.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.3",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_testing",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker_testing-2.0.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.2"
     },
     {
       "name": "lints",
@@ -735,7 +741,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/meta-1.11.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/meta-1.12.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1101,7 +1107,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/test_api-0.6.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/test_api-0.7.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -1239,9 +1245,9 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-13.0.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-14.2.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
     },
     {
       "name": "web",
@@ -1304,7 +1310,10 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-07-29T07:25:19.690371Z",
+  "generated": "2024-07-30T14:14:38.971193Z",
   "generator": "pub",
-  "generatorVersion": "3.3.1"
+  "generatorVersion": "3.4.4",
+  "flutterRoot": "file:///Users/istechsoft/development/flutter",
+  "flutterVersion": "3.22.3",
+  "pubCache": "file:///Users/istechsoft/.pub-cache"
 }

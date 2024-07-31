@@ -75,7 +75,7 @@ class RouteCalculateLastView extends StatelessWidget {
         ),
         title: Image.asset(
           'assets/logo/logo-1.png',
-          height: 45,
+          height: 50,
         ),
         actions: [
           GestureDetector(

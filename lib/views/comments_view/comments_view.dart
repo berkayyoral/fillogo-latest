@@ -359,7 +359,9 @@ class _CommentsViewState extends State<CommentsView> {
                                   height: 12.h,
                                   width: 12.w,
                                   url: LocaleManager.instance.getString(
-                                      PreferencesKeys.currentUserProfilPhoto),
+                                          PreferencesKeys
+                                              .currentUserProfilPhoto) ??
+                                      'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
                                 ),
                               ),
                               suffixIcon: Padding(

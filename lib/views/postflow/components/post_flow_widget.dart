@@ -730,11 +730,12 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                                             height: 48.w,
                                             width: 48.w,
                                             url: snapshot
-                                                .data!
-                                                .data![0]
-                                                .searchResult!
-                                                .result![index]
-                                                .profilePicture,
+                                                    .data!
+                                                    .data![0]
+                                                    .searchResult!
+                                                    .result![index]
+                                                    .profilePicture ??
+                                                'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
                                           ),
                                           title: Text(
                                             "${snapshot.data!.data![0].searchResult!.result![index].name!} ${snapshot.data!.data![0].searchResult!.result![index].surname!}",

@@ -99,7 +99,7 @@ class _PostFlowViewState extends State<PostFlowView> {
         ),
         title: Image.asset(
           'assets/logo/logo-1.png',
-          height: 45,
+          height: 50,
         ),
         actions: [
           GestureDetector(

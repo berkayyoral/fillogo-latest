@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/homepopup/follow_controller.dart';
+import 'package:fillogo/models/notification/notification_model.dart';
+import 'package:fillogo/models/user/follow_user.dart';
+import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 
@@ -41,7 +47,7 @@ class PopupPrifilInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      //height: 650.h,
+      // height: 650.h,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -52,7 +58,42 @@ class PopupPrifilInfo extends StatelessWidget {
                   flex: 1,
                   child: Obx(() => GestureDetector(
                         onTap: () {
-                          followController.pressFunction();
+                          GeneralServicesTemp().makePostRequest2(
+                              "${EndPoint.followUser}$userId", {
+                            "Content-type": "application/json",
+                            'Authorization':
+                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                          }).then((value) {
+                            var response =
+                                FollowUserResponse.fromJson(jsonDecode(value!));
+                            if (response.message == "User followed") {
+                              OneSignalSenNotification().sendNotification(
+                                  notificationModel: NotificationModel(
+                                sender: LocaleManager.instance
+                                    .getInt(PreferencesKeys.currentUserId),
+                                receiver: userId,
+                                type: 1,
+                                params: [userId],
+                                message: NotificaitonMessage(
+                                    text: NotificationText(
+                                      content:
+                                          "adlı kullanıcı seni takip etmeye başladı",
+                                      name: LocaleManager.instance.getString(
+                                          PreferencesKeys.currentUserUserName),
+                                      surname: "" ?? "",
+                                      username: LocaleManager.instance
+                                              .getString(PreferencesKeys
+                                                  .currentUserUserName) ??
+                                          "",
+                                    ),
+                                    link: "" //,
+                                    ),
+                              ));
+
+                              followController.pressFunction();
+                            }
+                          });
+
                           //print(followController.isPressed);
                         },
                         child: Column(
@@ -217,7 +258,7 @@ class PopupPrifilInfo extends StatelessWidget {
                                 selectedRouteController.selectedRouteId.value =
                                     routeId!;
                                 selectedRouteController
-                                    .selectedRouteUserId.value = routeId!;
+                                    .selectedRouteUserId.value = userId;
                                 Get.toNamed(NavigationConstants.routeDetails);
                               }
                             },

@@ -225,6 +225,23 @@ class _ChatsViewState extends State<ChatsView> {
       ),
       actions: [
         GestureDetector(
+          onTap: () async {
+            Get.toNamed(NavigationConstants.searchUser);
+          },
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 5.w,
+              right: 10.w,
+            ),
+            child: SvgPicture.asset(
+              'assets/icons/search-icon.svg',
+              height: 25.h,
+              width: 25.w,
+              color: const Color(0xff3E3E3E),
+            ),
+          ),
+        ),
+        GestureDetector(
           onTap: () {
             Get.toNamed(NavigationConstants.notifications);
             notificationController.isUnOpenedNotification.value = false;

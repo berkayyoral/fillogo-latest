@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
@@ -54,6 +55,7 @@ class CreateRouteController extends GetxController implements PolylineService {
   RxString routePolyline = "".obs;
 
   var calculatedRouteDistance = "".obs;
+  int calculatedRouteDistanceInt = 0;
   var calculatedRouteTime = "".obs;
   int calculatedRouteTimeInt = 0;
 
@@ -179,16 +181,49 @@ class CreateRouteController extends GetxController implements PolylineService {
             markerID: 'myLocationFinishMarker',
           );
 
+          Map<String, double> midPoint =
+              calculateMiddleroute(startLat, startLng, endLat, endLng);
+          LatLng middRoute =
+              LatLng(midPoint['latitude']!, midPoint['longitude']!);
+
+          print(
+              "distamce merter -> ${((value.routes![0].distanceMeters)! / 1000)}");
+          int distanceMeters = int.parse(
+              ((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0));
+
+          print("DİSTANCEMETERS -> ${distanceMeters}");
+          double zoom = 5;
+
+          if (distanceMeters < 3) {
+            zoom = 18;
+          } else if (distanceMeters < 10) {
+            zoom = 12;
+          } else if (distanceMeters < 50) {
+            zoom = 10;
+          } else if (distanceMeters < 150) {
+            zoom = 9;
+          } else if (distanceMeters < 350) {
+            zoom = 8;
+          } else if (distanceMeters < 550) {
+            zoom = 7;
+          } else if (distanceMeters < 900) {
+            zoom = 6;
+          } else if (distanceMeters < 1200) {
+            zoom = 5.5;
+          } else {
+            zoom = 5;
+          }
           mapPageMController.mapController.animateCamera(
             CameraUpdate.newCameraPosition(
-              const CameraPosition(
+              CameraPosition(
                 bearing: 0,
                 tilt: 180,
-                target: LatLng(31.224422, 34.261775
-                    // getMyCurrentLocationController.myLocationLatitudeDo.value,
-                    //getMyCurrentLocationController.myLocationLongitudeDo.value
-                    ),
-                zoom: 5.2,
+                target: middRoute,
+                // LatLng(mid.latitude, 34.261775
+                //     //     // getMyCurrentLocationController.myLocationLatitudeDo.value,
+                //     //     //getMyCurrentLocationController.myLocationLongitudeDo.value
+                //     ),
+                zoom: zoom,
               ),
             ),
           );
@@ -199,6 +234,38 @@ class CreateRouteController extends GetxController implements PolylineService {
       print("Get polyline error -> $e");
     }
     return null;
+  }
+
+  double toRadians(double degrees) => degrees * (pi / 180.0);
+  double toDegrees(double radians) => radians * (180.0 / pi);
+
+  Map<String, double> calculateMiddleroute(
+      double lat1, double lon1, double lat2, double lon2) {
+    double lat1Rad = toRadians(lat1);
+    double lon1Rad = toRadians(lon1);
+    double lat2Rad = toRadians(lat2);
+    double lon2Rad = toRadians(lon2);
+
+    double dLon = lon2Rad - lon1Rad;
+
+    double x = cos(lat2Rad) * cos(dLon);
+    double y = cos(lat2Rad) * sin(dLon);
+
+    double midLatRad = atan2(
+      sin(lat1Rad) + sin(lat2Rad),
+      sqrt(
+        (cos(lat1Rad) + x) * (cos(lat1Rad) + x) + y * y,
+      ),
+    );
+
+    double midLonRad = lon1Rad + atan2(y, cos(lat1Rad) + x);
+
+    double midLat = toDegrees(midLatRad);
+    double midLon = toDegrees(midLonRad);
+
+    // return LatLng(midLat, midLon);
+    print("ORTANOKTASI -> ${midLon}");
+    return {'latitude': midLat, 'longitude': midLon};
   }
 
   @override

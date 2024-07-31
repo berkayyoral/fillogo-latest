@@ -84,7 +84,8 @@ class ProfileHeaderWidget extends StatelessWidget {
                     child: ProfilePhoto(
                       height: 124.h,
                       width: 112.w,
-                      url: profilePictureUrl, //'https://picsum.photos/150',
+                      url: profilePictureUrl ??
+                          'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png', //'https://picsum.photos/150',
                     ),
                   ),
                 ],

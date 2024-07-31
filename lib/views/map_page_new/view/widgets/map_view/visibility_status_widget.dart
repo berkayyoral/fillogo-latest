@@ -3,7 +3,6 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/map_view/button_description_widget.dart';
-import 'package:flutter/widgets.dart';
 
 class VisibilityStatusWidget extends StatelessWidget {
   const VisibilityStatusWidget({
@@ -17,8 +16,8 @@ class VisibilityStatusWidget extends StatelessWidget {
       () => mapPageMController.isCreateRoute.value
           ? Container()
           : Positioned(
-              top: 220.h,
-              right: 0,
+              top: 160.h,
+              right: 0.w,
               child: Container(
                 height: 270.h,
                 child: Column(

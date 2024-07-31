@@ -13,7 +13,7 @@ class CarFilterOptionWidget extends StatelessWidget {
         ? Container()
         : Container(
             alignment: Alignment.topRight,
-            padding: EdgeInsets.only(top: 10.h, right: 5.w),
+            padding: EdgeInsets.only(top: 70.h, right: 5.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
