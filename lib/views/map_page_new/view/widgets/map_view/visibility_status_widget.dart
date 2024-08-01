@@ -16,7 +16,7 @@ class VisibilityStatusWidget extends StatelessWidget {
       () => mapPageMController.isCreateRoute.value
           ? Container()
           : Positioned(
-              top: 160.h,
+              top: 150.h,
               right: 0.w,
               child: Container(
                 height: 270.h,
@@ -30,8 +30,7 @@ class VisibilityStatusWidget extends StatelessWidget {
                           onTap: () async {
                         SetCustomMarkerIconController
                             customMarkerIconController = Get.find();
-                        await customMarkerIconController.setCustomMarkerIcon3(
-                            isOffVisibility: true);
+
                         print(
                             "AKTİFROTAM -> ${mapPageMController.isThereActiveRoute.value}");
                         if (mapPageMController.isThereActiveRoute.value) {
@@ -40,14 +39,11 @@ class VisibilityStatusWidget extends StatelessWidget {
                               snackPosition: SnackPosition.BOTTOM,
                               colorText: AppConstants().ltBlack);
                         } else {
-                          mapPageMController.isRouteVisibilty.value =
-                              !mapPageMController.isRouteVisibilty.value;
-
                           await GeneralServicesTemp().makePostRequest(
                             EndPoint.updateStatus,
                             {
                               "visible":
-                                  mapPageMController.isRouteVisibilty.value,
+                                  !mapPageMController.isRouteVisibilty.value,
                               "available":
                                   mapPageMController.isRouteAvability.value
                             },
@@ -56,26 +52,35 @@ class VisibilityStatusWidget extends StatelessWidget {
                               'Authorization':
                                   'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                             },
-                          ).then((value) => print(
-                              "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}"));
-                          mapPageMController.markers.removeWhere((marker) =>
-                              marker.markerId.value == 'myLocationMarker');
-                          LocaleManager.instance
-                              .setBool(PreferencesKeys.isVisibility,
-                                  mapPageMController.isRouteVisibilty.value)
-                              .then((value) {
-                            print(
-                                "VİSİVİBİLTRMARKER -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
-                            return customMarkerIconController
+                          ).then((value) async {
+                            mapPageMController.isRouteVisibilty.value =
+                                !mapPageMController.isRouteVisibilty.value;
+                            mapPageMController.markers.value.removeWhere(
+                                (marker) =>
+                                    marker.markerId.value ==
+                                    'myLocationMarker');
+                            LocaleManager.instance
+                                .setBool(PreferencesKeys.isVisibility,
+                                    mapPageMController.isRouteVisibilty.value)
+                                .then((value) {
+                              print(
+                                  "VİSİVİBİLTRMARKER değişti -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
+                            });
+
+                            await customMarkerIconController
                                 .setCustomMarkerIcon3(
                                     isOffVisibility: mapPageMController
                                         .isRouteVisibilty.value);
-                          });
 
-                          Get.snackbar("Başarılı!",
-                              "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}.",
-                              snackPosition: SnackPosition.BOTTOM,
-                              colorText: AppConstants().ltBlack);
+                            mapPageMController.addMarkerIcon(
+                                markerID: "myLocationMarker");
+                            Get.snackbar("Başarılı!",
+                                "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}.",
+                                snackPosition: SnackPosition.BOTTOM,
+                                colorText: AppConstants().ltBlack);
+                            print(
+                                "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}");
+                          });
                         }
                       }),
                     ),

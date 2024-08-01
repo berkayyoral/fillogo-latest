@@ -144,7 +144,7 @@ void navigateToPage(
 
 Future<void> setupNotificationStatusInTheBackend(
     {required bool isNotificationActive}) async {
-  return;
+  return print("NOTİFYCMM ALDIMMMM");
   // GetNotificationStatusResponseModel? response =
   //     await NotificationsServices.getNotificationStatus();
   // if (response == null || response.success != 1) {

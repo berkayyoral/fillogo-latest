@@ -50,10 +50,11 @@ class MatchingRoutesButton extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(10.w),
                 child: SvgPicture.asset(
-                  "assets/icons/map-page-list-icon-kesisen.svg",
-                  height: 24.w,
-                  color: AppConstants().ltMainRed,
-                ),
+                    !mapPageMController.isOpenMatchingRoutesWidget.value
+                        ? "assets/icons/map-page-list-icon-kesisen.svg"
+                        : "assets/icons/map-page-book-icon.svg",
+                    height: 24.w,
+                    color: AppConstants().ltMainRed),
               ),
             ),
           ),

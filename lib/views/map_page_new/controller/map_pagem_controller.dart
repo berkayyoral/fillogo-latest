@@ -226,7 +226,7 @@ class MapPageMController extends GetxController implements MapPageService {
 
   addMarkerIcon({
     required String markerID,
-    required LatLng location,
+    LatLng? location,
     Function()? onTap,
     CarType? carType,
   }) async {
@@ -242,7 +242,9 @@ class MapPageMController extends GetxController implements MapPageService {
     markers.add(
       Marker(
         markerId: MarkerId(markerID),
-        position: location,
+        position: location ??
+            LatLng(currentLocationController.myLocationLatitudeDo.value,
+                currentLocationController.myLocationLongitudeDo.value),
         icon: BitmapDescriptor.fromBytes(iconByteData),
         zIndex: markerID == "myLocationMarker" ? 1 : 0,
         onTap: markerID != "myLocationMarker" ? onTap : null,

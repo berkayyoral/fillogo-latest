@@ -75,7 +75,7 @@ class RouteCalculateLastView extends StatelessWidget {
         ),
         title: Image.asset(
           'assets/logo/logo-1.png',
-          height: 50,
+          height: 40,
         ),
         actions: [
           GestureDetector(
@@ -91,8 +91,8 @@ class RouteCalculateLastView extends StatelessWidget {
                 alignment: Alignment.topRight,
                 children: [
                   SvgPicture.asset(
-                    height: 25.h,
-                    width: 25.w,
+                    height: 20.h,
+                    width: 20.w,
                     'assets/icons/notification-icon.svg',
                     color: AppConstants().ltLogoGrey,
                   ),
@@ -121,8 +121,8 @@ class RouteCalculateLastView extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     'assets/icons/message-icon.svg',
-                    height: 25.h,
-                    width: 25.w,
+                    height: 20.h,
+                    width: 20.w,
                     color: const Color(0xff3E3E3E),
                   ),
                   Obx(() => notificationController.isUnReadMessage.value
@@ -533,28 +533,29 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 10),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    createRouteController.calculateLevel.value = 1;
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      "Haritada Gör",
-                      style: TextStyle(
-                        fontFamily: "Sfsemibold",
-                        fontSize: 12.sp,
-                        color: AppConstants().ltMainRed,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 10),
+            //   child: Align(
+            //     alignment: Alignment.topLeft,
+            //     child: GestureDetector(
+            //       onTap: () {
+            //         createRouteController.calculateLevel.value = 1;
+            //       },
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 10),
+            //         child: Text(
+            //           "Haritada Gör",
+            //           style: TextStyle(
+            //             fontFamily: "Sfsemibold",
+            //             fontSize: 12.sp,
+            //             color: AppConstants().ltMainRed,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+
             Padding(
               padding: EdgeInsets.only(left: 16.w, right: 16.w),
               child: Align(
@@ -596,65 +597,75 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.w, right: 16.w),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(bottom: 10, top: 20),
-                                child: Text(
-                                  "Eşleşen Rotalar",
-                                  style: TextStyle(
-                                    fontFamily: "Sfsemibold",
-                                    fontSize: 16.sp,
-                                    color: AppConstants().ltLogoGrey,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                //height: 595.h,
-                                child: createRouteController
-                                        .searchByCityDatum!.isNotEmpty
-                                    ? ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: createRouteController
-                                            .searchByCityDatum!.length,
-                                        itemBuilder: (context, i) {
-                                          return ActivesFriendsRoutesCard(
-                                            profilePhotoUrl:
-                                                'https://picsum.photos/150',
-                                            id: createRouteController
-                                                .searchByCityDatum![i].id!,
-                                            userName: createRouteController
-                                                .searchByCityDatum![i]
-                                                .user!
-                                                .username!,
-                                            startAdress: createRouteController
-                                                .searchByCityDatum![i]
-                                                .startingCity!,
-                                            endAdress: createRouteController
-                                                .searchByCityDatum![i]
-                                                .endingCity!,
-                                            startDateTime: createRouteController
-                                                .searchByCityDatum![i]
-                                                .departureDate!
-                                                .toString()
-                                                .split(" ")[0],
-                                            endDateTime: createRouteController
-                                                .searchByCityDatum![i]
-                                                .arrivalDate!
-                                                .toString()
-                                                .split(" ")[0],
-                                            userId: createRouteController
-                                                .searchByCityDatum![i].userId!,
-                                          );
-                                        },
-                                      )
-                                    : Align(
-                                        alignment: Alignment.topCenter,
-                                        child: UiHelper.notFoundAnimationWidget(
-                                            context, "Uygun rota bulunamadı!"),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, top: 20),
+                                    child: Text(
+                                      "Eşleşen Rotalar",
+                                      style: TextStyle(
+                                        fontFamily: "Sfsemibold",
+                                        fontSize: 16.sp,
+                                        color: AppConstants().ltLogoGrey,
                                       ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    //height: 595.h,
+                                    child: createRouteController
+                                            .searchByCityDatum!.isNotEmpty
+                                        ? ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: createRouteController
+                                                .searchByCityDatum!.length,
+                                            itemBuilder: (context, i) {
+                                              return ActivesFriendsRoutesCard(
+                                                profilePhotoUrl:
+                                                    'https://picsum.photos/150',
+                                                id: createRouteController
+                                                    .searchByCityDatum![i].id!,
+                                                userName: createRouteController
+                                                    .searchByCityDatum![i]
+                                                    .user!
+                                                    .username!,
+                                                startAdress:
+                                                    createRouteController
+                                                        .searchByCityDatum![i]
+                                                        .startingCity!,
+                                                endAdress: createRouteController
+                                                    .searchByCityDatum![i]
+                                                    .endingCity!,
+                                                startDateTime:
+                                                    createRouteController
+                                                        .searchByCityDatum![i]
+                                                        .departureDate!
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                endDateTime:
+                                                    createRouteController
+                                                        .searchByCityDatum![i]
+                                                        .arrivalDate!
+                                                        .toString()
+                                                        .split(" ")[0],
+                                                userId: createRouteController
+                                                    .searchByCityDatum![i]
+                                                    .userId!,
+                                              );
+                                            },
+                                          )
+                                        : Align(
+                                            alignment: Alignment.topCenter,
+                                            child: UiHelper
+                                                .notFoundAnimationWidget(
+                                                    context,
+                                                    "Uygun rota bulunamadı!"),
+                                          ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -662,6 +673,43 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: GestureDetector(
+                  onTap: () {
+                    createRouteController.calculateLevel.value = 1;
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.w),
+                    child: Container(
+                      height: 50.w,
+                      width: 50.w,
+                      decoration: BoxDecoration(
+                        color: AppConstants().ltMainRed,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(10.w),
+                        child: SvgPicture.asset(
+                            "assets/icons/map-page-book-icon.svg",
+                            height: 24.w,
+                            color: AppConstants().ltWhiteGrey),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

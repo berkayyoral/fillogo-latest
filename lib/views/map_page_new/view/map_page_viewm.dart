@@ -48,7 +48,7 @@ class MapPageViewM extends StatelessWidget {
           ),
           title: Image.asset(
             'assets/logo/logo-1.png',
-            height: 50,
+            height: 40,
           ),
           actions: [
             GestureDetector(
@@ -64,8 +64,8 @@ class MapPageViewM extends StatelessWidget {
                   alignment: Alignment.topRight,
                   children: [
                     SvgPicture.asset(
-                      height: 25.h,
-                      width: 25.w,
+                      height: 20.h,
+                      width: 20.w,
                       'assets/icons/notification-icon.svg',
                       color: AppConstants().ltLogoGrey,
                     ),
@@ -95,8 +95,8 @@ class MapPageViewM extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       'assets/icons/message-icon.svg',
-                      height: 25.h,
-                      width: 25.w,
+                      height: 20.h,
+                      width: 20.w,
                       color: const Color(0xff3E3E3E),
                     ),
                     Obx(() => notificationController.isUnReadMessage.value
@@ -265,7 +265,7 @@ class MapPageViewM extends StatelessWidget {
     return Obx(() => mapPageMController.isCreateRoute.value
         ? Container()
         : Positioned(
-            top: 340.h,
+            top: 330.h,
             right: 5.w,
             child: InkWell(
               onTap: () async {

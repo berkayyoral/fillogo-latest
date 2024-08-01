@@ -55,8 +55,7 @@ class FirstOpenIsActiveRoute extends GetxController {
 
       // İki tarih arasındaki farkı hesapla
       Duration difference = routeFinishDate.difference(now);
-      print(
-          'ROTANIZINBİTİSSAATİ The given date is in the past by ${isActiveRoute}');
+      print('ROTANIZINBİTİSSAATİ  ${isActiveRoute}');
 
       if (difference.isNegative) {
         print(
@@ -71,7 +70,7 @@ class FirstOpenIsActiveRoute extends GetxController {
       // if (routeFinishDate != DateTime.now() &&
       //     (routeFinishDate.millisecondsSinceEpoch >
       //         (DateTime.now().millisecondsSinceEpoch + 300000)))
-      if (isActiveRoute && difference.isNegative) {
+      if (isActiveRoute && !difference.isNegative) {
         Get.dialog(
             barrierDismissible: false,
             Dialog(
@@ -127,6 +126,10 @@ class FirstOpenIsActiveRoute extends GetxController {
                                 mapPageController.polylineCoordinates.clear();
                                 mapPageController.polylines.clear();
                                 mapPageController.markers.clear();
+                                mapPageController.getMyRoutes();
+                                mapPageController.getUsersOnArea(
+                                    carTypeFilter:
+                                        mapPageController.carTypeList);
                               }
                             });
 

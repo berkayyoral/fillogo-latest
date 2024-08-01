@@ -99,7 +99,7 @@ class _PostFlowViewState extends State<PostFlowView> {
         ),
         title: Image.asset(
           'assets/logo/logo-1.png',
-          height: 50,
+          height: 40,
         ),
         actions: [
           GestureDetector(
@@ -113,8 +113,8 @@ class _PostFlowViewState extends State<PostFlowView> {
               ),
               child: SvgPicture.asset(
                 'assets/icons/search-icon.svg',
-                height: 25.h,
-                width: 25.w,
+                height: 20.h,
+                width: 20.w,
                 color: const Color(0xff3E3E3E),
               ),
             ),
@@ -132,8 +132,8 @@ class _PostFlowViewState extends State<PostFlowView> {
                 alignment: Alignment.topRight,
                 children: [
                   SvgPicture.asset(
-                    height: 25.h,
-                    width: 25.w,
+                    height: 20.h,
+                    width: 20.w,
                     'assets/icons/notification-icon.svg',
                     color: AppConstants().ltLogoGrey,
                   ),
@@ -162,8 +162,8 @@ class _PostFlowViewState extends State<PostFlowView> {
                 children: [
                   SvgPicture.asset(
                     'assets/icons/message-icon.svg',
-                    height: 25.h,
-                    width: 25.w,
+                    height: 20.h,
+                    width: 20.w,
                     color: const Color(0xff3E3E3E),
                   ),
                   Obx(() => notificationController.isUnReadMessage.value

@@ -48,12 +48,15 @@ class CustomButtonDesign extends StatelessWidget {
               visible: (iconPath!.isNotEmpty),
               child: 5.w.spaceX,
             ),
-            Text(
-              text!,
-              style: TextStyle(
-                fontFamily: "Sfsemidold",
-                fontSize: 16.sp,
-                color: textColor,
+            Expanded(
+              child: Text(
+                text!,
+                style: TextStyle(
+                  fontFamily: "Sfsemidold",
+                  fontSize: 16.sp,
+                  color: textColor,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],

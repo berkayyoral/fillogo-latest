@@ -36,6 +36,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             title: 'Rotalarım',
             onTap: () async {
               await _drawerControlIndex();
+              await mapPageController.getMyRoutes();
               Get.toNamed('/myRoutesPageView');
             },
           ),
