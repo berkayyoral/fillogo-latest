@@ -55,6 +55,33 @@ class VisibilityStatusWidget extends StatelessWidget {
                           ).then((value) async {
                             mapPageMController.isRouteVisibilty.value =
                                 !mapPageMController.isRouteVisibilty.value;
+
+                            print(
+                                "VİSİBİLTİRYY M -> ${mapPageMController.isRouteVisibilty.value}");
+                            mapPageMController.markers.value.clear();
+
+                            if (mapPageMController.isRouteVisibilty.value) {
+                              mapPageMController.filterSelectedList.value = [
+                                true,
+                                true,
+                                true
+                              ];
+                              mapPageMController.carTypeList = [
+                                "Otomobil",
+                                "Tır",
+                                "Motorsiklet"
+                              ];
+                            } else {
+                              mapPageMController.carTypeList.clear();
+                              mapPageMController.filterSelectedList.value = [
+                                false,
+                                false,
+                                false
+                              ];
+                            }
+
+                            mapPageMController.getUsersOnArea(
+                                carTypeFilter: mapPageMController.carTypeList);
                             mapPageMController.markers.value.removeWhere(
                                 (marker) =>
                                     marker.markerId.value ==

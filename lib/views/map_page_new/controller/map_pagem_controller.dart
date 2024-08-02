@@ -88,8 +88,6 @@ class MapPageMController extends GetxController implements MapPageService {
         markerID: "myLocationMarker",
         location: LatLng(currentLocationController.myLocationLatitudeDo.value,
             currentLocationController.myLocationLongitudeDo.value));
-
-    await getUsersOnArea(carTypeFilter: carTypeList);
     bool isLocaleVisi =
         LocaleManager.instance.getBool(PreferencesKeys.isVisibility)!;
     bool isLocaleAvabi =
@@ -98,6 +96,14 @@ class MapPageMController extends GetxController implements MapPageService {
     isRouteAvability.value = isLocaleAvabi;
     print(
         "VİSİORAVA VİSİ-> ${isRouteVisibilty.value} AVA -> ${isRouteAvability.value}");
+
+    if (!isRouteVisibilty.value) {
+      filterSelectedList.value = [false, false, false];
+      carTypeList.clear();
+    }
+    print("CARTYPLELİST -> ${carTypeList}");
+    await getUsersOnArea(carTypeFilter: carTypeList);
+
     getMyLocationInMap();
     super.onInit();
   }
@@ -372,7 +378,7 @@ class MapPageMController extends GetxController implements MapPageService {
       {required List<String> carTypeFilter}) async {
     try {
       // isLoading.value = true;
-
+      print("GETUSERSONAREALİST -> ${carTypeFilter}");
       await mapPageService
           .getUsersOnArea(carTypeFilter: carTypeFilter)
           .then((value) async {

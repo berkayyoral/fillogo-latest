@@ -14,8 +14,8 @@ class MapPageService {
       await GeneralServicesTemp().makePostRequest(
         EndPoint.getUsersOnArea,
         {
-          "filter": carTypeFilter,
-          "radius": 190000,
+          "filter": carTypeFilter.isNotEmpty ? carTypeFilter : [],
+          "radius": 19000000,
           "visibility": true,
           "availability": true
         },
