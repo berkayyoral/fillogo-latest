@@ -66,7 +66,7 @@ class FirstOpenIsActiveRoute extends GetxController {
       // if (routeFinishDate != DateTime.now() &&
       //     (routeFinishDate.millisecondsSinceEpoch >
       //         (DateTime.now().millisecondsSinceEpoch + 300000)))
-      if (isActiveRoute && !difference.isNegative) {
+      if (isActiveRoute && difference.isNegative) {
         Get.dialog(
             barrierDismissible: false,
             Dialog(
