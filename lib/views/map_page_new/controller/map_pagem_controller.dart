@@ -385,10 +385,11 @@ class MapPageMController extends GetxController implements MapPageService {
         print("FİLTERCARTYPE MAPPAGECONTROLLER ONAREA ${jsonEncode(value)} ");
         // markers.add(value);
 
-        usersOnArea = value!.data!.first;
-
-        print(
-            "FİLTERCARTYPE MAPPAGECONTROLLER ONAREA -> ${usersOnArea.length}");
+        if (value!.data!.first.isNotEmpty) {
+          usersOnArea = value!.data!.first;
+        } else {
+          usersOnArea = [];
+        }
 
         for (var i = 0; i < usersOnArea.length; i++) {
           if (usersOnArea[i]!.userId !=

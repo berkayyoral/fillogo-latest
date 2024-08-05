@@ -368,7 +368,8 @@ class CreateRouteController extends GetxController implements PolylineService {
             if (value != null) {
               final response =
                   PostCreateRouteResponseModel.fromJson(jsonDecode(value));
-              print("ROTANIZINBİTİSSAATİ createroute ->  ${response}");
+              print(
+                  "ROTANIZINBİTİSSAATİ createroute ->  ${jsonEncode(response)}");
               print("DEPARTUREFORMAT _> ${dateTimeFormatDeparture.value}");
               if (response.success == 1) {
                 createPostPageController.routeId.value = response.data![0].id!;
@@ -658,7 +659,7 @@ class CreateRouteController extends GetxController implements PolylineService {
                   print("BURDAYIMMM");
                   showDialog(
                       context: context,
-                      builder: (BuildContext context2) {
+                      builder: (BuildContext context) {
                         return RouteAlertDialog().showShareRouteAllertDialog(
                           context,
                           "$startRouteCity -> $finishRouteCity",
