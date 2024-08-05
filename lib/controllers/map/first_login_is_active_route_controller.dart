@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
@@ -8,8 +6,6 @@ import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'dart:convert' as convert;
-
-import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 
 class FirstOpenIsActiveRoute extends GetxController {
   bool isActiveRoute = false;
@@ -126,6 +122,8 @@ class FirstOpenIsActiveRoute extends GetxController {
                                 mapPageController.polylineCoordinates.clear();
                                 mapPageController.polylines.clear();
                                 mapPageController.markers.clear();
+                                mapPageController.isThereActiveRoute.value =
+                                    false;
                                 mapPageController.getMyRoutes();
                                 mapPageController.getUsersOnArea(
                                     carTypeFilter:

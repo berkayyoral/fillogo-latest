@@ -8,7 +8,7 @@ class RedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 348.w,
-      height: 50.h,
+      height: 45.h,
       child: ElevatedButton(
         onPressed: onpressed,
         style: ElevatedButton.styleFrom(

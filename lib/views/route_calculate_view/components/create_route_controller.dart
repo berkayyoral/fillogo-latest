@@ -1,6 +1,11 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:async';
 import 'dart:developer';
+import 'dart:typed_data';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/route_calculate_view/components/route_search_by_city_models.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -17,6 +22,7 @@ class CreateeRouteController extends GetxController {
 
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   var calculateLevel = 1.obs;
+  RxBool isLoading = false.obs;
   RxString formattedDate = ''.obs;
   Rx<DateTime?> pickedDate = DateTime.now().obs;
 
@@ -26,7 +32,7 @@ class CreateeRouteController extends GetxController {
   GetMyCurrentLocationController getMyCurrentLocationController =
       Get.find<GetMyCurrentLocationController>();
 
-  Set<Marker> markers = {};
+  RxSet<Marker> markers = <Marker>{}.obs;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   List<List<double>> polylineCoordinatesListForB = [];
@@ -35,7 +41,7 @@ class CreateeRouteController extends GetxController {
   Completer<GoogleMapController> generalMapController =
       Completer<GoogleMapController>();
 
-  List<SearchByCityDatum>? searchByCityDatum = [];
+  RxList<SearchByCityDatum> searchByCityDatum = <SearchByCityDatum>[].obs;
 
   var createRouteStartAddress = "".obs;
   var createRouteStartLatitude = 0.0.obs;
@@ -51,25 +57,34 @@ class CreateeRouteController extends GetxController {
   //Anlık arkadas konumu bağlandı
   void addNewMarkersForSearchingRoute(BuildContext context) async {
     print("BURDAYIMaddNewMarkersForSearchingRoute");
-    if (searchByCityDatum!.isNotEmpty) {
-      for (var i = 0; i < searchByCityDatum!.length; i++) {
+    if (searchByCityDatum.value.isNotEmpty) {
+      print("SEARCROUTEMARKER lnegt -> ${searchByCityDatum.value.length}");
+      for (var i = 0; i < searchByCityDatum.length; i++) {
+        String carTypeString = searchByCityDatum.value[i].user!
+            .usertousercartypes![0].cartypetousercartypes!.carType!;
+        CarType carType = carTypeString == "Tır"
+            ? CarType.tir
+            : carTypeString == "Otomobil"
+                ? CarType.otomobil
+                : CarType.motorsiklet;
+        Uint8List iconByteData = await customMarkerIconController
+            .friendsCustomMarkerIcon(carType: carType);
         addMarkerFunctionForSearchRoutePage(
-          searchByCityDatum![i].id!,
-          searchByCityDatum![i].userId!,
-          MarkerId("${searchByCityDatum![i].userId!}"),
-          LatLng(searchByCityDatum![i].startingCoordinates![0],
-              searchByCityDatum![i].startingCoordinates![1]),
-          BitmapDescriptor.fromBytes(
-              customMarkerIconController.myFriendsLocation!),
+          searchByCityDatum.value[i].id!,
+          searchByCityDatum.value[i].userId!,
+          MarkerId("${searchByCityDatum[i].userId!}"),
+          LatLng(searchByCityDatum.value[i].startingCoordinates![0],
+              searchByCityDatum.value[i].startingCoordinates![1]),
+          BitmapDescriptor.fromBytes(iconByteData),
           context,
-          searchByCityDatum![i].user!.username!,
-          searchByCityDatum![i].departureDate!.toString(),
-          searchByCityDatum![i].arrivalDate!.toString(),
+          searchByCityDatum.value[i].user!.username!,
+          searchByCityDatum.value[i].departureDate!.toString(),
+          searchByCityDatum.value[i].arrivalDate!.toString(),
           "TIR",
-          searchByCityDatum![i].startingCity!,
-          searchByCityDatum![i].endingCity!,
-          "Akşam 8’de Samsundan yola çıkacağım, 12 saat sürecek yarın 10 gibi ankarada olacağım. Yolculuk sırasında Çorumda durup leblebi almadan geçeceğimi zannediyorsanız hata yapıyorsunuz",
-          "",
+          searchByCityDatum.value[i].startingCity!,
+          searchByCityDatum.value[i].endingCity!,
+          searchByCityDatum.value[i].routeDescription ?? "",
+          "https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/users%2Fuser_yxtelh.png?alt=media&token=17ed0cd6-733e-4ee9-9053-767ce7269893",
         );
       }
     }
@@ -86,7 +101,7 @@ class CreateeRouteController extends GetxController {
     finishCity = "".obs;
     startCity = "".obs;
 
-    markers = {};
+    markers.value = {};
     polylines = {};
     polylineCoordinates = [];
     generalPolylineEncode.value = "";
@@ -153,6 +168,17 @@ class CreateeRouteController extends GetxController {
         },
       );
       markers.add(marker);
+      //    markers.add(
+      //   Marker(
+      //     markerId: MarkerId(markerID),
+      //     position: location ??
+      //         LatLng(currentLocationController.myLocationLatitudeDo.value,
+      //             currentLocationController.myLocationLongitudeDo.value),
+      //     icon: BitmapDescriptor.fromBytes(iconByteData),
+      //     zIndex: markerID == "myLocationMarker" ? 1 : 0,
+      //     onTap: markerID != "myLocationMarker" ? onTap : null,
+      //   ),
+      // )
       update(["createRouteController"]);
       return true;
     } catch (e) {

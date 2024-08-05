@@ -45,333 +45,340 @@ class PopupPrifilInfo extends StatelessWidget {
       Get.find<BottomNavigationBarController>();
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width,
-      // height: 650.h,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Obx(() => GestureDetector(
-                        onTap: () {
-                          GeneralServicesTemp().makePostRequest2(
-                              "${EndPoint.followUser}$userId", {
-                            "Content-type": "application/json",
-                            'Authorization':
-                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                          }).then((value) {
-                            var response =
-                                FollowUserResponse.fromJson(jsonDecode(value!));
-                            if (response.message == "User followed") {
-                              OneSignalSenNotification().sendNotification(
-                                  notificationModel: NotificationModel(
-                                sender: LocaleManager.instance
-                                    .getInt(PreferencesKeys.currentUserId),
-                                receiver: userId,
-                                type: 1,
-                                params: [userId],
-                                message: NotificaitonMessage(
-                                    text: NotificationText(
-                                      content:
-                                          "adlı kullanıcı seni takip etmeye başladı",
-                                      name: LocaleManager.instance.getString(
-                                          PreferencesKeys.currentUserUserName),
-                                      surname: "" ?? "",
-                                      username: LocaleManager.instance
-                                              .getString(PreferencesKeys
-                                                  .currentUserUserName) ??
-                                          "",
-                                    ),
-                                    link: "" //,
-                                    ),
-                              ));
-
-                              followController.pressFunction();
-                            }
-                          });
-
-                          //print(followController.isPressed);
-                        },
-                        child: Column(
-                          children: [
-                            followController.isPressed.value
-                                ? SvgPicture.asset(
-                                    'assets/icons/Follow.svg',
-                                    height: 60.h,
-                                    color: AppConstants().ltMainRed,
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/follow-it-icon.svg',
-                                    height: 60.h,
-                                    color: AppConstants().ltLogoGrey),
-                            Text(
-                              followController.isPressed.value
-                                  ? "Takip Ediliyor"
-                                  : "Takip Et",
-                              style: TextStyle(
-                                  fontFamily: "Sfbold",
-                                  fontSize: 14.sp,
-                                  color: AppConstants().ltLogoGrey),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                    Get.toNamed(NavigationConstants.otherprofiles,
-                        arguments: userId);
-                    //bottomNavigationBarController.selectedIndex.value = 3;
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10.w),
-                        child: ProfilePhoto(
-                          height: 124.h,
-                          width: 124.w,
-                          url: userProfilePhotoLink,
-                        ),
-                      ),
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontFamily: "Sfbold",
-                            fontSize: 16.sp,
-                            color: AppConstants().ltBlack),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            vehicleType,
-                            style: TextStyle(
-                                fontFamily: "Sfmedium",
-                                fontSize: 12.sp,
-                                color: AppConstants().ltDarkGrey),
-                          ),
-                          Text(
-                            " Şöförü",
-                            style: TextStyle(
-                                fontFamily: "Sfmedium",
-                                fontSize: 12.sp,
-                                color: AppConstants().ltDarkGrey),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                          //Get.toNamed('/chatDetailsView');
-                        },
-                        child: SvgPicture.asset(
-                          'assets/icons/send-message-icon.svg',
-                          height: 60.h,
-                          color: AppConstants().ltLogoGrey,
-                        ),
-                      ),
-                      Text(
-                        "Mesaj Gönder",
-                        style: TextStyle(
-                            fontFamily: "Sfbold",
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-              child: Text(
-                description,
-                style: TextStyle(
-                    fontFamily: "Sflight",
-                    fontSize: 14.sp,
-                    color: AppConstants().ltLogoGrey),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-              child: Row(
+    return SafeArea(
+      child: SizedBox(
+        width: Get.width,
+        // height: 650.h,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Araç Tipi: ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                  Text(
-                    vehicleType.toUpperCase(),
-                    style: TextStyle(
-                        fontFamily: "Sfregular",
-                        fontSize: 14.sp,
-                        color: AppConstants().ltBlack),
-                  ),
-                ],
-              ),
-            ),
-            Visibility(
-                visible: startCity.isNotEmpty ? true : false,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  Expanded(
+                    flex: 1,
+                    child: Obx(() => GestureDetector(
+                          onTap: () {
+                            GeneralServicesTemp().makePostRequest2(
+                                "${EndPoint.followUser}$userId", {
+                              "Content-type": "application/json",
+                              'Authorization':
+                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                            }).then((value) {
+                              var response = FollowUserResponse.fromJson(
+                                  jsonDecode(value!));
+                              if (response.message == "User followed") {
+                                OneSignalSenNotification().sendNotification(
+                                    notificationModel: NotificationModel(
+                                  sender: LocaleManager.instance
+                                      .getInt(PreferencesKeys.currentUserId),
+                                  receiver: userId,
+                                  type: 1,
+                                  params: [userId],
+                                  message: NotificaitonMessage(
+                                      text: NotificationText(
+                                        content:
+                                            "adlı kullanıcı seni takip etmeye başladı",
+                                        name: LocaleManager.instance.getString(
+                                            PreferencesKeys
+                                                .currentUserUserName),
+                                        surname: "" ?? "",
+                                        username: LocaleManager.instance
+                                                .getString(PreferencesKeys
+                                                    .currentUserUserName) ??
+                                            "",
+                                      ),
+                                      link: "" //,
+                                      ),
+                                ));
+                              }
+                              followController.isPressed.value =
+                                  !followController.isPressed.value;
+                            });
+                          },
+                          child: Column(
                             children: [
+                              followController.isPressed.value
+                                  ? SvgPicture.asset(
+                                      'assets/icons/Follow.svg',
+                                      height: 50.h,
+                                      color: AppConstants().ltMainRed,
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/follow-it-icon.svg',
+                                      height: 50.h,
+                                      color: AppConstants().ltLogoGrey),
                               Text(
-                                "Rota: ",
+                                followController.isPressed.value
+                                    ? "Takip Ediliyor"
+                                    : "Takip Et",
                                 style: TextStyle(
                                     fontFamily: "Sfbold",
                                     fontSize: 14.sp,
-                                    color: AppConstants().ltBlack),
-                              ),
-                              Text(
-                                "$startCity -> $endCity",
-                                style: TextStyle(
-                                    fontFamily: "Sfregular",
-                                    fontSize: 14.sp,
-                                    color: AppConstants().ltBlack),
+                                    color: AppConstants().ltLogoGrey),
                               ),
                             ],
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              if (routeId != null) {
-                                selectedRouteController.selectedRouteId.value =
-                                    routeId!;
-                                selectedRouteController
-                                    .selectedRouteUserId.value = userId;
-                                Get.toNamed(NavigationConstants.routeDetails);
-                              }
-                            },
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                      Get.toNamed(NavigationConstants.otherprofiles,
+                          arguments: userId);
+                      //bottomNavigationBarController.selectedIndex.value = 3;
+                    },
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10.w),
+                          child: ProfilePhoto(
+                            height: 100.h,
+                            width: 100.w,
+                            url: userProfilePhotoLink,
+                          ),
+                        ),
+                        Text(
+                          name,
+                          style: TextStyle(
+                              fontFamily: "Sfbold",
+                              fontSize: 16.sp,
+                              color: AppConstants().ltBlack),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              vehicleType,
+                              style: TextStyle(
+                                  fontFamily: "Sfmedium",
+                                  fontSize: 12.sp,
+                                  color: AppConstants().ltDarkGrey),
+                            ),
+                            Text(
+                              " Şöförü",
+                              style: TextStyle(
+                                  fontFamily: "Sfmedium",
+                                  fontSize: 12.sp,
+                                  color: AppConstants().ltDarkGrey),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            //Get.toNamed('/chatDetailsView');
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/send-message-icon.svg',
+                            height: 50.h,
+                            color: AppConstants().ltLogoGrey,
+                          ),
+                        ),
+                        Text(
+                          "Mesaj Gönder",
+                          style: TextStyle(
+                              fontFamily: "Sfbold",
+                              fontSize: 14.sp,
+                              color: AppConstants().ltLogoGrey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+                child: Text(
+                  description,
+                  style: TextStyle(
+                      fontFamily: "Sflight",
+                      fontSize: 14.sp,
+                      color: AppConstants().ltLogoGrey),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                child: Row(
+                  children: [
+                    Text(
+                      "Araç Tipi: ",
+                      style: TextStyle(
+                          fontFamily: "Sfbold",
+                          fontSize: 14.sp,
+                          color: AppConstants().ltBlack),
+                    ),
+                    Text(
+                      vehicleType.toUpperCase(),
+                      style: TextStyle(
+                          fontFamily: "Sfregular",
+                          fontSize: 14.sp,
+                          color: AppConstants().ltBlack),
+                    ),
+                  ],
+                ),
+              ),
+              Visibility(
+                  visible: startCity.isNotEmpty ? true : false,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Rota: ",
+                                  style: TextStyle(
+                                      fontFamily: "Sfbold",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
+                                ),
+                                Text(
+                                  "$startCity -> $endCity",
+                                  style: TextStyle(
+                                      fontFamily: "Sfregular",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (routeId != null) {
+                                  selectedRouteController
+                                      .selectedRouteId.value = routeId!;
+                                  selectedRouteController
+                                      .selectedRouteUserId.value = userId;
+                                  Get.toNamed(NavigationConstants.routeDetails);
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/route-icon.svg',
+                                    height: 25.h,
+                                    color: AppConstants().ltMainRed,
+                                  ),
+                                  5.w.spaceX,
+                                  RichText(
+                                    textAlign: TextAlign.left,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Rotayı Göster',
+                                          style: TextStyle(
+                                            fontFamily: "Sfregular",
+                                            fontSize: 10.sp,
+                                            color: AppConstants().ltBlack,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      ///* DOLULUK ORANI (daha sonra eklenebilir) *////
+                      // Padding(
+                      //   padding:
+                      //       EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //         "Doluluk Oranı: ",
+                      //         style: TextStyle(
+                      //             fontFamily: "Sfbold",
+                      //             fontSize: 14.sp,
+                      //             color: AppConstants().ltBlack),
+                      //       ),
+                      //       Text(
+                      //         "% $emptyPercent DOLU",
+                      //         style: TextStyle(
+                      //             fontFamily: "Sfregular",
+                      //             fontSize: 14.sp,
+                      //             color: AppConstants().ltBlack),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 5),
                             child: Row(
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/route-icon.svg',
-                                  height: 25.h,
-                                  color: AppConstants().ltMainRed,
+                                Text(
+                                  "Çıkış : ",
+                                  style: TextStyle(
+                                      fontFamily: "Sfbold",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
                                 ),
-                                5.w.spaceX,
-                                RichText(
-                                  textAlign: TextAlign.left,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Rotayı Göster',
-                                        style: TextStyle(
-                                          fontFamily: "Sfregular",
-                                          fontSize: 10.sp,
-                                          color: AppConstants().ltBlack,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                Text(
+                                  firstDestination.split(" ")[0],
+                                  style: TextStyle(
+                                      fontFamily: "Sfregular",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 5),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Varış : ",
+                                  style: TextStyle(
+                                      fontFamily: "Sfbold",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
+                                ),
+                                Text(
+                                  secondDestination.split(" ")[0],
+                                  style: TextStyle(
+                                      fontFamily: "Sfregular",
+                                      fontSize: 14.sp,
+                                      color: AppConstants().ltBlack),
                                 ),
                               ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-
-                    ///* DOLULUK ORANI (daha sonra eklenebilir) *////
-                    // Padding(
-                    //   padding:
-                    //       EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-                    //   child: Row(
-                    //     children: [
-                    //       Text(
-                    //         "Doluluk Oranı: ",
-                    //         style: TextStyle(
-                    //             fontFamily: "Sfbold",
-                    //             fontSize: 14.sp,
-                    //             color: AppConstants().ltBlack),
-                    //       ),
-                    //       Text(
-                    //         "% $emptyPercent DOLU",
-                    //         style: TextStyle(
-                    //             fontFamily: "Sfregular",
-                    //             fontSize: 14.sp,
-                    //             color: AppConstants().ltBlack),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Çıkış Tarihi: ",
-                            style: TextStyle(
-                                fontFamily: "Sfbold",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
-                          ),
-                          Text(
-                            firstDestination.split(" ")[0],
-                            style: TextStyle(
-                                fontFamily: "Sfregular",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Varış Tarihi: ",
-                            style: TextStyle(
-                                fontFamily: "Sfbold",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
-                          ),
-                          Text(
-                            secondDestination.split(" ")[0],
-                            style: TextStyle(
-                                fontFamily: "Sfregular",
-                                fontSize: 14.sp,
-                                color: AppConstants().ltBlack),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
-            15.h.spaceY,
-            RedButton(
-              text: 'Profile Git',
-              onpressed: () {
-                Get.back();
-                Get.toNamed(NavigationConstants.otherprofiles,
-                    arguments: userId);
-              },
-            ),
-            25.h.spaceY,
-          ],
+                    ],
+                  )),
+              // 15.h.spaceY,
+              RedButton(
+                text: 'Profile Git',
+                onpressed: () {
+                  Get.back();
+                  Get.toNamed(NavigationConstants.otherprofiles,
+                      arguments: userId);
+                },
+              ),
+              50.h.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

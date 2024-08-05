@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -10,16 +9,17 @@ import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
-import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
+import 'package:fillogo/views/route_calculate_view/controller/route_calculate_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:geocoder2/geocoder2.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:intl/intl.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
-import '../../widgets/google_maps_widgets/general_map_view_class.dart';
 import '../map_page_view/components/active_friends_list_display.dart';
 import 'components/create_route_controller.dart';
 
@@ -44,6 +44,9 @@ class RouteCalculateLastView extends StatelessWidget {
   NotificationController notificationController =
       Get.put(NotificationController());
   Completer<GoogleMapController> mapCotroller = Completer();
+  SearchRouteController searchRouteController =
+      Get.put(SearchRouteController());
+
   @override
   Widget build(BuildContext context) {
     CameraPosition initialLocation = CameraPosition(
@@ -53,7 +56,8 @@ class RouteCalculateLastView extends StatelessWidget {
       ),
       zoom: 15.0,
     );
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       key: drawerController.routeCalculatePageScaffoldKey,
       appBar: AppBarGenel(
         leading: GestureDetector(
@@ -180,74 +184,51 @@ class RouteCalculateLastView extends StatelessWidget {
                             );
                           },
                           builder: (createRouteController) {
-                            return SizedBox(
-                              height: Get.height,
-                              width: Get.width,
-                              child: GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                                  target: LatLng(
-                                    getMyCurrentLocationController
-                                        .myLocationLatitudeDo.value,
-                                    getMyCurrentLocationController
-                                        .myLocationLongitudeDo.value,
+                            return Obx(
+                              () => SizedBox(
+                                height: Get.height,
+                                width: Get.width,
+                                child: GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(
+                                      getMyCurrentLocationController
+                                          .myLocationLatitudeDo.value,
+                                      getMyCurrentLocationController
+                                          .myLocationLongitudeDo.value,
+                                    ),
+                                    zoom: 15.0,
                                   ),
-                                  zoom: 15.0,
+                                  markers: Set<Marker>.from(
+                                      createRouteController.markers.value),
+                                  myLocationEnabled: true,
+                                  myLocationButtonEnabled: false,
+                                  mapType: MapType.normal,
+                                  zoomGesturesEnabled: true,
+                                  zoomControlsEnabled: false,
+                                  onCameraMoveStarted: () {},
+                                  onCameraMove: (p0) {},
+                                  polygons: const <Polygon>{},
+                                  tileOverlays: const <TileOverlay>{},
+                                  polylines: Set<Polyline>.of(
+                                      createRouteController.polylines.values),
+                                  onMapCreated:
+                                      (GoogleMapController controller) async {
+                                    // createRouteController.generalMapController
+                                    //     .complete(controller);
+                                    mapCotroller = Completer();
+                                    mapCotroller.complete(controller);
+                                  },
                                 ),
-                                markers: Set<Marker>.from(
-                                    createRouteController.markers),
-                                myLocationEnabled: true,
-                                myLocationButtonEnabled: false,
-                                mapType: MapType.normal,
-                                zoomGesturesEnabled: true,
-                                zoomControlsEnabled: false,
-                                onCameraMoveStarted: () {},
-                                onCameraMove: (p0) {},
-                                polygons: const <Polygon>{},
-                                tileOverlays: const <TileOverlay>{},
-                                polylines: Set<Polyline>.of(
-                                    createRouteController.polylines.values),
-                                onMapCreated:
-                                    (GoogleMapController controller) async {
-                                  // createRouteController.generalMapController
-                                  //     .complete(controller);
-                                  mapCotroller = Completer();
-                                  mapCotroller.complete(controller);
-                                },
                               ),
-                              //  GeneralMapViewClass(
-                              //     // markerSet: Set<Marker>.from(
-                              //     //     createRouteController.markers),
-                              //     // initialCameraPosition: CameraPosition(
-                              //     //   target: LatLng(
-                              //     //     getMyCurrentLocationController
-                              //     //         .myLocationLatitudeDo.value,
-                              //     //     getMyCurrentLocationController
-                              //     //         .myLocationLongitudeDo.value,
-                              //     //   ),
-                              //     //   zoom: 15.0,
-                              //     // ),
-                              //     // myLocationEnabled: true,
-                              //     // myLocationButtonEnabled: false,
-                              //     // mapType: MapType.normal,
-                              //     // zoomGesturesEnabled: true,
-                              //     // zoomControlsEnabled: false,
-                              //     // onCameraMoveStarted: () {},
-                              //     // onCameraMove: (p0) {},
-                              //     // polygonsSet: const <Polygon>{},
-                              //     // tileOverlaysSet: const <TileOverlay>{},
-                              //     // polylinesSet: Set<Polyline>.of(
-                              //     //     createRouteController.polylines.values),
-                              //     // mapController2:
-                              //     //     (GoogleMapController controller) async {
-                              //     //   // createRouteController.generalMapController
-                              //     //   //     .complete(controller);
-                              //     // },
-                              //   ),
                             );
                           },
                         ),
                         Obx(
-                          () => AnimatedSwitcher(
+                          () =>
+                              // searchRouteController.showOnlyMap.value
+                              //     ? Container()
+                              //     :
+                              AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             transitionBuilder:
                                 (Widget child, Animation<double> animation) {
@@ -273,7 +254,7 @@ class RouteCalculateLastView extends StatelessWidget {
           );
         },
       ),
-    );
+    ));
   }
 }
 
@@ -294,6 +275,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   CreateeRouteController createRouteController =
       Get.find<CreateeRouteController>();
 
+  SearchRouteController searchRouteController =
+      Get.put(SearchRouteController());
   @override
   Widget build(BuildContext context) {
     if (calculateLevel == 1) {
@@ -372,123 +355,110 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       BuildContext context,
       Completer<GoogleMapController> mapController,
       GetMyCurrentLocationController getMyCurrentLocationController) {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            height: 190,
-            width: Get.width,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: AppConstants().ltLogoGrey.withOpacity(0.2),
-                  spreadRadius: 0.r,
-                  blurRadius: 0.r,
-                ),
-              ],
-              color: AppConstants().ltWhite,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Stack(
+    return Obx(() => Stack(
+          children: [
+            Visibility(
+                child: Column(
               children: [
-                Positioned(
-                  top: 15,
-                  child: SizedBox(
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height:
+                        searchRouteController.showOnlyMap.value ? 75.h : 290.h,
                     width: Get.width,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                "Arkadaşlarınlanın rotalarını görmek için lütfen başlangıç ve bitiş noktalarını giriniz",
-                                style: TextStyle(
-                                  fontFamily: "Sflight",
-                                  fontSize: 12.sp,
-                                  color: AppConstants().ltLogoGrey,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppConstants().ltLogoGrey.withOpacity(0.2),
+                          spreadRadius: 0.r,
+                          blurRadius: 0.r,
+                        ),
+                      ],
+                      color: AppConstants().ltWhite,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 15,
+                          child: SizedBox(
+                            width: Get.width,
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 16.w, right: 16.w),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.w),
+                                      child: Text(
+                                        "Rotaları görmek için başlangıç ve bitiş noktalarını giriniz",
+                                        style: TextStyle(
+                                          fontFamily: "Sflight",
+                                          fontSize: 12.sp,
+                                          color: AppConstants().ltLogoGrey,
+                                        ),
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: !searchRouteController
+                                          .showOnlyMap.value,
+                                      child: Column(
+                                        children: [
+                                          _placesAutoComplateTextFieldStart(
+                                              context),
+                                          const SizedBox(height: 10),
+                                          _placesAutoComplateTextFieldFinish(
+                                              context),
+                                          const SizedBox(height: 10),
+                                          datePickerWidget(context),
+                                          const SizedBox(height: 10),
+                                          filterCarTypeWidget(context),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            _placesAutoComplateTextFieldStart(context),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            _placesAutoComplateTextFieldFinish(context),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-        Visibility(
-          visible: true,
-          child: Padding(
-            padding: EdgeInsets.only(right: 10.w, bottom: 90.h),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                onTap: () async {
-                  try {
-                    print("KONUMUMUGETİR");
-
-                    // mapPageController.isLoading.value = true;
-
-                    final GoogleMapController controller2 =
-                        await mapController.future;
-                    controller2.animateCamera(
-                      CameraUpdate.newCameraPosition(
-                        CameraPosition(
-                          bearing: 90,
-                          tilt: 45,
-                          target: LatLng(
-                              getMyCurrentLocationController
-                                  .myLocationLatitudeDo.value,
-                              getMyCurrentLocationController
-                                  .myLocationLongitudeDo.value),
-                          zoom: 15,
-                        ),
-                      ),
-                    );
-                  } catch (e) {
-                    print("KONUMUMUGETİR ERR -> $e");
-                  }
-                },
-                child: Container(
-                  height: 50.w,
-                  width: 50.w,
-                  decoration: BoxDecoration(
-                    color: AppConstants().ltMainRed,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10.w),
-                    child: SvgPicture.asset(
-                      "assets/icons/getMyLocationIcon2.svg",
-                      height: 24.w,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Obx(
-          () => Visibility(
-            visible: createRouteController.calculateLevel.value == 1,
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.w, bottom: 10.h),
+            )),
+            Padding(
+              padding: EdgeInsets.only(right: 10.w, bottom: 90.h),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
                   onTap: () async {
-                    createRouteController.calculateLevel.value = 2;
+                    try {
+                      print("KONUMUMUGETİR");
+
+                      // mapPageController.isLoading.value = true;
+
+                      final GoogleMapController controller2 =
+                          await mapController.future;
+                      controller2.animateCamera(
+                        CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                            bearing: 90,
+                            tilt: 45,
+                            target: LatLng(
+                                getMyCurrentLocationController
+                                    .myLocationLatitudeDo.value,
+                                getMyCurrentLocationController
+                                    .myLocationLongitudeDo.value),
+                            zoom: 15,
+                          ),
+                        ),
+                      );
+                    } catch (e) {
+                      print("KONUMUMUGETİR ERR -> $e");
+                    }
                   },
                   child: Container(
                     height: 50.w,
@@ -498,20 +468,142 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(16.w),
+                      padding: EdgeInsets.all(10.w),
                       child: SvgPicture.asset(
-                        "assets/icons/map-page-list-icon.svg",
-                        height: 18.w,
-                        color: AppConstants().ltWhite,
+                        "assets/icons/getMyLocationIcon2.svg",
+                        height: 24.w,
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+            Obx(
+              () => Visibility(
+                visible: createRouteController.calculateLevel.value == 1,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.w, bottom: 10.h),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () async {
+                        createRouteController.calculateLevel.value = 2;
+                      },
+                      child: Container(
+                        height: 50.w,
+                        width: 50.w,
+                        decoration: BoxDecoration(
+                          color: AppConstants().ltMainRed,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: SvgPicture.asset(
+                            "assets/icons/map-page-list-icon.svg",
+                            height: 18.w,
+                            color: AppConstants().ltWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: searchRouteController.showOnlyMap.value ? 50.h : 270.h,
+              right: 10.w,
+              child: InkWell(
+                onTap: () {
+                  searchRouteController.showOnlyMap.value =
+                      !searchRouteController.showOnlyMap.value;
+                  print(
+                      "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
+                },
+                child: Obx(
+                  () => Container(
+                    height: 40.w,
+                    width: 40.w,
+                    decoration: BoxDecoration(
+                      color: AppConstants().ltWhite,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      !searchRouteController.showOnlyMap.value
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      color: AppConstants().ltMainRed,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
+  InkWell datePickerWidget(BuildContext context) {
+    return InkWell(
+      onTap: () => selectDate(context),
+      child: Container(
+        width: 342.w,
+        height: 48.h,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppConstants().ltLogoGrey.withOpacity(0.2),
+              spreadRadius: 0.r,
+              blurRadius: 10.r,
+            ),
+          ],
+          color: AppConstants().ltWhite,
+          borderRadius: BorderRadius.circular(8.r),
         ),
-      ],
+        child: Row(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 12.w,
+                    bottom: 15,
+                    top: 15,
+                  ),
+                  child: Icon(
+                    Icons.date_range,
+                    color: AppConstants().ltMainRed,
+                  ),
+                ),
+                Obx(
+                  () => SizedBox(
+                    width: 250.w,
+                    child: Padding(
+                        padding: EdgeInsets.all(8.w),
+                        child: Text(
+                          DateFormat('yyyy-MM-dd')
+                              .format(searchRouteController.selectedDate.value),
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: AppConstants().ltBlack,
+                            decoration: TextDecoration.underline,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -582,13 +674,13 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 child: Column(
                   children: [
                     _placesAutoComplateTextFieldStart(context),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     _placesAutoComplateTextFieldFinish(context),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
+                    datePickerWidget(context),
+                    const SizedBox(height: 10),
+                    filterCarTypeWidget(context),
+                    const SizedBox(height: 10),
                     Container(
                       width: Get.width,
                       height: Get.height,
@@ -614,57 +706,70 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    //height: 595.h,
-                                    child: createRouteController
-                                            .searchByCityDatum!.isNotEmpty
-                                        ? ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: createRouteController
-                                                .searchByCityDatum!.length,
-                                            itemBuilder: (context, i) {
-                                              return ActivesFriendsRoutesCard(
-                                                profilePhotoUrl:
-                                                    'https://picsum.photos/150',
-                                                id: createRouteController
-                                                    .searchByCityDatum![i].id!,
-                                                userName: createRouteController
-                                                    .searchByCityDatum![i]
-                                                    .user!
-                                                    .username!,
-                                                startAdress:
-                                                    createRouteController
+                                  Obx(() => SizedBox(
+                                        //height: 595.h,
+                                        child: !createRouteController
+                                                    .isLoading.value &&
+                                                createRouteController
+                                                    .searchByCityDatum!
+                                                    .isNotEmpty
+                                            ? ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: createRouteController
+                                                    .searchByCityDatum!.length,
+                                                itemBuilder: (context, i) {
+                                                  return ActivesFriendsRoutesCard(
+                                                    profilePhotoUrl:
+                                                        'https://picsum.photos/150',
+                                                    id: createRouteController
                                                         .searchByCityDatum![i]
-                                                        .startingCity!,
-                                                endAdress: createRouteController
-                                                    .searchByCityDatum![i]
-                                                    .endingCity!,
-                                                startDateTime:
-                                                    createRouteController
-                                                        .searchByCityDatum![i]
-                                                        .departureDate!
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                endDateTime:
-                                                    createRouteController
-                                                        .searchByCityDatum![i]
-                                                        .arrivalDate!
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                userId: createRouteController
-                                                    .searchByCityDatum![i]
-                                                    .userId!,
-                                              );
-                                            },
-                                          )
-                                        : Align(
-                                            alignment: Alignment.topCenter,
-                                            child: UiHelper
-                                                .notFoundAnimationWidget(
-                                                    context,
-                                                    "Uygun rota bulunamadı!"),
-                                          ),
-                                  ),
+                                                        .id!,
+                                                    userName:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .user!
+                                                            .username!,
+                                                    startAdress:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .startingCity!,
+                                                    endAdress:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .endingCity!,
+                                                    startDateTime:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .departureDate!
+                                                            .toString()
+                                                            .split(" ")[0],
+                                                    endDateTime:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .arrivalDate!
+                                                            .toString()
+                                                            .split(" ")[0],
+                                                    userId:
+                                                        createRouteController
+                                                            .searchByCityDatum![
+                                                                i]
+                                                            .userId!,
+                                                  );
+                                                },
+                                              )
+                                            : Align(
+                                                alignment: Alignment.topCenter,
+                                                child: UiHelper
+                                                    .notFoundAnimationWidget(
+                                                        context,
+                                                        "Uygun rota bulunamadı!"),
+                                              ),
+                                      )),
                                 ],
                               ),
                             ],
@@ -717,6 +822,151 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Obx filterCarTypeWidget(BuildContext context) {
+    return Obx(
+      () => Container(
+        width: 342.w,
+        height: 55.h,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppConstants().ltLogoGrey.withOpacity(0.2),
+              spreadRadius: 0.r,
+              blurRadius: 10.r,
+            ),
+          ],
+          color: AppConstants().ltWhite,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Container(
+                //   padding: EdgeInsets.only(
+                //     left: 12.w,
+                //     bottom: 15,
+                //     top: 15,
+                //   ),
+                //   child: Image.asset(
+                //     'assets/icons/filter.png',
+                //     fit: BoxFit.cover,
+                //     width: 20.w,
+                //     color: AppConstants().ltMainRed,
+                //   ),
+                // ),
+                SizedBox(
+                  width: 250.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      8.w.horizontalSpace,
+                      filterOptionWidget(
+                          logo: 'assets/icons/filterLightCommercial.png',
+                          index: 0),
+                      18.w.horizontalSpace,
+                      filterOptionWidget(
+                          logo: 'assets/icons/filterTruck.png', index: 1),
+                      18.w.horizontalSpace,
+                      filterOptionWidget(
+                          logo: 'assets/icons/filterMotorcycle.png', index: 2),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Visibility(
+                  child: TextButton(
+                      onPressed: () {
+                        getSearhRoute(context);
+                      },
+                      child: Text(
+                        "Uygula",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppConstants().ltMainRed),
+                      ))),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> getSearhRoute(BuildContext context) async {
+    searchRouteController.fillCarTypeList();
+    createRouteController.searchByCityDatum.clear();
+    createRouteController.markers.clear();
+    createRouteController.addMarkerFunction(
+      MarkerId(const MarkerId('myMarker').value),
+      LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value,
+          getMyCurrentLocationController.myLocationLongitudeDo.value),
+      "",
+      "",
+      BitmapDescriptor.fromBytes(
+        customMarkerIconController.mayLocationIcon!,
+      ),
+    );
+
+    if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+        (createRouteController.createRouteStartLongitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+        (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+        createRouteController.startCity.value != "" &&
+        createRouteController.finishCity.value != "") {
+      createRouteController.isLoading.value = true;
+      GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+          GetRouteSearchByCityRequestModel(
+              startLocation: createRouteController.startCity.value,
+              endLocation: createRouteController.finishCity.value,
+              departureDate: DateFormat('yyyy-MM-dd')
+                  .format(searchRouteController.selectedDate.value),
+              carType: searchRouteController.carTypeList);
+
+      print(
+          "SEARCHROUTE FİLTERCARTYPELİST -> ${searchRouteController.carTypeList}");
+      await GeneralServicesTemp()
+          .makePostRequest(
+        EndPoint.routesSearchByCitys,
+        routeSearchByCityRequestModel,
+        ServicesConstants.appJsonWithToken,
+      )
+          .then((value) async {
+        final response =
+            GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+        print(
+            "createRouteController response1 -> ${jsonEncode(response.data!.first.length)}");
+        createRouteController.searchByCityDatum.value = response.data![0];
+        print(
+            "createRouteController responseö -> ${jsonEncode(createRouteController.searchByCityDatum.value.length)}");
+        createRouteController.addNewMarkersForSearchingRoute(context);
+      });
+
+      createRouteController.isLoading.value = false;
+    } else {
+      Get.snackbar(
+          "Arama yapılamadı!", "Lütfen çıkış ve varış noktalarını giriniz",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: AppConstants().ltBlack);
+    }
+
+    // createRouteController. markers.add(
+    //     Marker(
+    //       markerId: MarkerId(createRouteController.searchByCityDatum[]),
+    //       position: location ??
+    //           LatLng(currentLocationController.myLocationLatitudeDo.value,
+    //               currentLocationController.myLocationLongitudeDo.value),
+    //       icon: BitmapDescriptor.fromBytes(iconByteData),
+    //       zIndex: markerID == "myLocationMarker" ? 1 : 0,
+    //       onTap: markerID != "myLocationMarker" ? onTap : null,
+    //     ),
+    //   )
   }
 
   Widget showNewAllertDialog(BuildContext context) {
@@ -1065,35 +1315,42 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.createRouteFinishLongitude.value = data.longitude;
     createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
 
-    log("Finish");
-    if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-        (createRouteController.createRouteStartLongitude.value != 0.0) &&
-        (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-        (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-        createRouteController.startCity.value != "" &&
-        createRouteController.finishCity.value != "") {
-      log("Finish createRouteController.finishCity:  ${createRouteController.finishCity.value}");
-      GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-          GetRouteSearchByCityRequestModel(
-        startLocation: createRouteController.startCity.value,
-        endLocation: createRouteController.finishCity.value,
-      );
-      GeneralServicesTemp()
-          .makePostRequest(
-        EndPoint.routesSearchByCitys,
-        routeSearchByCityRequestModel,
-        ServicesConstants.appJsonWithToken,
-      )
-          .then((value) async {
-        final response =
-            GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-        createRouteController.searchByCityDatum = response.data![0];
-      });
-      //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-
+    if (createRouteController.finishCity.value != "") {
       createRouteController.calculateLevel.value = 2;
     }
-    createRouteController.addNewMarkersForSearchingRoute(context);
+    log("Finish");
+    // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+    //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
+    //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+    //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+    //     createRouteController.startCity.value != "" &&
+    //     createRouteController.finishCity.value != "") {
+    //   log("createRouteController createRouteController.startCity:  ${createRouteController.startCity.value}");
+    //   log("createRouteController createRouteController.finishCity:  ${createRouteController.finishCity.value}");
+    //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+    //       GetRouteSearchByCityRequestModel(
+    //           startLocation: createRouteController.startCity.value,
+    //           endLocation: createRouteController.finishCity.value,
+    //           departureDate: DateFormat('yyyy-MM-dd')
+    //               .format(searchRouteController.selectedDate.value),
+    //           carType: searchRouteController.carTypeList);
+    //   GeneralServicesTemp()
+    //       .makePostRequest(
+    //     EndPoint.routesSearchByCitys,
+    //     routeSearchByCityRequestModel,
+    //     ServicesConstants.appJsonWithToken,
+    //   )
+    //       .then((value) async {
+    //     final response =
+    //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+    //     print("createRouteController response1 -> ${jsonEncode(response)}");
+    //     createRouteController.searchByCityDatum.value = response.data![0];
+    //   });
+    //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
+
+    // createRouteController.calculateLevel.value = 2;
+    // }
+    // await getSearhRoute(context);
   }
 
   Future _displayPredictionStartLocation(
@@ -1120,33 +1377,93 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.createRouteStartLongitude.value = data.longitude;
     createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
 
-    log("Start");
-    if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-        (createRouteController.createRouteStartLongitude.value != 0.0) &&
-        (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-        (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-        createRouteController.startCity.value != "" &&
-        createRouteController.finishCity.value != "") {
-      log("Start createRouteController.startCity:  ${createRouteController.startCity.value}");
-      GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-          GetRouteSearchByCityRequestModel(
-        startLocation: createRouteController.startCity.value,
-        endLocation: createRouteController.finishCity.value,
-      );
-      GeneralServicesTemp()
-          .makePostRequest(
-        EndPoint.routesSearchByCitys,
-        routeSearchByCityRequestModel,
-        ServicesConstants.appJsonWithToken,
-      )
-          .then((value) async {
-        final response =
-            GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-        createRouteController.searchByCityDatum = response.data![0];
-      });
-      //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-      createRouteController.calculateLevel.value = 2;
+    log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
+    // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+    //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
+    //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+    //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+    //     createRouteController.startCity.value != "" &&
+    //     createRouteController.finishCity.value != "") {
+    //   log("Start createRouteController.startCity:  ${createRouteController.startCity.value}");
+    //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+    //       GetRouteSearchByCityRequestModel(
+    //     startLocation: createRouteController.startCity.value,
+    //     endLocation: createRouteController.finishCity.value,
+    //     departureDate: DateFormat('yyyy-MM-dd')
+    //         .format(searchRouteController.selectedDate.value),
+    //     carType: searchRouteController.carTypeList,
+    //   );
+    //   GeneralServicesTemp()
+    //       .makePostRequest(
+    //     EndPoint.routesSearchByCitys,
+    //     routeSearchByCityRequestModel,
+    //     ServicesConstants.appJsonWithToken,
+    //   )
+    //       .then((value) async {
+    //     final response =
+    //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+    //     print("createRouteController response1 -> ${jsonEncode(response)}");
+
+    //     createRouteController.searchByCityDatum.value = response.data![0];
+    //   });
+    //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
+    //   createRouteController.calculateLevel.value = 2;
+    // }
+    // await getSearhRoute(context);
+  }
+
+  InkWell filterOptionWidget({required String logo, required int index}) {
+    SearchRouteController routeController = Get.find();
+    return InkWell(
+      onTap: () {
+        routeController.filterSelectedList[index] =
+            !routeController.filterSelectedList[index];
+      },
+      child: Container(
+        height: 40.w,
+        width: 40.w,
+        margin: EdgeInsets.all(1.w),
+        padding: EdgeInsets.all(2.w),
+        decoration: BoxDecoration(
+          color: AppConstants().ltWhiteGrey.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(10.w),
+          border: routeController.filterSelectedList[index]
+              ? Border.all(
+                  color: AppConstants()
+                      .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
+                  width: 2,
+                )
+              : null,
+          // gradient: LinearGradient(
+          //   colors: [
+          //     AppConstants().ltMainRed,
+          //     AppConstants().ltBlack,
+          //   ],
+          //   begin: Alignment.center,
+          //   end: Alignment.bottomCenter,
+          // ),
+        ),
+        child: Image.asset(logo,
+            fit: BoxFit.cover,
+            color: routeController.filterSelectedList[index]
+                ? AppConstants().ltMainRed
+                : AppConstants().ltLogoGrey),
+      ),
+    );
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: searchRouteController.selectedDate.value,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null &&
+        pickedDate != searchRouteController.selectedDate.value) {
+      searchRouteController.selectedDate.value = pickedDate;
     }
-    createRouteController.addNewMarkersForSearchingRoute(context);
+    print("SELECTEDDATE -> ${searchRouteController.selectedDate.value}");
   }
 }
