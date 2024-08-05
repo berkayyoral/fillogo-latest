@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -107,7 +109,7 @@ class MyRoutesPageView extends StatelessWidget {
                                         ),
                                         Visibility(
                                           visible: mapPageController
-                                              .myActivesRoutes!.isNotEmpty,
+                                              .myActivesRoutes.isNotEmpty,
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 10),
@@ -117,161 +119,159 @@ class MyRoutesPageView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  //height: 95.h,
-                                                  child: mapPageController
-                                                          .myActivesRoutes!
-                                                          .isNotEmpty
-                                                      ? ListView.builder(
-                                                          physics:
-                                                              const NeverScrollableScrollPhysics(),
-                                                          shrinkWrap: true,
-                                                          itemCount:
-                                                              mapPageController
-                                                                  .myActivesRoutes!
-                                                                  .length,
-                                                          itemBuilder:
-                                                              (context, i) {
-                                                            return GestureDetector(
-                                                              onLongPress: () {
-                                                                print(
-                                                                    "ROTAYISİL3");
-                                                                showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return AlertDialog(
-                                                                        title:
-                                                                            const Text(
-                                                                          "Bu Rotayı Silmek İstiyor musunuz?",
-                                                                        ),
-                                                                        titlePadding: const EdgeInsets
-                                                                            .all(
-                                                                            32),
-                                                                        titleTextStyle: TextStyle(
-                                                                            fontSize:
-                                                                                22,
-                                                                            color:
-                                                                                AppConstants().ltBlack),
-                                                                        actions: [
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              GeneralServicesTemp().makeDeleteRequest(
-                                                                                EndPoint.deleteRoute,
-                                                                                DeleteRouteRequestModel(routeId: mapPageController.myActivesRoutes![i].id),
-                                                                                {
-                                                                                  "Content-type": "application/json",
-                                                                                  'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                                                                                },
-                                                                              ).then((value) async {
-                                                                                var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
-                                                                                if (response.success == 1) {
-                                                                                  CameraPosition(
-                                                                                    bearing: 90,
-                                                                                    tilt: 45,
-                                                                                    target: LatLng(
-                                                                                      getMyCurrentLocationController.myLocationLatitudeDo.value,
-                                                                                      getMyCurrentLocationController.myLocationLongitudeDo.value,
-                                                                                    ),
-                                                                                    zoom: 14,
-                                                                                  );
+                                                Obx(
+                                                  () => SizedBox(
+                                                    //height: 95.h,
+                                                    child: mapPageController
+                                                            .myActivesRoutes
+                                                            .isNotEmpty
+                                                        ? ListView.builder(
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                mapPageController
+                                                                    .myActivesRoutes
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context, i) {
+                                                              return GestureDetector(
+                                                                onLongPress:
+                                                                    () {
+                                                                  print(
+                                                                      "ROTAYISİL3");
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              const Text(
+                                                                            "Bu Rotayı Silmek İstiyor musunuz?",
+                                                                          ),
+                                                                          titlePadding: const EdgeInsets
+                                                                              .all(
+                                                                              32),
+                                                                          titleTextStyle: TextStyle(
+                                                                              fontSize: 22,
+                                                                              color: AppConstants().ltBlack),
+                                                                          actions: [
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                GeneralServicesTemp().makeDeleteRequest(
+                                                                                  EndPoint.deleteRoute,
+                                                                                  DeleteRouteRequestModel(routeId: mapPageController.myActivesRoutes[i].id),
+                                                                                  {
+                                                                                    "Content-type": "application/json",
+                                                                                    'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                                                                  },
+                                                                                ).then((value) async {
+                                                                                  var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
+                                                                                  if (response.success == 1) {
+                                                                                    CameraPosition(
+                                                                                      bearing: 90,
+                                                                                      tilt: 45,
+                                                                                      target: LatLng(
+                                                                                        getMyCurrentLocationController.myLocationLatitudeDo.value,
+                                                                                        getMyCurrentLocationController.myLocationLongitudeDo.value,
+                                                                                      ),
+                                                                                      zoom: 14,
+                                                                                    );
 
-                                                                                  await mapPageController.getMyRoutes();
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  bottomNavigationBarController.selectedIndex.value = 1;
+                                                                                    mapPageController.myActivesRoutes.removeWhere((item) => item.id == mapPageController.myActivesRoutes[i].id);
 
-                                                                                  Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                  mapPageController.markers.clear();
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    bottomNavigationBarController.selectedIndex.value = 1;
 
-                                                                                  mapPageController.polylines.clear();
-                                                                                  mapPageController.polylineCoordinates.clear();
-                                                                                  mapPageController.isThereActiveRoute.value = false;
-                                                                                } else {
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                }
-                                                                              });
-                                                                            },
-                                                                            color:
-                                                                                AppConstants().ltMainRed,
-                                                                            child:
-                                                                                Text(
-                                                                              "Evet",
-                                                                              style: TextStyle(color: AppConstants().ltWhite),
+                                                                                    Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                    mapPageController.markers.clear();
+
+                                                                                    mapPageController.polylines.clear();
+                                                                                    mapPageController.polylineCoordinates.clear();
+                                                                                    mapPageController.isThereActiveRoute.value = false;
+                                                                                  } else {
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                              color: AppConstants().ltMainRed,
+                                                                              child: Text(
+                                                                                "Evet",
+                                                                                style: TextStyle(color: AppConstants().ltWhite),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              Get.back();
-                                                                            },
-                                                                            child:
-                                                                                const Text("Hayır"),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    });
-                                                              },
-                                                              child:
-                                                                  RouteDetailsIntoRoutesWidget(
-                                                                onTap: () {
-                                                                  berkayController
-                                                                      .canVisible
-                                                                      .value = false;
-                                                                  selectedRouteController
-                                                                          .selectedRouteId
-                                                                          .value =
-                                                                      mapPageController
-                                                                          .myActivesRoutes![
-                                                                              i]
-                                                                          .id;
-                                                                  Get.toNamed(
-                                                                      NavigationConstants
-                                                                          .routeDetails);
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                Get.back();
+                                                                              },
+                                                                              child: const Text("Hayır"),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      });
                                                                 },
-                                                                startPoint: mapPageController
-                                                                    .myActivesRoutes![
-                                                                        i]
-                                                                    .startingCity,
-                                                                endPoint: mapPageController
-                                                                    .myActivesRoutes![
-                                                                        i]
-                                                                    .endingCity,
-                                                                userName:
-                                                                    "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
-                                                                endDate: mapPageController
-                                                                    .myActivesRoutes![
-                                                                        i]
-                                                                    .arrivalDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0],
-                                                                startDate: mapPageController
-                                                                    .myActivesRoutes![
-                                                                        i]
-                                                                    .departureDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0],
-                                                              ),
-                                                            );
-                                                          },
-                                                        )
-                                                      : UiHelper
-                                                          .notFoundAnimationWidget(
-                                                              context,
-                                                              "Şu an aktif rotan yok!"),
-                                                ),
+                                                                child:
+                                                                    RouteDetailsIntoRoutesWidget(
+                                                                  onTap: () {
+                                                                    berkayController
+                                                                        .canVisible
+                                                                        .value = false;
+                                                                    selectedRouteController
+                                                                            .selectedRouteId
+                                                                            .value =
+                                                                        mapPageController
+                                                                            .myActivesRoutes[i]
+                                                                            .id;
+                                                                    Get.toNamed(
+                                                                        NavigationConstants
+                                                                            .routeDetails);
+                                                                  },
+                                                                  startPoint: mapPageController
+                                                                      .myActivesRoutes[
+                                                                          i]
+                                                                      .startingCity,
+                                                                  endPoint: mapPageController
+                                                                      .myActivesRoutes[
+                                                                          i]
+                                                                      .endingCity,
+                                                                  userName:
+                                                                      "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
+                                                                  endDate: mapPageController
+                                                                      .myActivesRoutes[
+                                                                          i]
+                                                                      .arrivalDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0],
+                                                                  startDate: mapPageController
+                                                                      .myActivesRoutes[
+                                                                          i]
+                                                                      .departureDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0],
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : UiHelper
+                                                            .notFoundAnimationWidget(
+                                                                context,
+                                                                "Şu an aktif rotan yok!"),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
                                         ),
                                         Visibility(
                                           visible: mapPageController
-                                              .mynotStartedRoutes!.isNotEmpty,
+                                              .mynotStartedRoutes
+                                              .value
+                                              .isNotEmpty,
                                           child: Text(
                                             'Gelecek Tarihli Rotalarım',
                                             style: TextStyle(
@@ -283,7 +283,7 @@ class MyRoutesPageView extends StatelessWidget {
                                         ),
                                         Visibility(
                                           visible: mapPageController
-                                              .mynotStartedRoutes!.isNotEmpty,
+                                              .mynotStartedRoutes.isNotEmpty,
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 10),
@@ -293,147 +293,142 @@ class MyRoutesPageView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  //height: 295.h,
-                                                  child: mapPageController
-                                                          .mynotStartedRoutes!
-                                                          .isNotEmpty
-                                                      ? ListView.builder(
-                                                          physics:
-                                                              const NeverScrollableScrollPhysics(),
-                                                          shrinkWrap: true,
-                                                          itemCount:
-                                                              mapPageController
-                                                                  .mynotStartedRoutes!
-                                                                  .length,
-                                                          itemBuilder:
-                                                              (context, i) {
-                                                            log(mapPageController
-                                                                .mynotStartedRoutes![
-                                                                    i]
-                                                                .id
-                                                                .toString());
-                                                            return GestureDetector(
-                                                              onLongPress: () {
-                                                                showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return AlertDialog(
-                                                                        title:
-                                                                            const Text(
-                                                                          "Bu Rotayı Silmek İstiyor musunuz?",
-                                                                        ),
-                                                                        titlePadding: const EdgeInsets
-                                                                            .all(
-                                                                            32),
-                                                                        titleTextStyle: TextStyle(
-                                                                            fontSize:
-                                                                                22,
-                                                                            color:
-                                                                                AppConstants().ltBlack),
-                                                                        actions: [
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              print("ROTAYISİL");
-                                                                              GeneralServicesTemp().makeDeleteRequest(
-                                                                                EndPoint.deleteRoute,
-                                                                                DeleteRouteRequestModel(routeId: mapPageController.mynotStartedRoutes![i].id),
-                                                                                {
-                                                                                  "Content-type": "application/json",
-                                                                                  'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                                                                                },
-                                                                              ).then((value) {
-                                                                                var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
-                                                                                if (response.success == 1) {
-                                                                                  mapPageController.getMyRoutes();
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                } else {
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                }
-                                                                              });
-                                                                            },
-                                                                            color:
-                                                                                AppConstants().ltMainRed,
-                                                                            child:
-                                                                                Text(
-                                                                              "Evet",
-                                                                              style: TextStyle(color: AppConstants().ltWhite),
+                                                Obx(
+                                                  () => SizedBox(
+                                                    //height: 295.h,
+                                                    child: mapPageController
+                                                            .mynotStartedRoutes
+                                                            .isNotEmpty
+                                                        ? ListView.builder(
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                mapPageController
+                                                                    .mynotStartedRoutes
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context, i) {
+                                                              log(mapPageController
+                                                                  .mynotStartedRoutes[
+                                                                      i]
+                                                                  .id
+                                                                  .toString());
+                                                              return GestureDetector(
+                                                                onLongPress:
+                                                                    () {
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              const Text(
+                                                                            "Bu Rotayı Silmek İstiyor musunuz?",
+                                                                          ),
+                                                                          titlePadding: const EdgeInsets
+                                                                              .all(
+                                                                              32),
+                                                                          titleTextStyle: TextStyle(
+                                                                              fontSize: 22,
+                                                                              color: AppConstants().ltBlack),
+                                                                          actions: [
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                print("ROTAYISİL");
+                                                                                GeneralServicesTemp().makeDeleteRequest(
+                                                                                  EndPoint.deleteRoute,
+                                                                                  DeleteRouteRequestModel(routeId: mapPageController.mynotStartedRoutes[i].id),
+                                                                                  {
+                                                                                    "Content-type": "application/json",
+                                                                                    'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                                                                  },
+                                                                                ).then((value) {
+                                                                                  var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
+                                                                                  if (response.success == 1) {
+                                                                                    mapPageController.mynotStartedRoutes.removeWhere((item) => item.id == mapPageController.mynotStartedRoutes[i].id);
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  } else {
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                              color: AppConstants().ltMainRed,
+                                                                              child: Text(
+                                                                                "Evet",
+                                                                                style: TextStyle(color: AppConstants().ltWhite),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              Get.back();
-                                                                            },
-                                                                            child:
-                                                                                const Text("Hayır"),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    });
-                                                              },
-                                                              child:
-                                                                  RouteDetailsIntoRoutesWidget(
-                                                                onTap: () {
-                                                                  berkayController
-                                                                      .canVisible
-                                                                      .value = true;
-                                                                  selectedRouteController
-                                                                          .selectedRouteId
-                                                                          .value =
-                                                                      mapPageController
-                                                                          .mynotStartedRoutes![
-                                                                              i]
-                                                                          .id;
-                                                                  Get.toNamed(
-                                                                      NavigationConstants
-                                                                          .routeDetails);
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                Get.back();
+                                                                              },
+                                                                              child: const Text("Hayır"),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      });
                                                                 },
-                                                                startPoint: mapPageController
-                                                                    .mynotStartedRoutes![
-                                                                        i]
-                                                                    .startingCity,
-                                                                endPoint: mapPageController
-                                                                    .mynotStartedRoutes![
-                                                                        i]
-                                                                    .endingCity,
-                                                                userName:
-                                                                    "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
-                                                                endDate: inputFormat.format(DateTime.parse(mapPageController
-                                                                    .mynotStartedRoutes![
-                                                                        i]
-                                                                    .arrivalDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0])),
-                                                                startDate: inputFormat.format(DateTime.parse(mapPageController
-                                                                    .mynotStartedRoutes![
-                                                                        i]
-                                                                    .departureDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0])),
-                                                              ),
-                                                            );
-                                                          },
-                                                        )
-                                                      : UiHelper
-                                                          .notFoundAnimationWidget(
-                                                              context,
-                                                              "Şu an aktif rotan yok!"),
-                                                ),
+                                                                child:
+                                                                    RouteDetailsIntoRoutesWidget(
+                                                                  onTap: () {
+                                                                    berkayController
+                                                                        .canVisible
+                                                                        .value = true;
+                                                                    selectedRouteController
+                                                                            .selectedRouteId
+                                                                            .value =
+                                                                        mapPageController
+                                                                            .mynotStartedRoutes[i]
+                                                                            .id;
+                                                                    Get.toNamed(
+                                                                        NavigationConstants
+                                                                            .routeDetails);
+                                                                  },
+                                                                  startPoint: mapPageController
+                                                                      .mynotStartedRoutes[
+                                                                          i]
+                                                                      .startingCity,
+                                                                  endPoint: mapPageController
+                                                                      .mynotStartedRoutes[
+                                                                          i]
+                                                                      .endingCity,
+                                                                  userName:
+                                                                      "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
+                                                                  endDate: inputFormat.format(DateTime.parse(mapPageController
+                                                                      .mynotStartedRoutes[
+                                                                          i]
+                                                                      .arrivalDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0])),
+                                                                  startDate: inputFormat.format(DateTime.parse(mapPageController
+                                                                      .mynotStartedRoutes[
+                                                                          i]
+                                                                      .departureDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0])),
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : UiHelper
+                                                            .notFoundAnimationWidget(
+                                                                context,
+                                                                "Şu an aktif rotan yok!"),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
                                         ),
                                         Visibility(
                                           visible: mapPageController
-                                              .myPastsRoutes!.isNotEmpty,
+                                              .myPastsRoutes.value.isNotEmpty,
                                           child: Text(
                                             'Geçmiş Rotalarım',
                                             style: TextStyle(
@@ -445,7 +440,7 @@ class MyRoutesPageView extends StatelessWidget {
                                         ),
                                         Visibility(
                                           visible: mapPageController
-                                              .myPastsRoutes!.isNotEmpty,
+                                              .myPastsRoutes.value.isNotEmpty,
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 10),
@@ -455,136 +450,133 @@ class MyRoutesPageView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  //height: 595.h,
-                                                  child: mapPageController
-                                                          .myPastsRoutes!
-                                                          .isNotEmpty
-                                                      ? ListView.builder(
-                                                          physics:
-                                                              const NeverScrollableScrollPhysics(),
-                                                          shrinkWrap: true,
-                                                          itemCount:
-                                                              mapPageController
-                                                                  .myPastsRoutes!
-                                                                  .length,
-                                                          itemBuilder:
-                                                              (context, i) {
-                                                            return GestureDetector(
-                                                              onLongPress: () {
-                                                                print(
-                                                                    "ROTAYISİL2");
-                                                                showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return AlertDialog(
-                                                                        title:
-                                                                            const Text(
-                                                                          "Bu Rotayı Silmek İstiyor musunuz?",
-                                                                        ),
-                                                                        titlePadding: const EdgeInsets
-                                                                            .all(
-                                                                            32),
-                                                                        titleTextStyle: TextStyle(
-                                                                            fontSize:
-                                                                                22,
-                                                                            color:
-                                                                                AppConstants().ltBlack),
-                                                                        actions: [
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              GeneralServicesTemp().makeDeleteRequest(
-                                                                                EndPoint.deleteRoute,
-                                                                                DeleteRouteRequestModel(routeId: mapPageController.myPastsRoutes![i].id),
-                                                                                {
-                                                                                  "Content-type": "application/json",
-                                                                                  'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                                                                                },
-                                                                              ).then((value) {
-                                                                                var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
-                                                                                if (response.success == 1) {
-                                                                                  mapPageController.getMyRoutes();
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                } else {
-                                                                                  Get.back(closeOverlays: true);
-                                                                                  Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
-                                                                                }
-                                                                              });
-                                                                            },
-                                                                            color:
-                                                                                AppConstants().ltMainRed,
-                                                                            child:
-                                                                                Text(
-                                                                              "Evet",
-                                                                              style: TextStyle(color: AppConstants().ltWhite),
+                                                Obx(
+                                                  () => SizedBox(
+                                                    //height: 595.h,
+                                                    child: mapPageController
+                                                            .myPastsRoutes
+                                                            .value
+                                                            .isNotEmpty
+                                                        ? ListView.builder(
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                mapPageController
+                                                                    .myPastsRoutes
+                                                                    .value
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context, i) {
+                                                              return GestureDetector(
+                                                                onLongPress:
+                                                                    () {
+                                                                  print(
+                                                                      "ROTAYISİL2");
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              const Text(
+                                                                            "Bu Rotayı Silmek İstiyor musunuz?",
+                                                                          ),
+                                                                          titlePadding: const EdgeInsets
+                                                                              .all(
+                                                                              32),
+                                                                          titleTextStyle: TextStyle(
+                                                                              fontSize: 22,
+                                                                              color: AppConstants().ltBlack),
+                                                                          actions: [
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                GeneralServicesTemp().makeDeleteRequest(
+                                                                                  EndPoint.deleteRoute,
+                                                                                  DeleteRouteRequestModel(routeId: mapPageController.myPastsRoutes[i].id),
+                                                                                  {
+                                                                                    "Content-type": "application/json",
+                                                                                    'Authorization': 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                                                                  },
+                                                                                ).then((value) {
+                                                                                  var response = DeleteRouteResponseModel.fromJson(jsonDecode(value!));
+                                                                                  if (response.success == 1) {
+                                                                                    mapPageController.myPastsRoutes.removeWhere((item) => item.id == mapPageController.myPastsRoutes[i].id);
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.snackbar("Başarılı!", "Rota başarıyla silindi.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  } else {
+                                                                                    Get.back(closeOverlays: true);
+                                                                                    Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);
+                                                                                  }
+                                                                                });
+                                                                              },
+                                                                              color: AppConstants().ltMainRed,
+                                                                              child: Text(
+                                                                                "Evet",
+                                                                                style: TextStyle(color: AppConstants().ltWhite),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          MaterialButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              Get.back();
-                                                                            },
-                                                                            child:
-                                                                                const Text("Hayır"),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    });
-                                                              },
-                                                              child:
-                                                                  RouteDetailsIntoRoutesWidget(
-                                                                onTap: () {
-                                                                  berkayController
-                                                                      .canVisible
-                                                                      .value = false;
-                                                                  selectedRouteController
-                                                                          .selectedRouteId
-                                                                          .value =
-                                                                      mapPageController
-                                                                          .myPastsRoutes![
-                                                                              i]
-                                                                          .id;
-                                                                  Get.toNamed(
-                                                                      NavigationConstants
-                                                                          .routeDetails);
+                                                                            MaterialButton(
+                                                                              onPressed: () {
+                                                                                Get.back();
+                                                                              },
+                                                                              child: const Text("Hayır"),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      });
                                                                 },
-                                                                startPoint: mapPageController
-                                                                    .myPastsRoutes![
-                                                                        i]
-                                                                    .startingCity,
-                                                                endPoint: mapPageController
-                                                                    .myPastsRoutes![
-                                                                        i]
-                                                                    .endingCity,
-                                                                userName:
-                                                                    "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
-                                                                endDate: inputFormat.format(DateTime.parse(mapPageController
-                                                                    .myPastsRoutes![
-                                                                        i]
-                                                                    .arrivalDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0])),
-                                                                startDate: inputFormat.format(DateTime.parse(mapPageController
-                                                                    .myPastsRoutes![
-                                                                        i]
-                                                                    .departureDate
-                                                                    .toString()
-                                                                    .split(
-                                                                        " ")[0])),
-                                                              ),
-                                                            );
-                                                          },
-                                                        )
-                                                      : UiHelper
-                                                          .notFoundAnimationWidget(
-                                                              context,
-                                                              "Şu an aktif rotan yok!"),
-                                                ),
+                                                                child:
+                                                                    RouteDetailsIntoRoutesWidget(
+                                                                  onTap: () {
+                                                                    berkayController
+                                                                        .canVisible
+                                                                        .value = false;
+                                                                    selectedRouteController
+                                                                            .selectedRouteId
+                                                                            .value =
+                                                                        mapPageController
+                                                                            .myPastsRoutes[i]
+                                                                            .id;
+                                                                    Get.toNamed(
+                                                                        NavigationConstants
+                                                                            .routeDetails);
+                                                                  },
+                                                                  startPoint: mapPageController
+                                                                      .myPastsRoutes[
+                                                                          i]
+                                                                      .startingCity,
+                                                                  endPoint: mapPageController
+                                                                      .myPastsRoutes[
+                                                                          i]
+                                                                      .endingCity,
+                                                                  userName:
+                                                                      "${LocaleManager.instance.getString(PreferencesKeys.currentUserName)} ${LocaleManager.instance.getString(PreferencesKeys.currentUserSurname)}",
+                                                                  endDate: inputFormat.format(DateTime.parse(mapPageController
+                                                                      .myPastsRoutes[
+                                                                          i]
+                                                                      .arrivalDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0])),
+                                                                  startDate: inputFormat.format(DateTime.parse(mapPageController
+                                                                      .myPastsRoutes[
+                                                                          i]
+                                                                      .departureDate
+                                                                      .toString()
+                                                                      .split(
+                                                                          " ")[0])),
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : UiHelper
+                                                            .notFoundAnimationWidget(
+                                                                context,
+                                                                "Şu an aktif rotan yok!"),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),

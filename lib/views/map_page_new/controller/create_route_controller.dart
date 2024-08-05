@@ -46,11 +46,11 @@ class CreateRouteController extends GetxController implements PolylineService {
 
   Rx<LatLng> startRouteLocation = const LatLng(0.0, 0.0).obs;
   RxString startRouteAdress = "".obs;
-  String startRouteCity = "";
+  RxString startRouteCity = "".obs;
 
   Rx<LatLng> finishRouteLocation = const LatLng(0.0, 0.0).obs;
   RxString finishRouteAdress = "".obs;
-  String finishRouteCity = "";
+  RxString finishRouteCity = "".obs;
 
   RxString routePolyline = "".obs;
 
@@ -85,21 +85,30 @@ class CreateRouteController extends GetxController implements PolylineService {
     if (isStartLocation) {
       startRouteLocation.value = LatLng(data.latitude, data.longitude);
       startRouteAdress.value = data.address;
-      startRouteCity = data.state;
+      startRouteCity.value = data.state;
       print("STARTLOCATİON İNFO -> $startRouteCity");
     } else {
       finishRouteLocation.value = LatLng(data.latitude, data.longitude);
       finishRouteAdress.value = data.address;
-      finishRouteCity = data.state;
+      finishRouteCity.value = data.state;
 
       mfuController.sehirler.value = "$startRouteCity -> $finishRouteCity";
       print("CREATEROUTE START -> ${startRouteCity} finif -> $finishRouteCity");
       print("CREATEROUTE ${mfuController.sehirler.value}");
-      await getRoute(
-          startRouteLocation.value.latitude,
-          startRouteLocation.value.longitude,
-          finishRouteLocation.value.latitude,
-          finishRouteLocation.value.longitude);
+
+      if (finishRouteCity != "") {
+        await getRoute(
+            startRouteLocation.value.latitude,
+            startRouteLocation.value.longitude,
+            finishRouteLocation.value.latitude,
+            finishRouteLocation.value.longitude);
+      } else {
+        Get.snackbar(
+            "Varış şehri bulunamadı", "Varış şehrini yeniden seçiniz..",
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: AppConstants().ltBlack);
+      }
+
       // await getPolyline(
       //     startRouteLocation.value.latitude,
       //     startRouteLocation.value.longitude,
@@ -117,7 +126,7 @@ class CreateRouteController extends GetxController implements PolylineService {
   void clearFinishRouteInfo() {
     finishRouteAdress.value = "";
     finishRouteLocation.value = const LatLng(0.0, 0.0);
-    finishRouteCity = "";
+    finishRouteCity.value = "";
   }
 
   setDate() {
@@ -287,11 +296,11 @@ class CreateRouteController extends GetxController implements PolylineService {
   void routeControllerClear() {
     startRouteLocation = const LatLng(0.0, 0.0).obs;
     startRouteAdress = "".obs;
-    startRouteCity = "";
+    startRouteCity.value = "";
 
     finishRouteLocation = const LatLng(0.0, 0.0).obs;
     finishRouteAdress = "".obs;
-    finishRouteCity = "";
+    finishRouteCity.value = "";
 
     routePolyline.value = "";
 
@@ -346,13 +355,13 @@ class CreateRouteController extends GetxController implements PolylineService {
               startRouteLocation.value.longitude
             ],
             startingOpenAdress: startRouteAdress.value,
-            startingCity: startRouteCity,
+            startingCity: startRouteCity.value,
             endingCoordinates: [
               finishRouteLocation.value.latitude,
               finishRouteLocation.value.longitude
             ],
             endingOpenAdress: finishRouteAdress.value,
-            endingCity: finishRouteCity,
+            endingCity: finishRouteCity.value,
             distance: int.parse(calculatedRouteDistance.value
                 .replaceAll(RegExp(r'[^0-9]'), '')),
             travelTime: calculatedRouteTimeInt,

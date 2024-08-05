@@ -46,34 +46,36 @@ class CreateRouteInfoWidget extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 2.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          createRouteController.startRouteCity,
-                          style: TextStyle(
-                            color: AppConstants().ltLogoGrey,
-                            fontFamily: 'Sfmedium',
-                            fontSize: 14.sp,
+                    child: Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            createRouteController.startRouteCity.value,
+                            style: TextStyle(
+                              color: AppConstants().ltLogoGrey,
+                              fontFamily: 'Sfmedium',
+                              fontSize: 14.sp,
+                            ),
                           ),
-                        ),
-                        Text(
-                          ' -> ',
-                          style: TextStyle(
-                            color: AppConstants().ltLogoGrey,
-                            fontFamily: 'Sfmedium',
-                            fontSize: 12.sp,
+                          Text(
+                            ' -> ',
+                            style: TextStyle(
+                              color: AppConstants().ltLogoGrey,
+                              fontFamily: 'Sfmedium',
+                              fontSize: 12.sp,
+                            ),
                           ),
-                        ),
-                        Text(
-                          createRouteController.finishRouteCity,
-                          style: TextStyle(
-                            color: AppConstants().ltLogoGrey,
-                            fontFamily: 'Sfmedium',
-                            fontSize: 14.sp,
+                          Text(
+                            createRouteController.finishRouteCity.value,
+                            style: TextStyle(
+                              color: AppConstants().ltLogoGrey,
+                              fontFamily: 'Sfmedium',
+                              fontSize: 14.sp,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Obx(
@@ -177,9 +179,16 @@ class CreateRouteInfoWidget extends StatelessWidget {
                     height: 60.h,
                     child: ElevatedButton(
                       onPressed: () async {
-                        createRouteController
-                            .isOpenRouteDetailEntrySection.value = true;
-                        createRouteController.setDate();
+                        if (createRouteController.finishRouteCity != "") {
+                          createRouteController
+                              .isOpenRouteDetailEntrySection.value = true;
+                          createRouteController.setDate();
+                        } else {
+                          Get.snackbar("Varış şehri bulunamadı",
+                              "Varış şehrini yeniden seçiniz..",
+                              snackPosition: SnackPosition.BOTTOM,
+                              colorText: AppConstants().ltBlack);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppConstants().ltMainRed,

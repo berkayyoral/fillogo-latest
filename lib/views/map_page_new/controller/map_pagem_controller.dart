@@ -49,9 +49,9 @@ class MapPageMController extends GetxController implements MapPageService {
 
   ///ROTALARIM
   AllRoutes myAllRoutes = AllRoutes();
-  List<MyRoutesDetails> myActivesRoutes = [];
-  List<MyRoutesDetails> myPastsRoutes = [];
-  List<MyRoutesDetails> mynotStartedRoutes = [];
+  RxList<MyRoutesDetails> myActivesRoutes = <MyRoutesDetails>[].obs;
+  RxList<MyRoutesDetails> myPastsRoutes = <MyRoutesDetails>[].obs;
+  RxList<MyRoutesDetails> mynotStartedRoutes = <MyRoutesDetails>[].obs;
 
   ///KESİŞEN ROTALAR
   RxBool isOpenMatchingRoutesWidget = false.obs;
@@ -159,14 +159,15 @@ class MapPageMController extends GetxController implements MapPageService {
         print("GETMYROUTES -> ${myAllRoutes.activeRoutes!.length}");
         if (myRouteResponseModel
             .data[0].allRoutes.notStartedRoutes!.isNotEmpty) {
-          mynotStartedRoutes =
+          mynotStartedRoutes.value =
               myRouteResponseModel.data[0].allRoutes.notStartedRoutes!;
         }
         if (myRouteResponseModel.data[0].allRoutes.pastRoutes!.isNotEmpty) {
-          myPastsRoutes = myRouteResponseModel.data[0].allRoutes.pastRoutes!;
+          myPastsRoutes.value =
+              myRouteResponseModel.data[0].allRoutes.pastRoutes!;
         }
         if (myRouteResponseModel.data[0].allRoutes.activeRoutes!.isNotEmpty) {
-          myActivesRoutes =
+          myActivesRoutes.value =
               myRouteResponseModel.data[0].allRoutes.activeRoutes!;
           print("GETMYROUTES -> ${myActivesRoutes!.first.endingCity}");
           isThereActiveRoute.value = myActivesRoutes.isNotEmpty ? true : false;
