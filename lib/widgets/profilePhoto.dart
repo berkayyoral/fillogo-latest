@@ -25,7 +25,9 @@ class ProfilePhoto extends StatelessWidget {
           width: width,
           color: AppConstants().ltWhite,
           child: Image.network(
-            url,
+            url.isNotEmpty
+                ? url
+                : "https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/users%2Fuser_yxtelh.png?alt=media&token=17ed0cd6-733e-4ee9-9053-767ce7269893",
             fit: BoxFit.cover,
           ),
         ),

@@ -439,6 +439,7 @@ class MapPageMController extends GetxController implements MapPageService {
                     builder: (BuildContext context) {
                       return usersOnArea[i]!.userpostroutes!.isNotEmpty
                           ? PopupPrifilInfo(
+                              isActiveRoute: false,
                               userId: usersOnArea[i]!.userId!,
                               routeId: usersOnArea[i]!.userpostroutes![0].id!,
                               name:
@@ -468,6 +469,7 @@ class MapPageMController extends GetxController implements MapPageService {
                               userProfilePhotoLink: usersOnArea[i]!.profilePic!,
                             )
                           : PopupPrifilInfo(
+                              isActiveRoute: false,
                               userId: usersOnArea[i]!.userId!,
                               routeId: null,
                               name:

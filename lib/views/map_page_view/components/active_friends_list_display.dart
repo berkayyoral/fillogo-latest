@@ -13,6 +13,7 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
     required this.startDateTime,
     required this.endDateTime,
     required this.profilePhotoUrl,
+    required this.isActiveRoute,
   });
   final int userId;
   final int id;
@@ -22,6 +23,7 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
   final String startDateTime;
   final String endDateTime;
   final String profilePhotoUrl;
+  final bool isActiveRoute;
 
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
@@ -32,7 +34,6 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10.h),
       child: GestureDetector(
         onTap: () async {
-          
           selectedRouteController.selectedRouteId.value = id;
           selectedRouteController.selectedRouteUserId.value = userId;
           Get.toNamed(NavigationConstants.routeDetails);
@@ -48,17 +49,18 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
             color: AppConstants().ltWhiteGrey,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 290.w,
+                width: 330.w,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: ProfilePhoto(
-                        height: 48.h,
-                        width: 48.w,
+                        height: 46.h,
+                        width: 46.w,
                         url: profilePhotoUrl,
                       ),
                     ),
@@ -141,22 +143,40 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Expanded(
+                      child: Visibility(
+                        visible: isActiveRoute,
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.green,
+                              radius: 5.r,
+                            ),
+                            2.w.horizontalSpace,
+                            Text(
+                              "Aktif Rota",
+                              style: TextStyle(fontSize: 10.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 2.w,
+                        right: 5.w,
+                      ),
+                      child: GestureDetector(
+                        onTap: () async {},
+                        child: SvgPicture.asset(
+                          'assets/icons/arrow-right.svg',
+                          height: 20.w,
+                          width: 20.w,
+                          color: AppConstants().ltDarkGrey,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10.w,
-                  right: 10.w,
-                ),
-                child: GestureDetector(
-                  onTap: () async {},
-                  child: SvgPicture.asset(
-                    'assets/icons/arrow-right.svg',
-                    height: 24.w,
-                    width: 24.w,
-                    color: AppConstants().ltDarkGrey,
-                  ),
                 ),
               ),
             ],

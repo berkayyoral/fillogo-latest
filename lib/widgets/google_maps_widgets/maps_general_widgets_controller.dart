@@ -131,6 +131,7 @@ class GoogleMapsGeneralWidgetsController extends GetxController {
             ),
             builder: (builder) {
               return PopupPrifilInfo(
+                isActiveRoute: false,
                 userId: userID,
                 routeId: routeID,
                 name: name,

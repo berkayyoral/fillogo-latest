@@ -25,10 +25,12 @@ class PopupPrifilInfo extends StatelessWidget {
     required this.endCity,
     required this.secondDestination,
     required this.userProfilePhotoLink,
+    required this.isActiveRoute,
   }) : super(key: key);
 
   final int userId;
   final int? routeId;
+  final bool isActiveRoute;
   final String name;
   final String vehicleType;
   final String description;
@@ -162,6 +164,22 @@ class PopupPrifilInfo extends StatelessWidget {
                                   color: AppConstants().ltDarkGrey),
                             ),
                           ],
+                        ),
+                        Visibility(
+                          visible: isActiveRoute,
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.green,
+                                radius: 5.r,
+                              ),
+                              2.w.horizontalSpace,
+                              Text(
+                                "Aktif Rota",
+                                style: TextStyle(fontSize: 10.sp),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -371,6 +389,7 @@ class PopupPrifilInfo extends StatelessWidget {
               RedButton(
                 text: 'Profile Git',
                 onpressed: () {
+                  print("PROFİLİNE GİTT USERİD -> $userId");
                   Get.back();
                   Get.toNamed(NavigationConstants.otherprofiles,
                       arguments: userId);

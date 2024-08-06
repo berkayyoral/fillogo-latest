@@ -67,7 +67,11 @@ class SocketService {
 
       if (notificationModel.type == 5) {
         notificationController.isUnReadMessage.value = true;
-      } else if (notificationModel.type == 1 || notificationModel.type == 99) {
+      } else if (notificationModel.type == 4 ||
+          notificationModel.type == 3 ||
+          notificationModel.type == 1 ||
+          notificationModel.type == 99) {
+        //3 -> yorum 4 -> beğeni 99 -> selektör
         notificationController.isUnOpenedNotification.value = true;
       }
       print("NOTİFYCMM NOTİFİCAİTONMODEL -> ${notificationModel}");

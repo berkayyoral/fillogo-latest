@@ -63,6 +63,7 @@ class MatchingRoutesWidget extends StatelessWidget {
                                                     mapPageMController
                                                         .matchingRoutes![index]
                                                         .profilePicture!,
+                                                isActiveRoute: false,
                                                 id: mapPageMController
                                                     .matchingRoutes![index]
                                                     .userpostroutes![0]

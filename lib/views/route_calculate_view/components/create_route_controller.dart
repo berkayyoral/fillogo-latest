@@ -70,22 +70,22 @@ class CreateeRouteController extends GetxController {
         Uint8List iconByteData = await customMarkerIconController
             .friendsCustomMarkerIcon(carType: carType);
         addMarkerFunctionForSearchRoutePage(
-          searchByCityDatum.value[i].id!,
-          searchByCityDatum.value[i].userId!,
-          MarkerId("${searchByCityDatum[i].userId!}"),
-          LatLng(searchByCityDatum.value[i].startingCoordinates![0],
-              searchByCityDatum.value[i].startingCoordinates![1]),
-          BitmapDescriptor.fromBytes(iconByteData),
-          context,
-          searchByCityDatum.value[i].user!.username!,
-          searchByCityDatum.value[i].departureDate!.toString(),
-          searchByCityDatum.value[i].arrivalDate!.toString(),
-          "TIR",
-          searchByCityDatum.value[i].startingCity!,
-          searchByCityDatum.value[i].endingCity!,
-          searchByCityDatum.value[i].routeDescription ?? "",
-          "https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/users%2Fuser_yxtelh.png?alt=media&token=17ed0cd6-733e-4ee9-9053-767ce7269893",
-        );
+            searchByCityDatum.value[i].userId!,
+            searchByCityDatum.value[i].id!,
+            MarkerId("${searchByCityDatum[i].userId!}"),
+            LatLng(searchByCityDatum.value[i].startingCoordinates![0],
+                searchByCityDatum.value[i].startingCoordinates![1]),
+            BitmapDescriptor.fromBytes(iconByteData),
+            context,
+            searchByCityDatum.value[i].user!.username!,
+            searchByCityDatum.value[i].departureDate!.toString(),
+            searchByCityDatum.value[i].arrivalDate!.toString(),
+            "TIR",
+            searchByCityDatum.value[i].startingCity!,
+            searchByCityDatum.value[i].endingCity!,
+            searchByCityDatum.value[i].routeDescription ?? "",
+            "https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/users%2Fuser_yxtelh.png?alt=media&token=17ed0cd6-733e-4ee9-9053-767ce7269893",
+            searchByCityDatum.value[i].isActive ?? false);
       }
     }
   }
@@ -120,21 +120,21 @@ class CreateeRouteController extends GetxController {
   }
 
   bool addMarkerFunctionForSearchRoutePage(
-    int userID,
-    int routeID,
-    MarkerId markerId,
-    LatLng latLng,
-    BitmapDescriptor icon,
-    BuildContext context,
-    String name,
-    String firstDestination,
-    String secondDestination,
-    String vehicleType,
-    String startCity,
-    String endCity,
-    String description,
-    String userProfilePhotoLink,
-  ) {
+      int userID,
+      int routeID,
+      MarkerId markerId,
+      LatLng latLng,
+      BitmapDescriptor icon,
+      BuildContext context,
+      String name,
+      String firstDestination,
+      String secondDestination,
+      String vehicleType,
+      String startCity,
+      String endCity,
+      String description,
+      String userProfilePhotoLink,
+      bool isActiveRoute) {
     try {
       Marker marker = Marker(
         markerId: markerId,
@@ -151,6 +151,7 @@ class CreateeRouteController extends GetxController {
             ),
             builder: (builder) {
               return PopupPrifilInfo(
+                isActiveRoute: isActiveRoute,
                 userId: userID,
                 routeId: routeID,
                 name: name,

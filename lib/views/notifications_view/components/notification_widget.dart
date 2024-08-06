@@ -86,33 +86,29 @@ class NotificationWidget extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(10.w),
                   child: Container(
-                    child: notificationType == 3
-                        ? Image.network(
-                            postPhotoUrl,
-                            height: 30.h,
-                            width: 30.w,
-                          )
-                        : notificationType == 4
-                            ? Image.network(
-                                postPhotoUrl,
-                                height: 30.h,
-                                width: 30.w,
+                    child:
+                        //  notificationType == 3 || notificationType == 4
+                        //     ? Image.network(
+                        //         postPhotoUrl,
+                        //         height: 30.h,
+                        //         width: 30.w,
+                        //       )
+                        //     :
+                        notificationType == 1
+                            ? SvgPicture.asset(
+                                'assets/icons/been-added-user-icon.svg',
+                                height: 25.h,
+                                width: 25.w,
+                                color: color,
                               )
-                            : notificationType == 1
+                            : notificationType == 99
                                 ? SvgPicture.asset(
-                                    'assets/icons/been-added-user-icon.svg',
-                                    height: 30.h,
-                                    width: 30.w,
-                                    color: color,
+                                    'assets/icons/route-icon.svg',
+                                    height: 25.h,
+                                    width: 25.w,
+                                    color: AppConstants().ltMainRed,
                                   )
-                                : notificationType == 99
-                                    ? const SizedBox()
-                                    : SvgPicture.asset(
-                                        'assets/icons/route-icon.svg',
-                                        height: 30.h,
-                                        width: 30.w,
-                                        color: AppConstants().ltMainRed,
-                                      ),
+                                : const SizedBox(),
                   ),
                 ),
               ),
