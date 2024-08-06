@@ -513,10 +513,13 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              top: searchRouteController.showOnlyMap.value ? 50.h : 270.h,
-              right: 10.w,
-              child: searchButtonWidget(context),
+            Visibility(
+              visible: searchRouteController.showOnlyMap.value,
+              child: Positioned(
+                top: 50.h,
+                right: 10.w,
+                child: searchButtonWidget(context),
+              ),
             )
           ],
         ));
@@ -525,23 +528,26 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   Container searchButtonWidget(BuildContext context) {
     return Container(
       width: 75.w,
+      height: 35.h,
       padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
-        color: AppConstants().ltWhiteGrey,
+        color: AppConstants().ltMainRed,
         borderRadius: BorderRadius.circular(5.w),
         border: Border.all(
           color: Colors.white,
           width: 2,
         ),
         gradient: LinearGradient(
-          colors: [AppConstants().ltWhite, AppConstants().ltWhiteGrey],
+          colors: [AppConstants().ltMainRed, AppConstants().ltMainRed],
           begin: Alignment.bottomCenter,
           end: Alignment.center,
         ),
       ),
       child: InkWell(
         onTap: () {
-          if (!searchRouteController.showOnlyMap.value) {
+          if (createRouteController.calculateLevel.value == 2) {
+            getSearchRoute(context);
+          } else if (!searchRouteController.showOnlyMap.value) {
             getSearchRoute(context);
           } else {
             searchRouteController.showOnlyMap.value = false;
@@ -555,11 +561,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             child: Text(
               searchRouteController.showOnlyMap.value ? "Rota Ara" : "Rota Ara",
               style: TextStyle(
-                  color: AppConstants().ltMainRed,
+                  color: AppConstants().ltWhite,
                   fontSize: 13.sp,
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
-                  decorationColor: AppConstants().ltMainRed),
+                  decorationColor: AppConstants().ltWhite),
             ),
           ),
 
@@ -738,24 +744,13 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           bottom: 10, top: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Eşleşen Rotalar",
-                                            style: TextStyle(
-                                              fontFamily: "Sfsemibold",
-                                              fontSize: 16.sp,
-                                              color: AppConstants().ltLogoGrey,
-                                            ),
-                                          ),
-                                          Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 2.w),
-                                              child:
-                                                  searchButtonWidget(context)),
-                                        ],
+                                      child: Text(
+                                        "Eşleşen Rotalar",
+                                        style: TextStyle(
+                                          fontFamily: "Sfsemibold",
+                                          fontSize: 16.sp,
+                                          color: AppConstants().ltLogoGrey,
+                                        ),
                                       ),
                                     ),
                                     Obx(() => SizedBox(
@@ -927,21 +922,28 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 //   ),
                 // ),
                 SizedBox(
-                  width: 250.w,
+                  width: 330.w,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      8.w.horizontalSpace,
-                      filterOptionWidget(
-                          logo: 'assets/icons/filterLightCommercial.png',
-                          index: 0),
-                      18.w.horizontalSpace,
-                      filterOptionWidget(
-                          logo: 'assets/icons/filterTruck.png', index: 1),
-                      18.w.horizontalSpace,
-                      filterOptionWidget(
-                          logo: 'assets/icons/filterMotorcycle.png', index: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          8.w.horizontalSpace,
+                          filterOptionWidget(
+                              logo: 'assets/icons/filterLightCommercial.png',
+                              index: 0),
+                          18.w.horizontalSpace,
+                          filterOptionWidget(
+                              logo: 'assets/icons/filterTruck.png', index: 1),
+                          18.w.horizontalSpace,
+                          filterOptionWidget(
+                              logo: 'assets/icons/filterMotorcycle.png',
+                              index: 2),
+                        ],
+                      ),
+                      searchButtonWidget(context)
                     ],
                   ),
                 ),
