@@ -518,7 +518,34 @@ class RouteCalculateButtomSheet extends StatelessWidget {
               child: Positioned(
                 top: 50.h,
                 right: 10.w,
-                child: searchButtonWidget(context),
+                child: InkWell(
+                  onTap: () {
+                    searchRouteController.showOnlyMap.value =
+                        !searchRouteController.showOnlyMap.value;
+                  },
+                  child: Container(
+                    width: 40.w,
+                    height: 40.w,
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: AppConstants().ltWhite,
+                      borderRadius: BorderRadius.circular(50.r),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                      gradient: LinearGradient(
+                        colors: [
+                          AppConstants().ltMainRed,
+                          AppConstants().ltMainRed
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                      ),
+                    ),
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                ),
               ),
             )
           ],
