@@ -95,6 +95,7 @@ class CreateRouteController extends GetxController implements PolylineService {
 
         mfuController.sehirler.value =
             "${startRouteCity.value} -> ${finishRouteCity.value}";
+
         print(
             "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
         print("CREATEROUTE ${mfuController.sehirler.value}");
@@ -162,7 +163,7 @@ class CreateRouteController extends GetxController implements PolylineService {
           .getRoute(startLat, startLng, endLat, endLng)
           .then((value) async {
         if (value!.routes != null) {
-          getPolyline(startLat, startLng, endLat, endLng);
+          await getPolyline(startLat, startLng, endLat, endLng);
           routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           calculatedRouteDistance.value =
               "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";

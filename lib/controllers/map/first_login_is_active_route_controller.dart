@@ -41,7 +41,14 @@ class FirstOpenIsActiveRoute extends GetxController {
             closestDuration = duration;
             targetDate = route.departureDate;
           }
+
+          startTimer();
         }
+        targetDate = route.departureDate.add(
+          Duration(
+            seconds: 5,
+          ),
+        );
         print(
             'ROTANIZINBASLANGICSAATİ Route on ${route.departureDate} is upcoming.');
       }
@@ -51,11 +58,12 @@ class FirstOpenIsActiveRoute extends GetxController {
   void startTimer() {
     const duration = Duration(seconds: 1);
     timer = Timer.periodic(duration, (Timer timer) {
-      print("ROUTETİMER -> ${timer}");
+      print("ROUTETİMER -> ${timer.tick}");
       DateTime now = DateTime.now();
       if (now.isAfter(targetDate!)) {
         print("ROUTETİMER ->zaman geldi");
         timer.cancel();
+        StartOrRouteRouteDialog.show(isStartDatePast: false);
         // startOrDeleteRouteDialog(isStartDatePast: false);
       }
     });

@@ -151,6 +151,7 @@ class RouteDetailsPageController extends GetxController {
       },
     ).then(
       (value) async {
+        print("GETROUTEDETA,İL İD -> ${routeId}");
         GetRouteDetailsByIdResponseModel responseBody =
             GetRouteDetailsByIdResponseModel.fromJson(
           convert.jsonDecode(value!),

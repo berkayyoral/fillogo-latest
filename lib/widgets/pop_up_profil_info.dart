@@ -6,6 +6,7 @@ import 'package:fillogo/models/chat/chats/chat_response_model.dart';
 import 'package:fillogo/models/chat/chats/create_chat/chat_request_model.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:fillogo/models/user/follow_user.dart';
+import 'package:fillogo/models/user/other_profile/other_profile.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
@@ -16,21 +17,22 @@ import 'package:fillogo/widgets/profilePhoto.dart';
 import '../export.dart';
 
 class PopupPrifilInfo extends StatelessWidget {
-  PopupPrifilInfo({
-    Key? key,
-    required this.userId,
-    this.routeId,
-    required this.name,
-    required this.vehicleType,
-    required this.description,
-    required this.emptyPercent,
-    required this.firstDestination,
-    required this.startCity,
-    required this.endCity,
-    required this.secondDestination,
-    required this.userProfilePhotoLink,
-    required this.isActiveRoute,
-  }) : super(key: key);
+  PopupPrifilInfo(
+      {Key? key,
+      required this.userId,
+      this.routeId,
+      required this.name,
+      required this.vehicleType,
+      required this.description,
+      required this.emptyPercent,
+      required this.firstDestination,
+      required this.startCity,
+      required this.endCity,
+      required this.secondDestination,
+      required this.userProfilePhotoLink,
+      required this.isActiveRoute,
+      required})
+      : super(key: key);
 
   final int userId;
   final int? routeId;
@@ -50,9 +52,29 @@ class PopupPrifilInfo extends StatelessWidget {
   final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
+  getFollowStatus() async {
+    UserOtherProfileRequest otherProfileRequest =
+        UserOtherProfileRequest(userID: userId);
+
+    await GeneralServicesTemp()
+        .makePostRequest("/users/user-profile?page=1", otherProfileRequest, {
+      "Content-type": "application/json",
+      'Authorization':
+          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+    }).then((value) {
+      UserOtherProfileResponse user =
+          UserOtherProfileResponse.fromJson(json.decode(value!));
+      followController.isPressed.value = user.data!.doIfollow!;
+
+      print(
+          "FOLLOWSTATUS res -> ${user.data!.doIfollow} cont-> ${followController.isPressed.value}");
+    });
+  }
+
   ChatController chatController = Get.put(ChatController());
   @override
   Widget build(BuildContext context) {
+    getFollowStatus();
     return SafeArea(
       child: SizedBox(
         width: Get.width,
@@ -75,6 +97,8 @@ class PopupPrifilInfo extends StatelessWidget {
                             }).then((value) {
                               var response = FollowUserResponse.fromJson(
                                   jsonDecode(value!));
+                              print(
+                                  "USER FOLLOWSTATUS- -> ${response.message}");
                               if (response.message == "User followed") {
                                 OneSignalSenNotification().sendNotification(
                                     notificationModel: NotificationModel(
@@ -100,8 +124,10 @@ class PopupPrifilInfo extends StatelessWidget {
                                       ),
                                 ));
                               }
-                              followController.isPressed.value =
-                                  !followController.isPressed.value;
+                              if (response.success == 1) {
+                                followController.isPressed.value =
+                                    !followController.isPressed.value;
+                              }
                             });
                           },
                           child: Column(

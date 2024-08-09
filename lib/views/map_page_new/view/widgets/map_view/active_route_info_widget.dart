@@ -24,9 +24,9 @@ class ActiveRouteInfoWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               height:
-                  mapPageMController.finishRouteButton.value ? 160.h : 110.h,
+                  mapPageMController.finishRouteButton.value ? 180.h : 110.h,
               padding: EdgeInsets.all(12.w),
-              constraints: BoxConstraints(maxHeight: 160.h, minHeight: 100.h),
+              constraints: BoxConstraints(maxHeight: 170.h, minHeight: 100.h),
               decoration: BoxDecoration(
                 color: AppConstants().ltWhite.withOpacity(0.95),
                 borderRadius: BorderRadius.only(
@@ -130,78 +130,156 @@ class ActiveRouteInfoWidget extends StatelessWidget {
                   16.h.verticalSpace,
                   Visibility(
                     visible: mapPageMController.finishRouteButton.value,
-                    child: SizedBox(
-                      width: 350.w,
-                      height: 50.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          mapPageMController.isLoading.value = true;
-                          mapPageMController.isThereActiveRoute.value = false;
-                          GeneralServicesTemp().makePatchRequest(
-                            EndPoint.activateRoute,
-                            ActivateRouteRequestModel(
-                                routeId:
-                                    mapPageMController.myActivesRoutes![0].id),
-                            {
-                              "Content-type": "application/json",
-                              'Authorization':
-                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                            },
-                          ).then((value) async {
-                            mapPageMController.isLoading.value = true;
-                            ActivateRouteResponseModel response =
-                                ActivateRouteResponseModel.fromJson(
-                                    jsonDecode(value!));
-                            if (response.success == 1) {
-                              BerkayController berkayController =
-                                  Get.find<BerkayController>();
-                              berkayController.isAlreadyHaveRoute = false.obs;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "Başarılı rotanız başarıyla bitirilmiştir."),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/route-icon.svg',
+                                  color: AppConstants().ltMainRed,
+                                  height: 32.h,
+                                  width: 32.w,
                                 ),
-                              );
-
-                              mapPageMController.markers.clear();
-                              mapPageMController.addMarkerIcon(
-                                  markerID: "myLocationMarker",
-                                  location: LatLng(
-                                      mapPageMController
-                                          .currentLocationController
-                                          .myLocationLatitudeDo
-                                          .value,
-                                      mapPageMController
-                                          .currentLocationController
-                                          .myLocationLongitudeDo
-                                          .value));
-
-                              mapPageMController.polylines.clear();
-                              mapPageMController.polylineCoordinates.clear();
-                              mapPageMController.getMyRoutes();
-                              mapPageMController.update();
-                            }
-
-                            await mapPageMController.getUsersOnArea(
-                                carTypeFilter: mapPageMController.carTypeList);
-                            mapPageMController.getMyLocationInMap();
-                            mapPageMController.isLoading.value = false;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppConstants().ltMainRed,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 2.h),
+                                    child: Text(
+                                      'Rota',
+                                      style: TextStyle(
+                                        color: AppConstants().ltDarkGrey,
+                                        fontFamily: 'Sflight',
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 4.h),
+                                    child: Obx(
+                                      () => Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            mapPageMController
+                                                .myActivesRoutes[0]
+                                                .startingCity,
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' -> ',
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                          Text(
+                                            mapPageMController
+                                                .myActivesRoutes[0].endingCity,
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Text(
-                          "Rotayı Bitir",
-                          style: TextStyle(
-                            fontFamily: "SfSemibold",
-                            fontSize: 20.sp,
-                            color: AppConstants().ltWhite,
+                          SizedBox(
+                            width: 350.w,
+                            height: 40.h,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                mapPageMController.isLoading.value = true;
+                                mapPageMController.isThereActiveRoute.value =
+                                    false;
+                                GeneralServicesTemp().makePatchRequest(
+                                  EndPoint.activateRoute,
+                                  ActivateRouteRequestModel(
+                                      routeId: mapPageMController
+                                          .myActivesRoutes![0].id),
+                                  {
+                                    "Content-type": "application/json",
+                                    'Authorization':
+                                        'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                  },
+                                ).then((value) async {
+                                  mapPageMController.isLoading.value = true;
+                                  ActivateRouteResponseModel response =
+                                      ActivateRouteResponseModel.fromJson(
+                                          jsonDecode(value!));
+                                  if (response.success == 1) {
+                                    BerkayController berkayController =
+                                        Get.find<BerkayController>();
+                                    berkayController.isAlreadyHaveRoute =
+                                        false.obs;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Başarılı rotanız başarıyla bitirilmiştir."),
+                                      ),
+                                    );
+
+                                    mapPageMController.markers.clear();
+                                    mapPageMController.addMarkerIcon(
+                                        markerID: "myLocationMarker",
+                                        location: LatLng(
+                                            mapPageMController
+                                                .currentLocationController
+                                                .myLocationLatitudeDo
+                                                .value,
+                                            mapPageMController
+                                                .currentLocationController
+                                                .myLocationLongitudeDo
+                                                .value));
+
+                                    mapPageMController.polylines.clear();
+                                    mapPageMController.polylineCoordinates
+                                        .clear();
+                                    mapPageMController.getMyRoutes();
+                                    mapPageMController.update();
+                                  }
+
+                                  await mapPageMController.getUsersOnArea(
+                                      carTypeFilter:
+                                          mapPageMController.carTypeList);
+                                  mapPageMController.getMyLocationInMap();
+                                  mapPageMController.isLoading.value = false;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppConstants().ltMainRed,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              ),
+                              child: Text(
+                                "Rotayı Bitir",
+                                style: TextStyle(
+                                  fontFamily: "SfSemibold",
+                                  fontSize: 20.sp,
+                                  color: AppConstants().ltWhite,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   )

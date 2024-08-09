@@ -1695,7 +1695,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   }
 
   InkWell filterOptionWidget({required String logo, required int index}) {
-    SearchRouteController routeController = Get.find();
+    SearchRouteController routeController = Get.put(SearchRouteController());
     return InkWell(
       onTap: () {
         routeController.filterSelectedList[index] =
