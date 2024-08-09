@@ -332,18 +332,11 @@ class RouteDetailsPageView extends StatelessWidget {
                                     ActivateRouteResponseModel.fromJson(
                                         jsonDecode(value!));
                                 if (response.success == 1) {
-                                  // Get.back(closeOverlays: true);
-                                  // MapPageController mapPageController =
-                                  //     Get.find();
                                   MapPageMController mapPageController =
                                       Get.find();
                                   SetCustomMarkerIconController
                                       setCustomMarkerIconController =
                                       Get.put(SetCustomMarkerIconController());
-                                  // mapPageController
-                                  //     .getMyFriendsRoutesRequestRefreshable(
-                                  //         context);
-                                  // mapPageController.getMyRoutesServicesRequestRefreshable();
 
                                   await mapPageController.getMyRoutes();
                                   // await GeneralServicesTemp()

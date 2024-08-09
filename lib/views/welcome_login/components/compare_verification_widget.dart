@@ -40,12 +40,9 @@ class CompareVerificationCode extends StatelessWidget {
     m = ((value - h * 3600)) ~/ 60;
     s = value - (h * 3600) - (m * 60);
 
-    String hourLeft =
-        h.toString().length < 2 ? "0$h" : h.toString();
-    String minuteLeft =
-        m.toString().length < 2 ? "0$m" : m.toString();
-    String secondsLeft =
-        s.toString().length < 2 ? "0$s" : s.toString();
+    String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
+    String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
+    String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
     String result = "$minuteLeft:$secondsLeft";
 
     return result;
@@ -103,7 +100,7 @@ class CompareVerificationCode extends StatelessWidget {
                   length: 6,
                   controller: pintputController,
                   onCompleted: (value) async {
-                    UiHelper.showLoadingAnimation(context);
+                    UiHelper.showLoadingAnimation();
                     await GeneralServicesTemp()
                         .makePostRequest(
                       EndPoint.mailCompareCode,
@@ -211,7 +208,7 @@ class CompareVerificationCode extends StatelessWidget {
                                   welcomeLoginController.authToken.value =
                                       response.data![0].token!;
                                   if (response.succes == 1) {
-                                    UiHelper.showLoadingAnimation(context);
+                                    UiHelper.showLoadingAnimation();
                                     UiHelper.showSuccessSnackBar(context,
                                         'Doğrulama kodu başarıyla gönderildi. Lütfen eposta adresinizi kontrol ediniz.');
                                     startTimer();

@@ -100,7 +100,7 @@ class CompareCodeForPassword extends StatelessWidget {
                   length: 6,
                   keyboardType: TextInputType.number,
                   onCompleted: (value) async {
-                    UiHelper.showLoadingAnimation(context);
+                    UiHelper.showLoadingAnimation();
                     await GeneralServicesTemp()
                         .makePostRequest(
                       EndPoint.forgotPassCompareCode,
@@ -185,7 +185,7 @@ class CompareCodeForPassword extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
                             if (isTimeExpired.value) {
-                              UiHelper.showLoadingAnimation(context);
+                              UiHelper.showLoadingAnimation();
                               await GeneralServicesTemp()
                                   .makePostRequest(
                                 EndPoint.forgotPassSendCode,

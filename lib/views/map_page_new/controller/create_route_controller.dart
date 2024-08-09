@@ -73,53 +73,59 @@ class CreateRouteController extends GetxController implements PolylineService {
   Rx<DateTime?> pickedDate = DateTime.now().obs;
 
   getRouteInfo({bool isStartLocation = true}) async {
-    MfuController mfuController = Get.find();
-    GeoData data = await Geocoder2.getDataFromCoordinates(
-        latitude: isStartLocation
-            ? startRouteLocation.value.latitude
-            : finishRouteLocation.value.latitude,
-        longitude: isStartLocation
-            ? startRouteLocation.value.longitude
-            : finishRouteLocation.value.longitude,
-        googleMapApiKey: AppConstants.googleMapsApiKey);
-    if (isStartLocation) {
-      startRouteLocation.value = LatLng(data.latitude, data.longitude);
-      startRouteAdress.value = data.address;
-      startRouteCity.value = data.state;
-      print("STARTLOCATİON İNFO -> $startRouteCity");
-    } else {
-      finishRouteLocation.value = LatLng(data.latitude, data.longitude);
-      finishRouteAdress.value = data.address;
-      finishRouteCity.value = data.state;
-
-      mfuController.sehirler.value = "$startRouteCity -> $finishRouteCity";
-      print("CREATEROUTE START -> ${startRouteCity} finif -> $finishRouteCity");
-      print("CREATEROUTE ${mfuController.sehirler.value}");
-
-      if (finishRouteCity != "") {
-        await getRoute(
-            startRouteLocation.value.latitude,
-            startRouteLocation.value.longitude,
-            finishRouteLocation.value.latitude,
-            finishRouteLocation.value.longitude);
+    try {
+      MfuController mfuController = Get.find();
+      GeoData data = await Geocoder2.getDataFromCoordinates(
+          latitude: isStartLocation
+              ? startRouteLocation.value.latitude
+              : finishRouteLocation.value.latitude,
+          longitude: isStartLocation
+              ? startRouteLocation.value.longitude
+              : finishRouteLocation.value.longitude,
+          googleMapApiKey: AppConstants.googleMapsApiKey);
+      if (isStartLocation) {
+        startRouteLocation.value = LatLng(data.latitude, data.longitude);
+        startRouteAdress.value = data.address;
+        startRouteCity.value = data.state;
+        print("STARTLOCATİON İNFO -> ${startRouteCity.value}");
       } else {
-        Get.snackbar(
-            "Varış şehri bulunamadı", "Varış şehrini yeniden seçiniz..",
-            snackPosition: SnackPosition.BOTTOM,
-            colorText: AppConstants().ltBlack);
+        finishRouteLocation.value = LatLng(data.latitude, data.longitude);
+        finishRouteAdress.value = data.address;
+        finishRouteCity.value = data.state;
+
+        mfuController.sehirler.value =
+            "${startRouteCity.value} -> ${finishRouteCity.value}";
+        print(
+            "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
+        print("CREATEROUTE ${mfuController.sehirler.value}");
+
+        if (finishRouteCity.value != "") {
+          await getRoute(
+              startRouteLocation.value.latitude,
+              startRouteLocation.value.longitude,
+              finishRouteLocation.value.latitude,
+              finishRouteLocation.value.longitude);
+        } else {
+          Get.snackbar(
+              "Varış şehri bulunamadı", "Varış şehrini yeniden seçiniz..",
+              snackPosition: SnackPosition.BOTTOM,
+              colorText: AppConstants().ltBlack);
+        }
+
+        // await getPolyline(
+        //     startRouteLocation.value.latitude,
+        //     startRouteLocation.value.longitude,
+        //     finishRouteLocation.value.latitude,
+        //     finishRouteLocation.value.longitude);
+
+        // calculatedRouteDistance = GetPolylineService().calculateDistance(
+        //     startRouteLocation.value.latitude,
+        //     finishRouteLocation.value.latitude,
+        //     finishRouteLocation.value.latitude,
+        //     finishRouteLocation.value.longitude);
       }
-
-      // await getPolyline(
-      //     startRouteLocation.value.latitude,
-      //     startRouteLocation.value.longitude,
-      //     finishRouteLocation.value.latitude,
-      //     finishRouteLocation.value.longitude);
-
-      // calculatedRouteDistance = GetPolylineService().calculateDistance(
-      //     startRouteLocation.value.latitude,
-      //     finishRouteLocation.value.latitude,
-      //     finishRouteLocation.value.latitude,
-      //     finishRouteLocation.value.longitude);
+    } catch (e) {
+      print("CREATEROUTECONTROLLER GET CİTY ERROR -> $e");
     }
   }
 
@@ -199,6 +205,8 @@ class CreateRouteController extends GetxController implements PolylineService {
               "distamce merter -> ${((value.routes![0].distanceMeters)! / 1000)}");
           int distanceMeters = int.parse(
               ((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0));
+
+          calculatedRouteDistance.value = distanceMeters.toString();
 
           print("DİSTANCEMETERS -> ${distanceMeters}");
           double zoom = 5;
@@ -315,39 +323,47 @@ class CreateRouteController extends GetxController implements PolylineService {
     mapPageMController.polylineCoordinates.clear();
   }
 
-  createRoute({required BuildContext context}) {
+  createRoute() {
     CreatePostPageController createPostPageController =
         Get.put(CreatePostPageController());
 
     if (departureController.value.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Lütfen Çıkış Tarihi giriniz.',
-          ),
-        ),
+      Get.snackbar(
+        "",
+        'Lütfen Çıkış Tarihi giriniz.',
       );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       'Lütfen Çıkış Tarihi giriniz.',
+      //     ),
+      //   ),
+      // );
     } else if (arrivalController.value.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Lütfen Varış Tarihi giriniz.',
-          ),
-        ),
+      Get.snackbar(
+        "",
+        'Lütfen Varış Tarihi giriniz.',
       );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       'Lütfen Varış Tarihi giriniz.',
+      //     ),
+      //   ),
+      // );
     } else {
       try {
         print(
             "ROTANIZINBİTİSSAATİ arrival  -> ${arrivalController.value.text} depar -> ${departureController.value.text}");
 
-        UiHelper.showLoadingAnimation(context);
+        UiHelper.showLoadingAnimation();
         GeneralServicesTemp().makePostRequest(
           EndPoint.routesNew,
           PostCreateRouteRequestModel(
             departureDate: departureController.value.text,
             arrivalDate: arrivalController.value.text,
             routeDescription: routeDescriptionController.text == ""
-                ? "${departureController.value.text} tarihinde $startRouteCity şehrinden başlayan yolculuk ${arrivalController.value.text} tarihinde $finishRouteCity şehrinde son bulacak."
+                ? "${departureController.value.text} tarihinde ${startRouteCity.value} şehrinden başlayan yolculuk ${arrivalController.value.text} tarihinde ${finishRouteCity.value} şehrinde son bulacak."
                 : routeDescriptionController.text,
             vehicleCapacity: 100,
             startingCoordinates: [
@@ -393,41 +409,10 @@ class CreateRouteController extends GetxController implements PolylineService {
                     DateTime.parse(dateTimeFormatDeparture.value)
                         .day
                         .toString()) {
-                  //     if(DateTime.now().minute + 5 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute + 4 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute + 3 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute + 2 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute + 1 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute - 1 ==
-                  //     DateTime.parse(
-                  //             dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute - 2 ==
-                  //     DateTime.parse(dateTimeFormatDeparture.value)
-                  //         .minute ||
-                  // DateTime.now().minute ==
-                  //     DateTime.parse(dateTimeFormatDeparture.value)
-                  //         .minute)
                   if (currentMinute >= startMinute &&
                       currentMinute <= endMinute) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
+                    Get.dialog(
+                      AlertDialog(
                         title: const Text("UYARI!"),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -511,29 +496,24 @@ class CreateRouteController extends GetxController implements PolylineService {
                                             .routeEndDate.value = varisdate;
                                         createPostPageController
                                                 .routeContent.value =
-                                            "$startRouteCity -> $finishRouteCity";
+                                            "${startRouteCity.value} -> ${finishRouteCity.value}";
                                         print("başlattımm 6-> ");
-                                        await showDialog(
-                                            context: context,
-                                            builder: (BuildContext context2) {
-                                              return RouteAlertDialog()
-                                                  .showShareRouteAllertDialog(
-                                                context,
-                                                "$startRouteCity -> $finishRouteCity",
-                                                (LocaleManager.instance
-                                                    .getString(PreferencesKeys
-                                                        .currentUserUserName)),
-                                                dateTimeFormatDeparture.value
-                                                    .toString()
-                                                    .substring(0, 11),
-                                                dateTimeFormatArrival.value
-                                                    .toString()
-                                                    .substring(0, 11),
-                                                0,
-                                              );
-                                            });
+                                        await Get.dialog(RouteAlertDialog()
+                                            .showShareRouteAllertDialog(
+                                          "${startRouteCity.value} -> ${finishRouteCity.value}",
+                                          (LocaleManager.instance.getString(
+                                              PreferencesKeys
+                                                  .currentUserUserName)),
+                                          dateTimeFormatDeparture.value
+                                              .toString()
+                                              .substring(0, 11),
+                                          dateTimeFormatArrival.value
+                                              .toString()
+                                              .substring(0, 11),
+                                          0,
+                                        ));
 
-                                        UiHelper.showLoadingAnimation(context);
+                                        UiHelper.showLoadingAnimation();
 
                                         await mapPageMController.getMyRoutes();
                                         // await GeneralServicesTemp()
@@ -605,24 +585,19 @@ class CreateRouteController extends GetxController implements PolylineService {
                                   textColor: AppConstants().ltWhite,
                                   onpressed: () async {
                                     mapPageMController.isLoading.value = true;
-                                    await showDialog(
-                                        context: context,
-                                        builder: (BuildContext context2) {
-                                          return RouteAlertDialog()
-                                              .showShareRouteAllertDialog(
-                                                  context,
-                                                  "$startRouteCity -> $finishRouteCity",
-                                                  (LocaleManager.instance
-                                                      .getString(PreferencesKeys
-                                                          .currentUserUserName)),
-                                                  departureController.value.text
-                                                      .toString()
-                                                      .substring(0, 11),
-                                                  arrivalController.value.text
-                                                      .toString()
-                                                      .substring(0, 11),
-                                                  0);
-                                        });
+                                    await Get.dialog(RouteAlertDialog()
+                                        .showShareRouteAllertDialog(
+                                            "${startRouteCity.value} -> ${finishRouteCity.value}",
+                                            (LocaleManager.instance.getString(
+                                                PreferencesKeys
+                                                    .currentUserUserName)),
+                                            departureController.value.text
+                                                .toString()
+                                                .substring(0, 11),
+                                            arrivalController.value.text
+                                                .toString()
+                                                .substring(0, 11),
+                                            0));
 
                                     await mapPageMController.getMyRoutes(
                                         isStartRoute: false);
@@ -644,59 +619,40 @@ class CreateRouteController extends GetxController implements PolylineService {
                     );
                   } else {
                     print("BURDAYIMMM");
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context2) {
-                          return RouteAlertDialog().showShareRouteAllertDialog(
-                            context,
-                            "$startRouteCity -> $finishRouteCity",
-                            (LocaleManager.instance.getString(
-                                PreferencesKeys.currentUserUserName)),
-                            dateTimeFormatDeparture.value
-                                .toString()
-                                .substring(0, 11),
-                            dateTimeFormatArrival.value
-                                .toString()
-                                .substring(0, 11),
-                            0,
-                          );
-                        });
+                    Get.dialog(RouteAlertDialog().showShareRouteAllertDialog(
+                      "${startRouteCity.value} -> ${finishRouteCity.value}",
+                      (LocaleManager.instance
+                          .getString(PreferencesKeys.currentUserUserName)),
+                      dateTimeFormatDeparture.value.toString().substring(0, 11),
+                      dateTimeFormatArrival.value.toString().substring(0, 11),
+                      0,
+                    ));
                     await mapPageMController.getMyRoutes();
                     // Get.back();
                   }
                 } else {
                   print("BURDAYIMMM");
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return RouteAlertDialog().showShareRouteAllertDialog(
-                          context,
-                          "$startRouteCity -> $finishRouteCity",
-                          (LocaleManager.instance
-                              .getString(PreferencesKeys.currentUserUserName)),
-                          dateTimeFormatDeparture.value
-                              .toString()
-                              .substring(0, 11),
-                          dateTimeFormatArrival.value
-                              .toString()
-                              .substring(0, 11),
-                          0,
-                        );
-                      });
+                  Get.dialog(RouteAlertDialog().showShareRouteAllertDialog(
+                    "${startRouteCity.value} -> ${finishRouteCity.value}",
+                    (LocaleManager.instance
+                        .getString(PreferencesKeys.currentUserUserName)),
+                    dateTimeFormatDeparture.value.toString().substring(0, 11),
+                    dateTimeFormatArrival.value.toString().substring(0, 11),
+                    0,
+                  ));
                 }
               } else if (response.success == -1) {
                 createPostPageController.routeId.value = response.data![0].id!;
                 print("ROTASİLOLUŞTUR -> ${jsonEncode(response)}");
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => RouteAlertDialog()
-                      .showSelectDeleteOrShareDialog(
-                          context, response.data![0].id!),
+                Get.dialog(
+                  RouteAlertDialog()
+                      .showSelectDeleteOrShareDialog(response.data![0].id!),
                 );
               } else {
                 createPostPageController.routeId.value = response.data![0].id!;
-                UiHelper.showWarningSnackBar(context,
+                Get.snackbar("",
                     'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
+
                 Get.back();
               }
             }

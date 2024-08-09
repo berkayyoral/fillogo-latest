@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
@@ -14,7 +15,6 @@ class OneSignalManager {
     final int? id =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
     print("ONESİGNALm burdayım");
-    print("ONESİGNALm İÇİN ID -> $id");
     final String deviceLang =
         LocaleManager.instance.getString(PreferencesKeys.languageCode) ??
             Get.deviceLocale?.languageCode ??
@@ -37,6 +37,16 @@ class OneSignalManager {
       print("NOTİFYCMM ONESİGNALm permissionmm");
       await setupNotificationStatusInTheBackend(
           isNotificationActive: permission);
+    });
+
+    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+      print(
+          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
+      print(
+          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.additionalData}');
+
+      event.preventDefault();
+      event.notification.display();
     });
 
     OneSignal.Notifications.addClickListener((event) {

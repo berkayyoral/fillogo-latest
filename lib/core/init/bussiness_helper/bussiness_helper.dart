@@ -16,7 +16,7 @@ class BussinessHelper {
     List<CropAspectRatioPreset> aspectRatioPresets,
     CropAspectRatio? aspectRatio,
   ) async {
-    UiHelper.showLoadingAnimation(context);
+    UiHelper.showLoadingAnimation();
     XFile? pickedFile = await ImagePicker().pickImage(
       source: imageSource,
       maxWidth: 1800,
@@ -58,7 +58,7 @@ class BussinessHelper {
     MediaPickerController mediaPickerController = Get.find();
     CreatePostPageController createPostPageController =
         Get.find<CreatePostPageController>();
-    UiHelper.showLoadingAnimation(context);
+    UiHelper.showLoadingAnimation();
     final response = await FilePicker.platform.pickFiles(
       type: FileType.media,
       allowMultiple: false,

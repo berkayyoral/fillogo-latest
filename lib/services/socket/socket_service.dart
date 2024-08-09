@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
 import 'package:http/http.dart' as http;
@@ -73,6 +74,11 @@ class SocketService {
           notificationModel.type == 99) {
         //3 -> yorum 4 -> beğeni 99 -> selektör
         notificationController.isUnOpenedNotification.value = true;
+      }
+
+      if (notificationModel.type == 10) {
+        print("NOTİFYCMM BURDAYIM");
+        StartOrRouteRouteDialog.show(isStartDatePast: false);
       }
       print("NOTİFYCMM NOTİFİCAİTONMODEL -> ${notificationModel}");
       String currentRoute = Get.currentRoute;

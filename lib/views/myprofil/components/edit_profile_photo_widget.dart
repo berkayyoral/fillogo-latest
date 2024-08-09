@@ -86,7 +86,7 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
                   CustomRedButton(
                     title: 'Kaydet',
                     onTap: () async {
-                      UiHelper.showLoadingAnimation(context);
+                      UiHelper.showLoadingAnimation();
                       Map<String, dynamic> formData = {
                         'file': imageFile,
                       };
@@ -129,7 +129,7 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
   }
 
   _getFromCamera() async {
-    UiHelper.showLoadingAnimation(context);
+    UiHelper.showLoadingAnimation();
     XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 1800,
@@ -171,7 +171,7 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
   }
 
   _getFromGallery() async {
-    UiHelper.showLoadingAnimation(context);
+    UiHelper.showLoadingAnimation();
     XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,

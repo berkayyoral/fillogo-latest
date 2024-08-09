@@ -62,7 +62,7 @@ class ForgotPassword extends StatelessWidget {
           CustomRedButton(
             onTap: () async {
               String userEmail = arguments[0];
-              UiHelper.showLoadingAnimation(context);
+              UiHelper.showLoadingAnimation();
               await GeneralServicesTemp()
                   .makePostRequest(
                 EndPoint.forgotPassSendCode,

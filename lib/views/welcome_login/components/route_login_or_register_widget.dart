@@ -74,7 +74,7 @@ class RouteLoginOrRegister extends StatelessWidget {
                     context, 'Lütfen geçerli bir eposta adresi giriniz.');
                 return;
               }
-              UiHelper.showLoadingAnimation(context);
+              UiHelper.showLoadingAnimation();
               RouteLoginOrRegisterResponseModel response;
               await GeneralServicesTemp()
                   .makePostRequest(

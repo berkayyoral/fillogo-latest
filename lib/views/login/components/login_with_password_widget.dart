@@ -98,7 +98,7 @@ class LoginWithPassword extends StatelessWidget {
           }),
           CustomRedButton(
             onTap: () async {
-              UiHelper.showLoadingAnimation(context);
+              UiHelper.showLoadingAnimation();
               await GeneralServicesTemp()
                   .makePostRequest(
                 EndPoint.login,

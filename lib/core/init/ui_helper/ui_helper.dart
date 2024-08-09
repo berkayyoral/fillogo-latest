@@ -75,43 +75,38 @@ class UiHelper {
     );
   }
 
-  static void showLoadingAnimation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LottieBuilder.asset(
-                'assets/json/loading_animation.json',
-                width: 140.w,
-                height: 140.w,
-              ),
-              12.h.spaceY,
-              SizedBox(
-                height: 30.h,
-                child: DefaultTextStyle(
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontFamily: FontConstants.sfSemiBold,
-                    color: AppConstants().ltMainRed,
-                  ),
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      FadeAnimatedText('Yükleniyor...'),
-                    ],
-                    repeatForever: true,
-                  ),
-                ),
-              ),
-              12.h.spaceY,
-            ],
+  static void showLoadingAnimation() {
+    Get.dialog(Dialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LottieBuilder.asset(
+            'assets/json/loading_animation.json',
+            width: 140.w,
+            height: 140.w,
           ),
-        );
-      },
-    );
+          12.h.spaceY,
+          SizedBox(
+            height: 30.h,
+            child: DefaultTextStyle(
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontFamily: FontConstants.sfSemiBold,
+                color: AppConstants().ltMainRed,
+              ),
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  FadeAnimatedText('Yükleniyor...'),
+                ],
+                repeatForever: true,
+              ),
+            ),
+          ),
+          12.h.spaceY,
+        ],
+      ),
+    ));
   }
 
   static Widget loadingAnimationWidget(BuildContext context) {

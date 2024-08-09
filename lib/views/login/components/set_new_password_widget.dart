@@ -111,7 +111,7 @@ class SetNewPassword extends StatelessWidget {
                 UiHelper.showWarningSnackBar(context, 'Şifreler eşleşmiyor.');
                 return;
               }
-              UiHelper.showLoadingAnimation(context);
+              UiHelper.showLoadingAnimation();
               await GeneralServicesTemp()
                   .makePatchRequest(
                 EndPoint.setNewPassword,

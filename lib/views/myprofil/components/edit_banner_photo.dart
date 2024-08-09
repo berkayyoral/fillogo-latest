@@ -85,7 +85,7 @@ class _EditBannerPhotoState extends State<EditBannerPhoto> {
                   CustomRedButton(
                     title: 'Kaydet',
                     onTap: () async {
-                      UiHelper.showLoadingAnimation(context);
+                      UiHelper.showLoadingAnimation();
                       Map<String, dynamic> formData = {
                         'file': imageFile,
                       };

@@ -18,7 +18,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../../export.dart';
 
 class RouteAlertDialog {
-  Widget showSelectDeleteOrShareDialog(BuildContext context, int id) {
+  Widget showSelectDeleteOrShareDialog(int id) {
     BottomNavigationBarController bottomNavigationBarController =
         Get.find<BottomNavigationBarController>();
     MapPageMController mapPageMController = Get.find();
@@ -412,46 +412,8 @@ class RouteAlertDialog {
                         //   ),
                         // );
                         print("ROTAYI SLDİMMM");
+                        createRouteController.createRoute();
 
-                        // GeneralServicesTemp().makePostRequest(
-                        //   EndPoint.routesNew,
-                        //   PostCreateRouteRequestModel(
-                        //     departureDate: departureController.value.text,
-                        //     arrivalDate: arrivalController.value.text,
-                        //     routeDescription: routeDescriptionController.text ==
-                        //             ""
-                        //         ? "${departureController.value.text} tarihinde $startRouteCity şehrinden başlayan yolculuk ${arrivalController.value.text} tarihinde $finishRouteCity şehrinde son bulacak."
-                        //         : routeDescriptionController.text,
-                        //     vehicleCapacity: 100,
-                        //     startingCoordinates: [
-                        //       startRouteLocation.value.latitude,
-                        //       startRouteLocation.value.longitude
-                        //     ],
-                        //     startingOpenAdress: startRouteAdress.value,
-                        //     startingCity: startRouteCity,
-                        //     endingCoordinates: [
-                        //       finishRouteLocation.value.latitude,
-                        //       finishRouteLocation.value.longitude
-                        //     ],
-                        //     endingOpenAdress: finishRouteAdress.value,
-                        //     endingCity: finishRouteCity,
-                        //     distance: int.parse(calculatedRouteDistance.value
-                        //         .replaceAll(RegExp(r'[^0-9]'), '')),
-                        //     travelTime: calculatedRouteTimeInt,
-                        //     polylineEncode: routePolyline.value,
-                        //   ),
-                        //   {
-                        //     "Content-type": "application/json",
-                        //     'Authorization':
-                        //         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                        //   },
-                        // );
-                        createRouteController.createRoute(context: context);
-                        // mapPageMController.isCreateRoute.value = false;
-                        // createRouteController
-                        //     .isOpenRouteDetailEntrySection.value = false;
-                        // createRouteController.routeControllerClear();
-                        // mapPageMController.getMyRoutes();
                         Get.back();
                       } else {
                         print("ROTAYI SİLEMEİDMM");
@@ -492,7 +454,6 @@ class RouteAlertDialog {
   }
 
   Widget showShareRouteAllertDialog(
-    BuildContext context,
     String? routeContent,
     String? userName,
     String? startDate,

@@ -220,7 +220,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                     UiHelper.showWarningSnackBar(
                         context, 'Geçerli bir plaka giriniz');
                   } else {
-                    UiHelper.showLoadingAnimation(context);
+                    UiHelper.showLoadingAnimation();
                     GeneralServicesTemp()
                         .makePostRequest(
                       EndPoint.register,

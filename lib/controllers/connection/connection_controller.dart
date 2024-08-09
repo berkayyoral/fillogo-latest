@@ -16,6 +16,8 @@ class ConnectionController extends GetxController {
           //     Get.currentRoute != NavigationConstants.connectionError
           ) {
         Get.offAndToNamed(NavigationConstants.connectionError);
+      } else {
+        checkConnection();
       }
     });
   }

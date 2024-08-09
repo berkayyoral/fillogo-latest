@@ -10,7 +10,8 @@ class CreateRouteInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CreateRouteController createRouteController = Get.find();
+    final CreateRouteController createRouteController =
+        Get.put(CreateRouteController());
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
@@ -91,14 +92,14 @@ class CreateRouteInfoWidget extends StatelessWidget {
                               fontSize: 12.sp,
                             ),
                           ),
-                          Text(
-                            "${createRouteController.calculatedRouteDistance.value} km",
-                            style: TextStyle(
-                              color: AppConstants().ltBlack,
-                              fontFamily: 'Sflight',
-                              fontSize: 12.sp,
-                            ),
-                          ),
+                          Obx(() => Text(
+                                "${createRouteController.calculatedRouteDistance.value} km",
+                                style: TextStyle(
+                                  color: AppConstants().ltBlack,
+                                  fontFamily: 'Sflight',
+                                  fontSize: 12.sp,
+                                ),
+                              )),
                           Text(
                             " ve ",
                             style: TextStyle(
@@ -145,8 +146,7 @@ class CreateRouteInfoWidget extends StatelessWidget {
                             width: Get.width,
                             child: ElevatedButton(
                               onPressed: () {
-                                createRouteController.createRoute(
-                                    context: context);
+                                createRouteController.createRoute();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppConstants().ltMainRed,

@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
+import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
@@ -10,6 +12,54 @@ import 'dart:convert' as convert;
 class FirstOpenIsActiveRoute extends GetxController {
   bool isActiveRoute = false;
   DateTime routeFinishDate = DateTime.now();
+
+  DateTime? targetDate = DateTime(2024, 8, 9, 10, 5);
+  Timer? timer;
+  int? isNotStartedRouteID;
+  MyRoutesDetails? myNextRoute;
+
+  MapPageMController mapPageController = Get.put(MapPageMController());
+
+  void checkRoutes(List<MyRoutesDetails> routes) {
+    DateTime now = DateTime.now();
+    Duration closestDuration =
+        Duration(days: 365); // Başlangıçta uzak bir tarih
+
+    for (MyRoutesDetails route in routes) {
+      if (route.departureDate.isBefore(now)) {
+        print(
+            'ROTANIZINBASLANGICSAATİ Route on ${route.departureDate} has passed.');
+        myNextRoute = route;
+        StartOrRouteRouteDialog.show(
+            isStartDatePast: true, myNextRoute: myNextRoute!);
+      } else {
+        if (route.departureDate.year == now.year &&
+            route.departureDate.month == now.month &&
+            route.departureDate.day == now.day) {
+          Duration duration = route.departureDate.difference(now).abs();
+          if (duration < closestDuration) {
+            closestDuration = duration;
+            targetDate = route.departureDate;
+          }
+        }
+        print(
+            'ROTANIZINBASLANGICSAATİ Route on ${route.departureDate} is upcoming.');
+      }
+    }
+  }
+
+  void startTimer() {
+    const duration = Duration(seconds: 1);
+    timer = Timer.periodic(duration, (Timer timer) {
+      print("ROUTETİMER -> ${timer}");
+      DateTime now = DateTime.now();
+      if (now.isAfter(targetDate!)) {
+        print("ROUTETİMER ->zaman geldi");
+        timer.cancel();
+        // startOrDeleteRouteDialog(isStartDatePast: false);
+      }
+    });
+  }
 
   void getIsActiveRoute() async {
     String? token =
@@ -25,6 +75,17 @@ class FirstOpenIsActiveRoute extends GetxController {
         (value) async {
           GetMyRouteResponseModel? getMyRouteResponseModel =
               GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
+          if (getMyRouteResponseModel
+              .data[0].allRoutes.notStartedRoutes!.isNotEmpty) {
+            checkRoutes(
+                getMyRouteResponseModel.data[0].allRoutes.notStartedRoutes!);
+
+            // startTimer();
+          }
+
+          print(
+              "ROTANIZINBİTİSSAATİ gelecek geldi ->  ${jsonEncode(getMyRouteResponseModel.data[0].allRoutes.notStartedRoutes)}");
+
           if (getMyRouteResponseModel.data != null &&
               getMyRouteResponseModel
                   .data.first.allRoutes.activeRoutes!.isNotEmpty) {
@@ -39,9 +100,6 @@ class FirstOpenIsActiveRoute extends GetxController {
                 : DateTime.now();
 
             routeFinishDate = routeFinishDate.add(Duration(hours: 3));
-
-            // print("ROTANIZINBİTİSSAATİ ${getMyRouteResponseModel
-            //   .data[0].allRoutes.activeRoutes![0].}");
           }
         },
       );
@@ -98,8 +156,6 @@ class FirstOpenIsActiveRoute extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            MapPageMController mapPageController = Get.find();
-
                             GeneralServicesTemp().makePatchRequest(
                               EndPoint.activateRoute,
                               ActivateRouteRequestModel(
