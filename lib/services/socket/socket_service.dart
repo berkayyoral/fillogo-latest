@@ -76,10 +76,6 @@ class SocketService {
         notificationController.isUnOpenedNotification.value = true;
       }
 
-      if (notificationModel.type == 10) {
-        print("NOTİFYCMM BURDAYIM");
-        StartOrRouteRouteDialog.show(isStartDatePast: false);
-      }
       print("NOTİFYCMM NOTİFİCAİTONMODEL -> ${notificationModel}");
       String currentRoute = Get.currentRoute;
       String previousRoute = Get.previousRoute;
