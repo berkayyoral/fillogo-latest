@@ -2,10 +2,12 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
+import 'package:fillogo/views/map_page_new/service/polyline_service.dart';
 import 'package:fillogo/views/route_calculate_view/components/route_search_by_city_models.dart';
-import 'package:get/get.dart';
+import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -13,18 +15,27 @@ import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
 import '../../../export.dart';
 
-class CreateeRouteController extends GetxController {
+class CreateeRouteController extends GetxController implements PolylineService {
   @override
   void onInit() async {
     mapDisplayAnimationFunc2();
     super.onInit();
   }
 
+  late GoogleMapController mapController;
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   var calculateLevel = 1.obs;
   RxBool isLoading = false.obs;
   RxString formattedDate = ''.obs;
   Rx<DateTime?> pickedDate = DateTime.now().obs;
+
+  var calculatedRouteDistance = "".obs;
+  int calculatedRouteDistanceInt = 0;
+  var calculatedRouteTime = "".obs;
+  int calculatedRouteTimeInt = 0;
+
+  Rx<LatLng> middRoute = LatLng(0, 0).obs;
+  int distanceMeters = 0;
 
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
@@ -33,7 +44,7 @@ class CreateeRouteController extends GetxController {
       Get.find<GetMyCurrentLocationController>();
 
   RxSet<Marker> markers = <Marker>{}.obs;
-  Map<PolylineId, Polyline> polylines = {};
+  final RxSet<Polyline> polylines = <Polyline>{}.obs;
   List<LatLng> polylineCoordinates = [];
   List<List<double>> polylineCoordinatesListForB = [];
   var generalPolylineEncode = "".obs;
@@ -91,6 +102,8 @@ class CreateeRouteController extends GetxController {
   }
 
   void createRouteControllerClear() async {
+    searchByCityDatum.clear();
+    middRoute.value = const LatLng(0, 0);
     calculateLevel.value = 1;
     createRouteStartAddress.value = "";
     createRouteStartLatitude.value = 0.0;
@@ -102,7 +115,7 @@ class CreateeRouteController extends GetxController {
     startCity = "".obs;
 
     markers.value = {};
-    polylines = {};
+    polylines.value = {};
     polylineCoordinates = [];
     generalPolylineEncode.value = "";
     addMarkerFunction(
@@ -183,7 +196,7 @@ class CreateeRouteController extends GetxController {
       update(["createRouteController"]);
       return true;
     } catch (e) {
-      log("marker ekleme hatası!!  ${e.toString()}");
+      print("marker ekleme hatası!!  ${e.toString()}");
       update(["createRouteController"]);
       return false;
     }
@@ -204,7 +217,7 @@ class CreateeRouteController extends GetxController {
       update(["createRouteController"]);
       return true;
     } catch (e) {
-      log("marker ekleme hatası!!  ${e.toString()}");
+      print("marker ekleme hatası!!  ${e.toString()}");
       update(["createRouteController"]);
       return false;
     }
@@ -246,7 +259,7 @@ class CreateeRouteController extends GetxController {
         ),
       );
     } catch (e) {
-      log("kamera animasyonu hatası!!!  ${e.toString()}");
+      print("kamera animasyonu hatası!!!  ${e.toString()}");
     }
   }
 
@@ -265,7 +278,7 @@ class CreateeRouteController extends GetxController {
         ),
       );
     } catch (e) {
-      log("kamera animasyonu hatası!!!  ${e.toString()}");
+      print("kamera animasyonu hatası!!!  ${e.toString()}");
     }
   }
 
@@ -284,9 +297,149 @@ class CreateeRouteController extends GetxController {
       markers.add(marker);
       return true;
     } catch (e) {
-      log("marker ekleme hatası!!  ${e.toString()}");
+      print("marker ekleme hatası!!  ${e.toString()}");
       return false;
     }
+  }
+
+  @override
+  getPolyline(
+      double startLat, double startLng, double endLat, double endLng) async {
+    try {
+      await PolylineService()
+          .getPolyline(startLat, startLng, endLat, endLng)
+          .then((value) {
+        print("GETPOLYLİNE -> ${value}");
+        polylines.add(value!);
+      });
+    } catch (e) {
+      print("createroutecontroller Get polyline error -> $e");
+    }
+    return null;
+  }
+
+  @override
+  Future<GetPollylineResponseModel?> getRoute(
+      double startLat, double startLng, double endLat, double endLng) async {
+    try {
+      polylines.clear();
+      PolylineService()
+          .getRoute(startLat, startLng, endLat, endLng)
+          .then((value) async {
+        if (value!.routes != null) {
+          getPolyline(startLat, startLng, endLat, endLng);
+
+          calculatedRouteDistance.value =
+              "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
+          calculatedRouteTime.value =
+              "${int.parse(value.routes![0].duration!.split("s")[0]) ~/ 3600} saat ${((int.parse(value.routes![0].duration!.split("s")[0]) / 60) % 60).toInt()} dk";
+          int calculatedTime =
+              int.parse(value.routes![0].duration!.split("s")[0]);
+          calculatedRouteTime.value =
+              "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
+          calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
+              ((calculatedTime / 60) % 60).toInt();
+          // markers.add(Marker(
+          //   markerId: const MarkerId("searchRouteStart"),
+          //   position: LatLng(startLat, startLng),
+          //   icon: BitmapDescriptor.fromBytes(
+          //       customMarkerIconController.myRouteStartIconnoSee!),
+          // ));
+
+          markers.add(Marker(
+            markerId: const MarkerId("searchRouteFinish"),
+            position: LatLng(endLat, endLng),
+            icon: BitmapDescriptor.fromBytes(
+                customMarkerIconController.myRouteFinishIcon!),
+          ));
+
+          print(
+              "distamce merter -> ${((value.routes![0].distanceMeters)! / 1000)}");
+          distanceMeters = int.parse(
+              ((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0));
+
+          Map<String, double> midPoint =
+              calculateMiddleroute(startLat, startLng, endLat, endLng);
+          middRoute.value =
+              LatLng(midPoint['latitude']!, midPoint['longitude']!);
+
+          print("DİSTANCEMETERS -> ${distanceMeters}");
+          getRouteInMap();
+        }
+      });
+    } catch (e) {
+      print("Get polyline error -> $e");
+    }
+    return null;
+  }
+
+  void getRouteInMap() {
+    double zoom = 5;
+
+    if (distanceMeters < 3) {
+      zoom = 18;
+    } else if (distanceMeters < 10) {
+      zoom = 12;
+    } else if (distanceMeters < 50) {
+      zoom = 10;
+    } else if (distanceMeters < 150) {
+      zoom = 9;
+    } else if (distanceMeters < 350) {
+      zoom = 8;
+    } else if (distanceMeters < 550) {
+      zoom = 7;
+    } else if (distanceMeters < 900) {
+      zoom = 6;
+    } else if (distanceMeters < 1200) {
+      zoom = 5.5;
+    } else {
+      zoom = 5;
+    }
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          tilt: 180,
+          target: middRoute.value,
+          // LatLng(mid.latitude, 34.261775
+          //     //     // getMyCurrentLocationController.myLocationLatitudeDo.value,
+          //     //     //getMyCurrentLocationController.myLocationLongitudeDo.value
+          //     ),
+          zoom: zoom,
+        ),
+      ),
+    );
+  }
+
+  double toRadians(double degrees) => degrees * (pi / 180.0);
+  double toDegrees(double radians) => radians * (180.0 / pi);
+  Map<String, double> calculateMiddleroute(
+      double lat1, double lon1, double lat2, double lon2) {
+    double lat1Rad = toRadians(lat1);
+    double lon1Rad = toRadians(lon1);
+    double lat2Rad = toRadians(lat2);
+    double lon2Rad = toRadians(lon2);
+
+    double dLon = lon2Rad - lon1Rad;
+
+    double x = cos(lat2Rad) * cos(dLon);
+    double y = cos(lat2Rad) * sin(dLon);
+
+    double midLatRad = atan2(
+      sin(lat1Rad) + sin(lat2Rad),
+      sqrt(
+        (cos(lat1Rad) + x) * (cos(lat1Rad) + x) + y * y,
+      ),
+    );
+
+    double midLonRad = lon1Rad + atan2(y, cos(lat1Rad) + x);
+
+    double midLat = toDegrees(midLatRad);
+    double midLon = toDegrees(midLonRad);
+
+    // return LatLng(midLat, midLon);
+    print("ORTANOKTASI -> ${midLon}");
+    return {'latitude': midLat, 'longitude': midLon};
   }
 
   // addPointIntoPolylineList(String encodedPolyline) async {

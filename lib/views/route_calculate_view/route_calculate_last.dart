@@ -9,6 +9,7 @@ import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
+import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_info_widget.dart';
 import 'package:fillogo/views/route_calculate_view/controller/route_calculate_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
@@ -183,7 +184,7 @@ class RouteCalculateLastView extends StatelessWidget {
                               ),
                             );
                           },
-                          builder: (createRouteController) {
+                          builder: (controller) {
                             return Obx(
                               () => SizedBox(
                                 height: Get.height,
@@ -210,13 +211,15 @@ class RouteCalculateLastView extends StatelessWidget {
                                   polygons: const <Polygon>{},
                                   tileOverlays: const <TileOverlay>{},
                                   polylines: Set<Polyline>.of(
-                                      createRouteController.polylines.values),
+                                      createRouteController.polylines.value),
                                   onMapCreated:
                                       (GoogleMapController controller) async {
                                     // createRouteController.generalMapController
                                     //     .complete(controller);
-                                    mapCotroller = Completer();
-                                    mapCotroller.complete(controller);
+                                    // mapCotroller = Completer();
+                                    // mapCotroller.complete(controller);
+                                    createRouteController.mapController =
+                                        controller;
                                   },
                                 ),
                               ),
@@ -398,8 +401,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                         "Rotaları görmek için başlangıç ve bitiş noktalarını giriniz",
                                         style: TextStyle(
                                           fontFamily: "Sflight",
-                                          fontSize: 12.sp,
-                                          color: AppConstants().ltLogoGrey,
+                                          fontSize: 14.sp,
+                                          color: AppConstants().ltBlack,
                                         ),
                                       ),
                                     ),
@@ -433,19 +436,17 @@ class RouteCalculateButtomSheet extends StatelessWidget {
               ],
             )),
             Padding(
-              padding: EdgeInsets.only(right: 10.w, bottom: 90.h),
+              padding: EdgeInsets.only(right: 10.w, bottom: 190.h),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
                   onTap: () async {
                     try {
-                      print("KONUMUMUGETİR");
+                      print("KONUMUMUGETİRs");
 
                       // mapPageController.isLoading.value = true;
 
-                      final GoogleMapController controller2 =
-                          await mapController.future;
-                      controller2.animateCamera(
+                      createRouteController.mapController.animateCamera(
                         CameraUpdate.newCameraPosition(
                           CameraPosition(
                             bearing: 90,
@@ -455,7 +456,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                     .myLocationLatitudeDo.value,
                                 getMyCurrentLocationController
                                     .myLocationLongitudeDo.value),
-                            zoom: 15,
+                            zoom: 14,
                           ),
                         ),
                       );
@@ -483,9 +484,49 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             ),
             Obx(
               () => Visibility(
+                visible: createRouteController.middRoute.value.latitude != 0,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.w, bottom: 250.h),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () async {
+                        try {
+                          print("KONUMUMUGETİRs");
+
+                          // mapPageController.isLoading.value = true;
+
+                          createRouteController.getRouteInMap();
+                        } catch (e) {
+                          print("KONUMUMUGETİR ERR -> $e");
+                        }
+                      },
+                      child: Container(
+                        height: 50.w,
+                        width: 50.w,
+                        decoration: BoxDecoration(
+                          color: AppConstants().ltMainRed,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.w),
+                          child: SvgPicture.asset(
+                            'assets/icons/route-icon.svg',
+                            color: AppConstants().ltWhite,
+                            width: 24.w,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Obx(
+              () => Visibility(
                 visible: createRouteController.calculateLevel.value == 1,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10.w, bottom: 10.h),
+                  padding: EdgeInsets.only(right: 10.w, bottom: 130.h),
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
@@ -547,6 +588,176 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            Obx(
+              () => Visibility(
+                visible: createRouteController.middRoute.value.latitude != 0,
+                child: Positioned(
+                  bottom: 0,
+                  child: Container(
+                    height: 90.h, //240.h,
+                    width: Get.width,
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppConstants().ltLogoGrey.withOpacity(0.2),
+                          spreadRadius: 0.r,
+                          blurRadius: 10.r,
+                        ),
+                      ],
+                      color: AppConstants().ltWhite,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/route-icon.svg',
+                                  color: AppConstants().ltMainRed,
+                                  height: 32.h,
+                                  width: 32.w,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 2.h),
+                                    child: Text(
+                                      'Rota',
+                                      style: TextStyle(
+                                        color: AppConstants().ltDarkGrey,
+                                        fontFamily: 'Sflight',
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 2.h),
+                                    child: Obx(
+                                      () => Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            createRouteController
+                                                .startCity.value,
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' -> ',
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                          Text(
+                                            createRouteController
+                                                .finishCity.value,
+                                            style: TextStyle(
+                                              color: AppConstants().ltLogoGrey,
+                                              fontFamily: 'Sfmedium',
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => createRouteController
+                                            .startCity.value.isNotEmpty
+                                        ? Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 5.h),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "Tahmini: ",
+                                                  style: TextStyle(
+                                                    color: AppConstants()
+                                                        .ltLogoGrey,
+                                                    fontFamily: 'Sflight',
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${createRouteController.calculatedRouteDistance.value} km",
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppConstants().ltBlack,
+                                                    fontFamily: 'Sflight',
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  " ve ",
+                                                  style: TextStyle(
+                                                    color: AppConstants()
+                                                        .ltLogoGrey,
+                                                    fontFamily: 'Sflight',
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  createRouteController
+                                                      .calculatedRouteTime
+                                                      .value,
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppConstants().ltBlack,
+                                                    fontFamily: 'Sflight',
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Container(),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                createRouteController
+                                    .createRouteControllerClear();
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: SvgPicture.asset(
+                                  "assets/icons/close-icon.svg",
+                                  width: 32.w,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             )
           ],
         ));
@@ -572,9 +783,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          if (createRouteController.calculateLevel.value == 2) {
-            getSearchRoute(context);
-          } else if (!searchRouteController.showOnlyMap.value) {
+          if (!searchRouteController.showOnlyMap.value ||
+              createRouteController.calculateLevel.value == 2) {
             getSearchRoute(context);
           } else {
             searchRouteController.showOnlyMap.value = false;
@@ -665,8 +875,9 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                           DateFormat('yyyy-MM-dd')
                               .format(searchRouteController.selectedDate.value),
                           style: TextStyle(
-                            fontSize: 16.sp,
-                            color: AppConstants().ltBlack,
+                            color: AppConstants().ltLogoGrey,
+                            fontFamily: "SfLight",
+                            fontSize: 12.sp,
                             decoration: TextDecoration.underline,
                           ),
                         )),
@@ -1021,6 +1232,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             snackPosition: SnackPosition.BOTTOM,
             colorText: AppConstants().ltBlack);
       } else {
+        createRouteController.getRoute(
+            createRouteController.createRouteStartLatitude.value,
+            createRouteController.createRouteStartLongitude.value,
+            createRouteController.createRouteFinishLatitude.value,
+            createRouteController.createRouteFinishLongitude.value);
         createRouteController.isLoading.value = true;
         GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
             GetRouteSearchByCityRequestModel(
@@ -1415,9 +1631,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.createRouteFinishLongitude.value = data.longitude;
     createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
 
-    if (createRouteController.finishCity.value != "") {
-      createRouteController.calculateLevel.value = 2;
-    }
+    if (createRouteController.finishCity.value != "") {}
     log("Finish");
     // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
     //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
@@ -1478,38 +1692,6 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
 
     log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
-    // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-    //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
-    //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-    //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-    //     createRouteController.startCity.value != "" &&
-    //     createRouteController.finishCity.value != "") {
-    //   log("Start createRouteController.startCity:  ${createRouteController.startCity.value}");
-    //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-    //       GetRouteSearchByCityRequestModel(
-    //     startLocation: createRouteController.startCity.value,
-    //     endLocation: createRouteController.finishCity.value,
-    //     departureDate: DateFormat('yyyy-MM-dd')
-    //         .format(searchRouteController.selectedDate.value),
-    //     carType: searchRouteController.carTypeList,
-    //   );
-    //   GeneralServicesTemp()
-    //       .makePostRequest(
-    //     EndPoint.routesSearchByCitys,
-    //     routeSearchByCityRequestModel,
-    //     ServicesConstants.appJsonWithToken,
-    //   )
-    //       .then((value) async {
-    //     final response =
-    //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-    //     print("createRouteController response1 -> ${jsonEncode(response)}");
-
-    //     createRouteController.searchByCityDatum.value = response.data![0];
-    //   });
-    //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-    //   createRouteController.calculateLevel.value = 2;
-    // }
-    // await getSearhRoute(context);
   }
 
   InkWell filterOptionWidget({required String logo, required int index}) {

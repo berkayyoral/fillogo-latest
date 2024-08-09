@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/homepopup/follow_controller.dart';
+import 'package:fillogo/models/chat/chats/chat_response_model.dart';
+import 'package:fillogo/models/chat/chats/create_chat/chat_request_model.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
 import 'package:fillogo/models/user/follow_user.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/notificaiton_service/one_signal_notification/onesignal_send_notifycation_service.dart';
+import 'package:fillogo/services/socket/socket_service.dart';
+import 'package:fillogo/views/chat/chats_view/chat_controller.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 
@@ -45,6 +49,8 @@ class PopupPrifilInfo extends StatelessWidget {
       Get.find<SelectedRouteController>();
   final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
+
+  ChatController chatController = Get.put(ChatController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -189,9 +195,67 @@ class PopupPrifilInfo extends StatelessWidget {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Get.back();
-                            //Get.toNamed('/chatDetailsView');
+                          onTap: () async {
+                            await GeneralServicesTemp().makePostRequest(
+                              '/chats/new',
+                              ChatRequestModel(member: userId),
+                              {
+                                'Authorization':
+                                    'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                'Content-Type': 'application/json',
+                              },
+                            ).then((value) async {
+                              await GeneralServicesTemp().makeGetRequest(
+                                "/chats/list",
+                                {
+                                  'Authorization':
+                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                  'Content-Type': 'application/json',
+                                },
+                              ).then((value2) async {
+                                if (value2 != null) {
+                                  final response = ChatResponseModel.fromJson(
+                                      json.decode(value2));
+                                  if (response.success == 1) {
+                                    List<Chat> chatList =
+                                        response.data![0].chats!;
+                                    final int? currentUserId = LocaleManager
+                                        .instance
+                                        .getInt(PreferencesKeys.currentUserId);
+
+                                    for (var chat in chatList) {
+                                      for (var chatUserItem
+                                          in chat.chatusers!) {
+                                        if (chatUserItem.chatuser!.id !=
+                                            currentUserId) {
+                                          if (chatUserItem.chatuser!.id ==
+                                              userId) {
+                                            chatController.receiverUser =
+                                                SenderClass(
+                                              id: chatUserItem.chatuser!.id,
+                                              name: chatUserItem.chatuser!.name,
+                                              surname: chatUserItem
+                                                  .chatuser!.surname,
+                                            );
+
+                                            SocketService.instance()
+                                                .socket
+                                                .emit("add-chat-user", {
+                                              "chatId": chat.id,
+                                              "userId": currentUserId,
+                                            });
+
+                                            chatController.chatId = chat.id!;
+                                            Get.toNamed('/chatDetailsView');
+                                          } else {}
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              });
+                            });
+                            Get.toNamed('/chatDetailsView');
                           },
                           child: SvgPicture.asset(
                             'assets/icons/send-message-icon.svg',

@@ -100,7 +100,7 @@ class CreateRouteView extends StatelessWidget {
                             colorText: AppConstants().ltBlack);
                       } else {
                         isCreateRoute.value = true;
-                        if (createRouteController.startRouteCity == "") {
+                        if (createRouteController.startRouteCity.value == "") {
                           createRouteController.startRouteLocation.value =
                               LatLng(
                                   createRouteController
@@ -118,39 +118,80 @@ class CreateRouteView extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.all(10.w),
                       padding: EdgeInsets.all(4.w),
-                      height: 50.h,
+                      height: 150.h,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: AppConstants().ltLogoGrey.withOpacity(0.2),
+                            color: AppConstants().ltLogoGrey.withOpacity(0.1),
                             spreadRadius: 0.r,
                             blurRadius: 10.r,
                           ),
                         ],
-                        color: AppConstants().ltWhite,
+                        color: AppConstants().ltWhite.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/route-icon.svg',
-                              color: AppConstants().ltMainRed,
-                              width: 20.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.w, left: 10.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    "İyi Günler ${LocaleManager.instance.getString(PreferencesKeys.currentUserName)},"),
+                                Text(
+                                  "Rotanı bildirir misisn?",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              "Rota oluştur",
-                              style: TextStyle(
-                                color: AppConstants().ltLogoGrey,
-                                fontFamily: "SfLight",
-                                fontSize: 12.sp,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.w),
+                            padding: EdgeInsets.all(4.w),
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppConstants()
+                                      .ltLogoGrey
+                                      .withOpacity(0.2),
+                                  spreadRadius: 0.r,
+                                  blurRadius: 10.r,
+                                ),
+                              ],
+                              color: AppConstants().ltWhite,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/route-icon.svg',
+                                    color: AppConstants().ltMainRed,
+                                    width: 20.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    "Rota oluştur",
+                                    style: TextStyle(
+                                      color: AppConstants().ltLogoGrey,
+                                      fontFamily: "SfLight",
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

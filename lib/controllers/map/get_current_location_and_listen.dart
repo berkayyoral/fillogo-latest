@@ -57,7 +57,7 @@ class GetMyCurrentLocationController extends GetxController {
       myLocationLatitudeDo.value = position.latitude;
       myLocationLongitudeDo.value = position.longitude;
       myLocation = position;
-      log("KONUMUMUGETİR  ${myLocationLatitudeSt.value} / ${myLocationLongitudeSt.value}");
+      log("KONUMUMUGETİR ${myLocationLatitudeSt.value} / ${myLocationLongitudeSt.value}");
       //await getAddressFromLatLang(position);
       //await trackerForMyLocation();
       update();

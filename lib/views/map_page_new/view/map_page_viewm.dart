@@ -121,7 +121,7 @@ class MapPageViewM extends StatelessWidget {
                     ? const Center(child: CircularProgressIndicator())
                     : Container(
                         height: mapPageMController.isCreateRoute.value
-                            ? 290.h
+                            ? 390.h
                             : Get.height,
                         child: GoogleMap(
                           onMapCreated: (GoogleMapController controller) {
