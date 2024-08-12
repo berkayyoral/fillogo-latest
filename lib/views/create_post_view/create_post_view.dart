@@ -588,7 +588,7 @@ class CreatePostPageView extends StatelessWidget {
                   Get.back();
                   Get.back();
                   GoogleMapController googleMapController =
-                      mapPageController.mapController;
+                      mapPageController.mapController!;
                   googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(

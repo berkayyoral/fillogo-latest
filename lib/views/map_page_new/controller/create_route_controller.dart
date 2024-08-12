@@ -87,7 +87,8 @@ class CreateRouteController extends GetxController implements PolylineService {
         startRouteLocation.value = LatLng(data.latitude, data.longitude);
         startRouteAdress.value = data.address;
         startRouteCity.value = data.state;
-        print("STARTLOCATİON İNFO -> ${startRouteCity.value}");
+        print(
+            "STARTLOCATİON İNFO -> ${startRouteCity.value} finish -> ${finishRouteCity.value}");
       } else {
         finishRouteLocation.value = LatLng(data.latitude, data.longitude);
         finishRouteAdress.value = data.address;
@@ -98,19 +99,15 @@ class CreateRouteController extends GetxController implements PolylineService {
 
         print(
             "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
-        print("CREATEROUTE ${mfuController.sehirler.value}");
+        print("CREATEROUTE mfu ${mfuController.sehirler.value}");
+        print("CREATEROUTE DATA ${data.state}");
 
-        if (finishRouteCity.value != "") {
+        if (data.state.isNotEmpty) {
           await getRoute(
               startRouteLocation.value.latitude,
               startRouteLocation.value.longitude,
               finishRouteLocation.value.latitude,
               finishRouteLocation.value.longitude);
-        } else {
-          Get.snackbar(
-              "Varış şehri bulunamadı", "Varış şehrini yeniden seçiniz..",
-              snackPosition: SnackPosition.BOTTOM,
-              colorText: AppConstants().ltBlack);
         }
 
         // await getPolyline(
@@ -131,9 +128,13 @@ class CreateRouteController extends GetxController implements PolylineService {
   }
 
   void clearFinishRouteInfo() {
-    finishRouteAdress.value = "";
-    finishRouteLocation.value = const LatLng(0.0, 0.0);
-    finishRouteCity.value = "";
+    // calculatedRouteDistance.value = "";
+    // calculatedRouteDistanceInt = 0;
+    // calculatedRouteTime.value = "";
+    // calculatedRouteTimeInt = 0;
+    // finishRouteAdress.value = "";
+    // finishRouteLocation.value = const LatLng(0.0, 0.0);
+    // finishRouteCity.value = "";
   }
 
   setDate() {
@@ -164,7 +165,7 @@ class CreateRouteController extends GetxController implements PolylineService {
           .then((value) async {
         if (value!.routes != null) {
           await getPolyline(startLat, startLng, endLat, endLng);
-          routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
+
           calculatedRouteDistance.value =
               "${((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0)} km";
           calculatedRouteTime.value =
@@ -175,7 +176,7 @@ class CreateRouteController extends GetxController implements PolylineService {
               "${calculatedTime ~/ 3600} saat ${((calculatedTime / 60) % 60).toInt()} dk";
           calculatedRouteTimeInt = ((calculatedTime ~/ 3600) * 60) +
               ((calculatedTime / 60) % 60).toInt();
-
+          routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           print("GETPOLYLİNE -> $routePolyline");
           dateTimeFormatArrival.value =
@@ -231,7 +232,7 @@ class CreateRouteController extends GetxController implements PolylineService {
           } else {
             zoom = 5;
           }
-          mapPageMController.mapController.animateCamera(
+          mapPageMController.mapController!.animateCamera(
             CameraUpdate.newCameraPosition(
               CameraPosition(
                 bearing: 0,
@@ -245,6 +246,8 @@ class CreateRouteController extends GetxController implements PolylineService {
               ),
             ),
           );
+          print(
+              "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
           print("CALCULATEDİSTANCE -> ${calculatedRouteDistance.value}");
         }
       });
@@ -307,9 +310,9 @@ class CreateRouteController extends GetxController implements PolylineService {
     startRouteAdress = "".obs;
     startRouteCity.value = "";
 
-    finishRouteLocation = const LatLng(0.0, 0.0).obs;
-    finishRouteAdress = "".obs;
-    finishRouteCity.value = "";
+    // finishRouteLocation = const LatLng(0.0, 0.0).obs;
+    // finishRouteAdress = "".obs;
+    // finishRouteCity.value = "";
 
     routePolyline.value = "";
 

@@ -101,6 +101,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
               bottomNavigationBarController.selectedIndex.value = 0;
 
+              LocaleManager.instance.clear();
               LocaleManager.instance.remove(PreferencesKeys.userCredentials);
               LocaleManager.instance.remove(PreferencesKeys.accessToken);
               ServicesConstants.appJsonWithToken.clear();

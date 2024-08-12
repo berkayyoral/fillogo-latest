@@ -7,6 +7,7 @@ import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_info_widget.dart';
@@ -365,6 +366,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
           children: [
             Visibility(
                 child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
                   alignment: Alignment.topCenter,
@@ -394,29 +396,33 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                 padding:
                                     EdgeInsets.only(left: 16.w, right: 16.w),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(bottom: 4.w),
-                                      child: Text(
-                                        "Farklı konumlarda rota oluşturan sürücüler",
-                                        style: TextStyle(
-                                          fontFamily: "Sflight",
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppConstants().ltBlack,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 4.w),
-                                      child: Text(
-                                        "Seçtiğiniz konumlarda rota oluşturan sürücü ve araçları bu sayfada listeliyebilir ve onlarla iletişim kurabilirsiniz",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: "Sflight",
-                                          fontSize: 12.sp,
-                                          color: AppConstants().ltBlack,
-                                        ),
+                                      padding: EdgeInsets.only(
+                                          bottom: 4.w, left: 45.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Farklı konumlarda rota oluşturan sürücüler",
+                                            style: TextStyle(
+                                              fontFamily: "Sflight",
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppConstants().ltBlack,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Seçtiğiniz konumlarda rota oluşturan sürücü ve araçları bu sayfada listeliyebilir ve onlarla iletişim kurabilirsiniz",
+                                            style: TextStyle(
+                                              fontFamily: "Sflight",
+                                              fontSize: 12.sp,
+                                              color: AppConstants().ltBlack,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Visibility(
@@ -695,7 +701,9 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                   ),
                                   Obx(
                                     () => createRouteController
-                                            .startCity.value.isNotEmpty
+                                                .startCity.value.isNotEmpty ||
+                                            createRouteController
+                                                .finishCity.value.isNotEmpty
                                         ? Padding(
                                             padding:
                                                 EdgeInsets.only(bottom: 5.h),
@@ -1023,6 +1031,9 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                                             .length,
                                                     itemBuilder: (context, i) {
                                                       return ActivesFriendsRoutesCard(
+                                                        matchedOn: MatchedOn(
+                                                            city: null,
+                                                            district: null),
                                                         profilePhotoUrl:
                                                             "https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/users%2Fuser_yxtelh.png?alt=media&token=17ed0cd6-733e-4ee9-9053-767ce7269893", // 'https://picsum.photos/150',
                                                         id: createRouteController

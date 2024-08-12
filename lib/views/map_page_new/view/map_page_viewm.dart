@@ -142,7 +142,7 @@ class MapPageViewM extends StatelessWidget {
                           onCameraMove: (position) {},
                           onCameraIdle: () async {
                             LatLngBounds bounds = await mapPageMController
-                                .mapController
+                                .mapController!
                                 .getVisibleRegion();
                             LatLng center = LatLng(
                               (bounds.northeast.latitude +

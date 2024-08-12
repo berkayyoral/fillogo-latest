@@ -26,7 +26,7 @@ class MapPageMController extends GetxController implements MapPageService {
       Get.find<GetMyCurrentLocationController>();
 
   /// MAP İÇİN
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
   late Position currentPosition;
   RxSet<Marker> markers = <Marker>{}.obs;
   final Rx<LatLng> mapCenter = Rx<LatLng>(const LatLng(0.0, 0.0));
@@ -274,12 +274,12 @@ class MapPageMController extends GetxController implements MapPageService {
       );
 
       ///Haritaya dokunulduğunda CameraPosition'un direkt bulunulan konumuna gelmemesi için ///
-      if (shouldUpdateLocation.value && isListenMap) {
+      if (shouldUpdateLocation.value && isListenMap && mapController != null) {
         LatLng newLatLng = LatLng(position.latitude, position.longitude);
         if (mapCenter.value != newLatLng) {
           try {
             mapCenter.value = newLatLng;
-            mapController.animateCamera(
+            mapController!.animateCamera(
               CameraUpdate.newLatLng(
                 newLatLng,
               ),
@@ -314,7 +314,7 @@ class MapPageMController extends GetxController implements MapPageService {
   ///Haritada bulunduğum konumu ortalar
   void getMyLocationInMap() {
     try {
-      mapController.animateCamera(
+      mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             bearing: isThereActiveRoute.value ? 0 : 90,

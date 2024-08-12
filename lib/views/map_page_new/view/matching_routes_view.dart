@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fillogo/core/constants/app_constants.dart';
 import 'package:fillogo/core/init/ui_helper/ui_helper.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
@@ -58,7 +60,14 @@ class MatchingRoutesWidget extends StatelessWidget {
                                             itemCount: mapPageMController
                                                 .matchingRoutes!.length,
                                             itemBuilder: (context, index) {
+                                              print(
+                                                  "KESİŞENROTMA -> ${jsonEncode(mapPageMController.matchingRoutes![index].matchedOn)}");
+                                              print(
+                                                  "${mapPageMController.matchingRoutes![index].name} ${mapPageMController.matchingRoutes![index].surname}");
                                               return ActivesFriendsRoutesCard(
+                                                matchedOn: mapPageMController
+                                                    .matchingRoutes![index]
+                                                    .matchedOn,
                                                 profilePhotoUrl:
                                                     mapPageMController
                                                         .matchingRoutes![index]
@@ -69,7 +78,7 @@ class MatchingRoutesWidget extends StatelessWidget {
                                                     .userpostroutes![0]
                                                     .id!,
                                                 userName:
-                                                    "${mapPageMController.matchingRoutes![index].name!} ${mapPageMController.matchingRoutes![index].surname!}",
+                                                    "${mapPageMController.matchingRoutes![index].name} ${mapPageMController.matchingRoutes![index].surname}",
                                                 startAdress: mapPageMController
                                                     .matchingRoutes![index]
                                                     .userpostroutes![0]

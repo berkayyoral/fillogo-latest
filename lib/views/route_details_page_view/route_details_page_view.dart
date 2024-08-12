@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
@@ -78,8 +79,8 @@ class RouteDetailsPageView extends StatelessWidget {
         init: routeDetailsPageController,
         initState: (_) async {},
         builder: (routeDetailsPageController) {
-          print(
-              "asdasd11 ${routeDetailsPageController.ownerRouteCarType.carBrand}");
+          print("asdasd11 ${selectedRouteController.matchedOn!.city}");
+          print("asdasd11 ${routeDetailsPageController.ownerRouteName.value}");
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -136,7 +137,7 @@ class RouteDetailsPageView extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: 16.w, right: 16.w, top: 20, bottom: 20),
+                    left: 16.w, right: 16.w, top: 15.h, bottom: 15.h),
                 child: Text(
                   routeDetailsPageController.ownerRouteDiscription.value,
                   style: TextStyle(
@@ -159,6 +160,27 @@ class RouteDetailsPageView extends StatelessWidget {
                 userName:
                     "${routeDetailsPageController.ownerRouteName.value} ${routeDetailsPageController.ownerRouteSurname.value}",
               ),
+              Visibility(
+                visible: selectedRouteController.matchedOn!.city != null,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      bottom: 10.h, left: 10.w, top: 10.h, right: 10.w),
+                  margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 4.h),
+                  decoration: BoxDecoration(
+                      color: AppConstants().ltWhiteGrey,
+                      borderRadius: BorderRadius.circular(5.r)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("İlk kesişim noktası : "),
+                      Text(
+                        "${selectedRouteController.matchedOn!.city} / ${selectedRouteController.matchedOn!.district}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 260.h,
                 width: Get.width,
@@ -177,9 +199,22 @@ class RouteDetailsPageView extends StatelessWidget {
                   tileOverlaysSet: const <TileOverlay>{},
                   polylinesSet: Set<Polyline>.of(
                       routeDetailsPageController.generalPolylines),
-                  mapController2: (GoogleMapController controller) async {
-                    routeDetailsPageController.routeDetailsMapController
-                        .complete(controller);
+                  // mapController2: (GoogleMapController controller) {
+                  //   routeDetailsPageController.mapController = controller;
+                  // },
+                  mapController2: (GoogleMapController controller) {
+                    try {
+                      if (!routeDetailsPageController
+                          .routeDetailsMapController.isCompleted) {
+                        print("completed");
+                        routeDetailsPageController.routeDetailsMapController
+                            .complete(controller);
+                        routeDetailsPageController.routeDetailsMapController =
+                            Completer<GoogleMapController>();
+                      }
+                    } catch (e) {
+                      print("ERORORO -> $e");
+                    }
                   },
                 ),
               ),

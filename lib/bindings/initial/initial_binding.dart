@@ -15,6 +15,7 @@ import 'package:fillogo/views/connection_view/components/connection_controller.d
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/like_list_view/components/like_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/route_details_page_view/components/start_end_adress_controller.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
@@ -49,6 +50,7 @@ class InitialBinding implements Bindings {
     Get.put(FirstOpenIsActiveRoute());
     Get.put(NotificationController());
     Get.put(MapPageMController());
+    Get.put(CreateRouteController());
   }
 }
 

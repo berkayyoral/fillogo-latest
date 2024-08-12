@@ -295,8 +295,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                       firstDateTimeController = pickedDate;
                       _controller2.clear();
                     });
-                  } else {
-                  }
+                  } else {}
                 },
                 controller: _controller1,
                 cursorColor: AppConstants().ltMainRed,
@@ -629,7 +628,7 @@ class _CreateNewRoutePageViewState extends State<CreateNewRoutePageView> {
                   bottomNavigationBarController.selectedIndex.value = 0;
                   Get.back();
                   Get.back();
-                  Get.toNamed('/createPostPage');
+                  Get.toNamed(NavigationConstants.createPostPage);
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,

@@ -1,4 +1,5 @@
 import 'package:fillogo/export.dart';
+import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/date_picker_widget.dart';
@@ -10,120 +11,117 @@ class CreateRouteInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CreateRouteController createRouteController =
-        Get.put(CreateRouteController());
-
+    final CreateRouteController createRouteController = Get.find();
+    MfuController mfuController = Get.find();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: SvgPicture.asset(
-                  'assets/icons/route-icon.svg',
-                  color: AppConstants().ltMainRed,
-                  height: 32.h,
-                  width: 32.w,
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          Obx(() => Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 2.h),
-                    child: Text(
-                      'Rota',
-                      style: TextStyle(
-                        color: AppConstants().ltDarkGrey,
-                        fontFamily: 'Sflight',
-                        fontSize: 12.sp,
-                      ),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: SvgPicture.asset(
+                      'assets/icons/route-icon.svg',
+                      color: AppConstants().ltMainRed,
+                      height: 32.h,
+                      width: 32.w,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 2.h),
-                    child: Obx(
-                      () => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            createRouteController.startRouteCity.value,
-                            style: TextStyle(
-                              color: AppConstants().ltLogoGrey,
-                              fontFamily: 'Sfmedium',
-                              fontSize: 14.sp,
-                            ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 2.h),
+                        child: Text(
+                          'Rota',
+                          style: TextStyle(
+                            color: AppConstants().ltDarkGrey,
+                            fontFamily: 'Sflight',
+                            fontSize: 12.sp,
                           ),
-                          Text(
-                            ' -> ',
-                            style: TextStyle(
-                              color: AppConstants().ltLogoGrey,
-                              fontFamily: 'Sfmedium',
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                          Text(
-                            createRouteController.finishRouteCity.value,
-                            style: TextStyle(
-                              color: AppConstants().ltLogoGrey,
-                              fontFamily: 'Sfmedium',
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Obx(
-                    () => Padding(
-                      padding: EdgeInsets.only(bottom: 5.h),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Tahmini: ",
-                            style: TextStyle(
-                              color: AppConstants().ltLogoGrey,
-                              fontFamily: 'Sflight',
-                              fontSize: 12.sp,
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              createRouteController.startRouteCity.value,
+                              style: TextStyle(
+                                color: AppConstants().ltLogoGrey,
+                                fontFamily: 'Sfmedium',
+                                fontSize: 14.sp,
+                              ),
                             ),
-                          ),
-                          Obx(() => Text(
-                                "${createRouteController.calculatedRouteDistance.value} km",
+                            Text(
+                              ' -> ',
+                              style: TextStyle(
+                                color: AppConstants().ltLogoGrey,
+                                fontFamily: 'Sfmedium',
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                            Text(
+                              createRouteController.finishRouteCity.value,
+                              style: TextStyle(
+                                color: AppConstants().ltLogoGrey,
+                                fontFamily: 'Sfmedium',
+                                fontSize: 14.sp,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Obx(
+                        () => Padding(
+                          padding: EdgeInsets.only(bottom: 5.h),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Tahmini: ",
+                                style: TextStyle(
+                                  color: AppConstants().ltLogoGrey,
+                                  fontFamily: 'Sflight',
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                              Obx(() => Text(
+                                    "${createRouteController.calculatedRouteDistance.value} km",
+                                    style: TextStyle(
+                                      color: AppConstants().ltBlack,
+                                      fontFamily: 'Sflight',
+                                      fontSize: 12.sp,
+                                    ),
+                                  )),
+                              Text(
+                                " ve ",
+                                style: TextStyle(
+                                  color: AppConstants().ltLogoGrey,
+                                  fontFamily: 'Sflight',
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                              Text(
+                                createRouteController.calculatedRouteTime.value,
                                 style: TextStyle(
                                   color: AppConstants().ltBlack,
                                   fontFamily: 'Sflight',
                                   fontSize: 12.sp,
                                 ),
-                              )),
-                          Text(
-                            " ve ",
-                            style: TextStyle(
-                              color: AppConstants().ltLogoGrey,
-                              fontFamily: 'Sflight',
-                              fontSize: 12.sp,
-                            ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            createRouteController.calculatedRouteTime.value,
-                            style: TextStyle(
-                              color: AppConstants().ltBlack,
-                              fontFamily: 'Sflight',
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          ),
+              )),
           Obx(
             () => createRouteController.isOpenRouteDetailEntrySection.value
                 ? SingleChildScrollView(
@@ -179,6 +177,8 @@ class CreateRouteInfoWidget extends StatelessWidget {
                     height: 60.h,
                     child: ElevatedButton(
                       onPressed: () async {
+                        print(
+                            "CREATEROUTE START -> ${createRouteController.startRouteCity.value} finif -> ${createRouteController.finishRouteCity.value}");
                         if (createRouteController.finishRouteCity.value != "") {
                           createRouteController
                               .isOpenRouteDetailEntrySection.value = true;

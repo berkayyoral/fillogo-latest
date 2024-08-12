@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -18,10 +19,13 @@ class RouteDetailsPageController extends GetxController {
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
 
+  GoogleMapController? mapController;
+
   @override
   void onInit() async {
     await getMyCurrentLocation();
     //updateInitialCameraPosition();
+    print("");
     getRouteDetailsById(selectedRouteController.selectedRouteId.value);
     super.onInit();
   }
@@ -100,6 +104,7 @@ class RouteDetailsPageController extends GetxController {
 
   Completer<GoogleMapController> routeDetailsMapController =
       Completer<GoogleMapController>();
+  // late GoogleMapController mapController;
 
   addAllElements() async {
     await addPointIntoPolylineList(ownerRoutePolylineEncode.value, true);
@@ -138,103 +143,108 @@ class RouteDetailsPageController extends GetxController {
     update();
   }
 
-  void getRouteDetailsById(int routeId) async {
-    GetRouteDetailsByIdRequestModel getRouteDetailsByIdRequestModel =
-        GetRouteDetailsByIdRequestModel(routeId: routeId);
-    await GeneralServicesTemp().makePostRequest(
-      EndPoint.getRouteDetailsById,
-      getRouteDetailsByIdRequestModel,
-      {
-        'Authorization':
-            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-        'Content-Type': 'application/json',
-      },
-    ).then(
-      (value) async {
-        print("GETROUTEDETA,İL İD -> ${routeId}");
-        GetRouteDetailsByIdResponseModel responseBody =
-            GetRouteDetailsByIdResponseModel.fromJson(
-          convert.jsonDecode(value!),
-        );
-        print(responseBody.data!);
-        //log("rota kime ait: ${responseBody.data![0].routeBelongsTo!.name}");
-        isThisRouteMine.value = responseBody.data![0].routeBelongsToMe!;
-        haveRouteMe.value = responseBody.data![0].doIHaveAActiveRoute!;
-        // if (responseBody.data![0].isRouteActive != null) {
-        //   isThisRouteActive.value = responseBody.data![0].isRouteActive!;
-        // }
-        ownerRouteName.value = responseBody.data![0].routeBelongsTo!.name!;
-        ownerRouteSurname.value =
-            responseBody.data![0].routeBelongsTo!.surname!;
-        ownerRouteDiscription.value =
-            responseBody.data![0].route!.routeDescription!;
-        ownerRouteProfilePicture.value =
-            responseBody.data![0].routeBelongsTo!.profilePicture!;
-        /*ownerRouteCarType =
+  getRouteDetailsById(int routeId) async {
+    try {
+      GetRouteDetailsByIdRequestModel getRouteDetailsByIdRequestModel =
+          GetRouteDetailsByIdRequestModel(routeId: routeId);
+      await GeneralServicesTemp().makePostRequest(
+        EndPoint.getRouteDetailsById,
+        getRouteDetailsByIdRequestModel,
+        {
+          'Authorization':
+              'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+          'Content-Type': 'application/json',
+        },
+      ).then(
+        (value) async {
+          print("GETROUTEDETA,İL İD -> ${routeId}");
+          GetRouteDetailsByIdResponseModel responseBody =
+              GetRouteDetailsByIdResponseModel.fromJson(
+            convert.jsonDecode(value!),
+          );
+          print(responseBody.data!);
+          //log("rota kime ait: ${responseBody.data![0].routeBelongsTo!.name}");
+          isThisRouteMine.value = responseBody.data![0].routeBelongsToMe!;
+          haveRouteMe.value = responseBody.data![0].doIHaveAActiveRoute!;
+          // if (responseBody.data![0].isRouteActive != null) {
+          //   isThisRouteActive.value = responseBody.data![0].isRouteActive!;
+          // }
+          ownerRouteName.value = responseBody.data![0].routeBelongsTo!.name!;
+          ownerRouteSurname.value =
+              responseBody.data![0].routeBelongsTo!.surname!;
+          ownerRouteDiscription.value =
+              responseBody.data![0].route!.routeDescription!;
+          ownerRouteProfilePicture.value =
+              responseBody.data![0].routeBelongsTo!.profilePicture!;
+          /*ownerRouteCarType =
             responseBody.data![0].routeBelongsTo!.usertousercartypes![0];*/
-        ownerRouteStartDate.value =
-            responseBody.data![0].route!.departureDate!.toString();
-        ownerRouteFinishDate.value =
-            responseBody.data![0].route!.arrivalDate!.toString();
-        //log("ownerRouteStartDate   ${ownerRouteStartDate.value} - ownerRouteFinishDate  ${ownerRouteFinishDate.value}");
-        ownerVehicleCapacity.value =
-            responseBody.data![0].route!.vehicleCapacity!;
-        ownerRouteStartLatitude.value =
-            responseBody.data![0].route!.startingCoordinates!.first;
-        ownerRouteStartLongitude.value =
-            responseBody.data![0].route!.startingCoordinates!.last;
-        ownerRouteStartLatLong = LatLng(
-            responseBody.data![0].route!.startingCoordinates!.first,
-            responseBody.data![0].route!.startingCoordinates!.last);
-        ownerRouteFinishLatitude.value =
-            responseBody.data![0].route!.endingCoordinates!.first;
-        ownerRouteFinishLongitude.value =
-            responseBody.data![0].route!.endingCoordinates!.last;
-        ownerRouteFinishLatLong = LatLng(
-            responseBody.data![0].route!.endingCoordinates!.first,
-            responseBody.data![0].route!.endingCoordinates!.last);
-        ownerRouteStartAddress.value =
-            responseBody.data![0].route!.startingOpenAdress!;
-        ownerRouteFinishAddress.value =
-            responseBody.data![0].route!.endingOpenAdress!;
-        ownerRouteStartCity.value = responseBody.data![0].route!.startingCity!;
-        ownerRouteFinishCity.value = responseBody.data![0].route!.endingCity!;
-        ownerRouteCalculatedRouteDistance.value =
-            "${((responseBody.data![0].route!.distance!)).toStringAsFixed(0)} km";
-        ownerRouteCalculatedRouteTime.value =
-            "${responseBody.data![0].route!.travelTime! ~/ 60} saat ${((responseBody.data![0].route!.travelTime!) % 60).toInt()} dk";
-        //log("ownerRouteCalculatedRouteDistance   ${ownerRouteCalculatedRouteDistance.value}   -   ownerRouteCalculatedRouteTime   ${ownerRouteCalculatedRouteTime.value}");
-        ownerRoutePolylineEncode.value =
-            responseBody.data![0].route!.polylineEncode!;
-        //log("ownerRoutePolylineEncode  ${ownerRoutePolylineEncode.value}");
-        ownerRoutePolylineDecode.value =
-            responseBody.data![0].route!.polylineDecode!;
-        myRoutePolylineEncode.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.polylineEncode!
-            : responseBody.data![0].myRoute!.polylineEncode!;
-        //log("myRoutePolylineEncode  ${myRoutePolylineEncode.value}");
-        myRouteStartLatitude.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.startingCoordinates!.first
-            : responseBody.data![0].myRoute!.startingCoordinates!.first;
-        myRouteStartLongitude.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.startingCoordinates!.last
-            : responseBody.data![0].myRoute!.startingCoordinates!.last;
-        myRouteFinishLatitude.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.endingCoordinates!.first
-            : responseBody.data![0].myRoute!.endingCoordinates!.first;
-        myRouteFinishLongitude.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.endingCoordinates!.last
-            : responseBody.data![0].myRoute!.endingCoordinates!.last;
-        myRouteFinishAddress.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.endingOpenAdress!
-            : responseBody.data![0].myRoute!.endingOpenAdress!;
-        myRouteStartAddress.value = responseBody.data![0].myRoute == null
-            ? responseBody.data![0].route!.startingOpenAdress!
-            : responseBody.data![0].myRoute!.startingOpenAdress!;
-      },
-    );
-    await addAllElements();
-    update();
+          ownerRouteStartDate.value =
+              responseBody.data![0].route!.departureDate!.toString();
+          ownerRouteFinishDate.value =
+              responseBody.data![0].route!.arrivalDate!.toString();
+          //log("ownerRouteStartDate   ${ownerRouteStartDate.value} - ownerRouteFinishDate  ${ownerRouteFinishDate.value}");
+          ownerVehicleCapacity.value =
+              responseBody.data![0].route!.vehicleCapacity!;
+          ownerRouteStartLatitude.value =
+              responseBody.data![0].route!.startingCoordinates!.first;
+          ownerRouteStartLongitude.value =
+              responseBody.data![0].route!.startingCoordinates!.last;
+          ownerRouteStartLatLong = LatLng(
+              responseBody.data![0].route!.startingCoordinates!.first,
+              responseBody.data![0].route!.startingCoordinates!.last);
+          ownerRouteFinishLatitude.value =
+              responseBody.data![0].route!.endingCoordinates!.first;
+          ownerRouteFinishLongitude.value =
+              responseBody.data![0].route!.endingCoordinates!.last;
+          ownerRouteFinishLatLong = LatLng(
+              responseBody.data![0].route!.endingCoordinates!.first,
+              responseBody.data![0].route!.endingCoordinates!.last);
+          ownerRouteStartAddress.value =
+              responseBody.data![0].route!.startingOpenAdress!;
+          ownerRouteFinishAddress.value =
+              responseBody.data![0].route!.endingOpenAdress!;
+          ownerRouteStartCity.value =
+              responseBody.data![0].route!.startingCity!;
+          ownerRouteFinishCity.value = responseBody.data![0].route!.endingCity!;
+          ownerRouteCalculatedRouteDistance.value =
+              "${((responseBody.data![0].route!.distance!)).toStringAsFixed(0)} km";
+          ownerRouteCalculatedRouteTime.value =
+              "${responseBody.data![0].route!.travelTime! ~/ 60} saat ${((responseBody.data![0].route!.travelTime!) % 60).toInt()} dk";
+          //log("ownerRouteCalculatedRouteDistance   ${ownerRouteCalculatedRouteDistance.value}   -   ownerRouteCalculatedRouteTime   ${ownerRouteCalculatedRouteTime.value}");
+          ownerRoutePolylineEncode.value =
+              responseBody.data![0].route!.polylineEncode!;
+          //log("ownerRoutePolylineEncode  ${ownerRoutePolylineEncode.value}");
+          ownerRoutePolylineDecode.value =
+              responseBody.data![0].route!.polylineDecode!;
+          myRoutePolylineEncode.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.polylineEncode!
+              : responseBody.data![0].myRoute!.polylineEncode!;
+          //log("myRoutePolylineEncode  ${myRoutePolylineEncode.value}");
+          myRouteStartLatitude.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.startingCoordinates!.first
+              : responseBody.data![0].myRoute!.startingCoordinates!.first;
+          myRouteStartLongitude.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.startingCoordinates!.last
+              : responseBody.data![0].myRoute!.startingCoordinates!.last;
+          myRouteFinishLatitude.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.endingCoordinates!.first
+              : responseBody.data![0].myRoute!.endingCoordinates!.first;
+          myRouteFinishLongitude.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.endingCoordinates!.last
+              : responseBody.data![0].myRoute!.endingCoordinates!.last;
+          myRouteFinishAddress.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.endingOpenAdress!
+              : responseBody.data![0].myRoute!.endingOpenAdress!;
+          myRouteStartAddress.value = responseBody.data![0].myRoute == null
+              ? responseBody.data![0].route!.startingOpenAdress!
+              : responseBody.data![0].myRoute!.startingOpenAdress!;
+        },
+      );
+      await addAllElements();
+      update();
+    } catch (e) {
+      print("ROUTEDETAİLS GET ERROR -> $e");
+    }
   }
 
   addPointIntoPolylineList(String encodedPolyline, bool whichPolyline) async {

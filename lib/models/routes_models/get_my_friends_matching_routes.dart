@@ -1,15 +1,13 @@
 // To parse this JSON data, do
 //
-//     final getMyFriendsMatchingRoutesResponse = getMyFriendsMatchingRoutesResponseFromJson(jsonString);
+//     final getMatchingRoutesResponse = getMatchingRoutesResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-GetMatchingRoutesResponse getMyFriendsMatchingRoutesResponseFromJson(
-        String str) =>
+GetMatchingRoutesResponse getMatchingRoutesResponseFromJson(String str) =>
     GetMatchingRoutesResponse.fromJson(json.decode(str));
 
-String getMyFriendsMatchingRoutesResponseToJson(
-        GetMatchingRoutesResponse data) =>
+String getMatchingRoutesResponseToJson(GetMatchingRoutesResponse data) =>
     json.encode(data.toJson());
 
 class GetMatchingRoutesResponse {
@@ -22,6 +20,17 @@ class GetMatchingRoutesResponse {
     this.matchingRoutes,
     this.message,
   });
+
+  GetMatchingRoutesResponse copyWith({
+    int? success,
+    List<MatchingRoutes>? data,
+    String? message,
+  }) =>
+      GetMatchingRoutesResponse(
+        success: success ?? this.success,
+        matchingRoutes: data ?? this.matchingRoutes,
+        message: message ?? this.message,
+      );
 
   factory GetMatchingRoutesResponse.fromJson(Map<String, dynamic> json) =>
       GetMatchingRoutesResponse(
@@ -49,6 +58,13 @@ class MatchingRoutes {
     this.matching,
   });
 
+  MatchingRoutes copyWith({
+    List<Matching>? matching,
+  }) =>
+      MatchingRoutes(
+        matching: matching ?? this.matching,
+      );
+
   factory MatchingRoutes.fromJson(Map<String, dynamic> json) => MatchingRoutes(
         matching: json["matching"] == null
             ? []
@@ -70,6 +86,7 @@ class Matching {
   String? surname;
   List<Userpostroute>? userpostroutes;
   List<Usertousercartype>? usertousercartypes;
+  MatchedOn? matchedOn;
 
   Matching({
     this.id,
@@ -78,7 +95,27 @@ class Matching {
     this.surname,
     this.userpostroutes,
     this.usertousercartypes,
+    this.matchedOn,
   });
+
+  Matching copyWith({
+    int? id,
+    String? profilePicture,
+    String? name,
+    String? surname,
+    List<Userpostroute>? userpostroutes,
+    List<Usertousercartype>? usertousercartypes,
+    MatchedOn? matchedOn,
+  }) =>
+      Matching(
+        id: id ?? this.id,
+        profilePicture: profilePicture ?? this.profilePicture,
+        name: name ?? this.name,
+        surname: surname ?? this.surname,
+        userpostroutes: userpostroutes ?? this.userpostroutes,
+        usertousercartypes: usertousercartypes ?? this.usertousercartypes,
+        matchedOn: matchedOn ?? this.matchedOn,
+      );
 
   factory Matching.fromJson(Map<String, dynamic> json) => Matching(
         id: json["id"],
@@ -93,6 +130,9 @@ class Matching {
             ? []
             : List<Usertousercartype>.from(json["usertousercartypes"]!
                 .map((x) => Usertousercartype.fromJson(x))),
+        matchedOn: json["matchedOn"] == null
+            ? null
+            : MatchedOn.fromJson(json["matchedOn"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,6 +146,36 @@ class Matching {
         "usertousercartypes": usertousercartypes == null
             ? []
             : List<dynamic>.from(usertousercartypes!.map((x) => x.toJson())),
+        "matchedOn": matchedOn?.toJson(),
+      };
+}
+
+class MatchedOn {
+  String? city;
+  String? district;
+
+  MatchedOn({
+    this.city,
+    this.district,
+  });
+
+  MatchedOn copyWith({
+    String? city,
+    String? district,
+  }) =>
+      MatchedOn(
+        city: city ?? this.city,
+        district: district ?? this.district,
+      );
+
+  factory MatchedOn.fromJson(Map<String, dynamic> json) => MatchedOn(
+        city: json["city"],
+        district: json["district"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "city": city,
+        "district": district,
       };
 }
 
@@ -157,6 +227,55 @@ class Userpostroute {
     this.createdAt,
     this.updatedAt,
   });
+
+  Userpostroute copyWith({
+    int? id,
+    int? userId,
+    DateTime? departureDate,
+    DateTime? arrivalDate,
+    String? routeDescription,
+    int? vehicleCapacity,
+    bool? isActive,
+    dynamic userLocation,
+    List<double>? startingCoordinates,
+    String? startingOpenAdress,
+    String? startingCity,
+    List<double>? endingCoordinates,
+    String? endingOpenAdress,
+    String? endingCity,
+    int? distance,
+    int? travelTime,
+    String? polylineEncode,
+    List<List<double>>? polylineDecode,
+    bool? isInvisible,
+    bool? isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      Userpostroute(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        departureDate: departureDate ?? this.departureDate,
+        arrivalDate: arrivalDate ?? this.arrivalDate,
+        routeDescription: routeDescription ?? this.routeDescription,
+        vehicleCapacity: vehicleCapacity ?? this.vehicleCapacity,
+        isActive: isActive ?? this.isActive,
+        userLocation: userLocation ?? this.userLocation,
+        startingCoordinates: startingCoordinates ?? this.startingCoordinates,
+        startingOpenAdress: startingOpenAdress ?? this.startingOpenAdress,
+        startingCity: startingCity ?? this.startingCity,
+        endingCoordinates: endingCoordinates ?? this.endingCoordinates,
+        endingOpenAdress: endingOpenAdress ?? this.endingOpenAdress,
+        endingCity: endingCity ?? this.endingCity,
+        distance: distance ?? this.distance,
+        travelTime: travelTime ?? this.travelTime,
+        polylineEncode: polylineEncode ?? this.polylineEncode,
+        polylineDecode: polylineDecode ?? this.polylineDecode,
+        isInvisible: isInvisible ?? this.isInvisible,
+        isAvailable: isAvailable ?? this.isAvailable,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
 
   factory Userpostroute.fromJson(Map<String, dynamic> json) => Userpostroute(
         id: json["id"],
@@ -258,6 +377,32 @@ class Usertousercartype {
     this.cartypetousercartypes,
   });
 
+  Usertousercartype copyWith({
+    int? id,
+    int? userId,
+    int? carTypeId,
+    String? carBrand,
+    String? carModel,
+    int? carCapacity,
+    String? plateNumber,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Cartypetousercartypes? cartypetousercartypes,
+  }) =>
+      Usertousercartype(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        carTypeId: carTypeId ?? this.carTypeId,
+        carBrand: carBrand ?? this.carBrand,
+        carModel: carModel ?? this.carModel,
+        carCapacity: carCapacity ?? this.carCapacity,
+        plateNumber: plateNumber ?? this.plateNumber,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        cartypetousercartypes:
+            cartypetousercartypes ?? this.cartypetousercartypes,
+      );
+
   factory Usertousercartype.fromJson(Map<String, dynamic> json) =>
       Usertousercartype(
         id: json["id"],
@@ -302,6 +447,17 @@ class Cartypetousercartypes {
     this.carType,
     this.driverType,
   });
+
+  Cartypetousercartypes copyWith({
+    int? id,
+    String? carType,
+    String? driverType,
+  }) =>
+      Cartypetousercartypes(
+        id: id ?? this.id,
+        carType: carType ?? this.carType,
+        driverType: driverType ?? this.driverType,
+      );
 
   factory Cartypetousercartypes.fromJson(Map<String, dynamic> json) =>
       Cartypetousercartypes(

@@ -1,3 +1,6 @@
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
+import 'package:fillogo/views/route_details_page_view/components/route_details_page_controller.dart';
+
 import '../../../export.dart';
 import '../../../widgets/profilePhoto.dart';
 import '../../route_details_page_view/components/selected_route_controller.dart';
@@ -14,7 +17,10 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
     required this.endDateTime,
     required this.profilePhotoUrl,
     required this.isActiveRoute,
+    required this.matchedOn,
   });
+
+  final MatchedOn? matchedOn;
   final int userId;
   final int id;
   final String userName;
@@ -27,7 +33,8 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
 
   SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
-
+  RouteDetailsPageController routeDetailsPageController =
+      Get.put(RouteDetailsPageController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,6 +43,9 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
         onTap: () async {
           selectedRouteController.selectedRouteId.value = id;
           selectedRouteController.selectedRouteUserId.value = userId;
+          selectedRouteController.matchedOn = matchedOn;
+          await routeDetailsPageController.getRouteDetailsById(id);
+          await routeDetailsPageController.getMyCurrentLocation();
           Get.toNamed(NavigationConstants.routeDetails);
         },
         child: Container(
