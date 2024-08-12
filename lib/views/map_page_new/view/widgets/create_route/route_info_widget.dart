@@ -179,7 +179,7 @@ class CreateRouteInfoWidget extends StatelessWidget {
                     height: 60.h,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (createRouteController.finishRouteCity != "") {
+                        if (createRouteController.finishRouteCity.value != "") {
                           createRouteController
                               .isOpenRouteDetailEntrySection.value = true;
                           createRouteController.setDate();

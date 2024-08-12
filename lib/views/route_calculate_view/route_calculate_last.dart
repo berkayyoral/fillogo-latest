@@ -370,7 +370,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Container(
                     height:
-                        searchRouteController.showOnlyMap.value ? 75.h : 290.h,
+                        searchRouteController.showOnlyMap.value ? 75.h : 313.h,
                     width: Get.width,
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -386,7 +386,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned(
-                          top: 15,
+                          top: 12.h,
                           child: SizedBox(
                             width: Get.width,
                             child: SingleChildScrollView(
@@ -398,10 +398,23 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.only(bottom: 4.w),
                                       child: Text(
-                                        "Rotaları görmek için başlangıç ve bitiş noktalarını giriniz",
+                                        "Farklı konumlarda rota oluşturan sürücüler",
                                         style: TextStyle(
                                           fontFamily: "Sflight",
                                           fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppConstants().ltBlack,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.w),
+                                      child: Text(
+                                        "Seçtiğiniz konumlarda rota oluşturan sürücü ve araçları bu sayfada listeliyebilir ve onlarla iletişim kurabilirsiniz",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: "Sflight",
+                                          fontSize: 12.sp,
                                           color: AppConstants().ltBlack,
                                         ),
                                       ),
@@ -435,6 +448,48 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 ),
               ],
             )),
+            Obx(
+              () => Visibility(
+                visible: createRouteController.middRoute.value.latitude != 0,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.w, bottom: 260.h),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () async {
+                        try {
+                          print("KONUMUMUGETİRs");
+
+                          // mapPageController.isLoading.value = true;
+
+                          createRouteController.getRouteInMap();
+                        } catch (e) {
+                          print("KONUMUMUGETİR ERR -> $e");
+                        }
+                      },
+                      child: Container(
+                        height: 50.w,
+                        width: 50.w,
+                        decoration: BoxDecoration(
+                          color: AppConstants().ltMainRed,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.w),
+                          child: SvgPicture.asset(
+                            'assets/icons/route-icon.svg',
+                            color: AppConstants().ltWhite,
+                            width: 24.w,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            /// GET MY LOCATİON İN MAP
             Padding(
               padding: EdgeInsets.only(right: 10.w, bottom: 190.h),
               child: Align(
@@ -482,51 +537,12 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(
-              () => Visibility(
-                visible: createRouteController.middRoute.value.latitude != 0,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 10.w, bottom: 250.h),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () async {
-                        try {
-                          print("KONUMUMUGETİRs");
 
-                          // mapPageController.isLoading.value = true;
-
-                          createRouteController.getRouteInMap();
-                        } catch (e) {
-                          print("KONUMUMUGETİR ERR -> $e");
-                        }
-                      },
-                      child: Container(
-                        height: 50.w,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                          color: AppConstants().ltMainRed,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(10.w),
-                          child: SvgPicture.asset(
-                            'assets/icons/route-icon.svg',
-                            color: AppConstants().ltWhite,
-                            width: 24.w,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
             Obx(
               () => Visibility(
                 visible: createRouteController.calculateLevel.value == 1,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10.w, bottom: 130.h),
+                  padding: EdgeInsets.only(right: 10.w, bottom: 120.h),
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(

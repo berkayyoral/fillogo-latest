@@ -140,12 +140,17 @@ class CreateRouteView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                //  "İyi Günler ${LocaleManager.instance.getString(PreferencesKeys.currentUserName)},"
                                 Text(
-                                    "İyi Günler ${LocaleManager.instance.getString(PreferencesKeys.currentUserName)},"),
-                                Text(
-                                  "Rotanı bildirir misisn?",
+                                  "Rotanı oluştur paylaşımlı taşımacılığın keyfini çıkar",
                                   style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "şimdi rotanı oluşturarak diğer sürücü ve araçlarla rotanı paylaşabilir,seninle aynı rotadaki sürücüleri görebilir ve onlarla iletişim kurabilirsin",
+                                  style: TextStyle(
+                                      fontSize: 10.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
