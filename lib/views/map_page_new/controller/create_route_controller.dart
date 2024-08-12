@@ -128,13 +128,13 @@ class CreateRouteController extends GetxController implements PolylineService {
   }
 
   void clearFinishRouteInfo() {
-    // calculatedRouteDistance.value = "";
-    // calculatedRouteDistanceInt = 0;
-    // calculatedRouteTime.value = "";
-    // calculatedRouteTimeInt = 0;
-    // finishRouteAdress.value = "";
-    // finishRouteLocation.value = const LatLng(0.0, 0.0);
-    // finishRouteCity.value = "";
+    calculatedRouteDistance.value = "";
+    calculatedRouteDistanceInt = 0;
+    calculatedRouteTime.value = "";
+    calculatedRouteTimeInt = 0;
+    finishRouteAdress.value = "";
+    finishRouteLocation.value = const LatLng(0.0, 0.0);
+    finishRouteCity.value = "";
   }
 
   setDate() {
@@ -310,9 +310,9 @@ class CreateRouteController extends GetxController implements PolylineService {
     startRouteAdress = "".obs;
     startRouteCity.value = "";
 
-    // finishRouteLocation = const LatLng(0.0, 0.0).obs;
-    // finishRouteAdress = "".obs;
-    // finishRouteCity.value = "";
+    finishRouteLocation = const LatLng(0.0, 0.0).obs;
+    finishRouteAdress = "".obs;
+    finishRouteCity.value = "";
 
     routePolyline.value = "";
 
