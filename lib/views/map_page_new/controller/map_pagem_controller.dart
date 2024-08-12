@@ -268,9 +268,8 @@ class MapPageMController extends GetxController implements MapPageService {
           .removeWhere((marker) => marker.markerId.value == 'myLocationMarker');
       addMarkerIcon(
         markerID: "myLocationMarker",
-        location: LatLng(
-            getMyCurrentLocationController.myLocationLatitudeDo.value,
-            getMyCurrentLocationController.myLocationLongitudeDo.value),
+        location: LatLng(currentLocationController.myLocationLatitudeDo.value,
+            currentLocationController.myLocationLongitudeDo.value),
       );
 
       ///Haritaya dokunulduğunda CameraPosition'un direkt bulunulan konumuna gelmemesi için ///
@@ -319,9 +318,8 @@ class MapPageMController extends GetxController implements MapPageService {
           CameraPosition(
             bearing: isThereActiveRoute.value ? 0 : 90,
             tilt: isThereActiveRoute.value ? 100 : 45,
-            target: LatLng(
-                getMyCurrentLocationController.myLocationLatitudeDo.value,
-                getMyCurrentLocationController.myLocationLongitudeDo.value),
+            target: LatLng(currentLocationController.myLocationLatitudeDo.value,
+                currentLocationController.myLocationLongitudeDo.value),
             zoom: isThereActiveRoute.value ? 17 : 15,
           ),
         ),

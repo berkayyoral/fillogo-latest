@@ -6,7 +6,6 @@ import 'package:fillogo/models/emoji/emoji_response_model.dart';
 import 'package:fillogo/models/search/user/search_user_response.dart';
 
 class CreatePostPageController extends GetxController {
-
   File? imageFile;
 
   var selectedOption = EmotionData().obs;

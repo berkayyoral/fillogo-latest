@@ -23,8 +23,7 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
   final String routeEndDate;
   final bool closeButtonVisible;
 
-  CreatePostPageController createPostPageController =
-      Get.put(CreatePostPageController());
+  CreatePostPageController createPostPageController = Get.find();
   MfuController mfuController = Get.find();
 
   CreateRouteController createRouteController = Get.find();

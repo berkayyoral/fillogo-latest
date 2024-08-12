@@ -226,32 +226,31 @@ class NavigationService {
         page: () => CreatePostPageView(),
         bindings: [
           MediaPickerBinding(),
-          CreateNewPostPageBinding(),
         ]),
-    GetPage(
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.createPostPageAddTags,
-      page: () => CreatePostAddTagsPageView(),
-      binding: CreateNewPostPageBinding(),
-    ),
-    GetPage(
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.createPostPageAddEmotion,
-      page: () => CreatePostAddEmotionPageView(),
-      binding: CreateNewPostPageBinding(),
-    ),
-    GetPage(
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.createPostPageAddRoute,
-      page: () => CreatePostAddRoutePageView(),
-      binding: CreateNewPostPageBinding(),
-    ),
-    GetPage(
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.createPostPageAddPhoto,
-      page: () => CreatePostAddPhotoAndVideoPageView(),
-      binding: CreateNewPostPageBinding(),
-    ),
+    // GetPage(
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.createPostPageAddTags,
+    //   page: () => CreatePostAddTagsPageView(),
+    //   binding: CreateNewPostPageBinding(),
+    // ),
+    // GetPage(
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.createPostPageAddEmotion,
+    //   page: () => CreatePostAddEmotionPageView(),
+    //   binding: CreateNewPostPageBinding(),
+    // ),
+    // GetPage(
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.createPostPageAddRoute,
+    //   page: () => CreatePostAddRoutePageView(),
+    //   binding: CreateNewPostPageBinding(),
+    // ),
+    // GetPage(
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.createPostPageAddPhoto,
+    //   page: () => CreatePostAddPhotoAndVideoPageView(),
+    //   binding: CreateNewPostPageBinding(),
+    // ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.createPostPageSettings,
@@ -274,11 +273,11 @@ class NavigationService {
       binding: SearchUserBinding(),
       page: () => SearchUserView(),
     ),
-    GetPage(
-      transitionDuration: const Duration(milliseconds: 0),
-      name: NavigationConstants.createNewRouteView,
-      page: () => const CreateNewRoutePageView(),
-    ),
+    // GetPage(
+    //   transitionDuration: const Duration(milliseconds: 0),
+    //   name: NavigationConstants.createNewRouteView,
+    //   page: () => const CreateNewRoutePageView(),
+    // ),
     GetPage(
       transitionDuration: const Duration(milliseconds: 0),
       name: NavigationConstants.myRoutesPageView,

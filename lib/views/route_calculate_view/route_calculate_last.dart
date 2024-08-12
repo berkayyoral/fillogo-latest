@@ -286,6 +286,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       Get.put(SearchRouteController());
   @override
   Widget build(BuildContext context) {
+    GetMyCurrentLocationController getMyCurrentLocationController =
+        Get.find<GetMyCurrentLocationController>();
     if (calculateLevel == 1) {
       return _calculateLevelTwo(
           context, mapController, getMyCurrentLocationController);
@@ -1234,6 +1236,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   }
 
   Future<void> getSearchRoute(BuildContext context) async {
+    GetMyCurrentLocationController getMyCurrentLocationController =
+        Get.find<GetMyCurrentLocationController>();
     searchRouteController.fillCarTypeList();
     createRouteController.searchByCityDatum.clear();
     createRouteController.markers.clear();

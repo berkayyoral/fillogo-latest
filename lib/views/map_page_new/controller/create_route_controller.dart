@@ -328,8 +328,7 @@ class CreateRouteController extends GetxController implements PolylineService {
   }
 
   createRoute() {
-    CreatePostPageController createPostPageController =
-        Get.put(CreatePostPageController());
+    CreatePostPageController createPostPageController = Get.find();
 
     if (departureController.value.text.isEmpty) {
       Get.snackbar(
@@ -487,20 +486,20 @@ class CreateRouteController extends GetxController implements PolylineService {
                                         }
 
                                         print("başlattımm 5-> ");
-                                        String varisdate = tarihiAl(
-                                            arrivalController.value.text);
-                                        String cikisdate = tarihiAl(
-                                            departureController.value.text);
+                                        // String varisdate = tarihiAl(
+                                        //     arrivalController.value.text);
+                                        // String cikisdate = tarihiAl(
+                                        //     departureController.value.text);
 
-                                        createPostPageController.update();
+                                        // createPostPageController.update();
 
-                                        createPostPageController
-                                            .routeStartDate.value = cikisdate;
-                                        createPostPageController
-                                            .routeEndDate.value = varisdate;
-                                        createPostPageController
-                                                .routeContent.value =
-                                            "${startRouteCity.value} -> ${finishRouteCity.value}";
+                                        // createPostPageController
+                                        //     .routeStartDate.value = cikisdate;
+                                        // createPostPageController
+                                        //     .routeEndDate.value = varisdate;
+                                        // createPostPageController
+                                        //         .routeContent.value =
+                                        //     "${startRouteCity.value} -> ${finishRouteCity.value}";
                                         print("başlattımm 6-> ");
                                         await Get.dialog(RouteAlertDialog()
                                             .showShareRouteAllertDialog(
@@ -517,9 +516,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                                           0,
                                         ));
 
-                                        UiHelper.showLoadingAnimation();
+                                        // UiHelper.showLoadingAnimation();
 
-                                        await mapPageMController.getMyRoutes();
                                         // await GeneralServicesTemp()
                                         //     .makeGetRequest(
                                         //   EndPoint.getMyRoutes,
@@ -564,7 +562,7 @@ class CreateRouteController extends GetxController implements PolylineService {
                                         bottomNavigationBarController
                                             .selectedIndex.value = 1;
 
-                                        Get.back(); //showLoadingAnimation kapatmak  için
+                                        // Get.back(); //showLoadingAnimation kapatmak  için
                                       } else {
                                         print("başlattımm 16-> ");
                                         Get.back(closeOverlays: true);

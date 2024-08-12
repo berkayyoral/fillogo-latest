@@ -464,8 +464,7 @@ class RouteAlertDialog {
     CreateRouteController createRouteController = Get.find();
     BottomNavigationBarController bottomNavigationBarController =
         Get.find<BottomNavigationBarController>();
-    CreatePostPageController createPostPageController =
-        Get.put(CreatePostPageController());
+    CreatePostPageController createPostPageController = Get.find();
     GetMyCurrentLocationController getMyCurrentLocationController =
         Get.find<GetMyCurrentLocationController>();
     return AlertDialog(
