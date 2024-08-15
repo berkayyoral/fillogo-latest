@@ -18,8 +18,14 @@ import 'package:intl/intl.dart';
 class StartOrRouteRouteDialog {
   static void show({
     required bool isStartDatePast,
+    required int routeId,
+    required String startCity,
+    required String finishCity,
+    required DateTime departureTime,
     MyRoutesDetails? myNextRoute,
   }) {
+    print("StartOrRouteRouteDialog AÇILDI");
+    LocaleManager.instance.setBool(PreferencesKeys.showStartRouteAlert, true);
     MapPageMController mapPageController = Get.find();
     final BottomNavigationBarController bottomNavigationBarController =
         Get.find<BottomNavigationBarController>();
@@ -65,7 +71,7 @@ class StartOrRouteRouteDialog {
                                   color: AppConstants().ltBlack),
                             ),
                             Text(
-                              " ${myNextRoute!.startingCity} -> ${myNextRoute.endingCity}",
+                              " $startCity -> $finishCity",
                               style: TextStyle(
                                   fontFamily: "Sfregular",
                                   fontSize: 14.sp,
@@ -84,7 +90,7 @@ class StartOrRouteRouteDialog {
                                   color: AppConstants().ltBlack),
                             ),
                             Text(
-                              " ${DateFormat('yyyy-MM-dd HH:mm').format(myNextRoute.departureDate.toLocal())}",
+                              " ${DateFormat('yyyy-MM-dd HH:mm').format(departureTime.toLocal())}",
                               style: TextStyle(
                                   fontFamily: "Sfregular",
                                   fontSize: 14.sp,
@@ -110,7 +116,7 @@ class StartOrRouteRouteDialog {
                         if (isStartDatePast) {
                           GeneralServicesTemp().makeDeleteRequest(
                             EndPoint.deleteRoute,
-                            DeleteRouteRequestModel(routeId: myNextRoute.id),
+                            DeleteRouteRequestModel(routeId: routeId),
                             {
                               "Content-type": "application/json",
                               'Authorization':
@@ -123,8 +129,8 @@ class StartOrRouteRouteDialog {
                                 jsonDecode(value!));
                             if (response1.success == 1) {
                               print("ROTANIZINBASLANGICSAATİ ROTAYI SLDİMMM");
-                              mapPageController.mynotStartedRoutes.removeWhere(
-                                  (item) => item.id == myNextRoute.id);
+                              mapPageController.mynotStartedRoutes
+                                  .removeWhere((item) => item.id == routeId);
                               String dateTimeFormatDeparture =
                                   DateFormat('yyyy-MM-dd HH:mm')
                                       .format(DateTime.now());
@@ -138,7 +144,7 @@ class StartOrRouteRouteDialog {
                                 DateTime.now().minute,
                               ).add(
                                 Duration(
-                                  minutes: myNextRoute.travelTime,
+                                  minutes: myNextRoute!.travelTime,
                                 ),
                               ));
                               print(
@@ -233,7 +239,7 @@ class StartOrRouteRouteDialog {
                         } else {
                           GeneralServicesTemp().makePatchRequest(
                             EndPoint.activateRoute,
-                            ActivateRouteRequestModel(routeId: myNextRoute.id),
+                            ActivateRouteRequestModel(routeId: routeId),
                             {
                               "Content-type": "application/json",
                               'Authorization':
@@ -258,6 +264,8 @@ class StartOrRouteRouteDialog {
                             }
                           });
                         }
+                        LocaleManager.instance.setBool(
+                            PreferencesKeys.showStartRouteAlert, false);
                         Get.back();
                       },
                       child: Center(
@@ -284,7 +292,7 @@ class StartOrRouteRouteDialog {
                       onTap: () {
                         GeneralServicesTemp().makeDeleteRequest(
                           EndPoint.deleteRoute,
-                          DeleteRouteRequestModel(routeId: myNextRoute.id),
+                          DeleteRouteRequestModel(routeId: routeId),
                           {
                             "Content-type": "application/json",
                             'Authorization':
@@ -294,8 +302,8 @@ class StartOrRouteRouteDialog {
                           var response = DeleteRouteResponseModel.fromJson(
                               jsonDecode(value!));
                           if (response.success == 1) {
-                            mapPageController.mynotStartedRoutes.removeWhere(
-                                (item) => item.id == myNextRoute.id);
+                            mapPageController.mynotStartedRoutes
+                                .removeWhere((item) => item.id == routeId);
                             Get.back(closeOverlays: true);
                             Get.snackbar("Başarılı!", "Rota başarıyla silindi.",
                                 snackPosition: SnackPosition.BOTTOM,
@@ -308,6 +316,8 @@ class StartOrRouteRouteDialog {
                                 colorText: AppConstants().ltBlack);
                           }
                         });
+                        LocaleManager.instance.setBool(
+                            PreferencesKeys.showStartRouteAlert, false);
                       },
                       child: Center(
                         child: Container(

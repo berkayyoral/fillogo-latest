@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/map/first_login_is_active_route_controller.dart';
+import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/map_page_viewm.dart';
@@ -37,6 +39,7 @@ class BottomNavigationBarView extends StatelessWidget {
     }
   }
 
+  MapPageMController mapPageMController = Get.find();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -88,7 +91,6 @@ class BottomNavigationBarView extends StatelessWidget {
               onTap: (index) async {
                 await _drawerControlIndex();
                 if (index == 1) {
-                  MapPageMController mapPageMController = Get.find();
                   mapPageMController.getMyLocationInMap();
                   await mapPageMController.getMyRoutes();
                 }

@@ -31,7 +31,12 @@ class FirstOpenIsActiveRoute extends GetxController {
             'ROTANIZINBASLANGICSAATİ Route on ${route.departureDate} has passed.');
         myNextRoute = route;
         StartOrRouteRouteDialog.show(
-            isStartDatePast: true, myNextRoute: myNextRoute!);
+            isStartDatePast: true,
+            startCity: myNextRoute!.startingCity,
+            finishCity: myNextRoute!.endingCity,
+            departureTime: myNextRoute!.departureDate,
+            routeId: myNextRoute!.id,
+            myNextRoute: myNextRoute);
       } else {
         if (route.departureDate.year == now.year &&
             route.departureDate.month == now.month &&
@@ -42,7 +47,7 @@ class FirstOpenIsActiveRoute extends GetxController {
             targetDate = route.departureDate;
           }
 
-          startTimer();
+          // startTimer();
         }
         targetDate = route.departureDate.add(
           Duration(
@@ -63,7 +68,8 @@ class FirstOpenIsActiveRoute extends GetxController {
       if (now.isAfter(targetDate!)) {
         print("ROUTETİMER ->zaman geldi");
         timer.cancel();
-        StartOrRouteRouteDialog.show(isStartDatePast: false);
+        // StartOrRouteRouteDialog.show(isStartDatePast: false);
+        print("ROUTETİMER ->zaman geldi çalıştı");
         // startOrDeleteRouteDialog(isStartDatePast: false);
       }
     });

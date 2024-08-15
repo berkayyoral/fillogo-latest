@@ -41,9 +41,12 @@ class ActivesFriendsRoutesCard extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10.h),
       child: GestureDetector(
         onTap: () async {
+          RouteDetailsPageController routeDetailsPageController =
+              Get.put(RouteDetailsPageController());
           selectedRouteController.selectedRouteId.value = id;
           selectedRouteController.selectedRouteUserId.value = userId;
           selectedRouteController.matchedOn = matchedOn;
+          routeDetailsPageController.markers.clear();
           await routeDetailsPageController.getRouteDetailsById(id);
           await routeDetailsPageController.getMyCurrentLocation();
           Get.toNamed(NavigationConstants.routeDetails);

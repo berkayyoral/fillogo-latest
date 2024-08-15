@@ -38,5 +38,6 @@ enum PreferencesKeys {
   currentuserpassword,
   isVisibility,
   isAvability,
-  carType //["Otomobil" , "Tır" , "Motorsiklet"]
+  carType, //["Otomobil" , "Tır" , "Motorsiklet"]
+  showStartRouteAlert
 }

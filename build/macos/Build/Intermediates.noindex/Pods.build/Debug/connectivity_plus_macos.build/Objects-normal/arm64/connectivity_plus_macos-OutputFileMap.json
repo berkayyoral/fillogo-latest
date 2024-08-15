@@ -1,0 +1,48 @@
+{
+  "" : {
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/connectivity_plus_macos-master.dia",
+    "emit-module-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/connectivity_plus_macos-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/connectivity_plus_macos-master-emit-module.dia",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/connectivity_plus_macos-master.swiftdeps"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_macos-1.2.6/macos/Classes/ConnectivityPlugin.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityPlugin~partial.swiftmodule"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_macos-1.2.6/macos/Classes/ConnectivityProvider.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ConnectivityProvider~partial.swiftmodule"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_macos-1.2.6/macos/Classes/PathMonitorConnectivityProvider.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/PathMonitorConnectivityProvider~partial.swiftmodule"
+  },
+  "/Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_macos-1.2.6/macos/Classes/ReachabilityConnectivityProvider.swift" : {
+    "const-values" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.d",
+    "diagnostics" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.o",
+    "llvm-bc" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.bc",
+    "object" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.o",
+    "swift-dependencies" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/macos/Build/Intermediates.noindex/Pods.build/Debug/connectivity_plus_macos.build/Objects-normal/arm64/ReachabilityConnectivityProvider~partial.swiftmodule"
+  }
+}

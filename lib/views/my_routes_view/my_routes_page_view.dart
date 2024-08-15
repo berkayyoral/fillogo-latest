@@ -7,6 +7,7 @@ import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/delete_route_model.dart';
+import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
@@ -225,6 +226,9 @@ class MyRoutesPageView extends StatelessWidget {
                                                                         mapPageController
                                                                             .myActivesRoutes[i]
                                                                             .id;
+                                                                    selectedRouteController
+                                                                            .matchedOn =
+                                                                        MatchedOn();
                                                                     Get.toNamed(
                                                                         NavigationConstants
                                                                             .routeDetails);
@@ -384,6 +388,9 @@ class MyRoutesPageView extends StatelessWidget {
                                                                         mapPageController
                                                                             .mynotStartedRoutes[i]
                                                                             .id;
+                                                                    selectedRouteController
+                                                                            .matchedOn =
+                                                                        MatchedOn();
                                                                     Get.toNamed(
                                                                         NavigationConstants
                                                                             .routeDetails);
@@ -539,6 +546,9 @@ class MyRoutesPageView extends StatelessWidget {
                                                                         mapPageController
                                                                             .myPastsRoutes[i]
                                                                             .id;
+                                                                    selectedRouteController
+                                                                            .matchedOn =
+                                                                        MatchedOn();
                                                                     Get.toNamed(
                                                                         NavigationConstants
                                                                             .routeDetails);

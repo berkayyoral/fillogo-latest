@@ -79,7 +79,6 @@ class RouteDetailsPageView extends StatelessWidget {
         init: routeDetailsPageController,
         initState: (_) async {},
         builder: (routeDetailsPageController) {
-          print("asdasd11 ${selectedRouteController.matchedOn!.city}");
           print("asdasd11 ${routeDetailsPageController.ownerRouteName.value}");
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +160,8 @@ class RouteDetailsPageView extends StatelessWidget {
                     "${routeDetailsPageController.ownerRouteName.value} ${routeDetailsPageController.ownerRouteSurname.value}",
               ),
               Visibility(
-                visible: selectedRouteController.matchedOn!.city != null,
+                visible: selectedRouteController.matchedOn != null &&
+                    selectedRouteController.matchedOn!.city != null,
                 child: Container(
                   padding: EdgeInsets.only(
                       bottom: 10.h, left: 10.w, top: 10.h, right: 10.w),
@@ -172,7 +172,10 @@ class RouteDetailsPageView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("İlk kesişim noktası : "),
+                      Text(
+                        "İlk kesişim noktası : ",
+                        style: TextStyle(color: AppConstants().ltMainRed),
+                      ),
                       Text(
                         "${selectedRouteController.matchedOn!.city} / ${selectedRouteController.matchedOn!.district}",
                         style: TextStyle(fontWeight: FontWeight.bold),

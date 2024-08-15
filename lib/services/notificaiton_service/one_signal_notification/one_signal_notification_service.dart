@@ -5,6 +5,7 @@ import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
 import 'package:fillogo/models/notification/notification_model.dart';
+import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../export.dart';
@@ -20,6 +21,7 @@ class OneSignalManager {
             Get.deviceLocale?.languageCode ??
             AppConstants.defaultLanguage;
 
+    DateTime startDateRoute = DateTime.now();
     if (id != null) {
       print("NOTİFYCMM ONESİGNALm İÇİN IDm c -> $id");
       await OneSignal.login(id.toString())
@@ -44,6 +46,33 @@ class OneSignalManager {
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
       print(
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.additionalData}');
+      startDateRoute = DateTime.now();
+      if (event.notification.additionalData!["type"] == 10) {
+        print("NOTİFYCMM ROTA BİLDİRİMİ GELDİ");
+
+        List? params;
+        int sender;
+
+        params = [
+          event.notification.additionalData!["startingCity"],
+          event.notification.additionalData!["endingCity"]
+        ];
+        sender = event.notification.additionalData![
+            "routeID"]; //eğer rota bildirimiyse senderi rotaID kabul ediyoruz
+
+        if (!LocaleManager.instance
+            .getBool(PreferencesKeys.showStartRouteAlert)!) {
+          Get.toNamed(NavigationConstants.bottomNavigationBar);
+          StartOrRouteRouteDialog.show(
+              isStartDatePast: false,
+              startCity: params.first,
+              finishCity: params.last,
+              routeId: sender,
+              departureTime: startDateRoute);
+        }
+
+        print("NOTİFYCMM ROTA BİLDİRİMİ SON");
+      }
 
       event.preventDefault();
       event.notification.display();
@@ -52,15 +81,31 @@ class OneSignalManager {
     OneSignal.Notifications.addClickListener((event) {
       try {
         int type = event.notification.additionalData!["type"];
-        int sender = event.notification.additionalData!["sender"];
-        List? params = event.notification.additionalData!["params"];
-        debugPrint(
-            'NOTİFYCMM ONESİGNALm EVENT: type -> $type param -> $params sender -> $sender');
+        List? params;
+        int sender;
+        if (type == 10) {
+          params = [
+            event.notification.additionalData!["startingCity"],
+            event.notification.additionalData!["endingCity"]
+          ];
+          sender = event.notification.additionalData![
+              "routeID"]; //eğer rota bildirimiyse senderi rotaID kabul ediyoruz
+        } else {
+          sender = event.notification.additionalData!["sender"];
+          params = event.notification.additionalData!["params"];
+          debugPrint(
+              'NOTİFYCMM ONESİGNALm EVENT: type -> $type param -> $params sender -> $sender');
+        }
 
         // Get.toNamed(NavigationConstants.otherprofiles,
         //     arguments: event.notification.additionalData!["params"]
         //         .first);
-        navigateToPage(type: type, params: params ?? [], sender: sender);
+
+        navigateToPage(
+            type: type,
+            params: params ?? [],
+            sender: sender,
+            startDateRoute: startDateRoute);
       } catch (e) {
         print("NOTİFYCMM ONESİGNALm  click error -> $e");
       }
@@ -104,7 +149,12 @@ class OneSignalManager {
 }
 
 void navigateToPage(
-    {required int type, required List? params, required int sender}) {
+    {required int type,
+    required List? params,
+    required int sender,
+    DateTime? startDateRoute}) {
+  SelectedRouteController selectedRouteController =
+      Get.put(SelectedRouteController());
   NotificationController notificationController = Get.find();
   print("NOTİFYCMM NOTİFY TYPOE -> $type");
   switch (type) {
@@ -124,7 +174,18 @@ void navigateToPage(
       break;
     case 5:
       Get.toNamed(NavigationConstants.message, arguments: params);
-      notificationController.isUnReadMessage.value = false;
+      selectedRouteController.selectedRouteId.value = sender;
+      break;
+    case 10: //rotanızın başlangıç saati geldi
+      Get.toNamed(NavigationConstants.bottomNavigationBar);
+      StartOrRouteRouteDialog.show(
+          isStartDatePast: false,
+          startCity: params!.first,
+          finishCity: params.last,
+          routeId: sender,
+          departureTime: startDateRoute!);
+
+      // notificationController.isUnOpenedNotification.value = false;
       break;
     case 99: //selektör
       Get.toNamed(NavigationConstants.notifications, arguments: params);
