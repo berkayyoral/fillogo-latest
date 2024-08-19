@@ -45,10 +45,23 @@ class OneSignalManager {
       print(
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
       print(
+          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH ıd: ${event.notification.androidNotificationId}');
+      print(
+          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH ıd2: ${event.notification.notificationId}');
+      print(
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.additionalData}');
       startDateRoute = DateTime.now();
+
       if (event.notification.additionalData!["type"] == 10) {
-        print("NOTİFYCMM ROTA BİLDİRİMİ GELDİ");
+        print(
+            "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
+
+        if (LocaleManager.instance
+                .getBool(PreferencesKeys.showStartRouteAlert) ==
+            null) {
+          LocaleManager.instance
+              .setBool(PreferencesKeys.showStartRouteAlert, false);
+        }
 
         List? params;
         int sender;
@@ -72,6 +85,21 @@ class OneSignalManager {
         }
 
         print("NOTİFYCMM ROTA BİLDİRİMİ SON");
+      }
+
+      if (event.notification.additionalData!["type"] == 11) {
+        // LocaleManager.instance.setString(
+        //     PreferencesKeys.deleteNotifyId, event.notification.notificationId);
+        LocaleManager.instance.setBool(PreferencesKeys.deleteNotifyId, true);
+        if (LocaleManager.instance
+            .getBool(PreferencesKeys.showStartRouteAlert)!) {
+          LocaleManager.instance
+              .setBool(PreferencesKeys.showStartRouteAlert, false);
+          print(
+              "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
+
+          Get.back();
+        }
       }
 
       event.preventDefault();
@@ -177,13 +205,17 @@ void navigateToPage(
       selectedRouteController.selectedRouteId.value = sender;
       break;
     case 10: //rotanızın başlangıç saati geldi
-      Get.toNamed(NavigationConstants.bottomNavigationBar);
-      StartOrRouteRouteDialog.show(
-          isStartDatePast: false,
-          startCity: params!.first,
-          finishCity: params.last,
-          routeId: sender,
-          departureTime: startDateRoute!);
+      if (!LocaleManager.instance.getBool(PreferencesKeys.deleteNotifyId)!) {
+        Get.toNamed(NavigationConstants.bottomNavigationBar);
+        StartOrRouteRouteDialog.show(
+            isStartDatePast: false,
+            startCity: params!.first,
+            finishCity: params.last,
+            routeId: sender,
+            departureTime: startDateRoute!);
+      } else {
+        print("ROTASIZIMMMM");
+      }
 
       // notificationController.isUnOpenedNotification.value = false;
       break;

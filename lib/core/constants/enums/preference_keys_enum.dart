@@ -39,5 +39,6 @@ enum PreferencesKeys {
   isVisibility,
   isAvability,
   carType, //["Otomobil" , "Tır" , "Motorsiklet"]
-  showStartRouteAlert
+  showStartRouteAlert,
+  deleteNotifyId
 }

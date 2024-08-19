@@ -26,6 +26,10 @@ class FirstOpenIsActiveRoute extends GetxController {
         Duration(days: 365); // Başlangıçta uzak bir tarih
 
     for (MyRoutesDetails route in routes) {
+      print(
+          'ROTANIZINBASLANGICSAATİ Route k ${route.departureDate.isBefore(now)} ');
+      print(
+          'ROTANIZINBASLANGICSAATİ Route k ${route.departureDate.isBefore(now)} ');
       if (route.departureDate.isBefore(now)) {
         print(
             'ROTANIZINBASLANGICSAATİ Route on ${route.departureDate} has passed.');
@@ -124,6 +128,8 @@ class FirstOpenIsActiveRoute extends GetxController {
       // İki tarih arasındaki farkı hesapla
       Duration difference = routeFinishDate.difference(now);
       print('ROTANIZINBİTİSSAATİ  ${isActiveRoute}');
+      print(
+          "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
       if (difference.isNegative) {
         print(
