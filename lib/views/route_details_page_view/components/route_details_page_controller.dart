@@ -157,6 +157,7 @@ class RouteDetailsPageController extends GetxController {
         },
       ).then(
         (value) async {
+          selectedRouteController.matchedOn = MatchedOn();
           generalPolylines.clear();
           myPolylines.clear();
           ownerPolylineCoordinates.clear();
