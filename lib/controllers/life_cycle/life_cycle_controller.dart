@@ -4,7 +4,9 @@ import 'package:fillogo/controllers/chat/global_chat_controller.dart';
 import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LifeCycleController extends GetxController with WidgetsBindingObserver {
   @override
@@ -24,6 +26,10 @@ class LifeCycleController extends GetxController with WidgetsBindingObserver {
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
+    userStateController.state.value = state;
+
+    print(
+        "LİFECYSKLEMMMM -> USER ->  ${userStateController.state.value} state -> ${state}");
     if (state == AppLifecycleState.resumed) {
       if (LocaleManager.instance.getInt(PreferencesKeys.currentUserId) !=
           null) {
@@ -37,20 +43,25 @@ class LifeCycleController extends GetxController with WidgetsBindingObserver {
 
       print(
           "LİFECYCLE NOTİFY -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
-      if (!LocaleManager.instance
-              .getBool(PreferencesKeys.showStartRouteAlert)! &&
-          LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute) !=
-              null) {
-        StartOrRouteRouteDialog.show(
-          isStartDatePast: true,
-          startCity: LocaleManager.instance
-              .getString(PreferencesKeys.dialogStartRoute)!,
-          finishCity: LocaleManager.instance
-              .getString(PreferencesKeys.dialogFinishRoute)!,
-          departureTime: DateTime.now(),
-          routeId:
-              LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)!,
-        );
+      // if (LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute) !=
+      //     null) {
+      //   StartOrRouteRouteDialog.show(
+      //     isStartDatePast: true,
+      //     startCity: LocaleManager.instance
+      //         .getString(PreferencesKeys.dialogStartRoute)!,
+      //     finishCity: LocaleManager.instance
+      //         .getString(PreferencesKeys.dialogFinishRoute)!,
+      //     departureTime: DateTime.now(),
+      //     routeId:
+      //         LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)!,
+      //   );
+      // }
+
+      if (LocaleManager.instance
+          .getBool(PreferencesKeys.showStartRouteAlert)!) {
+        print("TRUEEE");
+      } else {
+        print("FALSEE");
       }
     }
 

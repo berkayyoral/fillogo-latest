@@ -25,6 +25,7 @@ class StartOrRouteRouteDialog {
     MyRoutesDetails? myNextRoute,
   }) {
     print("StartOrRouteRouteDialog AÇILDI");
+    print("APPLİFEE3");
     LocaleManager.instance.setBool(PreferencesKeys.showStartRouteAlert, true);
     MapPageMController mapPageController = Get.find();
     final BottomNavigationBarController bottomNavigationBarController =
@@ -103,8 +104,7 @@ class StartOrRouteRouteDialog {
                   ),
                 ),
                 16.h.horizontalSpace,
-                Text(
-                    "Rotayı ${isStartDatePast ? "şimdi" : ""} başlatmak ister misiniz?"),
+                Text("Rotayı başlatmak ister misiniz?"),
                 const SizedBox(
                   height: 24,
                 ),

@@ -8,6 +8,8 @@ class UserStateController extends GetxController {
     super.onInit();
   }
 
+  Rx<AppLifecycleState> state = AppLifecycleState.resumed.obs;
+
   final _onlineUserList = [].obs;
   get onlineUserList => _onlineUserList;
   set onlineUserList(newList) {

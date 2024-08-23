@@ -1,16 +1,13 @@
-import 'dart:convert';
-
 import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
-import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
-import 'package:fillogo/core/init/locale/locale_manager.dart';
-import 'package:fillogo/models/notification/notification_model.dart';
+import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../export.dart';
 
 class OneSignalManager {
+  static UserStateController userStateController = Get.find();
   static Future<void> setupOneSignal() async {
     OneSignal.initialize(AppConstants.oneSignalAppId);
     final int? id =
@@ -20,6 +17,9 @@ class OneSignalManager {
         LocaleManager.instance.getString(PreferencesKeys.languageCode) ??
             Get.deviceLocale?.languageCode ??
             AppConstants.defaultLanguage;
+
+    List? params;
+    int sender;
 
     DateTime startDateRoute = DateTime.now();
     if (id != null) {
@@ -41,7 +41,7 @@ class OneSignalManager {
           isNotificationActive: permission);
     });
 
-    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+    OneSignal.Notifications.addForegroundWillDisplayListener((event) async {
       print(
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
       print(
@@ -52,45 +52,51 @@ class OneSignalManager {
           'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.additionalData}');
       startDateRoute = DateTime.now();
 
-      if (event.notification.additionalData!["type"] == 10) {
+      if (event.notification.additionalData!["type"] == 99) {
+        print("NOTFYY11");
+        await LocaleManager.instance.setString(PreferencesKeys.dialogStartRoute,
+            (event.notification.additionalData!["receiver"]!).toString());
         print(
-            "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
-
-        LocaleManager.instance.setString(PreferencesKeys.dialogStartRoute,
-            event.notification.additionalData!["startingCity"]);
-        LocaleManager.instance.setString(PreferencesKeys.dialogFinishRoute,
-            event.notification.additionalData!["endingCity"]);
-        LocaleManager.instance.setInt(PreferencesKeys.dialogRouteID,
-            event.notification.additionalData!["routeID"]);
-        LocaleManager.instance.setCryptedData(
-            PreferencesKeys.dialogDepartureDate, DateTime.now());
-
+            "NOTFYY11  -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
+      }
+      if (event.notification.additionalData!["type"] == 10) {
         if (LocaleManager.instance
-                .getBool(PreferencesKeys.showStartRouteAlert) ==
+                .getBool(PreferencesKeys.showStartRouteAlert) !=
             null) {
           LocaleManager.instance
               .setBool(PreferencesKeys.showStartRouteAlert, false);
-        }
 
-        List? params;
-        int sender;
+          print(
+              "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
-        params = [
-          event.notification.additionalData!["startingCity"],
-          event.notification.additionalData!["endingCity"]
-        ];
-        sender = event.notification.additionalData![
-            "routeID"]; //eğer rota bildirimiyse senderi rotaID kabul ediyoruz
+          print(
+              "NOTFYY1  -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
+          print(
+              "NOTFY2   -> ${LocaleManager.instance.getString(PreferencesKeys.dialogFinishRoute)}");
+          print(
+              "NOTFY3   -> ${LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)}");
 
-        if (!LocaleManager.instance
-            .getBool(PreferencesKeys.showStartRouteAlert)!) {
-          Get.toNamed(NavigationConstants.bottomNavigationBar);
-          StartOrRouteRouteDialog.show(
-              isStartDatePast: false,
-              startCity: params.first,
-              finishCity: params.last,
-              routeId: sender,
-              departureTime: startDateRoute);
+          List? params;
+          int sender;
+
+          params = [
+            event.notification.additionalData!["startingCity"],
+            event.notification.additionalData!["endingCity"]
+          ];
+          sender = event.notification.additionalData![
+              "routeID"]; //eğer rota bildirimiyse senderi rotaID kabul ediyoruz
+          print("APPLİFEED -> ${userStateController.state.value}");
+          if (!LocaleManager.instance
+                  .getBool(PreferencesKeys.showStartRouteAlert)! &&
+              userStateController.state.value == AppLifecycleState.resumed) {
+            Get.toNamed(NavigationConstants.bottomNavigationBar);
+            StartOrRouteRouteDialog.show(
+                isStartDatePast: false,
+                startCity: params.first,
+                finishCity: params.last,
+                routeId: sender,
+                departureTime: startDateRoute);
+          }
         }
 
         print("NOTİFYCMM ROTA BİLDİRİMİ SON");
@@ -106,7 +112,7 @@ class OneSignalManager {
               .setBool(PreferencesKeys.showStartRouteAlert, false);
           print(
               "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
-
+          LocaleManager.instance.remove(PreferencesKeys.dialogStartRoute);
           Get.back();
         }
       }
@@ -118,8 +124,7 @@ class OneSignalManager {
     OneSignal.Notifications.addClickListener((event) {
       try {
         int type = event.notification.additionalData!["type"];
-        List? params;
-        int sender;
+
         if (type == 10) {
           params = [
             event.notification.additionalData!["startingCity"],
@@ -214,23 +219,25 @@ void navigateToPage(
       selectedRouteController.selectedRouteId.value = sender;
       break;
     case 10: //rotanızın başlangıç saati geldi
-      if (!LocaleManager.instance.getBool(PreferencesKeys.deleteNotifyId)!) {
-        Get.toNamed(NavigationConstants.bottomNavigationBar);
-        StartOrRouteRouteDialog.show(
-            isStartDatePast: false,
-            startCity: params!.first,
-            finishCity: params.last,
-            routeId: sender,
-            departureTime: startDateRoute!);
-      } else {
-        print("ROTASIZIMMMM");
-      }
+      Get.toNamed(NavigationConstants.bottomNavigationBar);
 
+      StartOrRouteRouteDialog.show(
+          isStartDatePast: true,
+          startCity: params!.first,
+          finishCity: params!.last,
+          routeId: sender,
+          departureTime: startDateRoute!);
       // notificationController.isUnOpenedNotification.value = false;
       break;
     case 99: //selektör
       Get.toNamed(NavigationConstants.notifications, arguments: params);
-      notificationController.isUnOpenedNotification.value = false;
+      // notificationController.isUnOpenedNotification.value = false;
+      StartOrRouteRouteDialog.show(
+          isStartDatePast: true,
+          startCity: "aaa",
+          finishCity: "bbb",
+          routeId: sender,
+          departureTime: startDateRoute!);
       break;
     // case 3:
     //   WidgetsBinding.instance.addPostFrameCallback((_) async {
