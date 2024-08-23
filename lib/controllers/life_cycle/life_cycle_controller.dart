@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
+import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
@@ -32,6 +33,21 @@ class LifeCycleController extends GetxController with WidgetsBindingObserver {
       }
       userStateController.update(['onlineUsers']);
       log(state.toString());
+
+      if (LocaleManager.instance
+          .getBool(PreferencesKeys.showStartRouteAlert)!) {
+        StartOrRouteRouteDialog.show(
+          isStartDatePast: true,
+          startCity: LocaleManager.instance
+              .getString(PreferencesKeys.dialogStartRoute)!,
+          finishCity: LocaleManager.instance
+              .getString(PreferencesKeys.dialogFinishRoute)!,
+          departureTime: DateTime.parse(LocaleManager.instance
+              .getCryptedData(PreferencesKeys.dialogDepartureDate)!),
+          routeId:
+              LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)!,
+        );
+      }
     }
 
     if ((state == AppLifecycleState.paused ||

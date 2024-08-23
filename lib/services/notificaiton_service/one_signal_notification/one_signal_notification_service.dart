@@ -56,6 +56,15 @@ class OneSignalManager {
         print(
             "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
+        LocaleManager.instance.setString(PreferencesKeys.dialogStartRoute,
+            event.notification.additionalData!["startingCity"]);
+        LocaleManager.instance.setString(PreferencesKeys.dialogFinishRoute,
+            event.notification.additionalData!["endingCity"]);
+        LocaleManager.instance.setInt(PreferencesKeys.dialogRouteID,
+            event.notification.additionalData!["routeID"]);
+        LocaleManager.instance.setCryptedData(
+            PreferencesKeys.dialogDepartureDate, DateTime.now());
+
         if (LocaleManager.instance
                 .getBool(PreferencesKeys.showStartRouteAlert) ==
             null) {

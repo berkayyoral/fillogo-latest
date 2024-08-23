@@ -89,12 +89,12 @@ class BottomNavigationBarView extends StatelessWidget {
               showSelectedLabels: false,
               showUnselectedLabels: false,
               onTap: (index) async {
-                await _drawerControlIndex();
+                bottomNavigationBarController.changeIndex(index);
+                _drawerControlIndex();
                 if (index == 1) {
                   mapPageMController.getMyLocationInMap();
-                  await mapPageMController.getMyRoutes();
+                  mapPageMController.getMyRoutes();
                 }
-                bottomNavigationBarController.changeIndex(index);
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,
               items: [

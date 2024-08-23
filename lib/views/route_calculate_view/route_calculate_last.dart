@@ -163,69 +163,76 @@ class RouteCalculateLastView extends StatelessWidget {
                       child:
                           CircularProgressIndicator()) //UiHelper.loadingAnimationWidget(context)
                   : Stack(
+                      alignment: Alignment.bottomCenter,
                       children: <Widget>[
-                        GetBuilder<CreateeRouteController>(
-                          init: createRouteController,
-                          initState: (_) async {
-                            //await getMyCurrentLocationController.getMyCurrentLocation();
-                            SetCustomMarkerIconController controller =
-                                Get.put(SetCustomMarkerIconController());
-                            await controller.setCustomMarkerIcon3();
-                            createRouteController.addMarkerFunction(
-                              const MarkerId("myCurrentMarker"),
-                              LatLng(
-                                  getMyCurrentLocationController
-                                      .myLocationLatitudeDo.value,
-                                  getMyCurrentLocationController
-                                      .myLocationLongitudeDo.value),
-                              'myCurrentMarker',
-                              "",
-                              BitmapDescriptor.fromBytes(
-                                customMarkerIconController.mayLocationIcon!,
-                              ),
-                            );
-                          },
-                          builder: (controller) {
-                            return Obx(
-                              () => SizedBox(
-                                height: Get.height,
-                                width: Get.width,
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                      getMyCurrentLocationController
-                                          .myLocationLatitudeDo.value,
-                                      getMyCurrentLocationController
-                                          .myLocationLongitudeDo.value,
-                                    ),
-                                    zoom: 15.0,
-                                  ),
-                                  markers: Set<Marker>.from(
-                                      createRouteController.markers.value),
-                                  myLocationEnabled: true,
-                                  myLocationButtonEnabled: false,
-                                  mapType: MapType.normal,
-                                  zoomGesturesEnabled: true,
-                                  zoomControlsEnabled: false,
-                                  onCameraMoveStarted: () {},
-                                  onCameraMove: (p0) {},
-                                  polygons: const <Polygon>{},
-                                  tileOverlays: const <TileOverlay>{},
-                                  polylines: Set<Polyline>.of(
-                                      createRouteController.polylines.value),
-                                  onMapCreated:
-                                      (GoogleMapController controller) async {
-                                    // createRouteController.generalMapController
-                                    //     .complete(controller);
-                                    // mapCotroller = Completer();
-                                    // mapCotroller.complete(controller);
-                                    createRouteController.mapController =
-                                        controller;
-                                  },
+                        SizedBox(
+                          height:
+                              createRouteController.calculateLevel.value == 2
+                                  ? 350.h
+                                  : Get.height,
+                          child: GetBuilder<CreateeRouteController>(
+                            init: createRouteController,
+                            initState: (_) async {
+                              //await getMyCurrentLocationController.getMyCurrentLocation();
+                              SetCustomMarkerIconController controller =
+                                  Get.put(SetCustomMarkerIconController());
+                              await controller.setCustomMarkerIcon3();
+                              createRouteController.addMarkerFunction(
+                                const MarkerId("myCurrentMarker"),
+                                LatLng(
+                                    getMyCurrentLocationController
+                                        .myLocationLatitudeDo.value,
+                                    getMyCurrentLocationController
+                                        .myLocationLongitudeDo.value),
+                                'myCurrentMarker',
+                                "",
+                                BitmapDescriptor.fromBytes(
+                                  customMarkerIconController.mayLocationIcon!,
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                            builder: (controller) {
+                              return Obx(
+                                () => SizedBox(
+                                  height: Get.height,
+                                  width: Get.width,
+                                  child: GoogleMap(
+                                    initialCameraPosition: CameraPosition(
+                                      target: LatLng(
+                                        getMyCurrentLocationController
+                                            .myLocationLatitudeDo.value,
+                                        getMyCurrentLocationController
+                                            .myLocationLongitudeDo.value,
+                                      ),
+                                      zoom: 15.0,
+                                    ),
+                                    markers: Set<Marker>.from(
+                                        createRouteController.markers.value),
+                                    myLocationEnabled: true,
+                                    myLocationButtonEnabled: false,
+                                    mapType: MapType.normal,
+                                    zoomGesturesEnabled: true,
+                                    zoomControlsEnabled: false,
+                                    onCameraMoveStarted: () {},
+                                    onCameraMove: (p0) {},
+                                    polygons: const <Polygon>{},
+                                    tileOverlays: const <TileOverlay>{},
+                                    polylines: Set<Polyline>.of(
+                                        createRouteController.polylines.value),
+                                    onMapCreated:
+                                        (GoogleMapController controller) async {
+                                      // createRouteController.generalMapController
+                                      //     .complete(controller);
+                                      // mapCotroller = Completer();
+                                      // mapCotroller.complete(controller);
+                                      createRouteController.mapController =
+                                          controller;
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         Obx(
                           () =>
