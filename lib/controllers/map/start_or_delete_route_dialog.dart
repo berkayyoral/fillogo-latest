@@ -318,6 +318,8 @@ class StartOrRouteRouteDialog {
                         });
                         LocaleManager.instance.setBool(
                             PreferencesKeys.showStartRouteAlert, false);
+                        LocaleManager.instance
+                            .remove(PreferencesKeys.dialogStartRoute);
                       },
                       child: Center(
                         child: Container(

@@ -33,17 +33,21 @@ class LifeCycleController extends GetxController with WidgetsBindingObserver {
       }
       userStateController.update(['onlineUsers']);
       log(state.toString());
+      print("RESUMMEEE");
 
-      if (LocaleManager.instance
-          .getBool(PreferencesKeys.showStartRouteAlert)!) {
+      print(
+          "LİFECYCLE NOTİFY -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
+      if (!LocaleManager.instance
+              .getBool(PreferencesKeys.showStartRouteAlert)! &&
+          LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute) !=
+              null) {
         StartOrRouteRouteDialog.show(
           isStartDatePast: true,
           startCity: LocaleManager.instance
               .getString(PreferencesKeys.dialogStartRoute)!,
           finishCity: LocaleManager.instance
               .getString(PreferencesKeys.dialogFinishRoute)!,
-          departureTime: DateTime.parse(LocaleManager.instance
-              .getCryptedData(PreferencesKeys.dialogDepartureDate)!),
+          departureTime: DateTime.now(),
           routeId:
               LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)!,
         );
