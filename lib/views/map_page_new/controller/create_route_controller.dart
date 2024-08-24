@@ -657,6 +657,8 @@ class CreateRouteController extends GetxController implements PolylineService {
 
                 Get.back();
               }
+              mapPageMController.markers.removeWhere((marker) =>
+                  marker.markerId.value == 'myLocationFinishMarker');
             }
           },
         );

@@ -102,7 +102,7 @@ class FirstOpenIsActiveRoute extends GetxController {
           }
 
           print(
-              "ROTANIZINBİTİSSAATİ gelecek geldi ->  ${jsonEncode(getMyRouteResponseModel.data[0].allRoutes.notStartedRoutes)}");
+              "ROTANIZINBİTİSSAATİ gelecek geldi ->  ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
           if (getMyRouteResponseModel.data != null &&
               getMyRouteResponseModel
@@ -256,6 +256,7 @@ class FirstOpenIsActiveRoute extends GetxController {
 
   @override
   void onInit() {
+    LocaleManager.instance.setBool(PreferencesKeys.showStartRouteAlert, false);
     getIsActiveRoute();
     super.onInit();
   }

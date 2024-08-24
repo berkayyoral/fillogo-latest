@@ -63,9 +63,6 @@ class OneSignalManager {
         if (LocaleManager.instance
                 .getBool(PreferencesKeys.showStartRouteAlert) !=
             null) {
-          LocaleManager.instance
-              .setBool(PreferencesKeys.showStartRouteAlert, false);
-
           print(
               "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
@@ -89,7 +86,9 @@ class OneSignalManager {
           if (!LocaleManager.instance
                   .getBool(PreferencesKeys.showStartRouteAlert)! &&
               userStateController.state.value == AppLifecycleState.resumed) {
-            Get.toNamed(NavigationConstants.bottomNavigationBar);
+            LocaleManager.instance
+                .setBool(PreferencesKeys.showStartRouteAlert, true);
+
             StartOrRouteRouteDialog.show(
                 isStartDatePast: false,
                 startCity: params.first,
@@ -220,24 +219,22 @@ void navigateToPage(
       break;
     case 10: //rotanızın başlangıç saati geldi
       Get.toNamed(NavigationConstants.bottomNavigationBar);
+      if (!LocaleManager.instance
+          .getBool(PreferencesKeys.showStartRouteAlert)!) {
+        StartOrRouteRouteDialog.show(
+            isStartDatePast: false,
+            startCity: params!.first,
+            finishCity: params!.last,
+            routeId: sender,
+            departureTime: startDateRoute!);
+      }
 
-      StartOrRouteRouteDialog.show(
-          isStartDatePast: true,
-          startCity: params!.first,
-          finishCity: params!.last,
-          routeId: sender,
-          departureTime: startDateRoute!);
       // notificationController.isUnOpenedNotification.value = false;
       break;
     case 99: //selektör
       Get.toNamed(NavigationConstants.notifications, arguments: params);
       // notificationController.isUnOpenedNotification.value = false;
-      StartOrRouteRouteDialog.show(
-          isStartDatePast: true,
-          startCity: "aaa",
-          finishCity: "bbb",
-          routeId: sender,
-          departureTime: startDateRoute!);
+
       break;
     // case 3:
     //   WidgetsBinding.instance.addPostFrameCallback((_) async {
