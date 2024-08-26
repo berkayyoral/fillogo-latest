@@ -643,6 +643,13 @@ class CreateRouteController extends GetxController implements PolylineService {
                     0,
                   ));
                 }
+              } else if (response.success == -500) {
+                print("SSASASAA");
+                Get.back();
+                Get.snackbar(
+                  "Hata!",
+                  'Rota Oluştururken bir sorun oluştu. Lütfen tekrar deneyiniz...',
+                );
               } else if (response.success == -1) {
                 createPostPageController.routeId.value = response.data![0].id!;
                 print("ROTASİLOLUŞTUR -> ${jsonEncode(response)}");
@@ -664,6 +671,10 @@ class CreateRouteController extends GetxController implements PolylineService {
         );
       } catch (e) {
         print("CREATEROUTE ERROR -> $e");
+        Get.snackbar(
+          "Hata!",
+          'Rota Oluştururken bir sorun oluştu. Lütfen tekrar deneyiniz...',
+        );
       }
     }
   }

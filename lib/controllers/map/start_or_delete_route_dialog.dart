@@ -210,8 +210,8 @@ class StartOrRouteRouteDialog {
 
                                     await mapPageController.getMyRoutes();
 
-                                    bottomNavigationBarController
-                                        .selectedIndex.value = 1;
+                                    // bottomNavigationBarController
+                                    //     .selectedIndex.value = 1;
                                     // mapPageController.selectedDispley(5);
 
                                     Get.toNamed(NavigationConstants

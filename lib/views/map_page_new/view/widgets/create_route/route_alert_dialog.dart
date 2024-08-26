@@ -437,7 +437,7 @@ class RouteAlertDialog {
                 text: 'Eski rotayı silme',
                 textColor: AppConstants().ltWhite,
                 onpressed: () {
-                  bottomNavigationBarController.selectedIndex.value = 1;
+                  // bottomNavigationBarController.selectedIndex.value = 1;
                   Get.back();
                   Get.back();
                 },
@@ -562,7 +562,7 @@ class RouteAlertDialog {
                 onpressed: () async {
                   MapPageMController mapPageController =
                       Get.find<MapPageMController>();
-                  bottomNavigationBarController.selectedIndex.value = 1;
+                  // bottomNavigationBarController.selectedIndex.value = 1;
                   Get.back();
                   Get.back();
                   Get.back();

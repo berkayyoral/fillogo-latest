@@ -5,5 +5,6 @@ class BottomNavigationBarController extends GetxController {
 
   void changeIndex(int index) {
     selectedIndex.value = index;
+    print("NEWBARINDEX -> ${selectedIndex.value}");
   }
 }

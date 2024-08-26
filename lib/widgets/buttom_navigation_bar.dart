@@ -93,7 +93,7 @@ class BottomNavigationBarView extends StatelessWidget {
                 _drawerControlIndex();
                 if (index == 1) {
                   mapPageMController.getMyLocationInMap();
-                  mapPageMController.getMyRoutes();
+                  // mapPageMController.getMyRoutes();
                 }
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,
