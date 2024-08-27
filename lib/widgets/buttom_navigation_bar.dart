@@ -81,7 +81,7 @@ class BottomNavigationBarView extends StatelessWidget {
         ),
         bottomNavigationBar: Obx(
           () => SizedBox(
-            height: 86.h,
+            height: 93.h,
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               selectedItemColor: AppConstants().ltMainRed,
