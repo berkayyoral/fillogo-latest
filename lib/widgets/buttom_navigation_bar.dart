@@ -93,6 +93,13 @@ class BottomNavigationBarView extends StatelessWidget {
                 _drawerControlIndex();
                 if (index == 1) {
                   mapPageMController.getMyLocationInMap();
+                  if (mapPageMController.isThereActiveRoute.value &&
+                      mapPageMController.polyline != null) {
+                    print("PPOLYLİNE DOLU");
+
+                    mapPageMController.polylines
+                        .add(mapPageMController.polyline!);
+                  }
                   // mapPageMController.getMyRoutes();
                 }
               },

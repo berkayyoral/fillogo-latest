@@ -40,6 +40,7 @@ class MapPageMController extends GetxController implements MapPageService {
   final RxBool isCreateRoute = false.obs;
 
   RxBool isThereActiveRoute = false.obs; //aktif rotam var mı
+  Polyline? polyline;
   RxBool finishRouteButton =
       false.obs; //aktif rotam varsa rotayı bitir butonu görünsün mü
 
@@ -176,7 +177,7 @@ class MapPageMController extends GetxController implements MapPageService {
             isRouteVisibilty.value = !myActivesRoutes.first.isInvisible;
             isRouteAvability.value = myActivesRoutes.first.isAvailable;
             if (isStartRoute) {
-              Polyline? polyline = await PolylineService().getPolyline(
+              polyline = await PolylineService().getPolyline(
                   currentLocationController.myLocationLatitudeDo.value,
                   currentLocationController.myLocationLongitudeDo.value,
                   myActivesRoutes![0].endingCoordinates.first,
