@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/notification_template_icon_group.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/notification_template_part_chronometer.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/notification_template_part_time.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/notification_action.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/notification_action.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/custom_dialog.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/layout/notification_action_tombstone.xml",
+        "source": "fman.ge.smart_auth-core-1.6.0-2:/layout/notification_action_tombstone.xml"
+    }
+]

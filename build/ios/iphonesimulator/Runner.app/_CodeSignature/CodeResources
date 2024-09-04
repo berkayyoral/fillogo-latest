@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		Sy6cbEGqI4UgjcI8ii0ShxL2/+U=
+		g5gKkXY42SnS/pgqRuViPI03ci0=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		423liMPjbEeMDSGuS5qSeOgAtR0=
+		Kh9+pmJjIJEGesxELmqgjtPHl/A=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -766,7 +766,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		pL1TnOutuyJPREpQbK8UglBvUNE=
+		kl6qJgu9zie9BAXfjr7V++c96Qg=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -1974,7 +1974,7 @@
 		</data>
 		<key>Frameworks/video_compress.framework/video_compress</key>
 		<data>
-		QHY0FC+Tpnlox4QoYqAvw6uIgpU=
+		JySsglPfDUygy+6Mnc3iO4xBjTI=
 		</data>
 		<key>Frameworks/video_player_avfoundation.framework/Info.plist</key>
 		<data>
@@ -2819,7 +2819,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		8sf+OJapUHuDv6wVT7A1JCgwnEc=
+		ZaZuKKmv5i8vDotmdUdr1p+Ot8A=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -2946,7 +2946,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4uK2CNW6F90HNCPN/pzZwGMrCg2t6rt6Z0j+7kZRTO0=
+			nHJmOhKQsXhcfIEVnl4l/d9A22dBJWisWB2htarbNks=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -2960,7 +2960,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			YQdOLziEoMXCu+LC+jdF5BzLVOehS2+c2hNGJkJ4SlU=
+			9Tn1w+JwLIETwSJr+CYwOjxinKXAfWMnwhpZtW3zQik=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -4206,7 +4206,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Q3I8c/fPBtGZMqdFSe7GROYtNcVxinQiHZt+J2VZGl4=
+			YhliZmTWxhIJmWdfl7EtjSINAw/rI6mieiXf/MC9YlA=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -5969,7 +5969,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yusgb6xk48hVe13OUHCDm5iOihZk42CGHvntdx9ohbI=
+			NxSFtQx7JOoF7iXahIWOPa+TgF+Q5/A5JjdtqB0RgM4=
 			</data>
 		</dict>
 		<key>Frameworks/video_player_avfoundation.framework/Info.plist</key>

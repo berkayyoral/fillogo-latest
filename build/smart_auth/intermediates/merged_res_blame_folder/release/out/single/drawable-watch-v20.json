@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/drawable-watch-v20/common_google_signin_btn_text_disabled.xml",
+        "source": "fman.ge.smart_auth-jetified-play-services-auth-20.4.0-3:/drawable-watch-v20/common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/drawable-watch-v20/common_google_signin_btn_text_dark_normal.xml",
+        "source": "fman.ge.smart_auth-jetified-play-services-auth-20.4.0-3:/drawable-watch-v20/common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "fman.ge.smart_auth-merged_res-13:/drawable-watch-v20/common_google_signin_btn_text_light_normal.xml",
+        "source": "fman.ge.smart_auth-jetified-play-services-auth-20.4.0-3:/drawable-watch-v20/common_google_signin_btn_text_light_normal.xml"
+    }
+]

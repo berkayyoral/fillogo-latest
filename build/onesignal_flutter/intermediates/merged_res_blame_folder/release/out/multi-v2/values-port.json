@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.onesignal.flutter.onesignal_flutter-merged_res-34:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/4aa144d4b1f54418029b58256fd52f08/transformed/appcompat-1.3.1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.onesignal.flutter.onesignal_flutter-mergeReleaseResources-32:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/4aa144d4b1f54418029b58256fd52f08/transformed/appcompat-1.3.1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+com.baseflow.geolocator.geolocator_android-jetified-window-java-1.0.0-beta04-0 /Users/istechsoft/.gradle/caches/transforms-3/13d8ec095f974a0fb6897eb15cd65faa/transformed/jetified-window-java-1.0.0-beta04/res
+com.baseflow.geolocator.geolocator_android-jetified-annotation-experimental-1.3.0-1 /Users/istechsoft/.gradle/caches/transforms-3/390ecc102c0365d2729c706c8812447c/transformed/jetified-annotation-experimental-1.3.0/res
+com.baseflow.geolocator.geolocator_android-core-1.9.0-2 /Users/istechsoft/.gradle/caches/transforms-3/69492a25637bdc146102a437fc0f4a41/transformed/core-1.9.0/res
+com.baseflow.geolocator.geolocator_android-lifecycle-runtime-2.3.1-3 /Users/istechsoft/.gradle/caches/transforms-3/73aa0a15559c72e31c1189f98615fa83/transformed/lifecycle-runtime-2.3.1/res
+com.baseflow.geolocator.geolocator_android-jetified-play-services-basement-18.1.0-4 /Users/istechsoft/.gradle/caches/transforms-3/cdb753f3e05834a758110a0ec76705b1/transformed/jetified-play-services-basement-18.1.0/res
+com.baseflow.geolocator.geolocator_android-jetified-play-services-base-18.1.0-5 /Users/istechsoft/.gradle/caches/transforms-3/d829287f2f0f9aeaba7a08a58e5615a0/transformed/jetified-play-services-base-18.1.0/res
+com.baseflow.geolocator.geolocator_android-jetified-window-1.0.0-beta04-6 /Users/istechsoft/.gradle/caches/transforms-3/e4147776aed7e14d50370435560766cc/transformed/jetified-window-1.0.0-beta04/res
+com.baseflow.geolocator.geolocator_android-main-7 /Users/istechsoft/.pub-cache/hosted/pub.dev/geolocator_android-4.5.4/android/src/main/res
+com.baseflow.geolocator.geolocator_android-release-8 /Users/istechsoft/.pub-cache/hosted/pub.dev/geolocator_android-4.5.4/android/src/release/res
+com.baseflow.geolocator.geolocator_android-pngs-9 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/generated/res/pngs/release
+com.baseflow.geolocator.geolocator_android-resValues-10 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/generated/res/resValues/release
+com.baseflow.geolocator.geolocator_android-rs-11 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/generated/res/rs/release
+com.baseflow.geolocator.geolocator_android-mergeReleaseResources-12 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.baseflow.geolocator.geolocator_android-mergeReleaseResources-13 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.baseflow.geolocator.geolocator_android-merged_res-14 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/intermediates/merged_res/release

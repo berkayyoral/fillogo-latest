@@ -1,3 +1,4 @@
+import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/export.dart';
@@ -17,6 +18,7 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
 
   MediaPickerController mediaPickerController =
       Get.put(MediaPickerController());
+  BottomNavigationBarController bottomNavigationBarController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,9 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.toNamed('/createPostPageAddRoute');
+                    // Get.toNamed('/createPostPageAddRoute');
+                    bottomNavigationBarController.changeIndex(1);
+                    Get.toNamed(NavigationConstants.bottomNavigationBar);
                   },
                   child: Row(
                     children: [
@@ -143,79 +147,80 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                  vertical: 10.w,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed('/createPostPageAddTags');
-                  },
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/add-tag-icon.svg',
-                        height: 28.w,
-                        width: 28.w,
-                        color: (createPostPageController.haveTag.value == 1)
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltLogoGrey,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15.w,
-                        ),
-                        child: Text(
-                          'Kişileri etiketle',
-                          style: TextStyle(
-                            fontFamily: 'Sfmedium',
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                  vertical: 10.w,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed('/createPostPageAddEmotion');
-                  },
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/add-emotion-icon.svg',
-                        height: 28.w,
-                        width: 28.w,
-                        color:
-                            (createPostPageController.isSelectedEmotion.value)
-                                ? AppConstants().ltMainRed
-                                : AppConstants().ltLogoGrey,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15.w,
-                        ),
-                        child: Text(
-                          'His / hareket ekle',
-                          style: TextStyle(
-                            fontFamily: 'Sfmedium',
-                            fontSize: 14.sp,
-                            color: AppConstants().ltLogoGrey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //     horizontal: 20.w,
+              //     vertical: 10.w,
+              //   ),
+              //   child: InkWell(
+              //     onTap: () {
+              //       Get.toNamed('/createPostPageAddTags');
+              //     },
+              //     child: Row(
+              //       children: [
+              //         SvgPicture.asset(
+              //           'assets/icons/add-tag-icon.svg',
+              //           height: 28.w,
+              //           width: 28.w,
+              //           color: (createPostPageController.haveTag.value == 1)
+              //               ? AppConstants().ltMainRed
+              //               : AppConstants().ltLogoGrey,
+              //         ),
+              //         Padding(
+              //           padding: EdgeInsets.symmetric(
+              //             horizontal: 15.w,
+              //           ),
+              //           child: Text(
+              //             'Kişileri etiketle',
+              //             style: TextStyle(
+              //               fontFamily: 'Sfmedium',
+              //               fontSize: 14.sp,
+              //               color: AppConstants().ltLogoGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //     horizontal: 20.w,
+              //     vertical: 10.w,
+              //   ),
+              //   child: InkWell(
+              //     onTap: () {
+              //       Get.toNamed('/createPostPageAddEmotion');
+              //     },
+              //     child: Row(
+              //       children: [
+              //         SvgPicture.asset(
+              //           'assets/icons/add-emotion-icon.svg',
+              //           height: 28.w,
+              //           width: 28.w,
+              //           color:
+              //               (createPostPageController.isSelectedEmotion.value)
+              //                   ? AppConstants().ltMainRed
+              //                   : AppConstants().ltLogoGrey,
+              //         ),
+              //         Padding(
+              //           padding: EdgeInsets.symmetric(
+              //             horizontal: 15.w,
+              //           ),
+              //           child: Text(
+              //             'His / hareket ekle',
+              //             style: TextStyle(
+              //               fontFamily: 'Sfmedium',
+              //               fontSize: 14.sp,
+              //               color: AppConstants().ltLogoGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

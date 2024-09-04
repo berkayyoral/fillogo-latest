@@ -703,9 +703,9 @@ stream_transform
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/stream_transform-2.1.0/
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/stream_transform-2.1.0/lib/
 string_scanner
-2.18
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/string_scanner-1.2.0/
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/string_scanner-1.2.0/lib/
+3.1
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/string_scanner-1.3.0/
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/string_scanner-1.3.0/lib/
 synchronized
 3.0
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/synchronized-3.1.0+1/
@@ -779,9 +779,9 @@ vector_math
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vector_math-2.1.4/
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vector_math-2.1.4/lib/
 video_compress
-2.16
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.2/
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.2/lib/
+3.0
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.3/
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_compress-3.1.3/lib/
 video_player
 3.1
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player-2.8.5/
@@ -808,8 +808,8 @@ file:///Users/istechsoft/.pub-cache/hosted/pub.dev/visibility_detector-0.4.0+2/
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/visibility_detector-0.4.0+2/lib/
 vm_service
 3.3
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-14.2.1/
-file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-14.2.1/lib/
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-14.2.5/
+file:///Users/istechsoft/.pub-cache/hosted/pub.dev/vm_service-14.2.5/lib/
 web
 3.2
 file:///Users/istechsoft/.pub-cache/hosted/pub.dev/web-0.3.0/

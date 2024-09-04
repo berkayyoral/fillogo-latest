@@ -8,6 +8,7 @@ import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_control
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/user/get_user_car_types.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/postflow/components/new_post_create_button.dart';
 import 'package:fillogo/views/postflow/components/only_route_widget.dart';
 import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
@@ -37,6 +38,7 @@ class _PostFlowViewState extends State<PostFlowView> {
   GetPollylineRequest getPollylineRequest = GetPollylineRequest();
 
   CreateeRouteController createRouteController = Get.find();
+  CreatePostPageController createPostPageController = Get.find();
 
   DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 
@@ -194,7 +196,9 @@ class _PostFlowViewState extends State<PostFlowView> {
                   child: Column(
                     children: [
                       NewPostCreateButtonView(),
-                      StoryFlowWiew(),
+                      Obx(() => createPostPageController.isAddNewStory.value
+                          ? StoryFlowWiew()
+                          : StoryFlowWiew()),
                       Divider(
                         color: AppConstants().ltLogoGrey,
                         height: 2.h,
@@ -214,7 +218,7 @@ class _PostFlowViewState extends State<PostFlowView> {
 
                           return homeContoller.isLoading.value
                               ? CircularProgressIndicator()
-                              : GetBuilder<UserStateController>(
+                              : GetBuilder<HomeController>(
                                   id: 'comment',
                                   builder: (controller) {
                                     return GetBuilder<UserStateController>(

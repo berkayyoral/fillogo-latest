@@ -34,7 +34,7 @@ class HomeController extends GetxController {
     if (response.data!.isNotEmpty) {
       totalPage.value = response.data![0].pagination!.totalPage!;
       for (int i = 0; i < response.data![0].result!.length; i++) {
-        snapshotList.add(response.data![0].result![i]);
+        snapshotList.value.add(response.data![0].result![i]);
         print(
             "BUPINGILIZCENEDEN Ğ-> ${snapshotList[0]!.post!.createdAt!.toString()}");
         print(
@@ -43,6 +43,8 @@ class HomeController extends GetxController {
     }
 
     update(["homePage"]);
+    update(["comment"]);
+    update(["like"]);
   }
 
   void addList(int page) async {

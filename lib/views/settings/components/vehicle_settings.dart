@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'dart:convert';
 
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
@@ -21,8 +23,9 @@ class _VehicleSettingsState extends State<VehicleSettings> {
   UpdateUserProfileRequest updateUserProfileRequest =
       UpdateUserProfileRequest();
   int? carId;
-  int dropdownValue = 0;
+  int dropdownValue = getCarType();
   String? carType;
+
   List<DropdownMenuItem<int>> aracTipleri = [
     DropdownMenuItem<int>(
       value: 0,
@@ -243,11 +246,18 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                     'Authorization':
                                         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                   }).then((value) {
+                                String cartype = dropdownValue == 0
+                                    ? "Tır"
+                                    : dropdownValue == 1
+                                        ? "Otomobil"
+                                        : "Motorsiklet";
                                 var response =
                                     UpdateUserCarInfosResponse.fromJson(
                                         json.decode(value!));
                                 print("cartype aaa -> ${jsonEncode(response)}");
                                 if (response.success == 1) {
+                                  LocaleManager.instance.setString(
+                                      PreferencesKeys.carType, cartype);
                                   Get.offAndToNamed(
                                       NavigationConstants.bottomNavigationBar);
                                   LocaleManager.instance.setString(
@@ -411,5 +421,15 @@ class _VehicleSettingsState extends State<VehicleSettings> {
         ],
       ),
     );
+  }
+
+  static int getCarType() {
+    if (LocaleManager.instance.getString(PreferencesKeys.carType) == "Tır")
+      return 0;
+    else if (LocaleManager.instance.getString(PreferencesKeys.carType) ==
+        "Otomobil")
+      return 1;
+    else
+      return 2;
   }
 }

@@ -1,0 +1,12 @@
+com.hemanthraj.fluttercompass.flutter_compass-jetified-window-java-1.0.0-beta04-0 /Users/istechsoft/.gradle/caches/transforms-3/13d8ec095f974a0fb6897eb15cd65faa/transformed/jetified-window-java-1.0.0-beta04/res
+com.hemanthraj.fluttercompass.flutter_compass-jetified-annotation-experimental-1.1.0-1 /Users/istechsoft/.gradle/caches/transforms-3/2189249056671b99054245b467a9970d/transformed/jetified-annotation-experimental-1.1.0/res
+com.hemanthraj.fluttercompass.flutter_compass-core-1.6.0-2 /Users/istechsoft/.gradle/caches/transforms-3/3b9ccc667e60ab1f545a2617fe3b4a10/transformed/core-1.6.0/res
+com.hemanthraj.fluttercompass.flutter_compass-jetified-window-1.0.0-beta04-3 /Users/istechsoft/.gradle/caches/transforms-3/e4147776aed7e14d50370435560766cc/transformed/jetified-window-1.0.0-beta04/res
+com.hemanthraj.fluttercompass.flutter_compass-main-4 /Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_compass-0.8.0/android/src/main/res
+com.hemanthraj.fluttercompass.flutter_compass-release-5 /Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_compass-0.8.0/android/src/release/res
+com.hemanthraj.fluttercompass.flutter_compass-pngs-6 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/generated/res/pngs/release
+com.hemanthraj.fluttercompass.flutter_compass-resValues-7 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/generated/res/resValues/release
+com.hemanthraj.fluttercompass.flutter_compass-rs-8 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/generated/res/rs/release
+com.hemanthraj.fluttercompass.flutter_compass-mergeReleaseResources-9 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.hemanthraj.fluttercompass.flutter_compass-mergeReleaseResources-10 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.hemanthraj.fluttercompass.flutter_compass-merged_res-11 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/intermediates/merged_res/release

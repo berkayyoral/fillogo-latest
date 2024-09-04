@@ -1,0 +1,81 @@
+com.istechsoft55.fillogo.app-jetified-notifications-5.1.13-0 /Users/istechsoft/.gradle/caches/transforms-3/00d4c74909a1bf7794c7b139f9c2c761/transformed/jetified-notifications-5.1.13/res
+com.istechsoft55.fillogo.app-jetified-activity-1.7.2-1 /Users/istechsoft/.gradle/caches/transforms-3/043315d785bf0e5333c593a61056837d/transformed/jetified-activity-1.7.2/res
+com.istechsoft55.fillogo.app-jetified-core-5.1.13-2 /Users/istechsoft/.gradle/caches/transforms-3/099546b45931dedb754599df47bb381d/transformed/jetified-core-5.1.13/res
+com.istechsoft55.fillogo.app-jetified-window-java-1.0.0-beta04-3 /Users/istechsoft/.gradle/caches/transforms-3/13d8ec095f974a0fb6897eb15cd65faa/transformed/jetified-window-java-1.0.0-beta04/res
+com.istechsoft55.fillogo.app-jetified-savedstate-1.2.1-4 /Users/istechsoft/.gradle/caches/transforms-3/18bd3ca41932993011471b4377cafd0d/transformed/jetified-savedstate-1.2.1/res
+com.istechsoft55.fillogo.app-lifecycle-livedata-core-2.6.1-5 /Users/istechsoft/.gradle/caches/transforms-3/25bebe12d32df6dbafb21a4512f136d1/transformed/lifecycle-livedata-core-2.6.1/res
+com.istechsoft55.fillogo.app-lifecycle-livedata-2.6.1-6 /Users/istechsoft/.gradle/caches/transforms-3/28daa035cb3ae4f6d7687777efb09563/transformed/lifecycle-livedata-2.6.1/res
+com.istechsoft55.fillogo.app-lifecycle-viewmodel-2.6.1-7 /Users/istechsoft/.gradle/caches/transforms-3/29a659b7ed74c2f3d4cd984205c3af45/transformed/lifecycle-viewmodel-2.6.1/res
+com.istechsoft55.fillogo.app-jetified-play-services-maps-18.2.0-8 /Users/istechsoft/.gradle/caches/transforms-3/34e5e276bd457011bf7a7baf513ff30a/transformed/jetified-play-services-maps-18.2.0/res
+com.istechsoft55.fillogo.app-constraintlayout-2.1.4-9 /Users/istechsoft/.gradle/caches/transforms-3/37cdc8a6a9a78daf5a1b95470adb4a4f/transformed/constraintlayout-2.1.4/res
+com.istechsoft55.fillogo.app-jetified-annotation-experimental-1.3.0-10 /Users/istechsoft/.gradle/caches/transforms-3/390ecc102c0365d2729c706c8812447c/transformed/jetified-annotation-experimental-1.3.0/res
+com.istechsoft55.fillogo.app-core-1.10.1-11 /Users/istechsoft/.gradle/caches/transforms-3/4567596b7597d85f8669291b1ed9ae8e/transformed/core-1.10.1/res
+com.istechsoft55.fillogo.app-lifecycle-runtime-2.6.1-12 /Users/istechsoft/.gradle/caches/transforms-3/491354a88d8eeb4871f4d6ae5e808b66/transformed/lifecycle-runtime-2.6.1/res
+com.istechsoft55.fillogo.app-work-runtime-2.8.1-13 /Users/istechsoft/.gradle/caches/transforms-3/49561e7fcee4c2efd978d6cb862124e0/transformed/work-runtime-2.8.1/res
+com.istechsoft55.fillogo.app-jetified-appcompat-resources-1.3.0-14 /Users/istechsoft/.gradle/caches/transforms-3/4a2f29873e1b4e24c31b7c2dade92e8f/transformed/jetified-appcompat-resources-1.3.0/res
+com.istechsoft55.fillogo.app-room-runtime-2.5.0-15 /Users/istechsoft/.gradle/caches/transforms-3/4f1e5471baa1f576f6e5612a22956175/transformed/room-runtime-2.5.0/res
+com.istechsoft55.fillogo.app-transition-1.4.1-16 /Users/istechsoft/.gradle/caches/transforms-3/5bf19e045b1228a02dce4429c52552e2/transformed/transition-1.4.1/res
+com.istechsoft55.fillogo.app-jetified-play-services-auth-20.4.0-17 /Users/istechsoft/.gradle/caches/transforms-3/615d190451d4244dfa042c2bc3e18cf4/transformed/jetified-play-services-auth-20.4.0/res
+com.istechsoft55.fillogo.app-jetified-in-app-messages-5.1.13-18 /Users/istechsoft/.gradle/caches/transforms-3/64d9e06e18c91a900b77a9502deb9011/transformed/jetified-in-app-messages-5.1.13/res
+com.istechsoft55.fillogo.app-coordinatorlayout-1.0.0-19 /Users/istechsoft/.gradle/caches/transforms-3/6ad07bdb39f4f38958ed86c1e1f2f08d/transformed/coordinatorlayout-1.0.0/res
+com.istechsoft55.fillogo.app-jetified-firebase-messaging-23.4.0-20 /Users/istechsoft/.gradle/caches/transforms-3/6e7b0d625e9079b5616f69bb1628d03d/transformed/jetified-firebase-messaging-23.4.0/res
+com.istechsoft55.fillogo.app-jetified-core-ktx-1.10.1-21 /Users/istechsoft/.gradle/caches/transforms-3/71dadfced51fea7d4ca450285da983b6/transformed/jetified-core-ktx-1.10.1/res
+com.istechsoft55.fillogo.app-sqlite-framework-2.3.0-22 /Users/istechsoft/.gradle/caches/transforms-3/735f2d4f6afea9836dd886a12b4b251e/transformed/sqlite-framework-2.3.0/res
+com.istechsoft55.fillogo.app-work-runtime-ktx-2.8.1-23 /Users/istechsoft/.gradle/caches/transforms-3/79ac371f91bf052f2a8914ebc3465edb/transformed/work-runtime-ktx-2.8.1/res
+com.istechsoft55.fillogo.app-jetified-play-services-ads-22.0.0-24 /Users/istechsoft/.gradle/caches/transforms-3/7c4fb229c9bc1a38769c1978f33b3856/transformed/jetified-play-services-ads-22.0.0/res
+com.istechsoft55.fillogo.app-jetified-location-5.1.13-25 /Users/istechsoft/.gradle/caches/transforms-3/82bb1ea64a2a871c23ccb53c8f685837/transformed/jetified-location-5.1.13/res
+com.istechsoft55.fillogo.app-jetified-exoplayer-core-2.18.7-26 /Users/istechsoft/.gradle/caches/transforms-3/832f94adbd37576269fd5bca09802a4d/transformed/jetified-exoplayer-core-2.18.7/res
+com.istechsoft55.fillogo.app-jetified-play-services-ads-lite-22.0.0-27 /Users/istechsoft/.gradle/caches/transforms-3/837413964e0686ebd95d92ba843b5687/transformed/jetified-play-services-ads-lite-22.0.0/res
+com.istechsoft55.fillogo.app-webkit-1.7.0-28 /Users/istechsoft/.gradle/caches/transforms-3/8fcebf32973a5614b4654e985b50ae0a/transformed/webkit-1.7.0/res
+com.istechsoft55.fillogo.app-jetified-lifecycle-process-2.6.1-29 /Users/istechsoft/.gradle/caches/transforms-3/9b1608431daa2920c4c161f4c2961306/transformed/jetified-lifecycle-process-2.6.1/res
+com.istechsoft55.fillogo.app-core-runtime-2.2.0-30 /Users/istechsoft/.gradle/caches/transforms-3/9e84f95b9544b14f220debac4935d149/transformed/core-runtime-2.2.0/res
+com.istechsoft55.fillogo.app-sqlite-2.3.0-31 /Users/istechsoft/.gradle/caches/transforms-3/ad3f24b5aa093f2293f57dc8245cfe9c/transformed/sqlite-2.3.0/res
+com.istechsoft55.fillogo.app-jetified-lifecycle-viewmodel-savedstate-2.6.1-32 /Users/istechsoft/.gradle/caches/transforms-3/b3f756729e70f7fbf69bca03fb682b6a/transformed/jetified-lifecycle-viewmodel-savedstate-2.6.1/res
+com.istechsoft55.fillogo.app-cardview-1.0.0-33 /Users/istechsoft/.gradle/caches/transforms-3/b62326a897706432968fe6bfdeaa3910/transformed/cardview-1.0.0/res
+com.istechsoft55.fillogo.app-jetified-lifecycle-service-2.6.1-34 /Users/istechsoft/.gradle/caches/transforms-3/c36b192c71f2c21f639665cbd89a3a98/transformed/jetified-lifecycle-service-2.6.1/res
+com.istechsoft55.fillogo.app-jetified-startup-runtime-1.1.1-35 /Users/istechsoft/.gradle/caches/transforms-3/c3b9197104e0d6ac489e3bef78f35244/transformed/jetified-startup-runtime-1.1.1/res
+com.istechsoft55.fillogo.app-browser-1.5.0-36 /Users/istechsoft/.gradle/caches/transforms-3/ccc6cd960b4c54270a88c059873fc900/transformed/browser-1.5.0/res
+com.istechsoft55.fillogo.app-jetified-play-services-basement-18.1.0-37 /Users/istechsoft/.gradle/caches/transforms-3/cdb753f3e05834a758110a0ec76705b1/transformed/jetified-play-services-basement-18.1.0/res
+com.istechsoft55.fillogo.app-jetified-play-services-base-18.1.0-38 /Users/istechsoft/.gradle/caches/transforms-3/d829287f2f0f9aeaba7a08a58e5615a0/transformed/jetified-play-services-base-18.1.0/res
+com.istechsoft55.fillogo.app-appcompat-1.3.0-39 /Users/istechsoft/.gradle/caches/transforms-3/d84e1fc3d3970fae04adb25905ebdbd4/transformed/appcompat-1.3.0/res
+com.istechsoft55.fillogo.app-jetified-firebase-common-20.4.2-40 /Users/istechsoft/.gradle/caches/transforms-3/dca410be91f455d2d6c4bd4d6e0bf97e/transformed/jetified-firebase-common-20.4.2/res
+com.istechsoft55.fillogo.app-jetified-window-1.0.0-beta04-41 /Users/istechsoft/.gradle/caches/transforms-3/e4147776aed7e14d50370435560766cc/transformed/jetified-window-1.0.0-beta04/res
+com.istechsoft55.fillogo.app-media-1.1.0-42 /Users/istechsoft/.gradle/caches/transforms-3/e64a37200faf8cf236e668107888bc5a/transformed/media-1.1.0/res
+com.istechsoft55.fillogo.app-jetified-ucrop-2.2.8-43 /Users/istechsoft/.gradle/caches/transforms-3/f36866fe9d842f6b414ab4848b6df518/transformed/jetified-ucrop-2.2.8/res
+com.istechsoft55.fillogo.app-jetified-profileinstaller-1.3.0-44 /Users/istechsoft/.gradle/caches/transforms-3/f732946144e879fcfd2ceafa45353a0e/transformed/jetified-profileinstaller-1.3.0/res
+com.istechsoft55.fillogo.app-fragment-1.3.4-45 /Users/istechsoft/.gradle/caches/transforms-3/fda44f2dd2605609624277d7f1206707/transformed/fragment-1.3.4/res
+com.istechsoft55.fillogo.app-main-46 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/android/app/src/main/res
+com.istechsoft55.fillogo.app-release-47 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/android/app/src/release/res
+com.istechsoft55.fillogo.app-pngs-48 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/generated/res/pngs/release
+com.istechsoft55.fillogo.app-resValues-49 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/generated/res/resValues/release
+com.istechsoft55.fillogo.app-rs-50 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/generated/res/rs/release
+com.istechsoft55.fillogo.app-mergeReleaseResources-51 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.istechsoft55.fillogo.app-mergeReleaseResources-52 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.istechsoft55.fillogo.app-merged_res-53 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/app/intermediates/merged_res/release
+com.istechsoft55.fillogo.app-packaged_res-54 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/connectivity_plus/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-55 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-56 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_background_service_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-57 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_compass/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-58 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_local_notifications/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-59 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_native_splash/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-60 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-61 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geocoding_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-62 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/geolocator_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-63 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/google_api_headers/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-64 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/google_maps_flutter_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-65 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/google_mobile_ads/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-66 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/image_cropper/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-67 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/image_picker_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-68 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/location/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-69 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/onesignal_flutter/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-70 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/package_info_plus/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-71 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/path_provider_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-72 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/permission_handler_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-73 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/share_plus/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-74 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/shared_preferences_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-75 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/smart_auth/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-76 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-77 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/url_launcher_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-78 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/video_compress/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-79 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/video_player_android/intermediates/packaged_res/release
+com.istechsoft55.fillogo.app-packaged_res-80 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/webview_flutter_android/intermediates/packaged_res/release

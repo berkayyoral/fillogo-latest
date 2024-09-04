@@ -1,0 +1,12 @@
+com.tekartik.sqflite-jetified-window-java-1.0.0-beta04-0 /Users/istechsoft/.gradle/caches/transforms-3/13d8ec095f974a0fb6897eb15cd65faa/transformed/jetified-window-java-1.0.0-beta04/res
+com.tekartik.sqflite-jetified-annotation-experimental-1.1.0-1 /Users/istechsoft/.gradle/caches/transforms-3/2189249056671b99054245b467a9970d/transformed/jetified-annotation-experimental-1.1.0/res
+com.tekartik.sqflite-core-1.6.0-2 /Users/istechsoft/.gradle/caches/transforms-3/3b9ccc667e60ab1f545a2617fe3b4a10/transformed/core-1.6.0/res
+com.tekartik.sqflite-jetified-window-1.0.0-beta04-3 /Users/istechsoft/.gradle/caches/transforms-3/e4147776aed7e14d50370435560766cc/transformed/jetified-window-1.0.0-beta04/res
+com.tekartik.sqflite-main-4 /Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite-2.3.2/android/src/main/res
+com.tekartik.sqflite-release-5 /Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite-2.3.2/android/src/release/res
+com.tekartik.sqflite-pngs-6 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/generated/res/pngs/release
+com.tekartik.sqflite-resValues-7 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/generated/res/resValues/release
+com.tekartik.sqflite-rs-8 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/generated/res/rs/release
+com.tekartik.sqflite-mergeReleaseResources-9 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.tekartik.sqflite-mergeReleaseResources-10 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.tekartik.sqflite-merged_res-11 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/sqflite/intermediates/merged_res/release

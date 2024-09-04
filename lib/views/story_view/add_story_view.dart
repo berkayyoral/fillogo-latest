@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/models/stories/create_story.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
@@ -21,6 +22,7 @@ class _AddStoryViewState extends State<AddStoryView> {
   MediaPickerController mediaPickerController =
       Get.put(MediaPickerController());
 
+  HomeController homeController = Get.put(HomeController());
   var imageFile;
   @override
   Widget build(BuildContext context) {
@@ -120,6 +122,8 @@ class _AddStoryViewState extends State<AddStoryView> {
                           final response =
                               CreateStoryResponse.fromJson(jsonDecode(value));
                           if (response.success == 1) {
+                            createPostPageController.isAddNewStory.value = true;
+                            homeController.update();
                             Get.back();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

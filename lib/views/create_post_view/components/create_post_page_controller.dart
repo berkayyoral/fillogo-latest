@@ -8,6 +8,7 @@ import 'package:fillogo/models/search/user/search_user_response.dart';
 class CreatePostPageController extends GetxController {
   File? imageFile;
 
+  RxBool isAddNewStory = false.obs;
   var selectedOption = EmotionData().obs;
 
   setSelectedOption(EmotionData option) {

@@ -50,6 +50,7 @@ class CreatePostPageView extends StatelessWidget {
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
+  HomeController homeController = Get.put(HomeController());
   TextEditingController discriptionTextController = TextEditingController();
 
   MfuController mfuController = Get.find<MfuController>();
@@ -249,6 +250,7 @@ class CreatePostPageView extends StatelessWidget {
                       text: 'Gönderi Oluştur',
                       textColor: AppConstants().ltWhite,
                       onpressed: () async {
+                        homeController.isLoading.value = true;
                         if (createPostPageController.haveDiscription.value ==
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
@@ -320,15 +322,17 @@ class CreatePostPageView extends StatelessWidget {
                                     1) {
                                   bottomNavigationBarController
                                       .selectedIndex.value = 1;
+                                  homeController.currentPage.value = 1;
+                                  homeController.scrollOffset.value = 600;
+                                  homeController.snapshotList.clear();
+                                  homeController.fillList(1);
                                 } else {
-                                  final HomeController homeContoller =
-                                      Get.put(HomeController());
                                   bottomNavigationBarController
                                       .selectedIndex.value = 0;
-                                  homeContoller.currentPage.value = 1;
-                                  homeContoller.scrollOffset.value = 600;
-                                  homeContoller.snapshotList.clear();
-                                  homeContoller.fillList(1);
+                                  homeController.currentPage.value = 1;
+                                  homeController.scrollOffset.value = 600;
+                                  homeController.snapshotList.clear();
+                                  homeController.fillList(1);
                                 }
 
                                 showDialog(
@@ -342,6 +346,9 @@ class CreatePostPageView extends StatelessWidget {
                               }
                             }
                           });
+
+                          homeController.isLoading.value = false;
+                          homeController.update();
                         }
                       },
                       iconPath: '',
@@ -398,7 +405,12 @@ class CreatePostPageView extends StatelessWidget {
           //     onPressed1: () {
           //       createPostPageController.clearPostCreateInfoController();
 
+          homeController.currentPage.value = 1;
+          homeController.scrollOffset.value = 600;
+          homeController.snapshotList.clear();
+          homeController.fillList(1);
           Get.back();
+          homeController.update();
           //     },
           //     onPressed2: () {
           //       createPostPageController.clearPostCreateInfoController();
@@ -579,14 +591,15 @@ class CreatePostPageView extends StatelessWidget {
                 text: 'Tamam',
                 textColor: AppConstants().ltWhite,
                 onpressed: () async {
+                  Get.back();
                   // MapPageController mapPageController =
                   //     Get.find<MapPageController>();
                   MapPageMController mapPageController = Get.find();
                   GetMyCurrentLocationController
                       getMyCurrentLocationController = Get.find();
                   createPostPageController.clearPostCreateInfoController();
-                  Get.back();
-                  Get.back();
+
+                  Get.toNamed(NavigationConstants.bottomNavigationBar);
                   GoogleMapController googleMapController =
                       mapPageController.mapController!;
                   googleMapController.animateCamera(
@@ -602,8 +615,6 @@ class CreatePostPageView extends StatelessWidget {
                       ),
                     ),
                   );
-
-                  Get.back();
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,

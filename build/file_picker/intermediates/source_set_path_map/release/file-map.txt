@@ -1,0 +1,13 @@
+com.mr.flutter.plugin.filepicker.file_picker-jetified-window-java-1.0.0-beta04-0 /Users/istechsoft/.gradle/caches/transforms-3/13d8ec095f974a0fb6897eb15cd65faa/transformed/jetified-window-java-1.0.0-beta04/res
+com.mr.flutter.plugin.filepicker.file_picker-jetified-annotation-experimental-1.1.0-1 /Users/istechsoft/.gradle/caches/transforms-3/2189249056671b99054245b467a9970d/transformed/jetified-annotation-experimental-1.1.0/res
+com.mr.flutter.plugin.filepicker.file_picker-core-1.6.0-2 /Users/istechsoft/.gradle/caches/transforms-3/3b9ccc667e60ab1f545a2617fe3b4a10/transformed/core-1.6.0/res
+com.mr.flutter.plugin.filepicker.file_picker-jetified-window-1.0.0-beta04-3 /Users/istechsoft/.gradle/caches/transforms-3/e4147776aed7e14d50370435560766cc/transformed/jetified-window-1.0.0-beta04/res
+com.mr.flutter.plugin.filepicker.file_picker-main-4 /Users/istechsoft/.pub-cache/hosted/pub.dev/file_picker-6.2.1/android/src/main/res
+com.mr.flutter.plugin.filepicker.file_picker-release-5 /Users/istechsoft/.pub-cache/hosted/pub.dev/file_picker-6.2.1/android/src/release/res
+com.mr.flutter.plugin.filepicker.file_picker-pngs-6 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/generated/res/pngs/release
+com.mr.flutter.plugin.filepicker.file_picker-resValues-7 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/generated/res/resValues/release
+com.mr.flutter.plugin.filepicker.file_picker-rs-8 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/generated/res/rs/release
+com.mr.flutter.plugin.filepicker.file_picker-mergeReleaseResources-9 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.mr.flutter.plugin.filepicker.file_picker-mergeReleaseResources-10 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.mr.flutter.plugin.filepicker.file_picker-merged_res-11 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/file_picker/intermediates/merged_res/release
+com.mr.flutter.plugin.filepicker.file_picker-packaged_res-12 /Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release

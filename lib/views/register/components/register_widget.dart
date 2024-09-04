@@ -137,6 +137,11 @@ class RegisterWidget extends StatelessWidget {
                 registerController.emailController.value = userEmail;
                 registerController.containerHeight.value = 540.h;
                 registerController.processCounter.value++;
+                LocaleManager.instance.setString(
+                    PreferencesKeys.currentUserName, nameController.value.text);
+                LocaleManager.instance.setString(
+                    PreferencesKeys.currentUserSurname,
+                    surNameController.value.text);
               }
             },
             title: 'Devam Et',

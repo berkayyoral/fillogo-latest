@@ -32,7 +32,7 @@ class StoryFlowWiew extends StatelessWidget {
                       'Content-Type': 'application/json',
                     },
                   ).then((value2) {
-                    print("value2$value2");
+                    print("value2 ss$value2");
                     if (value2 != null) {
                       return HaveIStory.fromJson(json.decode(value2));
                     }
@@ -43,7 +43,6 @@ class StoryFlowWiew extends StatelessWidget {
                       if (snapshot2.data!.success == 1) {
                         haveIStory.value = true;
                         return FriendsStoryView(
-                        
                           storyImageUrl:
                               snapshot2.data!.data![0].stories!.result![0].url!,
                           profileImageUrl: snapshot2.data!.data![0].stories!
@@ -83,7 +82,7 @@ class StoryFlowWiew extends StatelessWidget {
                             'Content-Type': 'application/json',
                           },
                         ).then((value2) {
-                          print("value2$value2");
+                          print("value2 hh$value2");
                           if (value2 != null) {
                             return HaveIStory.fromJson(json.decode(value2));
                           }
@@ -93,7 +92,7 @@ class StoryFlowWiew extends StatelessWidget {
                           if (snapshot2.hasData) {
                             if (snapshot2.data!.success == 1) {
                               haveIStory.value = true;
-                              
+
                               return const SizedBox();
                             }
                             return const SizedBox();

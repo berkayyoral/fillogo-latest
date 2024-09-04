@@ -23,7 +23,8 @@ class AddVehicleInfoWidget extends StatelessWidget {
   final TextEditingController modelController = TextEditingController();
   final TextEditingController plateController = TextEditingController();
   bool isAlphabetic(String input) {
-    final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ]+$');
+    // final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ]+$');
+    final alphabetic = RegExp(r'^[a-zA-ZğĞüÜıİöÖçÇşŞ\s]+$');
     return alphabetic.hasMatch(input);
   }
 
@@ -145,7 +146,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                   }
                 },
                 textInputAction: TextInputAction.done,
-                labelText: 'Kapasite',
+                labelText: 'Kapasite (yük kg)',
                 controller: capacityController,
                 keyboardType: TextInputType.number,
               ),
@@ -346,6 +347,14 @@ class AddVehicleInfoWidget extends StatelessWidget {
                                         LocaleManager.instance.setInt(
                                             PreferencesKeys.carTypeId,
                                             selectedIndex.value + 1);
+                                        String carType =
+                                            selectedIndex.value == 0
+                                                ? "Tır"
+                                                : selectedIndex.value == 1
+                                                    ? "Otomobil"
+                                                    : "Motorsiklet";
+                                        LocaleManager.instance.setString(
+                                            PreferencesKeys.carType, carType);
                                         Get.back();
 
                                         // log(response.data![0].user!.id!.toString());

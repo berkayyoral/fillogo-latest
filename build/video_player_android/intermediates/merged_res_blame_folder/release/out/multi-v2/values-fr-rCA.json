@@ -1,0 +1,68 @@
+{
+    "logs": [
+        {
+            "outputFile": "io.flutter.plugins.videoplayer.video_player_android-merged_res-12:/values-fr-rCA/values-fr-rCA.xml",
+            "map": [
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/832f94adbd37576269fd5bca09802a4d/transformed/jetified-exoplayer-core-2.18.7/res/values-fr-rCA/values-fr-rCA.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,129,194,272,344,427,503,600,693",
+                        "endColumns": "73,64,77,71,82,75,96,92,91",
+                        "endOffsets": "124,189,267,339,422,498,595,688,780"
+                    }
+                },
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/5f2c4498d3e1682389b8b866a0016b73/transformed/core-1.7.0/res/values-fr-rCA/values-fr-rCA.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "785",
+                        "endColumns": "100",
+                        "endOffsets": "881"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "io.flutter.plugins.videoplayer.video_player_android-mergeReleaseResources-10:/values-fr-rCA/values-fr-rCA.xml",
+            "map": [
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/832f94adbd37576269fd5bca09802a4d/transformed/jetified-exoplayer-core-2.18.7/res/values-fr-rCA/values-fr-rCA.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,129,194,272,344,427,503,600,693",
+                        "endColumns": "73,64,77,71,82,75,96,92,91",
+                        "endOffsets": "124,189,267,339,422,498,595,688,780"
+                    }
+                },
+                {
+                    "source": "/Users/istechsoft/.gradle/caches/transforms-3/5f2c4498d3e1682389b8b866a0016b73/transformed/core-1.7.0/res/values-fr-rCA/values-fr-rCA.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "785",
+                        "endColumns": "100",
+                        "endOffsets": "881"
+                    }
+                }
+            ]
+        }
+    ]
+}

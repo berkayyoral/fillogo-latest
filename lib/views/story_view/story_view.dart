@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/stories/stories_pagination.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/stories/delete_story.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:story_view/story_view.dart';
 
@@ -23,6 +25,8 @@ class _StoriesViewState extends State<StoriesView> {
   StoriesPaginationController storiesController =
       Get.put(StoriesPaginationController());
 
+  CreatePostPageController createPostPageController = Get.find();
+
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
@@ -34,6 +38,7 @@ class _StoriesViewState extends State<StoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    HomeController homeController = Get.put(HomeController());
     return Scaffold(
         body: GetBuilder<StoriesPaginationController>(
             id: "userStories",
@@ -176,6 +181,14 @@ class _StoriesViewState extends State<StoriesView> {
                                                             storyController
                                                                 .dispose();
                                                             Get.back();
+                                                            createPostPageController
+                                                                .isAddNewStory
+                                                                .value = true;
+                                                            homeController
+                                                                .update();
+                                                            createPostPageController
+                                                                .isAddNewStory
+                                                                .value = false;
                                                           } else {
                                                             print(response
                                                                 .message);
@@ -442,6 +455,15 @@ class _StoriesViewState extends State<StoriesView> {
                                                                       Get.back();
                                                                       storyController
                                                                           .dispose();
+                                                                      createPostPageController
+                                                                          .isAddNewStory
+                                                                          .value = true;
+
+                                                                      homeController
+                                                                          .update();
+                                                                      createPostPageController
+                                                                          .isAddNewStory
+                                                                          .value = false;
                                                                       Get.back();
                                                                     } else {
                                                                       print(response
