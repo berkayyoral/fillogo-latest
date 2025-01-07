@@ -32,14 +32,14 @@ class ConnectionView extends StatelessWidget {
     return [
       Tab(child: Text("${connectionsController.followerCount} Takipçi")),
       Tab(child: Text("${connectionsController.followingCount} Takip Edilen")),
-      Tab(child: Text("${connectionsController.routeCount}  Rotalar")),
+      // Tab(child: Text("${connectionsController.routeCount}  Rotalar")),
     ];
   }
 
   final List<Widget> tabBarViewList = [
     const FollowersView(),
     const FollowingView(),
-    RoutesView(),
+    // RoutesView(),
   ];
 
   AppBarGenel buildAppbar(ConnectionsController connectionsController) {

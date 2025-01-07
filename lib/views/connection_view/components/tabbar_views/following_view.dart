@@ -38,7 +38,10 @@ class _FollowingViewState extends State<FollowingView> {
       SearchFollowingResponse.fromJson(
         json.decode(value!),
       );
-      print("BURDAYIM -> ${jsonEncode(value)}");
+      SearchFollowingResponse response = SearchFollowingResponse.fromJson(
+        json.decode(value!),
+      );
+      print("BURDAYIM -> ${response.data!.length}");
     });
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);

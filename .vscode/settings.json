@@ -1,3 +1,5 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.sourceDirectory": "/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/linux",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

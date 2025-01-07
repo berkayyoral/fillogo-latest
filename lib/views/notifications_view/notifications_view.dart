@@ -221,8 +221,6 @@ class NotificationsView extends StatelessWidget {
                                   '${notificationList[index].sender!.id}' //,
                               ),
                         ));
-                    LocalNotificationService()
-                        .showNotification(title: " bbb", body: "aaa");
                   } else if (notificationList[index].type! == 2) {
                     startEndAdressController.startAdress.value = 'İstanbul';
                     startEndAdressController.endAdress.value = 'Samsun';

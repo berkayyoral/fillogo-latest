@@ -67,7 +67,7 @@ class SetCustomMarkerIconController extends GetxController {
         LocaleManager.instance.getString(PreferencesKeys.carType);
 
     isOffVisibility =
-        LocaleManager.instance.getBool(PreferencesKeys.isVisibility)!;
+        LocaleManager.instance.getBool(PreferencesKeys.isVisibility) ?? false;
     print(" iconcont visib -> ${isOffVisibility}");
     String iconPath;
     if (myCarType != null) {

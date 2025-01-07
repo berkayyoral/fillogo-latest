@@ -2,7 +2,8 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 
 class PopupPostDetails extends StatelessWidget {
-  PopupPostDetails({Key? key, required this.deletePost,this.deletePostOnTap}) : super(key: key);
+  PopupPostDetails({Key? key, required this.deletePost, this.deletePostOnTap})
+      : super(key: key);
 
   var isSavePost = false.obs;
   var removeThisUserPost = false.obs;
@@ -12,6 +13,7 @@ class PopupPostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // if(LocaleManager.instance.getInt(PreferencesKeys.currentUserId) =)
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SingleChildScrollView(
@@ -19,7 +21,7 @@ class PopupPostDetails extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.all(12.w),
           width: Get.width,
-          height: deletePost == true ? 220.h : 180.h,
+          height: deletePost == true ? 180.h : 120.h,
           child: Column(
             children: [
               Divider(
@@ -28,84 +30,85 @@ class PopupPostDetails extends StatelessWidget {
                   height: 2.5.h,
                   thickness: 2.5.h,
                   color: AppConstants().ltBlack),
-              Obx(
-                () => GestureDetector(
-                  onTap: () {
-                    isSavePost.value = !isSavePost.value;
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 12.w, top: 12.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          isSavePost.value == false
-                              ? "assets/icons/dont-save-icon.svg"
-                              : "assets/icons/save-icon.svg",
-                          height: 32.h,
-                          width: 32.w,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Gönderiyi Kaydet",
-                                style: TextStyle(
-                                    fontFamily: "Sfmedium",
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 14.sp),
-                              ),
-                              Text(
-                                "Bu öğeyi daha sonrası için kaydet",
-                                style: TextStyle(
-                                    fontFamily: "Sflight",
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 12.sp),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // Obx(
+              //   () => GestureDetector(
+              //     onTap: () {
+              //       isSavePost.value = !isSavePost.value;
+              //     },
+              //     child: Padding(
+              //       padding: EdgeInsets.only(left: 12.w, top: 12.h),
+              //       child: Row(
+              //         children: [
+              //           SvgPicture.asset(
+              //             isSavePost.value == false
+              //                 ? "assets/icons/dont-save-icon.svg"
+              //                 : "assets/icons/save-icon.svg",
+              //             height: 32.h,
+              //             width: 32.w,
+              //           ),
+              //           Padding(
+              //             padding: EdgeInsets.only(left: 10.w),
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Text(
+              //                   "Gönderiyi Kaydet",
+              //                   style: TextStyle(
+              //                       fontFamily: "Sfmedium",
+              //                       color: AppConstants().ltLogoGrey,
+              //                       fontSize: 14.sp),
+              //                 ),
+              //                 Text(
+              //                   "Bu öğeyi daha sonrası için kaydet",
+              //                   style: TextStyle(
+              //                       fontFamily: "Sflight",
+              //                       color: AppConstants().ltLogoGrey,
+              //                       fontSize: 12.sp),
+              //                 ),
+              //               ],
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
               const DummyBox15(),
-              Obx(
-                () => GestureDetector(
-                  onTap: () {
-                    removeThisUserPost.value =
-                        removeThisUserPost.value == false ? true : false;
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 12.w),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/eye-slash.svg"),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Wrap(
-                            runSpacing: 2,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Text(
-                                removeThisUserPost.value == false
-                                    ? 'Bu kişinin gönderilerini görmek istemiyorum'
-                                    : 'Bu kişinin gönderilerini gizlendi',
-                                style: TextStyle(
-                                    fontFamily: "Sfmedium",
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 14.sp),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // Obx(
+              //   () => GestureDetector(
+              //     onTap: () {
+              //       removeThisUserPost.value =
+              //           removeThisUserPost.value == false ? true : false;
+              //     },
+              //     child: Padding(
+              //       padding: EdgeInsets.only(left: 12.w),
+              //       child: Row(
+              //         children: [
+              //           SvgPicture.asset("assets/icons/eye-slash.svg"),
+              //           Padding(
+              //             padding: EdgeInsets.only(left: 10.w),
+              //             child: Wrap(
+              //               runSpacing: 2,
+              //               crossAxisAlignment: WrapCrossAlignment.center,
+              //               children: [
+              //                 Text(
+              //                   removeThisUserPost.value == false
+              //                       ? 'Bu kişinin gönderilerini görmek istemiyorum'
+              //                       : 'Bu kişinin gönderilerini gizlendi',
+              //                   style: TextStyle(
+              //                       fontFamily: "Sfmedium",
+              //                       color: AppConstants().ltLogoGrey,
+              //                       fontSize: 14.sp),
+              //                 ),
+              //               ],
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),7
               const DummyBox15(),
               Obx(
                 () => GestureDetector(

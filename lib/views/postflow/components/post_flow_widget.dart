@@ -340,27 +340,34 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                             if (response.data![0].removed == true) {
                               likeCountController.lastLikeCount =
                                   likeCountController.lastLikeCount + 1;
-
-                              SocketService.instance().socket.emit(
-                                  'notification',
-                                  NotificationModel(
-                                    sender: LocaleManager.instance
-                                        .getInt(PreferencesKeys.currentUserId),
-                                    receiver: widget.userId,
-                                    type: 4,
-                                    params: [widget.postId],
-                                    message: NotificaitonMessage(
-                                        text: NotificationText(
-                                          content:
-                                              "adlı kullanıcı gönderini beğendi",
-                                          name: LocaleManager.instance
-                                              .getString(PreferencesKeys
-                                                  .currentUserUserName),
-                                          surname: "",
-                                          username: currentUserName ?? "",
-                                        ),
-                                        link: widget.centerImageUrl),
-                                  ));
+                              print(
+                                  "İDDD -> ${LocaleManager.instance.getInt(PreferencesKeys.currentUserId)} WİDGE -> ${widget.userId}");
+                              if (LocaleManager.instance
+                                      .getInt(PreferencesKeys.currentUserId) !=
+                                  widget.userId) {
+                                SocketService.instance().socket.emit(
+                                    'notification',
+                                    NotificationModel(
+                                      sender: LocaleManager.instance.getInt(
+                                          PreferencesKeys.currentUserId),
+                                      receiver: widget.userId,
+                                      type: 4,
+                                      params: [widget.postId],
+                                      message: NotificaitonMessage(
+                                          text: NotificationText(
+                                            content:
+                                                "adlı kullanıcı gönderini beğendi",
+                                            name: LocaleManager.instance
+                                                .getString(PreferencesKeys
+                                                    .currentUserUserName),
+                                            surname: "",
+                                            username: currentUserName ?? "",
+                                          ),
+                                          link: widget.centerImageUrl),
+                                    ));
+                              } else {
+                                print("KENDİ GÖNDERİME BİLDİRİM ATAMAM");
+                              }
                             } else if (!likeControll.value) {
                               print("kankaaaaa else girdi");
                               --lastLikeCount.value;
@@ -1093,40 +1100,40 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               ),
             ),
           ),
-          Visibility(
-            visible: haveTag,
-            child: RichText(
-              textAlign: TextAlign.left,
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: " ile",
-                    style: TextStyle(
-                        fontFamily: "Sflight",
-                        fontSize: 13.sp,
-                        color: AppConstants().ltLogoGrey),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Visibility(
-            visible: haveTag,
-            child: RichText(
-              textAlign: TextAlign.left,
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: " birlikte  ",
-                    style: TextStyle(
-                        fontFamily: "Sflight",
-                        fontSize: 13.sp,
-                        color: AppConstants().ltLogoGrey),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Visibility(
+          //   visible: haveTag,
+          //   child: RichText(
+          //     textAlign: TextAlign.left,
+          //     text: TextSpan(
+          //       children: [
+          //         TextSpan(
+          //           text: " ile",
+          //           style: TextStyle(
+          //               fontFamily: "Sflight",
+          //               fontSize: 13.sp,
+          //               color: AppConstants().ltLogoGrey),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Visibility(
+          //   visible: haveTag,
+          //   child: RichText(
+          //     textAlign: TextAlign.left,
+          //     text: TextSpan(
+          //       children: [
+          //         TextSpan(
+          //           text: " birlikte  ",
+          //           style: TextStyle(
+          //               fontFamily: "Sflight",
+          //               fontSize: 13.sp,
+          //               color: AppConstants().ltLogoGrey),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Visibility(
             visible: haveEmotion,
             child: CircleAvatar(
@@ -1145,28 +1152,28 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               ),
             ),
           ),
-          Visibility(
-            visible: haveEmotion,
-            child: Text(
-              "  $emotionContent",
-              style: TextStyle(
-                fontFamily: "Sflight",
-                fontSize: 13.sp,
-                color: AppConstants().ltLogoGrey,
-              ),
-            ),
-          ),
-          Visibility(
-            visible: haveEmotion,
-            child: Text(
-              " hissediyor",
-              style: TextStyle(
-                fontFamily: "Sflight",
-                fontSize: 13.sp,
-                color: AppConstants().ltLogoGrey,
-              ),
-            ),
-          ),
+          // Visibility(
+          //   visible: haveEmotion,
+          //   child: Text(
+          //     "  $emotionContent",
+          //     style: TextStyle(
+          //       fontFamily: "Sflight",
+          //       fontSize: 13.sp,
+          //       color: AppConstants().ltLogoGrey,
+          //     ),
+          //   ),
+          // ),
+          // Visibility(
+          //   visible: haveEmotion,
+          //   child: Text(
+          //     " hissediyor",
+          //     style: TextStyle(
+          //       fontFamily: "Sflight",
+          //       fontSize: 13.sp,
+          //       color: AppConstants().ltLogoGrey,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

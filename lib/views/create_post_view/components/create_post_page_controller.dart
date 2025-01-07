@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/emoji/emoji_response_model.dart';
@@ -121,7 +122,10 @@ class CreatePostPageController extends GetxController {
 
   void clearPostCreateInfoController() async {
     MediaPickerController mediaPickerController = Get.find();
-
+    routeId.value = 0;
+    print("ROUTEİD CREATE POST --> ${routeId.value}");
+    Get.find<HomeController>().update(["homePagem"]);
+    Get.find<HomeController>().update(["homePage"]);
     userPhoto.value = 'https://picsum.photos/150';
     userName.value = 'Ahmet Pehlivan';
     haveTag.value = 0;

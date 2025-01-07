@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
 import 'package:fillogo/models/post/get_home_post.dart';
+import 'package:fillogo/models/user/get_user_car_types.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -16,6 +20,10 @@ class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
   RxList<Result?> snapshotList = <Result?>[].obs;
 
+  RxBool isRefresh = false.obs;
+  GeneralDrawerController drawerController = Get.find();
+  VehicleInfoController vehicleInfoController =
+      Get.put(VehicleInfoController());
   void fillList(int page) async {
     GetHomePostResponse? response = await GeneralServicesTemp()
         .makeGetRequest("/posts/get-home-posts?page=$page", {
@@ -35,16 +43,13 @@ class HomeController extends GetxController {
       totalPage.value = response.data![0].pagination!.totalPage!;
       for (int i = 0; i < response.data![0].result!.length; i++) {
         snapshotList.value.add(response.data![0].result![i]);
-        print(
-            "BUPINGILIZCENEDEN Ğ-> ${snapshotList[0]!.post!.createdAt!.toString()}");
-        print(
-            "BUPINGILIZCENEDEN Ğ-> ${timeago.format(DateTime.parse(snapshotList[0]!.post!.createdAt!.toString()), locale: "TR")}");
       }
     }
 
     update(["homePage"]);
     update(["comment"]);
     update(["like"]);
+    update(["homePagem"]);
   }
 
   void addList(int page) async {
@@ -66,6 +71,7 @@ class HomeController extends GetxController {
       snapshotList.add(response.data![0].result![i]);
     }
     update(["homePage"]);
+    update(["homePagem"]);
   }
 
   @override
@@ -81,6 +87,28 @@ class HomeController extends GetxController {
         update();
       }
     });
+
+    print("POSTFLOWAÇILDIIIIII");
+    GeneralServicesTemp().makeGetRequest(EndPoint.getUserCarTypes, {
+      "Content-type": "application/json",
+      'Authorization':
+          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+    }).then((value) {
+      var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
+      print("aaa $response");
+      print("aaa $value");
+
+      if (response.succes == 1) {
+        vehicleInfoController.vehicleMarka =
+            response.data![0].userCarTypes![0].carBrand.toString().obs;
+        vehicleInfoController.vehicleModel =
+            response.data![0].userCarTypes![0].carModel.toString().obs;
+      } else {
+        print("Response Hata = ${response.message}");
+        print("Response Hata = ${response.succes}");
+      }
+    });
+
     super.onInit();
   }
 }

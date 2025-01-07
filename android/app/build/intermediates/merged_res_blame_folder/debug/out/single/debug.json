@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-mdpi_splash.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-mdpi/splash.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xxhdpi_splash.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xxhdpi/splash.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xxhdpi_ic_stat_notifications.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xxhdpi/ic_stat_notifications.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xhdpi_ic_stat_notifications.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xhdpi/ic_stat_notifications.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xxxhdpi_splash.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xxxhdpi/splash.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xhdpi_splash.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xhdpi/splash.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-xxxhdpi_ic_stat_notifications.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-xxxhdpi/ic_stat_notifications.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-hdpi_ic_stat_notifications.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-hdpi/ic_stat_notifications.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-hdpi_splash.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-hdpi/splash.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-mdpi_ic_stat_notifications.png.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-mdpi/ic_stat_notifications.png"
+    },
+    {
+        "merged": "com.istechsoft55.fillogo.app-merged_res-83:/drawable-v21_launch_background.xml.flat",
+        "source": "com.istechsoft55.fillogo.app-main-85:/drawable-v21/launch_background.xml"
+    }
+]

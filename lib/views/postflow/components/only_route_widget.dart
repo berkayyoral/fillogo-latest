@@ -193,7 +193,7 @@ class OnlyRouteWidget extends StatelessWidget {
               userName: name,
               routeContent: routeContent!,
               routeStartDate: routeStartDate!,
-              routeEndDate: routeEndDate!,
+              routeEndDate: routeEndDate ?? "",
             ),
           ),
         ),
@@ -772,28 +772,28 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               ),
             ),
           ),
-          Visibility(
-            visible: haveEmotion,
-            child: Text(
-              "  $emotionContent",
-              style: TextStyle(
-                fontFamily: "Sflight",
-                fontSize: 13.sp,
-                color: AppConstants().ltLogoGrey,
-              ),
-            ),
-          ),
-          Visibility(
-            visible: haveEmotion,
-            child: Text(
-              " hissediyor",
-              style: TextStyle(
-                fontFamily: "Sflight",
-                fontSize: 13.sp,
-                color: AppConstants().ltLogoGrey,
-              ),
-            ),
-          ),
+          // Visibility(
+          //   visible: haveEmotion,
+          //   child: Text(
+          //     "  $emotionContent",
+          //     style: TextStyle(
+          //       fontFamily: "Sflight",
+          //       fontSize: 13.sp,
+          //       color: AppConstants().ltLogoGrey,
+          //     ),
+          //   ),
+          // ),
+          // Visibility(
+          //   visible: haveEmotion,
+          //   child: Text(
+          //     " hissediyor",
+          //     style: TextStyle(
+          //       fontFamily: "Sflight",
+          //       fontSize: 13.sp,
+          //       color: AppConstants().ltLogoGrey,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

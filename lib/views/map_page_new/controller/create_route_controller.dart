@@ -325,6 +325,7 @@ class CreateRouteController extends GetxController implements PolylineService {
     arrivalController = TextEditingController().obs;
     mapPageMController.polylines.value.clear();
     mapPageMController.polylineCoordinates.clear();
+    routeDescriptionController.text = "";
   }
 
   createRoute() {

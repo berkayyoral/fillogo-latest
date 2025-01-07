@@ -50,7 +50,7 @@ class CreatePostPageView extends StatelessWidget {
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
-  HomeController homeController = Get.put(HomeController());
+  HomeController homeController = Get.find();
   TextEditingController discriptionTextController = TextEditingController();
 
   MfuController mfuController = Get.find<MfuController>();
@@ -250,7 +250,6 @@ class CreatePostPageView extends StatelessWidget {
                       text: 'Gönderi Oluştur',
                       textColor: AppConstants().ltWhite,
                       onpressed: () async {
-                        homeController.isLoading.value = true;
                         if (createPostPageController.haveDiscription.value ==
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
@@ -271,9 +270,11 @@ class CreatePostPageView extends StatelessWidget {
                           }
 
                           map['postDescription'] =
-                              discriptionTextController.text.isEmpty
+                              createPostPageController.routeId.value != 0
                                   ? "Yeni bir rotaya çıktım"
                                   : discriptionTextController.text;
+                          print(
+                              "POOSSTTTNEWW -> ${createPostPageController.routeId.value}");
                           createPostPageController.routeId.value == 0
                               ? null
                               : map['postRouteID'] =
@@ -348,8 +349,15 @@ class CreatePostPageView extends StatelessWidget {
                           });
 
                           homeController.isLoading.value = false;
-                          homeController.update();
+                          // homeController.update();
                         }
+
+                        Get.find<HomeController>().update(["homePage"]);
+                        Get.find<HomeController>().update(["comment"]);
+                        Get.find<HomeController>().update(["homePagem"]);
+                        Get.find<HomeController>().update(["like"]);
+                        homeController.update(
+                            ["homePage", "comment", "homePagem", "like"]);
                       },
                       iconPath: '',
                       color: (createPostPageController.haveDiscription.value ==
@@ -591,15 +599,29 @@ class CreatePostPageView extends StatelessWidget {
                 text: 'Tamam',
                 textColor: AppConstants().ltWhite,
                 onpressed: () async {
+                  homeController.isLoading.value = true;
+                  createPostPageController.routeId.value == 0;
+                  print(
+                      "POOSSTTTNEWW 3 -> ${createPostPageController.routeId.value}");
                   Get.back();
+                  Get.back();
+
+                  Get.find<HomeController>().update(["homePage"]);
+                  Get.find<HomeController>().update(["comment"]);
+                  Get.find<HomeController>().update(["homePagem"]);
+                  Get.find<HomeController>().update(["like"]);
+                  homeController.isRefresh.value =
+                      !homeController.isRefresh.value;
+                  homeController
+                      .update(["homePage", "comment", "homePagem", "like"]);
                   // MapPageController mapPageController =
                   //     Get.find<MapPageController>();
                   MapPageMController mapPageController = Get.find();
                   GetMyCurrentLocationController
                       getMyCurrentLocationController = Get.find();
                   createPostPageController.clearPostCreateInfoController();
-
-                  Get.toNamed(NavigationConstants.bottomNavigationBar);
+                  createPostPageController.routeId.value = 0;
+                  // Get.toNamed(NavigationConstants.bottomNavigationBar);
                   GoogleMapController googleMapController =
                       mapPageController.mapController!;
                   googleMapController.animateCamera(
@@ -615,6 +637,12 @@ class CreatePostPageView extends StatelessWidget {
                       ),
                     ),
                   );
+                  Get.find<HomeController>().update(["homePage"]);
+                  Get.find<HomeController>().update(["comment"]);
+                  Get.find<HomeController>().update(["homePagem"]);
+                  Get.find<HomeController>().update(["like"]);
+
+                  homeController.isLoading.value = false;
                 },
                 iconPath: '',
                 color: AppConstants().ltMainRed,

@@ -50,12 +50,12 @@ class CarFilterOptionWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 filterOptionWidget(
+                                    logo: 'assets/icons/filterTruck.png',
+                                    index: 1),
+                                filterOptionWidget(
                                     logo:
                                         'assets/icons/filterLightCommercial.png',
                                     index: 0),
-                                filterOptionWidget(
-                                    logo: 'assets/icons/filterTruck.png',
-                                    index: 1),
                                 filterOptionWidget(
                                     logo: 'assets/icons/filterMotorcycle.png',
                                     index: 2),

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:fillogo/controllers/future_controller.dart';
+import 'package:fillogo/controllers/profile_controller.dart';
 import 'package:fillogo/models/user/profile/update_user_profile.dart';
+import 'package:fillogo/models/user/profile/user_profile.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 
 import '../../../export.dart';
@@ -234,26 +237,40 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   "Content-type": "application/json",
                                   'Authorization':
                                       'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                }).then((value) {
+                                }).then((value) async {
                               var response = UpdateProfileResponse.fromJson(
                                   json.decode(value!));
                               if (response.success == 1) {
-                                Get.offAndToNamed(
-                                    NavigationConstants.bottomNavigationBar);
-                                LocaleManager.instance.setString(
+                                ProfileInfoController profileInfoController =
+                                    Get.put(ProfileInfoController());
+                                // Get.ton(NavigationConstants.bottomNavigationBar);
+
+                                await LocaleManager.instance.setString(
                                     PreferencesKeys.currentUserUserName,
                                     userNameController.text);
-                                LocaleManager.instance.setString(
+                                await LocaleManager.instance.setString(
                                     PreferencesKeys.currentUserName,
                                     nameController.text);
-                                LocaleManager.instance.setString(
+                                await LocaleManager.instance.setString(
                                     PreferencesKeys.currentUserSurname,
                                     surNameController.text);
-                                LocaleManager.instance.setString(
+                                await LocaleManager.instance.setString(
                                     PreferencesKeys.currentUserMail,
                                     mailController.text);
+                                Get.find<FutureController>()
+                                    .update([PageIDs.myProfile]);
+                                // Get.find<UserGetMyProfileResponse>().;
+
+                                profileInfoController.changeProfileInfo();
+                                Navigator.pop(context, {"name": "değişim"});
+                                Navigator.pop(context, {"name": "değişim"});
+                                Navigator.pop(context, {"name": "değişim"});
+                              } else if (response.success == -2) {
+                                Get.back();
+                                UiHelper.showWarningSnackBar(
+                                    context, "Bu kullanıcı adı kullanılıyor..");
                               } else {
-                                log("${response.success}");
+                                log("${response.success} user -> ${nameController.text}");
                                 log("${response.message}");
                                 UiHelper.showWarningSnackBar(context,
                                     "Bir hata ile karşılaşıldı Tekrar Deneyiniz!");

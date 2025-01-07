@@ -95,41 +95,41 @@ class FollowersCountRowWidget extends StatelessWidget {
               ],
             ),
           ),
-          InkWell(
-            onTap: onTapRoutes,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 4.h,
-                  ),
-                  child: Text(
-                    'Rotalarım',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontFamily: 'Sfmedium',
-                      color: AppConstants().ltDarkGrey,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 4.h,
-                  ),
-                  child: Text(
-                    routesCount,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontFamily: 'Sfbold',
-                      color: AppConstants().ltLogoGrey,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // InkWell(
+          //   onTap: onTapRoutes,
+          //   child: Column(
+          //     children: [
+          //       Padding(
+          //         padding: EdgeInsets.only(
+          //           top: 4.h,
+          //         ),
+          //         child: Text(
+          //           'Rotalarım',
+          //           textAlign: TextAlign.start,
+          //           style: TextStyle(
+          //             fontFamily: 'Sfmedium',
+          //             color: AppConstants().ltDarkGrey,
+          //             fontSize: 14.sp,
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: EdgeInsets.only(
+          //           top: 4.h,
+          //         ),
+          //         child: Text(
+          //           routesCount,
+          //           textAlign: TextAlign.start,
+          //           style: TextStyle(
+          //             fontFamily: 'Sfbold',
+          //             color: AppConstants().ltLogoGrey,
+          //             fontSize: 16.sp,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

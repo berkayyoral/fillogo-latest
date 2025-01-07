@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:fillogo/controllers/future_controller.dart';
 import 'package:fillogo/controllers/vehicle_info_controller/vehicle_info_controller.dart';
 import 'package:fillogo/models/user/get_user_car_types.dart';
 import 'package:fillogo/models/user/profile/update_user_profile.dart';
@@ -258,8 +259,29 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                 if (response.success == 1) {
                                   LocaleManager.instance.setString(
                                       PreferencesKeys.carType, cartype);
-                                  Get.offAndToNamed(
-                                      NavigationConstants.bottomNavigationBar);
+                                  // Get.offAndToNamed(
+                                  //     NavigationConstants.bottomNavigationBar);
+                                  Get.back();
+                                  Get.back();
+                                  Get.back(result: {
+                                    "type": cartype,
+                                    "brand": brandController.text,
+                                    "model": modelController.text,
+                                    "capacity": capacityController.text,
+                                  });
+
+                                  VehicleInfoController vehicleInfoController =
+                                      Get.find();
+
+                                  vehicleInfoController.vehicleMarka.value =
+                                      brandController.text;
+                                  vehicleInfoController.vehicleModel.value =
+                                      modelController.text;
+                                  vehicleInfoController.vehicleType.value =
+                                      cartype;
+
+                                  Get.find<FutureController>()
+                                      .update([PageIDs.myProfile]);
                                   LocaleManager.instance.setString(
                                       PreferencesKeys.carBrand,
                                       brandController.text);
@@ -269,7 +291,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                   LocaleManager.instance.setInt(
                                       PreferencesKeys.carCapacity,
                                       int.tryParse(capacityController.text)!);
-
+                                  print("CARRTYPE -> ${cartype}");
                                   LocaleManager.instance.setInt(
                                       PreferencesKeys.carTypeId,
                                       dropdownValue + 1);

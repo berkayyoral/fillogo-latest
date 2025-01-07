@@ -260,6 +260,12 @@ class ActiveRouteInfoWidget extends StatelessWidget {
                                       carTypeFilter:
                                           mapPageMController.carTypeList);
                                   mapPageMController.getMyLocationInMap();
+
+                                  mapPageMController.myActivesRoutes.value
+                                      .removeWhere((element) =>
+                                          element.id ==
+                                          mapPageMController
+                                              .myActivesRoutes[0].id);
                                   mapPageMController.isLoading.value = false;
                                 });
                               },

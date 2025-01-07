@@ -20,13 +20,11 @@ class StoriesView extends StatefulWidget {
 class _StoriesViewState extends State<StoriesView> {
   final storyController = StoryController();
 
-  var userId = Get.arguments;
-
   StoriesPaginationController storiesController =
       Get.put(StoriesPaginationController());
 
   CreatePostPageController createPostPageController = Get.find();
-
+  var userId = Get.arguments;
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
@@ -38,14 +36,17 @@ class _StoriesViewState extends State<StoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController());
+    HomeController homeController = Get.find();
     return Scaffold(
         body: GetBuilder<StoriesPaginationController>(
             id: "userStories",
             initState: (state) async {
+              print("STORYYYWİEEWW İNİT FİRST");
               storiesController.userId.value = userId;
+              storiesController.snapshotList.value.clear();
               await storiesController.addList(1);
-              storiesController.fillList();
+              await storiesController.fillList();
+              print("STORYYYWİEEWW İNİT LAST");
             },
             builder: (_) {
               if (storiesController.snapshotList.isEmpty) {
@@ -58,8 +59,10 @@ class _StoriesViewState extends State<StoriesView> {
                     child: StoryView(
                       controller: storyController,
                       storyItems: List.generate(
-                          storiesController.totalPage.value, (index) {
-                        print(storiesController.snapshotList[index]!.id);
+                          storiesController.snapshotList.length, (index) {
+                        print("STORYVİEWWW");
+                        print(
+                            "STORYVİEWWW viewww ${storiesController.snapshotList[index]!.id}");
                         //https://res.cloudinary.com/dmpfzfgrb/image/upload/v1688989683/post/1/1688989682790.jpg
                         return StoryItem(
                           SizedBox(
@@ -378,7 +381,7 @@ class _StoriesViewState extends State<StoriesView> {
                                                     physics:
                                                         const AlwaysScrollableScrollPhysics(),
                                                     itemCount: storiesController
-                                                        .totalPage.value,
+                                                        .snapshotList.length,
                                                     itemBuilder:
                                                         (context, index) {
                                                       return Container(
@@ -427,10 +430,10 @@ class _StoriesViewState extends State<StoriesView> {
                                                                 color: AppConstants()
                                                                     .ltMainRed,
                                                                 onPressed: () {
-                                                                  print(storiesController
-                                                                      .snapshotList[
-                                                                          index]!
-                                                                      .id);
+                                                                  print(
+                                                                      "STORYVİEWWW DELEETEE");
+                                                                  print(
+                                                                      "storyyidd ${storiesController.snapshotList[index]!.id}");
 
                                                                   GeneralServicesTemp()
                                                                       .makeDeleteWithoutBody(

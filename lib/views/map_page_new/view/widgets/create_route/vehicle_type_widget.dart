@@ -52,8 +52,15 @@ class VehicleInfoWidget extends StatelessWidget {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    Get.toNamed(NavigationConstants.vehicleSettings);
+                  onTap: () async {
+                    final newValue =
+                        await Get.toNamed(NavigationConstants.vehicleSettings);
+
+                    if (newValue != null) {
+                      print("NEWW WALL VAR -> ${newValue["type"]}");
+                    } else {
+                      print("NEWW WALL YOK");
+                    }
                   },
                   child: Text(
                     "Düzenle",

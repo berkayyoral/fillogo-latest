@@ -22,7 +22,7 @@ class _AddStoryViewState extends State<AddStoryView> {
   MediaPickerController mediaPickerController =
       Get.put(MediaPickerController());
 
-  HomeController homeController = Get.put(HomeController());
+  HomeController homeController = Get.find();
   var imageFile;
   @override
   Widget build(BuildContext context) {

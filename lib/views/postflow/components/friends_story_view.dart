@@ -18,7 +18,8 @@ class FriendsStoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/storyPageView', arguments: arguments);
+        print("STORYYYWİEEWW friendsstoryview arg-> ${arguments}");
+        Get.toNamed(NavigationConstants.storyPageView, arguments: arguments);
       },
       child: Container(
         width: 100.w,

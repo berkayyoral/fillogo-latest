@@ -1206,11 +1206,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                         children: [
                           8.w.horizontalSpace,
                           filterOptionWidget(
-                              logo: 'assets/icons/filterLightCommercial.png',
-                              index: 0),
+                              logo: 'assets/icons/filterTruck.png', index: 1),
                           18.w.horizontalSpace,
                           filterOptionWidget(
-                              logo: 'assets/icons/filterTruck.png', index: 1),
+                              logo: 'assets/icons/filterLightCommercial.png',
+                              index: 0),
                           18.w.horizontalSpace,
                           filterOptionWidget(
                               logo: 'assets/icons/filterMotorcycle.png',

@@ -179,15 +179,24 @@ class CreateRouteInfoWidget extends StatelessWidget {
                       onPressed: () async {
                         print(
                             "CREATEROUTE START -> ${createRouteController.startRouteCity.value} finif -> ${createRouteController.finishRouteCity.value}");
-                        if (createRouteController.finishRouteCity.value != "") {
-                          createRouteController
-                              .isOpenRouteDetailEntrySection.value = true;
-                          createRouteController.setDate();
-                        } else {
-                          Get.snackbar("Varış şehri bulunamadı",
-                              "Varış şehrini yeniden seçiniz..",
+                        if (createRouteController.startRouteLocation.value ==
+                            createRouteController.finishRouteLocation.value) {
+                          print("AYNIKONUMDAYIMMM");
+                          Get.snackbar("Hata!", "Zaten bu konumdasınız..",
                               snackPosition: SnackPosition.BOTTOM,
                               colorText: AppConstants().ltBlack);
+                        } else {
+                          if (createRouteController.finishRouteCity.value !=
+                              "") {
+                            createRouteController
+                                .isOpenRouteDetailEntrySection.value = true;
+                            createRouteController.setDate();
+                          } else {
+                            Get.snackbar("Varış şehri bulunamadı",
+                                "Varış şehrini yeniden seçiniz..",
+                                snackPosition: SnackPosition.BOTTOM,
+                                colorText: AppConstants().ltBlack);
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

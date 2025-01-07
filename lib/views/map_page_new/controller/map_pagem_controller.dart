@@ -85,14 +85,11 @@ class MapPageMController extends GetxController implements MapPageService {
     await updateLocation(
         lat: currentLocationController.myLocationLatitudeDo.value,
         long: currentLocationController.myLocationLongitudeDo.value);
-    addMarkerIcon(
-        markerID: "myLocationMarker",
-        location: LatLng(currentLocationController.myLocationLatitudeDo.value,
-            currentLocationController.myLocationLongitudeDo.value));
+
     bool isLocaleVisi =
-        LocaleManager.instance.getBool(PreferencesKeys.isVisibility)!;
+        LocaleManager.instance.getBool(PreferencesKeys.isVisibility) ?? false;
     bool isLocaleAvabi =
-        LocaleManager.instance.getBool(PreferencesKeys.isAvability)!;
+        LocaleManager.instance.getBool(PreferencesKeys.isAvability) ?? false;
     isRouteVisibilty.value = isLocaleVisi;
     isRouteAvability.value = isLocaleAvabi;
     print(
@@ -102,6 +99,11 @@ class MapPageMController extends GetxController implements MapPageService {
       filterSelectedList.value = [false, false, false];
       carTypeList.clear();
     }
+
+    addMarkerIcon(
+        markerID: "myLocationMarker",
+        location: LatLng(currentLocationController.myLocationLatitudeDo.value,
+            currentLocationController.myLocationLongitudeDo.value));
     print("CARTYPLELİST -> ${carTypeList}");
     await getUsersOnArea(carTypeFilter: carTypeList);
 
@@ -238,22 +240,24 @@ class MapPageMController extends GetxController implements MapPageService {
     Function()? onTap,
     CarType? carType,
   }) async {
+    Uint8List? iconByteData;
     // await customMarkerIconController.setCustomMarkerIcon3();
-    Uint8List iconByteData = markerID == "myLocationMarker"
-        ? customMarkerIconController.mayLocationIcon!
-        : markerID == "myLocationFinishMarker"
-            ? customMarkerIconController.myRouteFinishIcon!
-            : await customMarkerIconController.friendsCustomMarkerIcon(
-                carType: carType!);
-    print(
-        "VİSİVİBİLTRMARKER addmar -> ${customMarkerIconController.mayLocationIcon!.last}");
+    if (customMarkerIconController.mayLocationIcon != null) {
+      iconByteData = markerID == "myLocationMarker"
+          ? customMarkerIconController.mayLocationIcon!
+          : markerID == "myLocationFinishMarker"
+              ? customMarkerIconController.myRouteFinishIcon!
+              : await customMarkerIconController.friendsCustomMarkerIcon(
+                  carType: carType!);
+    }
+
     markers.add(
       Marker(
         markerId: MarkerId(markerID),
         position: location ??
             LatLng(currentLocationController.myLocationLatitudeDo.value,
                 currentLocationController.myLocationLongitudeDo.value),
-        icon: BitmapDescriptor.fromBytes(iconByteData),
+        icon: BitmapDescriptor.fromBytes(iconByteData!),
         zIndex: markerID == "myLocationMarker" ? 1 : 0,
         onTap: markerID != "myLocationMarker" ? onTap : null,
       ),
@@ -264,37 +268,43 @@ class MapPageMController extends GetxController implements MapPageService {
   ///Harita hareketlerini dinler
   void _startLocationUpdates() {
     Geolocator.getPositionStream().listen((Position position) {
-      print("NEWMAP LİSTEN");
-      markers
-          .removeWhere((marker) => marker.markerId.value == 'myLocationMarker');
-      addMarkerIcon(
-        markerID: "myLocationMarker",
-        location: LatLng(currentLocationController.myLocationLatitudeDo.value,
-            currentLocationController.myLocationLongitudeDo.value),
-      );
+      try {
+        print("NEWMAP LİSTEN");
+        markers.removeWhere(
+            (marker) => marker.markerId.value == 'myLocationMarker');
+        addMarkerIcon(
+          markerID: "myLocationMarker",
+          location: LatLng(currentLocationController.myLocationLatitudeDo.value,
+              currentLocationController.myLocationLongitudeDo.value),
+        );
 
-      ///Haritaya dokunulduğunda CameraPosition'un direkt bulunulan konumuna gelmemesi için ///
-      if (shouldUpdateLocation.value && isListenMap && mapController != null) {
-        LatLng newLatLng = LatLng(position.latitude, position.longitude);
-        if (mapCenter.value != newLatLng) {
-          try {
-            mapCenter.value = newLatLng;
-            mapController!.animateCamera(
-              CameraUpdate.newLatLng(
-                newLatLng,
-              ),
-            );
-          } catch (e) {
-            print("STARTMAP ERROR -> $e");
+        ///Haritaya dokunulduğunda CameraPosition'un direkt bulunulan konumuna gelmemesi için ///
+        if (shouldUpdateLocation.value &&
+            isListenMap &&
+            mapController != null) {
+          LatLng newLatLng = LatLng(position.latitude, position.longitude);
+          if (mapCenter.value != newLatLng) {
+            try {
+              mapCenter.value = newLatLng;
+              mapController!.animateCamera(
+                CameraUpdate.newLatLng(
+                  newLatLng,
+                ),
+              );
+            } catch (e) {
+              print("STARTMAP ERROR -> $e");
+            }
+
+            updateLocation(lat: position.latitude, long: position.longitude);
+            // print(
+            //     "startLocationTracking silecek -> ${polylineCoordinates[0]} / ${position.latitude}-${position.longitude}");
+            // polylineCoordinates.removeAt(0);
+            // print("startLocationTracking sildii");
+            // updatePolyline();
           }
-
-          updateLocation(lat: position.latitude, long: position.longitude);
-          // print(
-          //     "startLocationTracking silecek -> ${polylineCoordinates[0]} / ${position.latitude}-${position.longitude}");
-          // polylineCoordinates.removeAt(0);
-          // print("startLocationTracking sildii");
-          // updatePolyline();
         }
+      } catch (e) {
+        print("ADDMARKER ERROR -> $e");
       }
     });
   }

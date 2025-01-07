@@ -166,7 +166,7 @@ class LoginWithPassword extends StatelessWidget {
                       log("kankaaaaaa ${LocaleManager.instance.getString(PreferencesKeys.currentuserpassword)}");
                       LocaleManager.instance
                           .setBool(PreferencesKeys.isOnboardViewed, true);
-                      Get.back();
+
                       Get.offAllNamed(NavigationConstants.bottomNavigationBar);
                       LocaleManager.instance.setString(
                         PreferencesKeys.accessToken,

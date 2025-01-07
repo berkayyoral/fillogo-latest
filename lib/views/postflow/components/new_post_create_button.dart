@@ -34,11 +34,16 @@ class NewPostCreateButtonView extends StatelessWidget {
           12.w.spaceX,
           GestureDetector(
             onTap: () {
+              createPostPageController.routeId.value == 0;
+              createPostPageController.routeId.value == 0;
               createPostPageController.userName.value = LocaleManager.instance
                   .getString(PreferencesKeys.currentUserUserName)!;
               createPostPageController.userPhoto.value = LocaleManager.instance
                   .getString(PreferencesKeys.currentUserProfilPhoto)!;
-              Get.toNamed('/createPostPage');
+              final newPost = Get.toNamed('/createPostPage');
+
+              print(
+                  "POOSSTTTNEWW 1-> ${createPostPageController.routeId.value}");
             },
             child: Container(
               width: 281.w,

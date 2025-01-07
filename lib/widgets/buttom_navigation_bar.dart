@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/map/first_login_is_active_route_controller.dart';
 import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/export.dart';
@@ -163,5 +164,7 @@ class BottomNavigationBarView extends StatelessWidget {
         ),
       ),
     );
+
+    // GetBuilder<HomeController>(builder: builder)
   }
 }

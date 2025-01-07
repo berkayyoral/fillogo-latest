@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/future_controller.dart';
+import 'package:fillogo/controllers/profile_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/post/delete_post.dart';
@@ -37,6 +38,8 @@ class _MyProfilViewState extends State<MyProfilView> {
   final GeneralDrawerController myProfilePageDrawerController =
       Get.find<GeneralDrawerController>();
 
+  ProfileInfoController profileInfoController =
+      Get.put(ProfileInfoController());
   final BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
@@ -71,6 +74,9 @@ class _MyProfilViewState extends State<MyProfilView> {
                         PreferencesKeys.carType,
                         response.data!.carInformations!.cartypetousercartypes!
                             .carType!);
+
+                    print(
+                        "PROFİFFL FOLLOWWW -> ${jsonEncode(response.data!.followingCount)}");
                     return response;
                   }),
                   builder: (context, snapshot) {
@@ -110,7 +116,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                             ),
                           ),
                           title: Text(
-                            "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                            "${snapshot.data!.data!.users!.name} ${snapshot.data!.data!.users!.surname}",
                             style: TextStyle(
                               fontFamily: "Sfbold",
                               fontSize: 20.sp,
@@ -275,7 +281,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                                       text: 'Profili Düzenle',
                                       textColor: AppConstants().ltWhite,
                                       color: AppConstants().ltDarkGrey,
-                                      width: 287.w,
+                                      width: 348.w,
                                       height: 50.h,
                                       onpressed: () {
                                         //Get.toNamed(NavigationConstants.profileSettings);
@@ -304,8 +310,8 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                         horizontal: 16,
                                                         vertical: 8),
                                                     child: GestureDetector(
-                                                      onTap: () {
-                                                        Get.toNamed(
+                                                      onTap: () async {
+                                                        await Get.toNamed(
                                                             NavigationConstants
                                                                 .profileSettings);
                                                       },
@@ -368,20 +374,22 @@ class _MyProfilViewState extends State<MyProfilView> {
                                       iconPath: '',
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: 14.w,
-                                    ),
-                                    child: CustomButtonDesign(
-                                      text: '...',
-                                      textColor: AppConstants().ltWhite,
-                                      color: AppConstants().ltDarkGrey,
-                                      width: 50.w,
-                                      height: 50.h,
-                                      onpressed: () {},
-                                      iconPath: '',
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     right: 14.w,
+                                  //   ),
+                                  //   child: CustomButtonDesign(
+                                  //     text: '...',
+                                  //     textColor: AppConstants().ltWhite,
+                                  //     color: AppConstants().ltDarkGrey,
+                                  //     width: 50.w,
+                                  //     height: 50.h,
+                                  //     onpressed: () {
+                                  //       print("KANKSS");
+                                  //     },
+                                  //     iconPath: '',
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               SizedBox(
@@ -473,12 +481,12 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                           context,
                                                           "Başarıyla Gönderiniz Silindi");
 
-                                                      mapPageController.markers
-                                                          .clear();
+                                                      // mapPageController.markers
+                                                      //     .clear();
 
-                                                      mapPageController
-                                                          .polylines
-                                                          .clear();
+                                                      // mapPageController
+                                                      //     .polylines
+                                                      //     .clear();
 
                                                       setState(() {});
                                                     } else {
@@ -657,7 +665,6 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                     .userId,
                                               )
                                             : OnlyRouteWidget(
-                                                deletePostOnTap: () {},
                                                 deletePost: true,
                                                 onTap: () {
                                                   selectedRouteController

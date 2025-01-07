@@ -3,6 +3,7 @@ import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/chat/global_chat_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/future_controller.dart';
+import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/life_cycle/life_cycle_controller.dart';
 import 'package:fillogo/controllers/map/first_login_is_active_route_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
@@ -26,10 +27,10 @@ import '../../widgets/google_maps_widgets/maps_general_widgets_controller.dart';
 class InitialBinding implements Bindings {
   @override
   void dependencies() async {
+    Get.put(SetCustomMarkerIconController());
     Get.put(GetMyCurrentLocationController());
     Get.put(ConnectionController());
     Get.put(BerkayController());
-    Get.put(SetCustomMarkerIconController());
     Get.put(CreateeRouteController());
     // Get.put(MapPageController());
     Get.put(MfuController());
@@ -51,6 +52,7 @@ class InitialBinding implements Bindings {
     Get.put(NotificationController());
     Get.put(MapPageMController());
     Get.put(CreateRouteController());
+    Get.put(HomeController());
   }
 }
 
