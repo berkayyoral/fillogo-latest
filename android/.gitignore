@@ -13,4 +13,7 @@ key.properties
 **/*.keystore
 **/*.jks
 build/
+.dart_tool/
 *.apk
+*.dill
+
