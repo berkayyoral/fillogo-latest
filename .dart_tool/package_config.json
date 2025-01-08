@@ -74,6 +74,42 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "connectivity_plus",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus-2.3.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_linux",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_linux-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_macos",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_macos-1.2.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_platform_interface",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_platform_interface-1.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_web",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_web-1.2.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_windows",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus_windows-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "cross_file",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/cross_file-0.3.4+2",
       "packageUri": "lib/",
@@ -153,7 +189,7 @@
     },
     {
       "name": "file_selector_linux",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.3",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -231,7 +267,7 @@
     },
     {
       "name": "flutter_compass",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_compass-0.8.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_compass-0.8.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -273,13 +309,13 @@
     },
     {
       "name": "flutter_native_splash",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.2",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.4",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.23",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.24",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -375,7 +411,7 @@
     },
     {
       "name": "geolocator_apple",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.8+1",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -423,7 +459,7 @@
     },
     {
       "name": "google_maps_flutter",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter-2.9.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter-2.10.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -435,7 +471,7 @@
     },
     {
       "name": "google_maps_flutter_ios",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.13.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.13.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -537,7 +573,7 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+17",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+19",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -549,9 +585,9 @@
     },
     {
       "name": "image_picker_ios",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.12+1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.12+2",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "image_picker_linux",
@@ -567,9 +603,9 @@
     },
     {
       "name": "image_picker_platform_interface",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_platform_interface-2.10.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker_platform_interface-2.10.1",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "image_picker_windows",
@@ -585,7 +621,7 @@
     },
     {
       "name": "infinite_scroll_pagination",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/infinite_scroll_pagination-4.0.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/infinite_scroll_pagination-4.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -734,8 +770,14 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nm",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/nm-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "onesignal_flutter",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/onesignal_flutter-5.2.7",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/onesignal_flutter-5.2.9",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -777,15 +819,15 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/path_provider_android-2.2.12",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/path_provider_android-2.2.15",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "path_provider_linux",
@@ -903,21 +945,21 @@
     },
     {
       "name": "shared_preferences",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences-2.3.2",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences-2.3.5",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.5"
     },
     {
       "name": "shared_preferences_android",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_android-2.3.3",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "shared_preferences_foundation",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.3",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.4",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "shared_preferences_linux",
@@ -1005,13 +1047,13 @@
     },
     {
       "name": "sqflite_common",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4+5",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4+6",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "sqflite_darwin",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.1+1",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -1041,9 +1083,9 @@
     },
     {
       "name": "stream_transform",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/stream_transform-2.1.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/stream_transform-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.1"
     },
     {
       "name": "string_scanner",
@@ -1113,19 +1155,19 @@
     },
     {
       "name": "url_launcher_ios",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "url_launcher_linux",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "url_launcher_macos",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1179,7 +1221,7 @@
     },
     {
       "name": "video_player_avfoundation",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.6.2",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.6.5",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1233,13 +1275,13 @@
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.16.1",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.16.3",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/win32-5.8.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/win32-5.10.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -1257,9 +1299,9 @@
     },
     {
       "name": "yaml",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/yaml-3.1.2",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/yaml-3.1.3",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "fillogo",
@@ -1268,7 +1310,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-11-08T14:56:00.957071Z",
+  "generated": "2025-01-08T09:11:53.196922Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",

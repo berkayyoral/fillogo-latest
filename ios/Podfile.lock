@@ -43,7 +43,7 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
-  - flutter_native_splash (0.0.1):
+  - flutter_native_splash (2.4.3):
     - Flutter
   - geocoding_ios (1.0.5):
     - Flutter
@@ -87,7 +87,7 @@ PODS:
   - GoogleMaps/Base (8.4.0)
   - GoogleMaps/Maps (8.4.0):
     - GoogleMaps/Base
-  - GoogleUserMessagingPlatform (2.6.0)
+  - GoogleUserMessagingPlatform (2.7.0)
   - GoogleUtilities/AppDelegateSwizzler (7.13.3):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -125,12 +125,12 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
-  - onesignal_flutter (5.2.6):
+  - onesignal_flutter (5.2.9):
     - Flutter
-    - OneSignalXCFramework (= 5.2.5)
-  - OneSignalXCFramework (5.2.5):
-    - OneSignalXCFramework/OneSignalComplete (= 5.2.5)
-  - OneSignalXCFramework/OneSignal (5.2.5):
+    - OneSignalXCFramework (= 5.2.9)
+  - OneSignalXCFramework (5.2.9):
+    - OneSignalXCFramework/OneSignalComplete (= 5.2.9)
+  - OneSignalXCFramework/OneSignal (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalLiveActivities
@@ -138,38 +138,38 @@ PODS:
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalComplete (5.2.5):
+  - OneSignalXCFramework/OneSignalComplete (5.2.9):
     - OneSignalXCFramework/OneSignal
     - OneSignalXCFramework/OneSignalInAppMessages
     - OneSignalXCFramework/OneSignalLocation
-  - OneSignalXCFramework/OneSignalCore (5.2.5)
-  - OneSignalXCFramework/OneSignalExtension (5.2.5):
+  - OneSignalXCFramework/OneSignalCore (5.2.9)
+  - OneSignalXCFramework/OneSignalExtension (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalInAppMessages (5.2.5):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLiveActivities (5.2.5):
+  - OneSignalXCFramework/OneSignalLiveActivities (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLocation (5.2.5):
+  - OneSignalXCFramework/OneSignalLocation (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalNotifications (5.2.5):
+  - OneSignalXCFramework/OneSignalNotifications (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOSCore (5.2.5):
+  - OneSignalXCFramework/OneSignalOSCore (5.2.9):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalOutcomes (5.2.5):
+  - OneSignalXCFramework/OneSignalOutcomes (5.2.9):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalUser (5.2.5):
+  - OneSignalXCFramework/OneSignalUser (5.2.9):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
@@ -183,9 +183,9 @@ PODS:
     - Flutter
   - PromisesObjC (2.4.0)
   - ReachabilitySwift (5.2.4)
-  - SDWebImage (5.19.7):
-    - SDWebImage/Core (= 5.19.7)
-  - SDWebImage/Core (5.19.7)
+  - SDWebImage (5.20.0):
+    - SDWebImage/Core (= 5.20.0)
+  - SDWebImage/Core (5.20.0)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -319,33 +319,33 @@ SPEC CHECKSUMS:
   flutter_background_service_ios: e30e0d3ee69e4cee66272d0c78eacd48c2e94aac
   flutter_compass: cbbd285cea1584c7ac9c4e0c3e1f17cbea55e855
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
-  flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
+  flutter_native_splash: f71420956eb811e6d310720fee915f1d42852e7a
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
-  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
+  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   Google-Mobile-Ads-SDK: e81e8b009a182dc8dd14951782efdbb30a5e4510
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   google_mobile_ads: 035df0d095e1a196b52e3c91534d0718d3dacf98
   GoogleAppMeasurement: f9de05ee17401e3355f68e8fc8b5064d429f5918
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
-  GoogleUserMessagingPlatform: 0c3a08353e53ce8c2feab7addd0b652cde522450
+  GoogleUserMessagingPlatform: a8b56893477f67212fbc8411c139e61d463349f5
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  onesignal_flutter: f441aaefa112988a1e786c695a30695ad0291763
-  OneSignalXCFramework: 76ca508fc2b941317729d13fdec96817f8ef5b3b
+  onesignal_flutter: e6e49bb8537c6b9fe903765d2def24774843011c
+  OneSignalXCFramework: f5b2a3c4f130e4c910ead7bb25bed7455e976fbf
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
-  SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
+  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
-  sqflite_darwin: a553b1fd6fe66f53bbb0fe5b4f5bab93f08d7a13
+  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
