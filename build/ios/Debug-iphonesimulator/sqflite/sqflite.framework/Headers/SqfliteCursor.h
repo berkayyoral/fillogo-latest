@@ -8,12 +8,12 @@
 #define SqfliteCursor_h
 
 // Cursor information
-@class SqfliteDarwinResultSet;
+@class FMResultSet;
 @interface SqfliteCursor : NSObject
 
 @property (atomic, retain) NSNumber* cursorId;
 @property (atomic, retain) NSNumber* pageSize;
-@property (atomic, retain) SqfliteDarwinResultSet *resultSet;
+@property (atomic, retain) FMResultSet *resultSet;
 
 @end
 

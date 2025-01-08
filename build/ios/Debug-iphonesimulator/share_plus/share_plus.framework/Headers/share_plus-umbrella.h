@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "FPPSharePlusPlugin.h"
+#import "FLTSharePlusPlugin.h"
 
 FOUNDATION_EXPORT double share_plusVersionNumber;
 FOUNDATION_EXPORT const unsigned char share_plusVersionString[];

@@ -6,51 +6,31 @@
 	<dict>
 		<key>Headers/OSFlutterCategories.h</key>
 		<data>
-		8SaWKptUH9UWlPlwLeIeFJI66HA=
+		5J+b6meZZXcVKIX5pVx1V4JyZiY=
 		</data>
-		<key>Headers/OSFlutterDebug.h</key>
+		<key>Headers/OSFlutterInAppMessagesController.h</key>
 		<data>
-		e0UdZFr+nUiXKJqKc303s3N73F4=
+		QzhouWPcX18YTdavb5EFTBasEjU=
 		</data>
-		<key>Headers/OSFlutterInAppMessages.h</key>
+		<key>Headers/OSFlutterOutcomeEventsController.h</key>
 		<data>
-		Ic5zzPDx+n3tMNzM7CyLHPDmftM=
+		0RW9zMUsUnukNCpfFmg+hK7m1nE=
 		</data>
-		<key>Headers/OSFlutterLiveActivities.h</key>
+		<key>Headers/OSFlutterTagsController.h</key>
 		<data>
-		pZTUF5Bh6oJv8Bo72ogNx9SwY94=
-		</data>
-		<key>Headers/OSFlutterLocation.h</key>
-		<data>
-		l/5f0jwTBZqaFyZuwPJpSUe9nBk=
-		</data>
-		<key>Headers/OSFlutterNotifications.h</key>
-		<data>
-		LbQ74ho3TXMysBywS/Hyf2RqGDw=
-		</data>
-		<key>Headers/OSFlutterPushSubscription.h</key>
-		<data>
-		B+3IYkMNlXhvg06Ra7erckoypb4=
-		</data>
-		<key>Headers/OSFlutterSession.h</key>
-		<data>
-		m5CawDjfe7vfp5GwxyiCjaXQZxc=
-		</data>
-		<key>Headers/OSFlutterUser.h</key>
-		<data>
-		uLEaH5jySMkBb5lY8853hETbFy8=
+		d349khVEhFRnDcHOtvupFT6Dtdo=
 		</data>
 		<key>Headers/OneSignalPlugin.h</key>
 		<data>
-		c0d3cCEdloIMOFPe6TNW9D/EdZI=
+		/RnLu7AhzHRdcxRDEgcFN7MzRDY=
 		</data>
 		<key>Headers/onesignal_flutter-umbrella.h</key>
 		<data>
-		jf/trYH71ty7+dUN7Ot71Rl4bzU=
+		hLeywv/RI5vfmfh/N9sSws/UhcY=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		f2o9g0vXoN4HkoXRXgAJ0e/5ocY=
+		5x2GD+A3YSOBGVINCHX7Uvqr4z4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -63,121 +43,66 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8SaWKptUH9UWlPlwLeIeFJI66HA=
+			5J+b6meZZXcVKIX5pVx1V4JyZiY=
 			</data>
 			<key>hash2</key>
 			<data>
-			rEQUmrbhTwfCKKGJ1gt4cN283X3v6rYhoSGf273tu0k=
+			ZVQOHM0J3gggN8buf4+jwMIzTKPueZDumuetAkDpnCY=
 			</data>
 		</dict>
-		<key>Headers/OSFlutterDebug.h</key>
+		<key>Headers/OSFlutterInAppMessagesController.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			e0UdZFr+nUiXKJqKc303s3N73F4=
+			QzhouWPcX18YTdavb5EFTBasEjU=
 			</data>
 			<key>hash2</key>
 			<data>
-			+W1Xyuva+OngCsPig/Ffz80gkFzI7MzJWEI2fs5orjA=
+			adAj4vJOZtP4mdLl9EN50+kexzv+fkwiaRO2AZKDsyc=
 			</data>
 		</dict>
-		<key>Headers/OSFlutterInAppMessages.h</key>
+		<key>Headers/OSFlutterOutcomeEventsController.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ic5zzPDx+n3tMNzM7CyLHPDmftM=
+			0RW9zMUsUnukNCpfFmg+hK7m1nE=
 			</data>
 			<key>hash2</key>
 			<data>
-			uxQ1/f5B4z3njNoFvxGmtB5+nA+hPAVPsjeabILvK/A=
+			+8U6Akssn6r5/cO/Y4APwSMkPgrWf22mRRW1Dwm6hhg=
 			</data>
 		</dict>
-		<key>Headers/OSFlutterLiveActivities.h</key>
+		<key>Headers/OSFlutterTagsController.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pZTUF5Bh6oJv8Bo72ogNx9SwY94=
+			d349khVEhFRnDcHOtvupFT6Dtdo=
 			</data>
 			<key>hash2</key>
 			<data>
-			LJwPV74Y86EEElwqer7a31aDFqjV30tMajI1gvPidpY=
-			</data>
-		</dict>
-		<key>Headers/OSFlutterLocation.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			l/5f0jwTBZqaFyZuwPJpSUe9nBk=
-			</data>
-			<key>hash2</key>
-			<data>
-			u4XQb521FnrtBvk025U1PsVPo2YLTXZQSltCzfh3ZIU=
-			</data>
-		</dict>
-		<key>Headers/OSFlutterNotifications.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LbQ74ho3TXMysBywS/Hyf2RqGDw=
-			</data>
-			<key>hash2</key>
-			<data>
-			/2rZ/rgFb+XG7AV4r6MiwxD5IFEdX6G4uJd0rYFBWS8=
-			</data>
-		</dict>
-		<key>Headers/OSFlutterPushSubscription.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			B+3IYkMNlXhvg06Ra7erckoypb4=
-			</data>
-			<key>hash2</key>
-			<data>
-			rl8xYegvf+PMpcnkhYt1b1VFkMsqbvqvwkRREV3BRF4=
-			</data>
-		</dict>
-		<key>Headers/OSFlutterSession.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			m5CawDjfe7vfp5GwxyiCjaXQZxc=
-			</data>
-			<key>hash2</key>
-			<data>
-			p2iFWJk9M6O0tWXxJKxH5Va0khbeRlg84hgQc3P0lSA=
-			</data>
-		</dict>
-		<key>Headers/OSFlutterUser.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uLEaH5jySMkBb5lY8853hETbFy8=
-			</data>
-			<key>hash2</key>
-			<data>
-			NuwzaGTgghpZmewEFn9Uqbhquxkn3L7cfWdwnoSgNO4=
+			vZFhoqMgkcY4GgG1/d13jh6B3p7gyIMMkNf3qL81jx0=
 			</data>
 		</dict>
 		<key>Headers/OneSignalPlugin.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			c0d3cCEdloIMOFPe6TNW9D/EdZI=
+			/RnLu7AhzHRdcxRDEgcFN7MzRDY=
 			</data>
 			<key>hash2</key>
 			<data>
-			5m74Myn0vxo0Wnpg3W1NufOl+2dVNci38QnHh36ZPv8=
+			AYe1IrNg5L+KVuzdh289mqDu8egtJLzb9fQTphnOpSQ=
 			</data>
 		</dict>
 		<key>Headers/onesignal_flutter-umbrella.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			jf/trYH71ty7+dUN7Ot71Rl4bzU=
+			hLeywv/RI5vfmfh/N9sSws/UhcY=
 			</data>
 			<key>hash2</key>
 			<data>
-			E40csOcGlRRpf+PGOqADd/szKmrwKI1bzGu9WhOIvkM=
+			Q6mMQ0bp9Z1izB+MFDSiV5wlMJS1csBpvHqnCr7EbKU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

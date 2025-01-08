@@ -25,8 +25,8 @@
  * THE SOFTWARE.
  */
 
+#import <OneSignal/OneSignal.h>
 #import <Flutter/Flutter.h>
-#import <OneSignalFramework/OneSignalFramework.h>
 
 #ifndef OneSignalCategories_h
 #define OneSignalCategories_h
@@ -35,15 +35,11 @@
 - (NSDictionary *)toJson;
 @end
 
-@interface OSNotificationWillDisplayEvent (Flutter)
+@interface OSNotificationOpenedResult (Flutter)
 - (NSDictionary *)toJson;
 @end
 
-@interface OSNotificationClickEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSNotificationClickResult (Flutter)
+@interface OSInAppMessageAction (Flutter)
 - (NSDictionary *)toJson;
 @end
 
@@ -53,30 +49,6 @@
 
 @interface NSError (Flutter)
 - (FlutterError *)flutterError;
-@end
-
-@interface OSInAppMessageWillDisplayEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSInAppMessageDidDisplayEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSInAppMessageWillDismissEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSInAppMessageDidDismissEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSInAppMessageClickEvent (Flutter)
-- (NSDictionary *)toJson;
-@end
-
-@interface OSInAppMessageClickResult (Flutter)
-- (NSDictionary *)toJson;
 @end
 
 #endif

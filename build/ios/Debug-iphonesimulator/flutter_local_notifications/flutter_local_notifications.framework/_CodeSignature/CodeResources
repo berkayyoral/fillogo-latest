@@ -26,19 +26,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		AwDAAGzno+mnWU6jJ7VHtR8LOZI=
+		jGtn34MuYXPNhlT6muaF0HiYEWk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		o3Hx2jctFO1lgiOtzSa+uVf9mgI=
-		</data>
-		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
-		<data>
-		86b47CVvMKz9TD1lK0njrEq//jY=
-		</data>
-		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<data>
-		TACQAjNH8aZiPGPN1ibJPOzuF+k=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -83,20 +75,6 @@
 			<key>hash2</key>
 			<data>
 			p3eDTfQvYLoyf8fgGoVdr28t8tSQtNrkuptekNxAocE=
-			</data>
-		</dict>
-		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			Szj/I/AxROYL02pD56r7mI/bHownZZEfGeHEclNSl10=
-			</data>
-		</dict>
-		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			j0y/Om8Yt96qvIZGvSVd9FPw0QDe8HTsBeREY0N76dU=
 			</data>
 		</dict>
 	</dict>

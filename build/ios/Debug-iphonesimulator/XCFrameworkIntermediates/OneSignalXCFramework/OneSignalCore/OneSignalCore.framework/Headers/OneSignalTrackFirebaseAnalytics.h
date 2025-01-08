@@ -26,14 +26,14 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <OneSignalCore/OSNotificationClasses.h>
+#import "OSNotificationClasses.h"
 
 @interface OneSignalTrackFirebaseAnalytics : NSObject
 +(BOOL)libraryExists;
 +(void)init;
 +(void)updateFromDownloadParams:(NSDictionary*)params;
 
-+(void)trackOpenEvent:(OSNotificationClickEvent*)event;
++(void)trackOpenEvent:(OSNotificationOpenedResult*)results;
 +(void)trackReceivedEvent:(OSNotification*)notification;
 +(void)trackInfluenceOpenEvent;
 @end

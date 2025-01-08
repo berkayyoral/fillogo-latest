@@ -25,12 +25,16 @@
  * THE SOFTWARE.
  */
 
-#import <OneSignalCore/OSNotificationClasses.h>
+#import "OSNotificationClasses.h"
 
 #ifndef OSNotification_Internal_h
 #define OSNotification_Internal_h
 
 @interface OSNotification(Internal)
++(instancetype _Nonnull )parseWithApns:(nonnull NSDictionary *)message;
+- (void)setCompletionBlock:(OSNotificationDisplayResponse _Nonnull)completion;
+- (void)startTimeoutTimer;
+- (void)complete:(nullable OSNotification *)notification;
 @end
 
 #endif /* OSNotification_Internal_h */

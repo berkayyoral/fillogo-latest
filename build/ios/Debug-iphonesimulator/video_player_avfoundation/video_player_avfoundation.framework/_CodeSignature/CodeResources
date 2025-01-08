@@ -8,41 +8,29 @@
 		<data>
 		pC4CIB6iS7GcMBjK9iAJIRH7/tA=
 		</data>
-		<key>Headers/FVPDisplayLink.h</key>
-		<data>
-		20RA0DYL2MwgAPeF/8FmLZURNTQ=
-		</data>
 		<key>Headers/FVPVideoPlayerPlugin.h</key>
 		<data>
-		jjb8R6573JHmi7RWOqdm3Moor30=
+		U5P2GYztVn3NtIkzkXi3s20huy4=
 		</data>
 		<key>Headers/FVPVideoPlayerPlugin_Test.h</key>
 		<data>
-		oz0yUKkTWyUIT7xqR2zVoDOpvMM=
+		2JkgKsk7I3TkpSnc+/HTCs5SHV8=
 		</data>
 		<key>Headers/messages.g.h</key>
 		<data>
-		6Lzkw+yMO6rLLEHrPzJu36L+ywA=
+		j2DY6QVxFSo8qiJCHRCALX6f3G4=
 		</data>
 		<key>Headers/video_player_avfoundation-umbrella.h</key>
 		<data>
-		khuORG4y2DZgy1I4yUgC78vChGY=
+		Ul1u/DPXXuOz7vHCJnS0zfZOvmY=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		7xEr5wgFhDG0PAGA0h++qWLS43Q=
+		dHwmnSIC4mnj0HRr91+sbfPsKN0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		e19a7Vc/9EA2WzCimEERKBGHlyc=
-		</data>
-		<key>video_player_avfoundation_privacy.bundle/Info.plist</key>
-		<data>
-		0WPV0MEKNdl+Lkbpy9VSA8WPDak=
-		</data>
-		<key>video_player_avfoundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<data>
-		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -54,39 +42,32 @@
 			hnFqocZRLoEtznAXiLG75Pwviu9rPZ1OfFBOAbwKuh0=
 			</data>
 		</dict>
-		<key>Headers/FVPDisplayLink.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			YxPsBRnBmBb9IcJZgrtxQRz2shP9snr2d+9hEcxd7VQ=
-			</data>
-		</dict>
 		<key>Headers/FVPVideoPlayerPlugin.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5If6aZrLjTMRlscTVR62pKoWjDe3Z+i0EcTdcc3SUEY=
+			X42KinEwbC2izXhtYwE6FodswM4Zq2RrGHB25OezMTE=
 			</data>
 		</dict>
 		<key>Headers/FVPVideoPlayerPlugin_Test.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			1s4tlVwT7G4FSfBG94LV6E8uOo2TrOTYsc+25c/xcgw=
+			3QwQHJGJjEqFNSUzRckR7eXrA+XBVPHw6iees52zicA=
 			</data>
 		</dict>
 		<key>Headers/messages.g.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			719AxugO1SMbNdJKcexKoCGkfMPUTBsoecdr39lazE8=
+			jEtx2RAYy9lufPYGB4H2yZgE8dsAlbkeVRj/IxZTSAs=
 			</data>
 		</dict>
 		<key>Headers/video_player_avfoundation-umbrella.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OwY4vmWBHvQL7NPEdFIVx9VPSoY+dHHD8hG2snccLrw=
+			B2+uVvvw/+hmBhQsCctok00UxVcWxE8FVySQMQtjrlE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -94,20 +75,6 @@
 			<key>hash2</key>
 			<data>
 			9WXhHcl6c6Zp10RxdSze4967xiGkRuWPvYmcjL5Ftvg=
-			</data>
-		</dict>
-		<key>video_player_avfoundation_privacy.bundle/Info.plist</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			t48tvWeSvbSxN0EmxcVsq7alKOWcvG/zofz8cOw2YAk=
-			</data>
-		</dict>
-		<key>video_player_avfoundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bS2g2NkwIn1CjB2TY7CtbjoS4sm2jFzilxWKdBL8jDE=
 			</data>
 		</dict>
 	</dict>

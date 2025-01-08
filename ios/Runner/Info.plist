@@ -18,8 +18,6 @@
 	<string>fillogo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-6811715094998587~8785210796</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
@@ -28,6 +26,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>EnableBackgroundLocationUpdates</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-6811715094998587~8785210796</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>

@@ -4,17 +4,17 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/FPPSharePlusPlugin.h</key>
+		<key>Headers/FLTSharePlusPlugin.h</key>
 		<data>
-		ib4KyXwSDVsaFGiT08uoa4h/RxA=
+		CdQ8ZQBEc7Okl34VwFt1LCql/zs=
 		</data>
 		<key>Headers/share_plus-umbrella.h</key>
 		<data>
-		/EK3HlFuqx47mflbnNOQmeSPC2E=
+		S5lXpOCFn5kOoQ0vnyli88fyWvE=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		k+lha42BIRtvEtYu4tqlhFILm64=
+		EQDojJZNH/bNje+ySjG0UlJIacc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -23,18 +23,18 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/FPPSharePlusPlugin.h</key>
+		<key>Headers/FLTSharePlusPlugin.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aHKDCOiZdgXJ28VG80oWXjEY72oJapPyhfztvFfCVH0=
+			Y12UVtop9vpZUfU2AhmarBjPNrb3nL6H19KyYuMW9bE=
 			</data>
 		</dict>
 		<key>Headers/share_plus-umbrella.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			djWC1c4X6AHd40AOwZzQmmynmUMFf6w9gQHrWBHTrSo=
+			oIqrzMn9dFMd2BuqLtqP6ojtf/6yhQYCsVogq8ihL9I=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

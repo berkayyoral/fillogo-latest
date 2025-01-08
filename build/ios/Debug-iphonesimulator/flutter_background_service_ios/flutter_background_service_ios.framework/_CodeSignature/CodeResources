@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/flutter_background_service_ios-Swift.h</key>
 		<data>
-		dSYBmUDF3Xl0zmsGFaXRmPcwjLI=
+		lzDKOW9l3IMyBqhQDdEylql1W3w=
 		</data>
 		<key>Headers/flutter_background_service_ios-umbrella.h</key>
 		<data>
@@ -18,39 +18,39 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		uFtlvurjcCG3Yr8AM6TRR0OCCmw=
+		Y4AQ+nUxKMJFrqL4B/+twVRgXJw=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		MwuA0JHpGg5SqDTyne39p/pUV5U=
+		h4zYcxkp/4ZPqbQ78zTjkUO92j0=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		3Oe2KJvL5Vn4fNP9ZzlST0ZnC7o=
+		7IWHlszzqKgRYwRS2N3jNf0taBs=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		FSPnLbho3G+LL9smI3XgVOqBIQ4=
+		gcwBsH4BgyFY4sVtNt+/xOKS3vY=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		aWwggI+sV5OIXvPE/gRc+cmTNNA=
+		7duP8Jq0gDu3nmnF0sin6wyfFHw=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		YPZKSRUSn7Oxupax/D14um54Hfw=
+		SPaWjtM6jFmfXBX8sFA0W9trAaA=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		FSPnLbho3G+LL9smI3XgVOqBIQ4=
+		gcwBsH4BgyFY4sVtNt+/xOKS3vY=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		zxFMl2viok1jHsto3VWR0ODaEog=
+		3oXtqHrq12qmrb2srFaClXuPbk8=
 		</data>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		T9kDlmv0P2dC0k9rF2+QAVegMzk=
+		rlKWYYnvmVjg3b2jKuJUaGjRvSg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -70,7 +70,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			e97DFTifPt0uJuvOjXEvLCCVqpUPUUzC2cQJmnixm1Q=
+			ciYV+s4cyl61ZLQsDx1HrvRMO5yYwqjNFuX95hAD6Ik=
 			</data>
 		</dict>
 		<key>Headers/flutter_background_service_ios-umbrella.h</key>
@@ -84,56 +84,56 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Uo3bPz5LoxwnQWQO6rkgS1aiH5mcvB1PHhrMQjcZJwo=
+			AW8W3BCmS0qX2Uh2/OD0pOXxxc8NmANMC45PmzuiSK8=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ceZxO/nfyF1uAY8ZUdu3uSrMJd6RDabXkzFdvwYvyX0=
+			c0ClUCE6VsejotXQ4nbgyr3txeTpKsiOSNbo3IXuDX8=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
+			Qnesa0n4URGWAopawg9bGx36dUwkYV00BoCJ8LFzlyg=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aIjDdK6/+tfYvcY8cTXlMryf7Ol+oX797GKaAvTpztk=
+			GSrnQ12EI8gzKoKhhQOvyC2x0dAN7eQgY74y3qOMY3U=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lkAfjFqcETUDymAwbT6HtDA0R/jOzHGA1hjvYziMZAU=
+			p1ojLUOljzD56O5fuceq+sEYQmnkavUNOOAu/FBNwKo=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
+			Qnesa0n4URGWAopawg9bGx36dUwkYV00BoCJ8LFzlyg=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yr7OF5wCp1vbrCQ8pA40/6lmesy+GE7Xbc493WUBAOw=
+			dRhFmNPz5Z9x5XjBox6vtFZKzzSWLBi4CsWtOIdQrUI=
 			</data>
 		</dict>
 		<key>Modules/flutter_background_service_ios.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9FZax+D+tos7MDYvbqeO6TjeSwR7RjyXxVpz6GjR4L8=
+			l10CFhwxyjvdPuTRmsixZIslJKfKbHxYEB50FWa+TjU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
