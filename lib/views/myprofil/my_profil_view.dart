@@ -476,6 +476,12 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                                 json.decode(
                                                                     value!));
                                                     if (response.success == 1) {
+                                                      print(
+                                                          "KENDİ PROFİLİMDEN GÖNDERİ SİLDİM");
+                                                      snapshot.data!.data!
+                                                          .posts!.result!
+                                                          .removeAt(index);
+
                                                       Get.back();
                                                       UiHelper.showSuccessSnackBar(
                                                           context,

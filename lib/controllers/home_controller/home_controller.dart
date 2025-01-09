@@ -32,7 +32,12 @@ class HomeController extends GetxController {
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
     }).then((value) {
       if (value != null) {
-        return GetHomePostResponse.fromJson(json.decode(value));
+        var res = GetHomePostResponse.fromJson(json.decode(value));
+        // totalPage.value = res.data![0].pagination!.totalPage!;
+        // for (int i = 0; i < res.data![0].result!.length; i++) {
+        //   snapshotList.value.add(res.data![0].result![i]);
+        // }
+        return res;
       }
       return null;
     });
@@ -45,11 +50,12 @@ class HomeController extends GetxController {
         snapshotList.value.add(response.data![0].result![i]);
       }
     }
-
+    print("HOMEPOSTT -> ${jsonEncode(response.data)}");
     update(["homePage"]);
     update(["comment"]);
     update(["like"]);
     update(["homePagem"]);
+    print("HOMEPOSTT 2 -> ${jsonEncode(response.data)}");
   }
 
   void addList(int page) async {

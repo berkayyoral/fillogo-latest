@@ -83,13 +83,19 @@ class _VehicleSettingsState extends State<VehicleSettings> {
       print("cartype aaa val $value");
 
       if (response.succes == 1) {
-        capacityController.text =
-            response.data![0].userCarTypes![0].carCapacity.toString();
-        carId = response.data![0].userCarTypes![0].id;
-        brandController.text =
-            response.data![0].userCarTypes![0].carBrand.toString();
-        modelController.text =
-            response.data![0].userCarTypes![0].carModel.toString();
+        print("responsee -> ${jsonEncode(response.data)}");
+        capacityController.text = response.data![0].userCarTypes!.isNotEmpty
+            ? response.data![0].userCarTypes![0].carCapacity.toString()
+            : "";
+        carId = response.data![0].userCarTypes!.isNotEmpty
+            ? response.data![0].userCarTypes![0].id
+            : 2;
+        brandController.text = response.data![0].userCarTypes!.isNotEmpty
+            ? response.data![0].userCarTypes![0].carBrand.toString()
+            : "";
+        modelController.text = response.data![0].userCarTypes!.isNotEmpty
+            ? response.data![0].userCarTypes![0].carModel.toString()
+            : "";
         print("cartype aaa id $carId");
       } else {
         print("Response Hata = ${response.message}");

@@ -1285,14 +1285,15 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 carType: searchRouteController.carTypeList);
 
         print(
-            "SEARCHROUTE FİLTERCARTYPELİST -> ${searchRouteController.carTypeList}");
-        await GeneralServicesTemp()
+            "SEARCHROUTE start-> ${jsonEncode(routeSearchByCityRequestModel)} FİLTERCARTYPELİST -> ${searchRouteController.carTypeList}");
+        var res = await GeneralServicesTemp()
             .makePostRequest(
           EndPoint.routesSearchByCitys,
           routeSearchByCityRequestModel,
           ServicesConstants.appJsonWithToken,
         )
             .then((value) async {
+          print("VALUEE -> ${value}");
           final response =
               GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
           createRouteController.searchByCityDatum.value = response.data![0];
@@ -1300,7 +1301,15 @@ class RouteCalculateButtomSheet extends StatelessWidget {
 
           searchRouteController.showOnlyMap.value = true;
         });
+        print("VALUEE1 -> ${jsonEncode(res)}");
+        // final response =
+        //     GetRouteSearchByCityResponseModel.fromJson(jsonDecode(res));
 
+        // print("VALUEE2 -> ${jsonEncode(response)}");
+        // createRouteController.searchByCityDatum.value = response.data![0];
+        // createRouteController.addNewMarkersForSearchingRoute(context);
+
+        // searchRouteController.showOnlyMap.value = true;
         createRouteController.isLoading.value = false;
       }
     } else {
