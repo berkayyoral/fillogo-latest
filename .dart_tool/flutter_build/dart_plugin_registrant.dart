@@ -28,7 +28,7 @@ import 'package:sqflite_darwin/sqflite_darwin.dart';
 import 'package:url_launcher_ios/url_launcher_ios.dart';
 import 'package:video_player_avfoundation/video_player_avfoundation.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import 'package:connectivity_plus_linux/connectivity_plus_linux.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:file_selector_linux/file_selector_linux.dart';
 import 'package:flutter_local_notifications_linux/flutter_local_notifications_linux.dart';
 import 'package:image_picker_linux/image_picker_linux.dart';
@@ -261,10 +261,10 @@ class _PluginRegistrant {
 
     } else if (Platform.isLinux) {
       try {
-        ConnectivityLinux.registerWith();
+        ConnectivityPlusLinuxPlugin.registerWith();
       } catch (err) {
         print(
-          '`connectivity_plus_linux` threw an error: $err. '
+          '`connectivity_plus` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }

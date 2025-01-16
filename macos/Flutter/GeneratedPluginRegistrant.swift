@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import connectivity_plus_macos
+import connectivity_plus
 import file_selector_macos
 import flutter_local_notifications
 import geolocator_apple
