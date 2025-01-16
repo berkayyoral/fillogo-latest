@@ -6,8 +6,8 @@ import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart'
 import '../controllers/map/get_current_location_and_listen.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
-  NavigationDrawerWidget({super.key});
-
+  NavigationDrawerWidget({super.key, this.bottomnavBarKey});
+  GlobalKey<ScaffoldState>? bottomnavBarKey;
   final GeneralDrawerController drawerControl =
       Get.find<GeneralDrawerController>();
   final BottomNavigationBarController bottomNavigationBarController =
@@ -27,6 +27,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             iconPath: 'assets/icons/profil-icon.svg',
             title: 'Profilim',
             onTap: () async {
+              bottomnavBarKey!.currentState!.closeDrawer();
               await _drawerControlIndex();
               bottomNavigationBarController.selectedIndex.value = 3;
             },
@@ -44,6 +45,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             iconPath: 'assets/icons/intersecting-routes-search.svg',
             title: 'Kesişen Rotaları Ara',
             onTap: () async {
+              bottomnavBarKey!.currentState!.closeDrawer();
               await _drawerControlIndex();
               bottomNavigationBarController.selectedIndex.value = 2;
             },

@@ -19,8 +19,8 @@ class GeneralServicesTemp {
     final headers = postHeaders;
     final json = convert.json.encode(requestModel);
     final response = await post(url, headers: headers, body: json);
-    print('Status code: ${response.statusCode}');
-    print('Body: ${response.body}');
+    // print('Status code: ${response.statusCode}');
+    // print('Body: ${response.body}');
     _handleResponse(response);
     if (response.statusCode == 200) {
       return response.body;

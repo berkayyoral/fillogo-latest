@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
@@ -87,8 +88,13 @@ class CreateRouteController extends GetxController implements PolylineService {
         startRouteLocation.value = LatLng(data.latitude, data.longitude);
         startRouteAdress.value = data.address;
         startRouteCity.value = data.state;
-        print(
-            "STARTLOCATİON İNFO -> ${startRouteCity.value} finish -> ${finishRouteCity.value}");
+        if (data.state.isNotEmpty) {
+          await getRoute(
+              startRouteLocation.value.latitude,
+              startRouteLocation.value.longitude,
+              finishRouteLocation.value.latitude,
+              finishRouteLocation.value.longitude);
+        }
       } else {
         finishRouteLocation.value = LatLng(data.latitude, data.longitude);
         finishRouteAdress.value = data.address;
@@ -96,11 +102,6 @@ class CreateRouteController extends GetxController implements PolylineService {
 
         mfuController.sehirler.value =
             "${startRouteCity.value} -> ${finishRouteCity.value}";
-
-        print(
-            "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
-        print("CREATEROUTE mfu ${mfuController.sehirler.value}");
-        print("CREATEROUTE DATA ${data.state}");
 
         if (data.state.isNotEmpty) {
           await getRoute(
@@ -123,7 +124,7 @@ class CreateRouteController extends GetxController implements PolylineService {
         //     finishRouteLocation.value.longitude);
       }
     } catch (e) {
-      print("CREATEROUTECONTROLLER GET CİTY ERROR -> $e");
+      ("CREATEROUTECONTROLLER GET CİTY ERROR -> $e");
     }
   }
 
@@ -178,7 +179,7 @@ class CreateRouteController extends GetxController implements PolylineService {
               ((calculatedTime / 60) % 60).toInt();
           routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
           routePolyline.value = value.routes![0].polyline!.encodedPolyline!;
-          print("GETPOLYLİNE -> $routePolyline");
+
           dateTimeFormatArrival.value =
               DateFormat('yyyy-MM-dd HH:mm').format(DateTime(
             DateTime.now().year,
@@ -203,14 +204,11 @@ class CreateRouteController extends GetxController implements PolylineService {
           LatLng middRoute =
               LatLng(midPoint['latitude']!, midPoint['longitude']!);
 
-          print(
-              "distamce merter -> ${((value.routes![0].distanceMeters)! / 1000)}");
           int distanceMeters = int.parse(
               ((value.routes![0].distanceMeters)! / 1000).toStringAsFixed(0));
 
           calculatedRouteDistance.value = distanceMeters.toString();
 
-          print("DİSTANCEMETERS -> ${distanceMeters}");
           double zoom = 5;
 
           if (distanceMeters < 3) {
@@ -246,9 +244,6 @@ class CreateRouteController extends GetxController implements PolylineService {
               ),
             ),
           );
-          print(
-              "CREATEROUTE START -> ${startRouteCity.value} finif -> ${finishRouteCity.value}");
-          print("CALCULATEDİSTANCE -> ${calculatedRouteDistance.value}");
         }
       });
     } catch (e) {
@@ -285,7 +280,6 @@ class CreateRouteController extends GetxController implements PolylineService {
     double midLon = toDegrees(midLonRad);
 
     // return LatLng(midLat, midLon);
-    print("ORTANOKTASI -> ${midLon}");
     return {'latitude': midLat, 'longitude': midLon};
   }
 
@@ -296,7 +290,6 @@ class CreateRouteController extends GetxController implements PolylineService {
       await PolylineService()
           .getPolyline(startLat, startLng, endLat, endLng)
           .then((value) {
-        print("GETPOLYLİNE -> ${value}");
         mapPageMController.polylines.add(value!);
       });
     } catch (e) {
@@ -357,9 +350,6 @@ class CreateRouteController extends GetxController implements PolylineService {
       // );
     } else {
       try {
-        print(
-            "ROTANIZINBİTİSSAATİ arrival  -> ${arrivalController.value.text} depar -> ${departureController.value.text}");
-
         UiHelper.showLoadingAnimation();
         GeneralServicesTemp().makePostRequest(
           EndPoint.routesNew,
@@ -397,9 +387,6 @@ class CreateRouteController extends GetxController implements PolylineService {
             if (value != null) {
               final response =
                   PostCreateRouteResponseModel.fromJson(jsonDecode(value));
-              print(
-                  "ROTANIZINBİTİSSAATİ createroute ->  ${jsonEncode(response)}");
-              print("DEPARTUREFORMAT _> ${dateTimeFormatDeparture.value}");
               if (response.success == 1) {
                 createPostPageController.routeId.value = response.data![0].id!;
 
@@ -472,13 +459,11 @@ class CreateRouteController extends GetxController implements PolylineService {
                                             'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                                       },
                                     ).then((value) async {
-                                      print("başlattımm 3-> ");
                                       ActivateRouteResponseModel response =
                                           ActivateRouteResponseModel.fromJson(
                                               jsonDecode(value!));
 
                                       if (response.success == 1) {
-                                        print("başlattımm 4-> ");
                                         String tarihiAl(String text) {
                                           text = text.replaceAll('┤', '');
                                           text = text.replaceAll('├', '');
@@ -486,22 +471,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                                           return datePart;
                                         }
 
-                                        print("başlattımm 5-> ");
-                                        // String varisdate = tarihiAl(
-                                        //     arrivalController.value.text);
-                                        // String cikisdate = tarihiAl(
-                                        //     departureController.value.text);
-
-                                        // createPostPageController.update();
-
-                                        // createPostPageController
-                                        //     .routeStartDate.value = cikisdate;
-                                        // createPostPageController
-                                        //     .routeEndDate.value = varisdate;
-                                        // createPostPageController
-                                        //         .routeContent.value =
-                                        //     "${startRouteCity.value} -> ${finishRouteCity.value}";
-                                        print("başlattımm 6-> ");
                                         await Get.dialog(RouteAlertDialog()
                                             .showShareRouteAllertDialog(
                                           "${startRouteCity.value} -> ${finishRouteCity.value}",
@@ -517,45 +486,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                                           0,
                                         ));
 
-                                        // UiHelper.showLoadingAnimation();
-
-                                        // await GeneralServicesTemp()
-                                        //     .makeGetRequest(
-                                        //   EndPoint.getMyRoutes,
-                                        //   {
-                                        //     "Content-type": "application/json",
-                                        //     'Authorization':
-                                        //         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                        //   },
-                                        // ).then((value) async {
-                                        //   GoogleMapController
-                                        //       googleMapController =
-                                        //       mapPageMController.mapController;
-                                        //   googleMapController.animateCamera(
-                                        //     CameraUpdate.newCameraPosition(
-                                        //       CameraPosition(
-                                        //         bearing: 90,
-                                        //         target: LatLng(
-                                        //           currentLocationController
-                                        //               .myLocationLatitudeDo
-                                        //               .value,
-                                        //           currentLocationController
-                                        //               .myLocationLongitudeDo
-                                        //               .value,
-                                        //         ),
-                                        //         zoom: 10,
-                                        //       ),
-                                        //     ),
-                                        //   );
-                                        //   print("başlattımm 9-> ");
-                                        //   await mapPageMController
-                                        //       .getUsersOnArea(carTypeFilter: [
-                                        //     "Otomobil",
-                                        //     "Tır",
-                                        //     "Motorsiklet"
-                                        //   ]);
-                                        // });
-
                                         BottomNavigationBarController
                                             bottomNavigationBarController =
                                             Get.find<
@@ -565,7 +495,6 @@ class CreateRouteController extends GetxController implements PolylineService {
 
                                         // Get.back(); //showLoadingAnimation kapatmak  için
                                       } else {
-                                        print("başlattımm 16-> ");
                                         Get.back(closeOverlays: true);
                                         Get.snackbar(
                                             "Hata!", "${response.message}",
@@ -621,7 +550,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                       ),
                     );
                   } else {
-                    print("BURDAYIMMM");
                     Get.dialog(RouteAlertDialog().showShareRouteAllertDialog(
                       "${startRouteCity.value} -> ${finishRouteCity.value}",
                       (LocaleManager.instance
@@ -634,7 +562,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                     // Get.back();
                   }
                 } else {
-                  print("BURDAYIMMM");
                   Get.dialog(RouteAlertDialog().showShareRouteAllertDialog(
                     "${startRouteCity.value} -> ${finishRouteCity.value}",
                     (LocaleManager.instance
@@ -645,7 +572,6 @@ class CreateRouteController extends GetxController implements PolylineService {
                   ));
                 }
               } else if (response.success == -500) {
-                print("SSASASAA");
                 Get.back();
                 Get.snackbar(
                   "Hata!",
@@ -653,7 +579,7 @@ class CreateRouteController extends GetxController implements PolylineService {
                 );
               } else if (response.success == -1) {
                 createPostPageController.routeId.value = response.data![0].id!;
-                print("ROTASİLOLUŞTUR -> ${jsonEncode(response)}");
+
                 Get.dialog(
                   RouteAlertDialog()
                       .showSelectDeleteOrShareDialog(response.data![0].id!),

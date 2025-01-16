@@ -32,15 +32,12 @@ class StoryFlowWiew extends StatelessWidget {
                       'Content-Type': 'application/json',
                     },
                   ).then((value2) {
-                    print("STORYVİEWWW VALUE ss$value2");
                     if (value2 != null) {
                       return HaveIStory.fromJson(json.decode(value2));
                     }
                     return null;
                   }),
                   builder: (context, snapshot2) {
-                    print(
-                        "STORYYYWİEEWW SNAPSHOT -> ${jsonEncode(snapshot2.data)}");
                     if (snapshot2.hasData) {
                       if (snapshot2.data!.success == 1) {
                         haveIStory.value = true;
@@ -84,7 +81,6 @@ class StoryFlowWiew extends StatelessWidget {
                             'Content-Type': 'application/json',
                           },
                         ).then((value2) {
-                          print("STORYVİEWWW value2 hh$value2");
                           if (value2 != null) {
                             return HaveIStory.fromJson(json.decode(value2));
                           }

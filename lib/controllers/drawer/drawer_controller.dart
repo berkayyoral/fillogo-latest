@@ -8,7 +8,10 @@ class GeneralDrawerController extends GetxController {
     _isLoading.refresh();
   }
 
-  var postFlowPageScaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> bottomnavBarKey = GlobalKey<ScaffoldState>();
+
+  GlobalKey<ScaffoldState> postFlowPageScaffoldKey = GlobalKey<ScaffoldState>();
+
   var mapPageScaffoldKey = GlobalKey<ScaffoldState>();
   var routeCalculatePageScaffoldKey = GlobalKey<ScaffoldState>();
   var myProfilePageScaffoldKey = GlobalKey<ScaffoldState>();

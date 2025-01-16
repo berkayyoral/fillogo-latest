@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
@@ -40,8 +42,10 @@ class NewPostCreateButtonView extends StatelessWidget {
                   .getString(PreferencesKeys.currentUserUserName)!;
               createPostPageController.userPhoto.value = LocaleManager.instance
                   .getString(PreferencesKeys.currentUserProfilPhoto)!;
-              final newPost = Get.toNamed('/createPostPage');
+              final newPost = Get.toNamed('/createPostPage', arguments: true);
 
+              print("NEWPOST -> ${newPost}");
+// if(new)
               print(
                   "POOSSTTTNEWW 1-> ${createPostPageController.routeId.value}");
             },

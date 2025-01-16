@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/controllers/user/user_state_controller.dart';
@@ -12,7 +14,7 @@ class OneSignalManager {
     OneSignal.initialize(AppConstants.oneSignalAppId);
     final int? id =
         LocaleManager.instance.getInt(PreferencesKeys.currentUserId);
-    print("ONESİGNALm burdayım");
+
     final String deviceLang =
         LocaleManager.instance.getString(PreferencesKeys.languageCode) ??
             Get.deviceLocale?.languageCode ??
@@ -23,56 +25,32 @@ class OneSignalManager {
 
     DateTime startDateRoute = DateTime.now();
     if (id != null) {
-      print("NOTİFYCMM ONESİGNALm İÇİN IDm c -> $id");
       await OneSignal.login(id.toString())
           .then((value) => print("ONESİGNALm LOGİN OLDUM"));
     }
     OneSignal.User.setLanguage(deviceLang);
 
     OneSignal.Notifications.requestPermission(false).then((permission) async {
-      print("NOTİFYCMM ONESİGNALm permission $permission");
       await setupNotificationStatusInTheBackend(
           isNotificationActive: permission);
     });
 
     OneSignal.Notifications.addPermissionObserver((permission) async {
-      print("NOTİFYCMM ONESİGNALm permissionmm");
       await setupNotificationStatusInTheBackend(
           isNotificationActive: permission);
     });
 
     OneSignal.Notifications.addForegroundWillDisplayListener((event) async {
-      print(
-          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
-      print(
-          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH ıd: ${event.notification.androidNotificationId}');
-      print(
-          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH ıd2: ${event.notification.notificationId}');
-      print(
-          'NOTİFYCMM WILL DISPLAY LISTENER CALLED WITH: ${event.notification.additionalData}');
       startDateRoute = DateTime.now();
 
       if (event.notification.additionalData!["type"] == 99) {
-        print("NOTFYY11");
         await LocaleManager.instance.setString(PreferencesKeys.dialogStartRoute,
             (event.notification.additionalData!["receiver"]!).toString());
-        print(
-            "NOTFYY11  -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
       }
       if (event.notification.additionalData!["type"] == 10) {
         if (LocaleManager.instance
                 .getBool(PreferencesKeys.showStartRouteAlert) !=
             null) {
-          print(
-              "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
-
-          print(
-              "NOTFYY1  -> ${LocaleManager.instance.getString(PreferencesKeys.dialogStartRoute)}");
-          print(
-              "NOTFY2   -> ${LocaleManager.instance.getString(PreferencesKeys.dialogFinishRoute)}");
-          print(
-              "NOTFY3   -> ${LocaleManager.instance.getInt(PreferencesKeys.dialogRouteID)}");
-
           List? params;
           int sender;
 
@@ -82,7 +60,6 @@ class OneSignalManager {
           ];
           sender = event.notification.additionalData![
               "routeID"]; //eğer rota bildirimiyse senderi rotaID kabul ediyoruz
-          print("APPLİFEED -> ${userStateController.state.value}");
           if (!LocaleManager.instance
                   .getBool(PreferencesKeys.showStartRouteAlert)! &&
               userStateController.state.value == AppLifecycleState.resumed) {
@@ -97,8 +74,6 @@ class OneSignalManager {
                 departureTime: startDateRoute);
           }
         }
-
-        print("NOTİFYCMM ROTA BİLDİRİMİ SON");
       }
 
       if (event.notification.additionalData!["type"] == 11) {
@@ -109,8 +84,6 @@ class OneSignalManager {
             .getBool(PreferencesKeys.showStartRouteAlert)!) {
           LocaleManager.instance
               .setBool(PreferencesKeys.showStartRouteAlert, false);
-          print(
-              "NOTİFYCMM ROTA BİLDİRİMİ GELDİ locale -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
           LocaleManager.instance.remove(PreferencesKeys.dialogStartRoute);
           Get.back();
         }
@@ -148,15 +121,13 @@ class OneSignalManager {
             sender: sender,
             startDateRoute: startDateRoute);
       } catch (e) {
-        print("NOTİFYCMM ONESİGNALm  click error -> $e");
+        log("NOTİFYCMM ONESİGNALm  click error -> $e");
       }
     });
 
     OneSignal.User.pushSubscription.addObserver((stateChanges) async {
-      debugPrint(
-          'NOTİFYCMM ONESİGNALm previous state ${stateChanges.previous.optedIn}');
-      debugPrint(
-          'NOTİFYCMM ONESİGNALm current state ${stateChanges.current.optedIn}');
+      log('NOTİFYCMM ONESİGNALm previous state ${stateChanges.previous.optedIn}');
+      log('NOTİFYCMM ONESİGNALm current state ${stateChanges.current.optedIn}');
 
       if (stateChanges.current.optedIn == true) {
         // OneSignal.logout();
@@ -197,10 +168,8 @@ void navigateToPage(
   SelectedRouteController selectedRouteController =
       Get.put(SelectedRouteController());
   NotificationController notificationController = Get.find();
-  print("NOTİFYCMM NOTİFY TYPOE -> $type");
   switch (type) {
     case 1:
-      print("NOTİFYCMM type 1");
       Get.toNamed(NavigationConstants.otherprofiles, arguments: sender);
       break;
     case 3:
@@ -260,7 +229,6 @@ void navigateToPage(
 
 Future<void> setupNotificationStatusInTheBackend(
     {required bool isNotificationActive}) async {
-  return print("NOTİFYCMM ALDIMMMM");
   // GetNotificationStatusResponseModel? response =
   //     await NotificationsServices.getNotificationStatus();
   // if (response == null || response.success != 1) {

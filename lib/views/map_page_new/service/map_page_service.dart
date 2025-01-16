@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fillogo/core/constants/app_constants.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
@@ -27,12 +29,11 @@ class MapPageService {
       ).then((value) {
         usersOnAreaModel =
             UsersOnAreaModel.fromJson(convert.json.decode(value!));
-        print(
-            "MAPPAGESERVİCE ONAREA -> ${usersOnAreaModel!.data!.first.length}");
+
         return usersOnAreaModel;
       });
     } catch (e) {
-      print("MAPPAGESERVİCE error getUsersOnArea -> $e");
+      log("MAPPAGESERVİCE error getUsersOnArea -> $e");
     }
     return usersOnAreaModel;
   }
@@ -48,9 +49,8 @@ class MapPageService {
               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
         },
       );
-      print("UPDATELOCATİON SUCCESS");
     } catch (e) {
-      print("MAPPAGESERVİCE error updateLocation  -> $e");
+      log("MAPPAGESERVİCE error updateLocation  -> $e");
     }
   }
 
@@ -77,7 +77,7 @@ class MapPageService {
       });
       return matchingRoutesResponse!.matchingRoutes![0].matching;
     } catch (e) {
-      print("MapService GetMatchingRoutes error -> $e");
+      log("MapService GetMatchingRoutes error -> $e");
     }
   }
 }

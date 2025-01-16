@@ -13,6 +13,7 @@ import 'package:fillogo/core/constants/app_constants.dart';
 import 'package:fillogo/core/constants/enums/preference_keys_enum.dart';
 import 'package:fillogo/core/constants/navigation_constants.dart';
 import 'package:fillogo/core/init/locale/locale_manager.dart';
+import 'package:fillogo/models/post/get_home_post.dart';
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/widgets/appbar_genel.dart';
@@ -50,7 +51,7 @@ class CreatePostPageView extends StatelessWidget {
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
-  HomeController homeController = Get.find();
+  HomeController homeController = Get.put(HomeController());
   TextEditingController discriptionTextController = TextEditingController();
 
   MfuController mfuController = Get.find<MfuController>();
@@ -60,7 +61,8 @@ class CreatePostPageView extends StatelessWidget {
   UserStateController userStateController = Get.find();
   GeneralDrawerController postFlowDrawerController =
       Get.find<GeneralDrawerController>();
-
+  bool isHomepage = Get.arguments ?? false;
+  HomePostDetail? detail;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -254,6 +256,7 @@ class CreatePostPageView extends StatelessWidget {
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
                             createPostPageController.haveRoute.value == 0) {
+                          print("gönderioluştur 1");
                         } else {
                           Map<String, dynamic> map = <String, dynamic>{};
                           createPostPageController.isSelectedEmotion.value
@@ -273,8 +276,7 @@ class CreatePostPageView extends StatelessWidget {
                               createPostPageController.routeId.value != 0
                                   ? "Yeni bir rotaya çıktım"
                                   : discriptionTextController.text;
-                          print(
-                              "POOSSTTTNEWW -> ${createPostPageController.routeId.value}");
+
                           createPostPageController.routeId.value == 0
                               ? null
                               : map['postRouteID'] =
@@ -470,7 +472,9 @@ class CreatePostPageView extends StatelessWidget {
     );
   }
 
-  Widget showAllertDialogPostSharing(BuildContext context) {
+  Widget showAllertDialogPostSharing(
+    BuildContext context,
+  ) {
     SocialController socialController = Get.put(SocialController());
     return AlertDialog(
       title: Text(
@@ -603,8 +607,15 @@ class CreatePostPageView extends StatelessWidget {
                   createPostPageController.routeId.value == 0;
                   print(
                       "POOSSTTTNEWW 3 -> ${createPostPageController.routeId.value}");
+
+                  // Get.back();
                   Get.back();
-                  Get.back();
+                  if (isHomepage) {
+                    // Get.back(result: detail);
+                    Get.toNamed(NavigationConstants.bottomNavigationBar);
+                  } else {
+                    Get.back();
+                  }
 
                   Get.find<HomeController>().update(["homePage"]);
                   Get.find<HomeController>().update(["comment"]);

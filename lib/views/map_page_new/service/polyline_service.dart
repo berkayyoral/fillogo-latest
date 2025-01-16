@@ -13,8 +13,6 @@ class PolylineService {
       double startLat, double startLng, double endLat, double endLng) async {
     MapPageMController mapPageMController = Get.find();
     try {
-      print(
-          "GETMYROUTES start -> ${startLat} / $startLng end -> $endLat/$endLng");
       PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
         AppConstants.googleMapsApiKey,
         PointLatLng(startLat, startLng),
@@ -33,11 +31,11 @@ class PolylineService {
           points: polylineCoordinates,
           width: 9,
         );
-        print("GETMYROUTES polyline");
+
         return polyline;
       }
     } catch (e) {
-      print("polylineservice getPolyline error -> $e");
+      debugPrint("POLYLİNESERVİCE ERR getPolyline  -> $e");
     }
   }
 
@@ -80,20 +78,18 @@ class PolylineService {
       );
 
       if (response.statusCode == 200) {
-        print("polylineservice code");
-        print("polylineservice res -> ${response.body}");
         final data = json.decode(response.body);
         // Rota bilgilerini işleyin
-        print("polylineservice res -> ${response.body}");
+
         getPollylineResponseModel =
             GetPollylineResponseModel.fromJson(json.decode(response.body));
-        print('polylineservice Route data: $data');
+
         return getPollylineResponseModel;
       } else {
-        print("polylineservice Error -> ${response}");
+        debugPrint("POLYLİNESERVİCE Error -> ${response.statusCode}");
       }
     } catch (e) {
-      print("polylineservice Error e -> $e");
+      debugPrint("POLYLİNESERVİCE catch err -> $e");
     }
   }
 }

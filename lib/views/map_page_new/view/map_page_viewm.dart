@@ -25,187 +25,278 @@ class MapPageViewM extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mapPageMController.context = context;
-    return SafeArea(
-      child: Scaffold(
-        key: mapPageDrawerController.mapPageScaffoldKey,
-        appBar: AppBarGenel(
-          leading: GestureDetector(
-            onTap: () {
-              mapPageDrawerController.openMapPageScaffoldDrawer();
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 20.w,
-                right: 5.h,
-              ),
-              child: SvgPicture.asset(
-                height: 25.h,
-                width: 25.w,
-                'assets/icons/open-drawer-icon.svg',
-                color: AppConstants().ltLogoGrey,
-              ),
-            ),
-          ),
-          title: Image.asset(
-            'assets/logo/logo-1.png',
-            height: 40,
-          ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(NavigationConstants.notifications);
-                notificationController.isUnOpenedNotification.value = false;
-              },
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: 5.w,
-                ),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    SvgPicture.asset(
-                      height: 20.h,
-                      width: 20.w,
-                      'assets/icons/notification-icon.svg',
-                      color: AppConstants().ltLogoGrey,
-                    ),
-                    Obx(() =>
-                        notificationController.isUnOpenedNotification.value
-                            ? CircleAvatar(
-                                radius: 6.h,
-                                backgroundColor: AppConstants().ltMainRed,
-                              )
-                            : const SizedBox())
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () async {
-                Get.toNamed(NavigationConstants.message);
-                notificationController.isUnReadMessage.value = false;
-              },
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 5.w,
-                  right: 20.w,
-                ),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/message-icon.svg',
-                      height: 20.h,
-                      width: 20.w,
-                      color: const Color(0xff3E3E3E),
-                    ),
-                    Obx(() => notificationController.isUnReadMessage.value
-                        ? CircleAvatar(
-                            radius: 6.h,
-                            backgroundColor: AppConstants().ltMainRed,
-                          )
-                        : const SizedBox())
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        drawer: NavigationDrawerWidget(),
-        body: Stack(
-          children: [
-            ///MAP
-            Obx(
-              () {
-                return mapPageMController.isLoading.value
-                    ? const Center(child: CircularProgressIndicator())
-                    : Container(
-                        height: mapPageMController.isCreateRoute.value
-                            ? 270.h
-                            : Get.height,
-                        child: GoogleMap(
-                          onMapCreated: (GoogleMapController controller) {
-                            mapPageMController.mapController = controller;
-                          },
-                          initialCameraPosition: CameraPosition(
-                            bearing: 90,
-                            tilt: 45,
-                            target: LatLng(
-                              getMyCurrentLocationController
-                                  .myLocationLatitudeDo.value,
-                              getMyCurrentLocationController
-                                  .myLocationLongitudeDo.value,
-                            ),
-                            zoom: 15,
-                          ),
-                          onCameraMoveStarted: () async {},
-                          onCameraMove: (position) {},
-                          onCameraIdle: () async {
-                            LatLngBounds bounds = await mapPageMController
-                                .mapController!
-                                .getVisibleRegion();
-                            LatLng center = LatLng(
-                              (bounds.northeast.latitude +
-                                      bounds.southwest.latitude) /
-                                  2,
-                              (bounds.northeast.longitude +
-                                      bounds.southwest.longitude) /
-                                  2,
-                            );
-
-                            ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
-                            int count = getSameDigitsCount(
-                                center.latitude.toString(),
-                                mapPageMController.currentLocationController
-                                    .myLocationLatitudeDo.value
-                                    .toString());
-                            print(
-                                "NEWMAP Haritanın merkezi: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
-
-                            if (count < 7) {
-                              mapPageMController.shouldUpdateLocation.value =
-                                  false;
-                            }
-                          },
-                          markers: Set<Marker>.from(
-                              mapPageMController.markers.value),
-                          polylines: Set<Polyline>.of(
-                              mapPageMController.polylines.value),
-                          myLocationEnabled: true,
-                          compassEnabled: false,
-                          myLocationButtonEnabled: false,
-                          mapType: MapType.normal,
-                          zoomGesturesEnabled: true,
-                          zoomControlsEnabled: false,
+    return Stack(
+      children: [
+        ///MAP
+        Obx(
+          () {
+            return mapPageMController.isLoading.value
+                ? const Center(child: CircularProgressIndicator())
+                : Container(
+                    height: mapPageMController.isCreateRoute.value
+                        ? 270.h
+                        : Get.height,
+                    child: GoogleMap(
+                      onMapCreated: (GoogleMapController controller) {
+                        mapPageMController.mapController = controller;
+                      },
+                      initialCameraPosition: CameraPosition(
+                        bearing: 90,
+                        tilt: 45,
+                        target: LatLng(
+                          getMyCurrentLocationController
+                              .myLocationLatitudeDo.value,
+                          getMyCurrentLocationController
+                              .myLocationLongitudeDo.value,
                         ),
-                      );
-              },
-            ),
+                        zoom: 15,
+                      ),
+                      onCameraMoveStarted: () async {},
+                      onCameraMove: (position) {},
+                      onCameraIdle: () async {
+                        LatLngBounds bounds = await mapPageMController
+                            .mapController!
+                            .getVisibleRegion();
+                        LatLng center = LatLng(
+                          (bounds.northeast.latitude +
+                                  bounds.southwest.latitude) /
+                              2,
+                          (bounds.northeast.longitude +
+                                  bounds.southwest.longitude) /
+                              2,
+                        );
 
-            ///ARAÇ TÜRÜ FİLTRESİ
-            CarFilterOptionWidget(mapPageMController: mapPageMController),
+                        ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
+                        int count = getSameDigitsCount(
+                            center.latitude.toString(),
+                            mapPageMController.currentLocationController
+                                .myLocationLatitudeDo.value
+                                .toString());
+                        print(
+                            "NEWMAP Haritanın merkezi: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
 
-            ///GÖRÜNÜRLÜK-MÜSAİTLİK BİLGİSİ
-            const VisibilityStatusWidget(),
-
-            /// ORTALA BUTONU
-            // getMapCenter(),
-
-            /// ORTALAMA BUTONU (sağ üstteki)
-            getMyLocationButton(
-                isActiveRoute:
-                    mapPageMController.isThereActiveRoute.value ? true : false),
-
-            CreateRouteView(isCreateRoute: mapPageMController.isCreateRoute),
-
-            ActiveRouteInfoWidget(context: context),
-
-            const MatchingRoutesButton(isMatchingRoute: true),
-            const MatchingRoutesWidget(),
-          ],
+                        if (count < 7) {
+                          mapPageMController.shouldUpdateLocation.value = false;
+                        }
+                      },
+                      markers:
+                          Set<Marker>.from(mapPageMController.markers.value),
+                      polylines:
+                          Set<Polyline>.of(mapPageMController.polylines.value),
+                      myLocationEnabled: true,
+                      compassEnabled: false,
+                      myLocationButtonEnabled: false,
+                      mapType: MapType.normal,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                    ),
+                  );
+          },
         ),
-      ),
+
+        ///ARAÇ TÜRÜ FİLTRESİ
+        CarFilterOptionWidget(mapPageMController: mapPageMController),
+
+        ///GÖRÜNÜRLÜK-MÜSAİTLİK BİLGİSİ
+        const VisibilityStatusWidget(),
+
+        /// ORTALA BUTONU
+        // getMapCenter(),
+
+        /// ORTALAMA BUTONU (sağ üstteki)
+        getMyLocationButton(
+            isActiveRoute:
+                mapPageMController.isThereActiveRoute.value ? true : false),
+
+        CreateRouteView(isCreateRoute: mapPageMController.isCreateRoute),
+
+        ActiveRouteInfoWidget(context: context),
+
+        const MatchingRoutesButton(isMatchingRoute: true),
+        const MatchingRoutesWidget(),
+      ],
     );
+    // SafeArea(
+    //   child: Scaffold(
+    //     key: mapPageDrawerController.mapPageScaffoldKey,
+    //     appBar: AppBarGenel(
+    //       leading: GestureDetector(
+    //         onTap: () {
+    //           mapPageDrawerController.openMapPageScaffoldDrawer();
+    //         },
+    //         child: Padding(
+    //           padding: EdgeInsets.only(
+    //             left: 20.w,
+    //             right: 5.h,
+    //           ),
+    //           child: SvgPicture.asset(
+    //             height: 25.h,
+    //             width: 25.w,
+    //             'assets/icons/open-drawer-icon.svg',
+    //             color: AppConstants().ltLogoGrey,
+    //           ),
+    //         ),
+    //       ),
+    //       title: Image.asset(
+    //         'assets/logo/logo-1.png',
+    //         height: 40,
+    //       ),
+    //       actions: [
+    //         GestureDetector(
+    //           onTap: () {
+    //             Get.toNamed(NavigationConstants.notifications);
+    //             notificationController.isUnOpenedNotification.value = false;
+    //           },
+    //           child: Padding(
+    //             padding: EdgeInsets.only(
+    //               right: 5.w,
+    //             ),
+    //             child: Stack(
+    //               alignment: Alignment.topRight,
+    //               children: [
+    //                 SvgPicture.asset(
+    //                   height: 20.h,
+    //                   width: 20.w,
+    //                   'assets/icons/notification-icon.svg',
+    //                   color: AppConstants().ltLogoGrey,
+    //                 ),
+    //                 Obx(() =>
+    //                     notificationController.isUnOpenedNotification.value
+    //                         ? CircleAvatar(
+    //                             radius: 6.h,
+    //                             backgroundColor: AppConstants().ltMainRed,
+    //                           )
+    //                         : const SizedBox())
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         GestureDetector(
+    //           onTap: () async {
+    //             Get.toNamed(NavigationConstants.message);
+    //             notificationController.isUnReadMessage.value = false;
+    //           },
+    //           child: Padding(
+    //             padding: EdgeInsets.only(
+    //               left: 5.w,
+    //               right: 20.w,
+    //             ),
+    //             child: Stack(
+    //               alignment: Alignment.topRight,
+    //               children: [
+    //                 SvgPicture.asset(
+    //                   'assets/icons/message-icon.svg',
+    //                   height: 20.h,
+    //                   width: 20.w,
+    //                   color: const Color(0xff3E3E3E),
+    //                 ),
+    //                 Obx(() => notificationController.isUnReadMessage.value
+    //                     ? CircleAvatar(
+    //                         radius: 6.h,
+    //                         backgroundColor: AppConstants().ltMainRed,
+    //                       )
+    //                     : const SizedBox())
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     drawer: NavigationDrawerWidget(),
+    //     body: Stack(
+    //       children: [
+    //         ///MAP
+    //         Obx(
+    //           () {
+    //             return mapPageMController.isLoading.value
+    //                 ? const Center(child: CircularProgressIndicator())
+    //                 : Container(
+    //                     height: mapPageMController.isCreateRoute.value
+    //                         ? 270.h
+    //                         : Get.height,
+    //                     child: GoogleMap(
+    //                       onMapCreated: (GoogleMapController controller) {
+    //                         mapPageMController.mapController = controller;
+    //                       },
+    //                       initialCameraPosition: CameraPosition(
+    //                         bearing: 90,
+    //                         tilt: 45,
+    //                         target: LatLng(
+    //                           getMyCurrentLocationController
+    //                               .myLocationLatitudeDo.value,
+    //                           getMyCurrentLocationController
+    //                               .myLocationLongitudeDo.value,
+    //                         ),
+    //                         zoom: 15,
+    //                       ),
+    //                       onCameraMoveStarted: () async {},
+    //                       onCameraMove: (position) {},
+    //                       onCameraIdle: () async {
+    //                         LatLngBounds bounds = await mapPageMController
+    //                             .mapController!
+    //                             .getVisibleRegion();
+    //                         LatLng center = LatLng(
+    //                           (bounds.northeast.latitude +
+    //                                   bounds.southwest.latitude) /
+    //                               2,
+    //                           (bounds.northeast.longitude +
+    //                                   bounds.southwest.longitude) /
+    //                               2,
+    //                         );
+
+    //                         ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
+    //                         int count = getSameDigitsCount(
+    //                             center.latitude.toString(),
+    //                             mapPageMController.currentLocationController
+    //                                 .myLocationLatitudeDo.value
+    //                                 .toString());
+    //                         print(
+    //                             "NEWMAP Haritanın merkezi: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
+
+    //                         if (count < 7) {
+    //                           mapPageMController.shouldUpdateLocation.value =
+    //                               false;
+    //                         }
+    //                       },
+    //                       markers: Set<Marker>.from(
+    //                           mapPageMController.markers.value),
+    //                       polylines: Set<Polyline>.of(
+    //                           mapPageMController.polylines.value),
+    //                       myLocationEnabled: true,
+    //                       compassEnabled: false,
+    //                       myLocationButtonEnabled: false,
+    //                       mapType: MapType.normal,
+    //                       zoomGesturesEnabled: true,
+    //                       zoomControlsEnabled: false,
+    //                     ),
+    //                   );
+    //           },
+    //         ),
+
+    //         ///ARAÇ TÜRÜ FİLTRESİ
+    //         CarFilterOptionWidget(mapPageMController: mapPageMController),
+
+    //         ///GÖRÜNÜRLÜK-MÜSAİTLİK BİLGİSİ
+    //         const VisibilityStatusWidget(),
+
+    //         /// ORTALA BUTONU
+    //         // getMapCenter(),
+
+    //         /// ORTALAMA BUTONU (sağ üstteki)
+    //         getMyLocationButton(
+    //             isActiveRoute:
+    //                 mapPageMController.isThereActiveRoute.value ? true : false),
+
+    //         CreateRouteView(isCreateRoute: mapPageMController.isCreateRoute),
+
+    //         ActiveRouteInfoWidget(context: context),
+
+    //         const MatchingRoutesButton(isMatchingRoute: true),
+    //         const MatchingRoutesWidget(),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Obx getMapCenter() {

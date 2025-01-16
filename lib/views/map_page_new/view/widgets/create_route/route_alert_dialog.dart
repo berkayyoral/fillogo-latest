@@ -538,8 +538,7 @@ class RouteAlertDialog {
                   Get.back();
                   Get.back();
                   Get.back();
-                  Get.toNamed(NavigationConstants.createPostPage,
-                      arguments: routeId);
+                  Get.toNamed(NavigationConstants.createPostPage);
                   mapPageMController.isCreateRoute.value = false;
                   createRouteController.isOpenRouteDetailEntrySection.value =
                       false;

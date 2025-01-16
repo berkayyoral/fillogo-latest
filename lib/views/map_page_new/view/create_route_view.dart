@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
@@ -22,9 +23,6 @@ class CreateRouteView extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Obx(
         () {
-          print(
-              "CREATEROUTE view START -> ${createRouteController.startRouteCity.value} finif -> ${createRouteController.finishRouteCity.value}");
-
           return isCreateRoute.value
               ? Container(
                   height: createRouteController.finishRouteAdress.value != ""
@@ -53,6 +51,7 @@ class CreateRouteView extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             isCreateRoute.value = false;
+
                             createRouteController
                                 .isOpenRouteDetailEntrySection.value = false;
                             createRouteController.routePolyline.value = "";
@@ -98,8 +97,6 @@ class CreateRouteView extends StatelessWidget {
                   ? Container()
                   : GestureDetector(
                       onTap: () {
-                        print(
-                            "ROUTEVİSİBLİYTTY -> ${mapPageMController.isRouteVisibilty.value}");
                         if (!mapPageMController.isRouteVisibilty.value) {
                           Get.snackbar("Başarısız!",
                               "Görünürlüğünüz kapalıyken rota oluşturamazsınız..",
@@ -107,6 +104,8 @@ class CreateRouteView extends StatelessWidget {
                               colorText: AppConstants().ltBlack);
                         } else {
                           isCreateRoute.value = true;
+                          print(
+                              "isCreateRoute.value -> ${isCreateRoute.value}");
                           if (createRouteController.startRouteCity.value ==
                               "") {
                             createRouteController.startRouteLocation.value =
@@ -215,137 +214,259 @@ class CreateRouteView extends StatelessWidget {
 
   selectRouteCities(
       {required BuildContext context, required bool isStartCity}) {
-    return Obx(() {
-      print("FİNİSHCİTY -> ${createRouteController.finishRouteCity.value}");
-      return GestureDetector(
-        onTap: () async {
-          try {
-            Prediction? place = await PlacesAutocomplete.show(
-                overlayBorderRadius: BorderRadius.circular(8.r),
-                textDecoration: InputDecoration(
-                  labelStyle: TextStyle(
-                    color: AppConstants().ltLogoGrey,
-                    fontFamily: "SfLight",
-                    fontSize: 12.sp,
-                  ),
-                ),
-                textStyle: TextStyle(
+    return GestureDetector(
+      onTap: () async {
+        try {
+          Prediction? place = await PlacesAutocomplete.show(
+              overlayBorderRadius: BorderRadius.circular(8.r),
+              textDecoration: InputDecoration(
+                labelStyle: TextStyle(
                   color: AppConstants().ltLogoGrey,
                   fontFamily: "SfLight",
                   fontSize: 12.sp,
                 ),
-                resultTextStyle: TextStyle(
-                  color: AppConstants().ltBlack,
-                  fontFamily: "SfLight",
-                  fontSize: 12.sp,
+              ),
+              textStyle: TextStyle(
+                color: AppConstants().ltLogoGrey,
+                fontFamily: "SfLight",
+                fontSize: 12.sp,
+              ),
+              resultTextStyle: TextStyle(
+                color: AppConstants().ltBlack,
+                fontFamily: "SfLight",
+                fontSize: 12.sp,
+              ),
+              logo: const SizedBox(height: 0),
+              backArrowIcon: Padding(
+                padding: EdgeInsets.only(left: 10.w),
+                child: SvgPicture.asset(
+                  "assets/icons/close-icon.svg",
+                  width: 24.w,
                 ),
-                logo: const SizedBox(height: 0),
-                backArrowIcon: Padding(
-                  padding: EdgeInsets.only(left: 10.w),
-                  child: SvgPicture.asset(
-                    "assets/icons/close-icon.svg",
-                    width: 24.w,
-                  ),
-                ),
-                hint: isStartCity
-                    ? 'Çıkış Noktası Giriniz'
-                    : 'Varış Noktası Giriniz',
-                context: context,
-                apiKey: AppConstants.googleMapsApiKey,
-                mode: Mode.overlay,
-                types: [],
-                strictbounds: false,
-                components: [Component(Component.country, 'tr')],
-                onError: (err) {
-                  print("VARIŞNOKTASIERR ÇIKIŞ -> ${err.errorMessage}");
-                });
+              ),
+              hint: isStartCity
+                  ? 'Çıkış Noktası Giriniz'
+                  : 'Varış Noktası Giriniz',
+              context: context,
+              apiKey: AppConstants.googleMapsApiKey,
+              mode: Mode.overlay,
+              types: [],
+              strictbounds: false,
+              components: [Component(Component.country, 'tr')],
+              onError: (err) {
+                log("VARIŞ NOKTASI ERR  -> ${err.errorMessage}");
+              });
 
-            PlacesDetailsResponse detail = await createRouteController
-                .googleMapsPlaces
-                .getDetailsByPlaceId(place!.placeId!);
+          PlacesDetailsResponse detail = await createRouteController
+              .googleMapsPlaces
+              .getDetailsByPlaceId(place!.placeId!);
 
-            if (isStartCity) {
-              createRouteController.startRouteLocation.value = LatLng(
-                  detail.result.geometry!.location.lat,
-                  detail.result.geometry!.location.lng);
-              createRouteController.getRouteInfo();
-            } else {
-              createRouteController.finishRouteLocation.value = LatLng(
-                  detail.result.geometry!.location.lat,
-                  detail.result.geometry!.location.lng);
+          if (isStartCity) {
+            createRouteController.startRouteLocation.value = LatLng(
+                detail.result.geometry!.location.lat,
+                detail.result.geometry!.location.lng);
+            createRouteController.getRouteInfo();
+          } else {
+            createRouteController.finishRouteLocation.value = LatLng(
+                detail.result.geometry!.location.lat,
+                detail.result.geometry!.location.lng);
 
-              final addressComponents = detail.result.addressComponents;
+            final addressComponents = detail.result.addressComponents;
 
-              for (var component in addressComponents) {
-                if (component.types.first == "administrative_area_level_1") {
-                  createRouteController.finishRouteCity.value =
-                      component.longName;
-                  print("İNİSSHGİRDİM city -> ${component.longName}");
+            for (var component in addressComponents) {
+              if (component.types.first == "administrative_area_level_1") {
+                createRouteController.finishRouteCity.value =
+                    component.longName;
 
-                  break;
-                }
+                break;
               }
-
-              createRouteController.getRouteInfo(isStartLocation: false);
             }
 
-            print(
-                "CREATEROUTE starts adres -> ${createRouteController.startRouteAdress.value}");
-          } catch (e) {
-            print("CREATEROUTE error-> $e");
+            createRouteController.getRouteInfo(isStartLocation: false);
           }
-        },
-        child: Container(
-          margin: EdgeInsets.all(10.w),
-          padding: EdgeInsets.all(4.w),
-          height: 50.h,
-          width: 330.w,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppConstants().ltLogoGrey.withOpacity(0.2),
-                spreadRadius: 0.r,
-                blurRadius: 10.r,
+        } catch (e) {
+          log("CREATEROUTE ERR-> $e");
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.all(10.w),
+        padding: EdgeInsets.all(4.w),
+        height: 50.h,
+        width: 330.w,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppConstants().ltLogoGrey.withOpacity(0.2),
+              spreadRadius: 0.r,
+              blurRadius: 10.r,
+            ),
+          ],
+          color: AppConstants().ltWhite,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/route-icon.svg',
+                color: AppConstants().ltMainRed,
+                width: 20.w,
               ),
-            ],
-            color: AppConstants().ltWhite,
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(8.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  'assets/icons/route-icon.svg',
-                  color: AppConstants().ltMainRed,
-                  width: 20.w,
-                ),
-                SizedBox(width: 12.w),
-                Obx(
-                  () => Expanded(
-                    child: Text(
-                      isStartCity
-                          ? createRouteController.startRouteAdress.value != ""
-                              ? createRouteController.startRouteAdress.value
-                              : "Çıkış noktasını giriniz..."
-                          : createRouteController.finishRouteAdress.value != ""
-                              ? createRouteController.finishRouteAdress.value
-                              : "Varış Noktasını Giriniz...",
-                      style: TextStyle(
-                        color: AppConstants().ltLogoGrey,
-                        fontFamily: "SfLight",
-                        fontSize: 12.sp,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+              SizedBox(width: 12.w),
+              Obx(
+                () => Expanded(
+                  child: Text(
+                    isStartCity
+                        ? createRouteController.startRouteAdress.value != ""
+                            ? createRouteController.startRouteAdress.value
+                            : "Çıkış noktasını giriniz..."
+                        : createRouteController.finishRouteAdress.value != ""
+                            ? createRouteController.finishRouteAdress.value
+                            : "Varış Noktasını Giriniz...",
+                    style: TextStyle(
+                      color: AppConstants().ltLogoGrey,
+                      fontFamily: "SfLight",
+                      fontSize: 12.sp,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
+    // Obx(() {
+    //   print(
+    //       "CREATEROUTEE selectRouteCities ${createRouteController.isKeyboardVisible.value}");
+    //   return GestureDetector(
+    //     onTap: () async {
+    //       try {
+    //         Prediction? place = await PlacesAutocomplete.show(
+    //             overlayBorderRadius: BorderRadius.circular(8.r),
+    //             textDecoration: InputDecoration(
+    //               labelStyle: TextStyle(
+    //                 color: AppConstants().ltLogoGrey,
+    //                 fontFamily: "SfLight",
+    //                 fontSize: 12.sp,
+    //               ),
+    //             ),
+    //             textStyle: TextStyle(
+    //               color: AppConstants().ltLogoGrey,
+    //               fontFamily: "SfLight",
+    //               fontSize: 12.sp,
+    //             ),
+    //             resultTextStyle: TextStyle(
+    //               color: AppConstants().ltBlack,
+    //               fontFamily: "SfLight",
+    //               fontSize: 12.sp,
+    //             ),
+    //             logo: const SizedBox(height: 0),
+    //             backArrowIcon: Padding(
+    //               padding: EdgeInsets.only(left: 10.w),
+    //               child: SvgPicture.asset(
+    //                 "assets/icons/close-icon.svg",
+    //                 width: 24.w,
+    //               ),
+    //             ),
+    //             hint: isStartCity
+    //                 ? 'Çıkış Noktası Giriniz'
+    //                 : 'Varış Noktası Giriniz',
+    //             context: context,
+    //             apiKey: AppConstants.googleMapsApiKey,
+    //             mode: Mode.overlay,
+    //             types: [],
+    //             strictbounds: false,
+    //             components: [Component(Component.country, 'tr')],
+    //             onError: (err) {
+    //               log("VARIŞ NOKTASI ERR  -> ${err.errorMessage}");
+    //             });
+
+    //         PlacesDetailsResponse detail = await createRouteController
+    //             .googleMapsPlaces
+    //             .getDetailsByPlaceId(place!.placeId!);
+
+    //         if (isStartCity) {
+    //           createRouteController.startRouteLocation.value = LatLng(
+    //               detail.result.geometry!.location.lat,
+    //               detail.result.geometry!.location.lng);
+    //           createRouteController.getRouteInfo();
+    //         } else {
+    //           createRouteController.finishRouteLocation.value = LatLng(
+    //               detail.result.geometry!.location.lat,
+    //               detail.result.geometry!.location.lng);
+
+    //           final addressComponents = detail.result.addressComponents;
+
+    //           for (var component in addressComponents) {
+    //             if (component.types.first == "administrative_area_level_1") {
+    //               createRouteController.finishRouteCity.value =
+    //                   component.longName;
+
+    //               break;
+    //             }
+    //           }
+
+    //           createRouteController.getRouteInfo(isStartLocation: false);
+    //         }
+    //       } catch (e) {
+    //         log("CREATEROUTE ERR-> $e");
+    //       }
+    //     },
+    //     child: Container(
+    //       margin: EdgeInsets.all(10.w),
+    //       padding: EdgeInsets.all(4.w),
+    //       height: 50.h,
+    //       width: 330.w,
+    //       decoration: BoxDecoration(
+    //         boxShadow: [
+    //           BoxShadow(
+    //             color: AppConstants().ltLogoGrey.withOpacity(0.2),
+    //             spreadRadius: 0.r,
+    //             blurRadius: 10.r,
+    //           ),
+    //         ],
+    //         color: AppConstants().ltWhite,
+    //         borderRadius: BorderRadius.circular(8.r),
+    //       ),
+    //       child: Padding(
+    //         padding: EdgeInsets.all(8.w),
+    //         child: Row(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: [
+    //             SvgPicture.asset(
+    //               'assets/icons/route-icon.svg',
+    //               color: AppConstants().ltMainRed,
+    //               width: 20.w,
+    //             ),
+    //             SizedBox(width: 12.w),
+    //             Obx(
+    //               () => Expanded(
+    //                 child: Text(
+    //                   isStartCity
+    //                       ? createRouteController.startRouteAdress.value != ""
+    //                           ? createRouteController.startRouteAdress.value
+    //                           : "Çıkış noktasını giriniz..."
+    //                       : createRouteController.finishRouteAdress.value != ""
+    //                           ? createRouteController.finishRouteAdress.value
+    //                           : "Varış Noktasını Giriniz...",
+    //                   style: TextStyle(
+    //                     color: AppConstants().ltLogoGrey,
+    //                     fontFamily: "SfLight",
+    //                     fontSize: 12.sp,
+    //                     overflow: TextOverflow.ellipsis,
+    //                   ),
+    //                 ),
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // });
   }
 }

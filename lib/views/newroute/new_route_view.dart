@@ -13,12 +13,14 @@ class NewRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: newRouteAppBar(),
-      drawer:  NavigationDrawerWidget(),
+      // drawer:  NavigationDrawerWidget(),
       body: Container(
         width: Get.width,
         height: Get.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/world-bg-1.png'), fit: BoxFit.fitHeight),
+          image: DecorationImage(
+              image: AssetImage('assets/images/world-bg-1.png'),
+              fit: BoxFit.fitHeight),
         ),
         child: Theme(
           data: ThemeData(
@@ -47,7 +49,8 @@ class NewRouteView extends StatelessWidget {
                                   if (postController.currentStep < 1) {
                                     postController.arttir();
                                   } else if (postController.currentStep == 1) {
-                                    Get.offAndToNamed(NavigationConstants.postflow);
+                                    Get.offAndToNamed(
+                                        NavigationConstants.postflow);
                                   }
                                 }
                               },
@@ -61,7 +64,9 @@ class NewRouteView extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      postController.currentStep == 1 ? 'Paylaş' : 'İleri',
+                                      postController.currentStep == 1
+                                          ? 'Paylaş'
+                                          : 'İleri',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Sfbold',
@@ -119,7 +124,10 @@ class NewRouteView extends StatelessWidget {
                       ),
                       Text(
                         'Genel Ayarları Düzenle',
-                        style: TextStyle(color: AppConstants().ltMainRed, fontSize: 16, fontFamily: 'Sfsemibold'),
+                        style: TextStyle(
+                            color: AppConstants().ltMainRed,
+                            fontSize: 16,
+                            fontFamily: 'Sfsemibold'),
                       ),
                     ],
                   ),
@@ -176,7 +184,8 @@ class NewRouteView extends StatelessWidget {
               decoration: InputDecoration(
                 fillColor: AppConstants().ltWhite,
                 filled: true,
-                hintText: 'Yeni rotanız hakkında arkadaşlarınıza ne söylemek istersiniz?',
+                hintText:
+                    'Yeni rotanız hakkında arkadaşlarınıza ne söylemek istersiniz?',
                 hintStyle: const TextStyle(fontSize: 14),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
@@ -205,7 +214,9 @@ class NewRouteView extends StatelessWidget {
           "Fotoğraf",
           style: TextStyle(
             fontFamily: 'Sfbold',
-            color: postController.currentStep >= 1 ? AppConstants().ltMainRed : AppConstants().ltDarkGrey,
+            color: postController.currentStep >= 1
+                ? AppConstants().ltMainRed
+                : AppConstants().ltDarkGrey,
           ),
         ),
         content: Container(

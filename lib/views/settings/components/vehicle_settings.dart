@@ -79,11 +79,8 @@ class _VehicleSettingsState extends State<VehicleSettings> {
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
     }).then((value) {
       var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
-      print("cartype aaa res $response");
-      print("cartype aaa val $value");
 
       if (response.succes == 1) {
-        print("responsee -> ${jsonEncode(response.data)}");
         capacityController.text = response.data![0].userCarTypes!.isNotEmpty
             ? response.data![0].userCarTypes![0].carCapacity.toString()
             : "";
@@ -96,11 +93,7 @@ class _VehicleSettingsState extends State<VehicleSettings> {
         modelController.text = response.data![0].userCarTypes!.isNotEmpty
             ? response.data![0].userCarTypes![0].carModel.toString()
             : "";
-        print("cartype aaa id $carId");
-      } else {
-        print("Response Hata = ${response.message}");
-        print("Response Hata = ${response.succes}");
-      }
+      } else {}
     });
     super.initState();
   }
@@ -210,7 +203,6 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                         UiHelper.showWarningSnackBar(
                             context, "Lütfen araç kapasitesini doldurunuz!");
                       } else if (!capacityController.text.isNum) {
-                        print(capacityController.text);
                       } else {
                         showDialog(
                           context: context,
@@ -232,8 +224,6 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                             discription1:
                                 "Araç değişiklikleriniz kaydedilsin mi?",
                             onPressed1: () {
-                              print(
-                                  "cartype aaa drop : ${dropdownValue} carty : $carId");
                               GeneralServicesTemp().makePatchRequest(
                                   EndPoint.updateUserCarInfos,
                                   UpdateUserCarInfosRequest(
@@ -261,7 +251,6 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                 var response =
                                     UpdateUserCarInfosResponse.fromJson(
                                         json.decode(value!));
-                                print("cartype aaa -> ${jsonEncode(response)}");
                                 if (response.success == 1) {
                                   LocaleManager.instance.setString(
                                       PreferencesKeys.carType, cartype);
@@ -297,15 +286,13 @@ class _VehicleSettingsState extends State<VehicleSettings> {
                                   LocaleManager.instance.setInt(
                                       PreferencesKeys.carCapacity,
                                       int.tryParse(capacityController.text)!);
-                                  print("CARRTYPE -> ${cartype}");
+
                                   LocaleManager.instance.setInt(
                                       PreferencesKeys.carTypeId,
                                       dropdownValue + 1);
                                   LocaleManager.instance.setString(
                                       PreferencesKeys.carType, carType!);
                                 } else {
-                                  print(response.success);
-                                  print(response.message);
                                   UiHelper.showWarningSnackBar(context,
                                       "Bir hata ile karşılaşıldı Tekrar Deneyiniz!");
                                 }

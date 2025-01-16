@@ -25,6 +25,7 @@ class ProfileHeaderWidget extends StatelessWidget {
       height: 210.h,
       color: AppConstants().ltWhite,
       child: Stack(
+        alignment: Alignment.center,
         children: [
           Container(
             width: Get.width,
@@ -38,6 +39,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                 ),
               ],
               image: DecorationImage(
+                  alignment: Alignment.center,
                   image: NetworkImage(
                     coverPictureUrl ??
                         'https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/stories%2F1690375016005_image_cropper_B9E5E237-22E9-4850-929B-0B5A133F2023-66909-00029AF97736A997.jpg?alt=media&token=fc9dd12c-bd38-4a12-9cd8-dfbcec06d7c1',
@@ -63,15 +65,14 @@ class ProfileHeaderWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 12.h,
-            left: 24.w,
             child: SizedBox(
               width: 132.w,
               height: 144.h,
               child: Stack(
+                alignment: Alignment.bottomRight,
                 children: [
                   Align(
-                    alignment: Alignment.center,
+                    alignment: Alignment.bottomRight,
                     child: SvgPicture.asset(
                       'assets/icons/kalkan-full-icon.svg',
                       height: 144.h,
@@ -95,8 +96,8 @@ class ProfileHeaderWidget extends StatelessWidget {
           Visibility(
             visible: isMyProfile,
             child: Positioned(
-              left: 108.w,
-              top: 112.h,
+              left: 200.w,
+              top: 130.h,
               child: GestureDetector(
                 onTap: onTapEditProfilePicture ?? () {},
                 child: Container(

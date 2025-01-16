@@ -14,7 +14,10 @@ import 'package:fillogo/services/general_sevices_template/general_services.dart'
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../../widgets/shild_icon_pinned.dart';
 
 // ignore: must_be_immutable
 class CommentsView extends StatefulWidget {
@@ -190,62 +193,66 @@ class _CommentsViewState extends State<CommentsView> {
                                         if (snapshot2.hasData) {
                                           return snapshot2.data!.data!.isEmpty
                                               ? const Text("Bir hata oluştu")
-                                              : ListView.builder(
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  itemCount: snapshot2
-                                                      .data!
-                                                      .data![0]
-                                                      .comments!
-                                                      .result!
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    var comment = snapshot2
+                                              : Container(
+                                                  height: 300.h,
+                                                  child: ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    itemCount: snapshot2
                                                         .data!
                                                         .data![0]
                                                         .comments!
-                                                        .result![index];
-                                                    return OtherComments(
-                                                      onTap: () {
-                                                        if (comment
-                                                                .commentedposts!
-                                                                .id ==
-                                                            LocaleManager
-                                                                .instance
-                                                                .getInt(PreferencesKeys
-                                                                    .currentUserId)) {
-                                                          Get.back();
-                                                          bottomNavigationBarController
-                                                              .selectedIndex
-                                                              .value = 3;
-                                                        } else {
-                                                          Get.toNamed(
-                                                              NavigationConstants
-                                                                  .otherprofiles,
-                                                              arguments: comment
+                                                        .result!
+                                                        .length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var comment = snapshot2
+                                                          .data!
+                                                          .data![0]
+                                                          .comments!
+                                                          .result![index];
+                                                      return OtherComments(
+                                                        onTap: () {
+                                                          if (comment
                                                                   .commentedposts!
-                                                                  .id);
-                                                        }
-                                                      },
-                                                      url: comment
-                                                          .commentedposts!
-                                                          .profilePicture!,
-                                                      name:
-                                                          "${comment.commentedposts!.name} ${comment.commentedposts!.surname}",
-                                                      content: comment.comment!,
-                                                      beforeHours:
-                                                          timeago.format(
-                                                        comment.createdAt!,
-                                                        locale: "tr",
-                                                      ),
-                                                      likeCount:
-                                                          comment.likedCount!,
-                                                      didILiked:
-                                                          comment.isLikedByMe!,
-                                                    );
-                                                  },
+                                                                  .id ==
+                                                              LocaleManager
+                                                                  .instance
+                                                                  .getInt(PreferencesKeys
+                                                                      .currentUserId)) {
+                                                            Get.back();
+                                                            bottomNavigationBarController
+                                                                .selectedIndex
+                                                                .value = 3;
+                                                          } else {
+                                                            Get.toNamed(
+                                                                NavigationConstants
+                                                                    .otherprofiles,
+                                                                arguments: comment
+                                                                    .commentedposts!
+                                                                    .id);
+                                                          }
+                                                        },
+                                                        url: comment
+                                                            .commentedposts!
+                                                            .profilePicture!,
+                                                        name:
+                                                            "${comment.commentedposts!.name} ${comment.commentedposts!.surname}",
+                                                        content:
+                                                            comment.comment!,
+                                                        beforeHours:
+                                                            timeago.format(
+                                                          comment.createdAt!,
+                                                          locale: "tr",
+                                                        ),
+                                                        likeCount:
+                                                            comment.likedCount!,
+                                                        didILiked: comment
+                                                            .isLikedByMe!,
+                                                      );
+                                                    },
+                                                  ),
                                                 );
                                         } else {
                                           return const Center(
@@ -272,7 +279,7 @@ class _CommentsViewState extends State<CommentsView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h),
+              padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 45.h),
               child: SizedBox(
                 height: 50.h,
                 width: 342.w,
@@ -286,13 +293,14 @@ class _CommentsViewState extends State<CommentsView> {
                           8.r,
                         ),
                       ),
-                      height: 50.h,
+                      height: 55.h,
                       width: 341.w,
                       child: Material(
                         borderRadius: BorderRadius.circular(8.r),
                         elevation: 5,
                         child: Center(
                           child: TextField(
+                            textAlign: TextAlign.start,
                             controller: commentTextController,
                             textAlignVertical: TextAlignVertical.center,
                             autofocus: false,
@@ -306,8 +314,8 @@ class _CommentsViewState extends State<CommentsView> {
                             ),
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(
-                                left: 0.w,
-                                right: 0.w,
+                                left: 8.w,
+                                right: 8.w,
                               ),
                               counterText: '',
                               border: OutlineInputBorder(
@@ -353,15 +361,21 @@ class _CommentsViewState extends State<CommentsView> {
                                 ),
                               ),
                               prefixIcon: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 5.h),
-                                child: ProfilePhoto(
-                                  height: 12.h,
-                                  width: 12.w,
-                                  url: LocaleManager.instance.getString(
-                                          PreferencesKeys
-                                              .currentUserProfilPhoto) ??
-                                      'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
+                                padding: EdgeInsets.all(6.w),
+                                child: ClipPath(
+                                  clipper: ShildIconCustomPainter(),
+                                  child: Container(
+                                    height: 12.h,
+                                    width: 12.w,
+                                    color: AppConstants().ltWhite,
+                                    child: Image.network(
+                                      LocaleManager.instance.getString(
+                                              PreferencesKeys
+                                                  .currentUserProfilPhoto) ??
+                                          'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
                               suffixIcon: Padding(

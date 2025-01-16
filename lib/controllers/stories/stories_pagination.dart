@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fillogo/models/stories/user_stories.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -46,7 +47,7 @@ class StoriesPaginationController extends GetxController {
 
       update(["userStories"]);
     } catch (e) {
-      print("STORYYYWİEEWW ADDLİST ERR -> $e");
+      log("STORYYYWİEEWW ADDLİST ERR -> $e");
     }
     isLoading.value = false;
   }
@@ -83,7 +84,7 @@ class StoriesPaginationController extends GetxController {
 
       update(["userStories"]);
     } catch (e) {
-      print("STORYYYWİEEWW ADDLİST ERR -> $e");
+      log("STORYYYWİEEWW ADDLİST ERR -> $e");
     }
     isLoading.value = false;
   }
@@ -92,7 +93,7 @@ class StoriesPaginationController extends GetxController {
   void dispose() {
     snapshotList.clear();
     totalPage.value = 0;
-    print("STORYYYWİEEWW STORYTEMİZLENDEİ");
+    log("STORYYYWİEEWW STORYTEMİZLENDEİ");
     super.dispose();
   }
 }

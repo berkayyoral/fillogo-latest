@@ -40,7 +40,7 @@ class Datum {
     this.pagination,
   });
 
-  List<Result>? result;
+  List<HomePostDetail>? result;
   Pagination? pagination;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
@@ -50,7 +50,8 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         result: json["result"] == null
             ? []
-            : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+            : List<HomePostDetail>.from(
+                json["result"]!.map((x) => HomePostDetail.fromJson(x))),
         pagination: json["pagination"] == null
             ? null
             : Pagination.fromJson(json["pagination"]),
@@ -105,8 +106,8 @@ class Pagination {
       };
 }
 
-class Result {
-  Result({
+class HomePostDetail {
+  HomePostDetail({
     this.onlyPost,
     this.haveLabel,
     this.haveEmojies,
@@ -128,11 +129,12 @@ class Result {
   List<dynamic>? likedFriends;
   dynamic firstcomment;
 
-  factory Result.fromRawJson(String str) => Result.fromJson(json.decode(str));
+  factory HomePostDetail.fromRawJson(String str) =>
+      HomePostDetail.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory HomePostDetail.fromJson(Map<String, dynamic> json) => HomePostDetail(
         onlyPost: json["onlyPost"],
         haveLabel: json["haveLabel"],
         haveEmojies: json["haveEmojies"],

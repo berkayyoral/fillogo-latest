@@ -59,92 +59,7 @@ class RouteCalculateLastView extends StatelessWidget {
       zoom: 15.0,
     );
     return SafeArea(
-        child: Scaffold(
-      key: drawerController.routeCalculatePageScaffoldKey,
-      appBar: AppBarGenel(
-        leading: GestureDetector(
-          onTap: () {
-            drawerController.openRouteCalculatePageScaffoldDrawer();
-          },
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: 20.w,
-              right: 5.h,
-            ),
-            child: SvgPicture.asset(
-              height: 25.h,
-              width: 25.w,
-              'assets/icons/open-drawer-icon.svg',
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-        ),
-        title: Image.asset(
-          'assets/logo/logo-1.png',
-          height: 40,
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(NavigationConstants.notifications);
-              notificationController.isUnOpenedNotification.value = false;
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: 5.w,
-              ),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  SvgPicture.asset(
-                    height: 20.h,
-                    width: 20.w,
-                    'assets/icons/notification-icon.svg',
-                    color: AppConstants().ltLogoGrey,
-                  ),
-                  Obx(() => notificationController.isUnOpenedNotification.value
-                      ? CircleAvatar(
-                          radius: 6.h,
-                          backgroundColor: AppConstants().ltMainRed,
-                        )
-                      : SizedBox())
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              Get.toNamed(NavigationConstants.message);
-              notificationController.isUnReadMessage.value = false;
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 5.w,
-                right: 20.w,
-              ),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/message-icon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: const Color(0xff3E3E3E),
-                  ),
-                  Obx(() => notificationController.isUnReadMessage.value
-                      ? CircleAvatar(
-                          radius: 6.h,
-                          backgroundColor: AppConstants().ltMainRed,
-                        )
-                      : SizedBox())
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      drawer: NavigationDrawerWidget(),
-      body: GetBuilder<CreateeRouteController>(
+      child: GetBuilder<CreateeRouteController>(
         id: "createRouteController",
         init: createRouteController,
         initState: (_) {},
@@ -267,7 +182,217 @@ class RouteCalculateLastView extends StatelessWidget {
           );
         },
       ),
-    ));
+
+      //     Scaffold(
+      //   key: drawerController.routeCalculatePageScaffoldKey,
+      //   appBar: AppBarGenel(
+      //     leading: GestureDetector(
+      //       onTap: () {
+      //         drawerController.openRouteCalculatePageScaffoldDrawer();
+      //       },
+      //       child: Padding(
+      //         padding: EdgeInsets.only(
+      //           left: 20.w,
+      //           right: 5.h,
+      //         ),
+      //         child: SvgPicture.asset(
+      //           height: 25.h,
+      //           width: 25.w,
+      //           'assets/icons/open-drawer-icon.svg',
+      //           color: AppConstants().ltLogoGrey,
+      //         ),
+      //       ),
+      //     ),
+      //     title: Image.asset(
+      //       'assets/logo/logo-1.png',
+      //       height: 40,
+      //     ),
+      //     actions: [
+      //       GestureDetector(
+      //         onTap: () {
+      //           Get.toNamed(NavigationConstants.notifications);
+      //           notificationController.isUnOpenedNotification.value = false;
+      //         },
+      //         child: Padding(
+      //           padding: EdgeInsets.only(
+      //             right: 5.w,
+      //           ),
+      //           child: Stack(
+      //             alignment: Alignment.topRight,
+      //             children: [
+      //               SvgPicture.asset(
+      //                 height: 20.h,
+      //                 width: 20.w,
+      //                 'assets/icons/notification-icon.svg',
+      //                 color: AppConstants().ltLogoGrey,
+      //               ),
+      //               Obx(() => notificationController.isUnOpenedNotification.value
+      //                   ? CircleAvatar(
+      //                       radius: 6.h,
+      //                       backgroundColor: AppConstants().ltMainRed,
+      //                     )
+      //                   : SizedBox())
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //       GestureDetector(
+      //         onTap: () async {
+      //           Get.toNamed(NavigationConstants.message);
+      //           notificationController.isUnReadMessage.value = false;
+      //         },
+      //         child: Padding(
+      //           padding: EdgeInsets.only(
+      //             left: 5.w,
+      //             right: 20.w,
+      //           ),
+      //           child: Stack(
+      //             alignment: Alignment.topRight,
+      //             children: [
+      //               SvgPicture.asset(
+      //                 'assets/icons/message-icon.svg',
+      //                 height: 20.h,
+      //                 width: 20.w,
+      //                 color: const Color(0xff3E3E3E),
+      //               ),
+      //               Obx(() => notificationController.isUnReadMessage.value
+      //                   ? CircleAvatar(
+      //                       radius: 6.h,
+      //                       backgroundColor: AppConstants().ltMainRed,
+      //                     )
+      //                   : SizedBox())
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      //   drawer: NavigationDrawerWidget(),
+      //   body: GetBuilder<CreateeRouteController>(
+      //     id: "createRouteController",
+      //     init: createRouteController,
+      //     initState: (_) {},
+      //     builder: (_) {
+      //       return SizedBox(
+      //         width: Get.width,
+      //         height: Get.height,
+      //         child: Obx(
+      //           () => ((getMyCurrentLocationController
+      //                           .myLocationLatitudeDo.value ==
+      //                       0.0) &&
+      //                   (getMyCurrentLocationController
+      //                           .myLocationLongitudeDo.value ==
+      //                       0.0))
+      //               ? const Center(
+      //                   child:
+      //                       CircularProgressIndicator()) //UiHelper.loadingAnimationWidget(context)
+      //               : Stack(
+      //                   alignment: Alignment.bottomCenter,
+      //                   children: <Widget>[
+      //                     SizedBox(
+      //                       height:
+      //                           createRouteController.calculateLevel.value == 2
+      //                               ? 350.h
+      //                               : Get.height,
+      //                       child: GetBuilder<CreateeRouteController>(
+      //                         init: createRouteController,
+      //                         initState: (_) async {
+      //                           //await getMyCurrentLocationController.getMyCurrentLocation();
+      //                           SetCustomMarkerIconController controller =
+      //                               Get.put(SetCustomMarkerIconController());
+      //                           await controller.setCustomMarkerIcon3();
+      //                           createRouteController.addMarkerFunction(
+      //                             const MarkerId("myCurrentMarker"),
+      //                             LatLng(
+      //                                 getMyCurrentLocationController
+      //                                     .myLocationLatitudeDo.value,
+      //                                 getMyCurrentLocationController
+      //                                     .myLocationLongitudeDo.value),
+      //                             'myCurrentMarker',
+      //                             "",
+      //                             BitmapDescriptor.fromBytes(
+      //                               customMarkerIconController.mayLocationIcon!,
+      //                             ),
+      //                           );
+      //                         },
+      //                         builder: (controller) {
+      //                           return Obx(
+      //                             () => SizedBox(
+      //                               height: Get.height,
+      //                               width: Get.width,
+      //                               child: GoogleMap(
+      //                                 initialCameraPosition: CameraPosition(
+      //                                   target: LatLng(
+      //                                     getMyCurrentLocationController
+      //                                         .myLocationLatitudeDo.value,
+      //                                     getMyCurrentLocationController
+      //                                         .myLocationLongitudeDo.value,
+      //                                   ),
+      //                                   zoom: 15.0,
+      //                                 ),
+      //                                 markers: Set<Marker>.from(
+      //                                     createRouteController.markers.value),
+      //                                 myLocationEnabled: true,
+      //                                 myLocationButtonEnabled: false,
+      //                                 mapType: MapType.normal,
+      //                                 zoomGesturesEnabled: true,
+      //                                 zoomControlsEnabled: false,
+      //                                 onCameraMoveStarted: () {},
+      //                                 onCameraMove: (p0) {},
+      //                                 polygons: const <Polygon>{},
+      //                                 tileOverlays: const <TileOverlay>{},
+      //                                 polylines: Set<Polyline>.of(
+      //                                     createRouteController.polylines.value),
+      //                                 onMapCreated:
+      //                                     (GoogleMapController controller) async {
+      //                                   // createRouteController.generalMapController
+      //                                   //     .complete(controller);
+      //                                   // mapCotroller = Completer();
+      //                                   // mapCotroller.complete(controller);
+      //                                   createRouteController.mapController =
+      //                                       controller;
+      //                                 },
+      //                               ),
+      //                             ),
+      //                           );
+      //                         },
+      //                       ),
+      //                     ),
+      //                     Obx(
+      //                       () =>
+      //                           // searchRouteController.showOnlyMap.value
+      //                           //     ? Container()
+      //                           //     :
+      //                           AnimatedSwitcher(
+      //                         duration: const Duration(milliseconds: 500),
+      //                         transitionBuilder:
+      //                             (Widget child, Animation<double> animation) {
+      //                           return SlideTransition(
+      //                             position: Tween<Offset>(
+      //                                     begin: const Offset(0, 1.2),
+      //                                     end: const Offset(0, 0))
+      //                                 .animate(animation),
+      //                             child: child,
+      //                           );
+      //                         },
+      //                         child: RouteCalculateButtomSheet(
+      //                           key: ValueKey<int>(
+      //                               createRouteController.calculateLevel.value),
+      //                           calculateLevel:
+      //                               createRouteController.calculateLevel.value,
+      //                           mapController: mapCotroller,
+      //                           mapContext: context,
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ),
+    );
   }
 }
 

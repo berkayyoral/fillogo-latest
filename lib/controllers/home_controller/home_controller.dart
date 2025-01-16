@@ -14,48 +14,56 @@ import '../../export.dart';
 
 class HomeController extends GetxController {
   RxBool isLoading = false.obs;
+  RxBool isDeletePostLoading = false.obs;
   final RxInt currentPage = 1.obs;
   final RxInt totalPage = 1.obs;
   final RxDouble scrollOffset = (600.0).obs;
-  final ScrollController scrollController = ScrollController();
-  RxList<Result?> snapshotList = <Result?>[].obs;
+  ScrollController scrollController = ScrollController();
+  RxList<HomePostDetail?> snapshotList = <HomePostDetail?>[].obs;
 
   RxBool isRefresh = false.obs;
   GeneralDrawerController drawerController = Get.find();
   VehicleInfoController vehicleInfoController =
       Get.put(VehicleInfoController());
-  void fillList(int page) async {
-    GetHomePostResponse? response = await GeneralServicesTemp()
-        .makeGetRequest("/posts/get-home-posts?page=$page", {
-      "Content-type": "application/json",
-      'Authorization':
-          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-    }).then((value) {
-      if (value != null) {
-        var res = GetHomePostResponse.fromJson(json.decode(value));
-        // totalPage.value = res.data![0].pagination!.totalPage!;
-        // for (int i = 0; i < res.data![0].result!.length; i++) {
-        //   snapshotList.value.add(res.data![0].result![i]);
-        // }
-        return res;
+  Future fillList(int page) async {
+    scrollController.dispose();
+    scrollController = ScrollController();
+
+    try {
+      GetHomePostResponse? response = await GeneralServicesTemp()
+          .makeGetRequest("/posts/get-home-posts?page=$page", {
+        "Content-type": "application/json",
+        'Authorization':
+            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+      }).then((value) {
+        if (value != null) {
+          var res = GetHomePostResponse.fromJson(json.decode(value));
+
+          // totalPage.value = res.data![0].pagination!.totalPage!;
+          // for (int i = 0; i < res.data![0].result!.length; i++) {
+          //   snapshotList.value.add(res.data![0].result![i]);
+          // }
+          return res;
+        }
+
+        return null;
+      });
+      if (response == null) {
+        return;
       }
-      return null;
-    });
-    if (response == null) {
-      return;
-    }
-    if (response.data!.isNotEmpty) {
-      totalPage.value = response.data![0].pagination!.totalPage!;
-      for (int i = 0; i < response.data![0].result!.length; i++) {
-        snapshotList.value.add(response.data![0].result![i]);
+      if (response.data!.isNotEmpty) {
+        totalPage.value = response.data![0].pagination!.totalPage!;
+        for (int i = 0; i < response.data![0].result!.length; i++) {
+          snapshotList.value.add(response.data![0].result![i]);
+        }
       }
+      update(["homePage"]);
+      update(["comment"]);
+      update(["like"]);
+      update(["homePagem"]);
+    } catch (e) {
+      print("Home controller ERR -> $e");
     }
-    print("HOMEPOSTT -> ${jsonEncode(response.data)}");
-    update(["homePage"]);
-    update(["comment"]);
-    update(["like"]);
-    update(["homePagem"]);
-    print("HOMEPOSTT 2 -> ${jsonEncode(response.data)}");
   }
 
   void addList(int page) async {
@@ -81,8 +89,8 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit() {
-    fillList(1);
+  Future<void> onInit() async {
+    await fillList(1);
     scrollController.addListener(() {
       if (scrollController.position.pixels > scrollOffset.value &&
           currentPage <= totalPage.value) {
@@ -94,27 +102,28 @@ class HomeController extends GetxController {
       }
     });
 
-    print("POSTFLOWAÇILDIIIIII");
     GeneralServicesTemp().makeGetRequest(EndPoint.getUserCarTypes, {
       "Content-type": "application/json",
       'Authorization':
           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
     }).then((value) {
       var response = GetUserCarTypesResponse.fromJson(json.decode(value!));
-      print("aaa $response");
-      print("aaa $value");
 
       if (response.succes == 1) {
         vehicleInfoController.vehicleMarka =
             response.data![0].userCarTypes![0].carBrand.toString().obs;
         vehicleInfoController.vehicleModel =
             response.data![0].userCarTypes![0].carModel.toString().obs;
-      } else {
-        print("Response Hata = ${response.message}");
-        print("Response Hata = ${response.succes}");
-      }
+      } else {}
     });
 
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    log("SCROLL DİSPOSE");
+    super.dispose();
   }
 }

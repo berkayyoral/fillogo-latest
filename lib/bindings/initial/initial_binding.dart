@@ -52,7 +52,7 @@ class InitialBinding implements Bindings {
     Get.put(NotificationController());
     Get.put(MapPageMController());
     Get.put(CreateRouteController());
-    Get.put(HomeController());
+    // Get.put(HomeController());
   }
 }
 

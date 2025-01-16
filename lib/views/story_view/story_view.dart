@@ -41,12 +41,10 @@ class _StoriesViewState extends State<StoriesView> {
         body: GetBuilder<StoriesPaginationController>(
             id: "userStories",
             initState: (state) async {
-              print("STORYYYWİEEWW İNİT FİRST");
               storiesController.userId.value = userId;
               storiesController.snapshotList.value.clear();
               await storiesController.addList(1);
               await storiesController.fillList();
-              print("STORYYYWİEEWW İNİT LAST");
             },
             builder: (_) {
               if (storiesController.snapshotList.isEmpty) {

@@ -7,7 +7,8 @@ import '../../../widgets/popup_view_widget.dart';
 class NotificationSettingsView extends StatelessWidget {
   NotificationSettingsView({Key? key}) : super(key: key);
 
-  NotificationSettingsController notificationSettingsController = Get.put(NotificationSettingsController());
+  NotificationSettingsController notificationSettingsController =
+      Get.put(NotificationSettingsController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,10 @@ class NotificationSettingsView extends StatelessWidget {
       appBar: AppBarGenel(
         title: Text(
           'Bildirim Ayarları',
-          style: TextStyle(fontFamily: 'Sfsemibold', color: AppConstants().ltLogoGrey, fontSize: 28),
+          style: TextStyle(
+              fontFamily: 'Sfsemibold',
+              color: AppConstants().ltLogoGrey,
+              fontSize: 28),
         ),
         leading: Builder(
           builder: (context) => InkWell(
@@ -69,7 +73,8 @@ class NotificationSettingsView extends StatelessWidget {
                             width: 44.w,
                             height: 28.h,
                             child: FlutterSwitch(
-                              activeToggleColor: const Color.fromARGB(255, 107, 221, 69),
+                              activeToggleColor:
+                                  const Color.fromARGB(255, 107, 221, 69),
                               inactiveToggleColor: AppConstants().ltDarkGrey,
                               inactiveColor: AppConstants().ltWhiteGrey,
                               activeColor: AppConstants().ltWhiteGrey,
@@ -77,16 +82,22 @@ class NotificationSettingsView extends StatelessWidget {
                               toggleSize: 26.w,
                               padding: 0.w,
                               borderRadius: 16.r,
-                              value: notificationSettingsController.commentStatus.value,
+                              value: notificationSettingsController
+                                  .commentStatus.value,
                               onToggle: (val) {
                                 if (val) {
-                                  notificationSettingsController.addedStoryStatus.value = false;
-                                  notificationSettingsController.likedStatus.value = false;
-                                  notificationSettingsController.secureStatus.value = false;
-                                  notificationSettingsController.sharedStatus.value = false;
+                                  notificationSettingsController
+                                      .addedStoryStatus.value = false;
+                                  notificationSettingsController
+                                      .likedStatus.value = false;
+                                  notificationSettingsController
+                                      .secureStatus.value = false;
+                                  notificationSettingsController
+                                      .sharedStatus.value = false;
                                 }
 
-                                notificationSettingsController.commentStatus.value = val;
+                                notificationSettingsController
+                                    .commentStatus.value = val;
 
                                 // notificationSettingsController.commentStatus.value =
                                 //     val;
@@ -125,7 +136,8 @@ class NotificationSettingsView extends StatelessWidget {
                             width: 44.w,
                             height: 28.h,
                             child: FlutterSwitch(
-                              activeToggleColor: const Color.fromARGB(255, 107, 221, 69),
+                              activeToggleColor:
+                                  const Color.fromARGB(255, 107, 221, 69),
                               inactiveToggleColor: AppConstants().ltDarkGrey,
                               inactiveColor: AppConstants().ltWhiteGrey,
                               activeColor: AppConstants().ltWhiteGrey,
@@ -133,9 +145,11 @@ class NotificationSettingsView extends StatelessWidget {
                               toggleSize: 26.w,
                               padding: 0.w,
                               borderRadius: 16.r,
-                              value: notificationSettingsController.secureStatus.value,
+                              value: notificationSettingsController
+                                  .secureStatus.value,
                               onToggle: (val) {
-                                notificationSettingsController.secureStatus.value = val;
+                                notificationSettingsController
+                                    .secureStatus.value = val;
                               },
                             ),
                           ),
@@ -171,7 +185,8 @@ class NotificationSettingsView extends StatelessWidget {
                             width: 44.w,
                             height: 28.h,
                             child: FlutterSwitch(
-                              activeToggleColor: const Color.fromARGB(255, 107, 221, 69),
+                              activeToggleColor:
+                                  const Color.fromARGB(255, 107, 221, 69),
                               inactiveToggleColor: AppConstants().ltDarkGrey,
                               inactiveColor: AppConstants().ltWhiteGrey,
                               activeColor: AppConstants().ltWhiteGrey,
@@ -179,9 +194,11 @@ class NotificationSettingsView extends StatelessWidget {
                               toggleSize: 26.w,
                               padding: 0.w,
                               borderRadius: 16.r,
-                              value: notificationSettingsController.sharedStatus.value,
+                              value: notificationSettingsController
+                                  .sharedStatus.value,
                               onToggle: (val) {
-                                notificationSettingsController.sharedStatus.value = val;
+                                notificationSettingsController
+                                    .sharedStatus.value = val;
                               },
                             ),
                           ),
@@ -217,7 +234,8 @@ class NotificationSettingsView extends StatelessWidget {
                             width: 44.w,
                             height: 28.h,
                             child: FlutterSwitch(
-                              activeToggleColor: const Color.fromARGB(255, 107, 221, 69),
+                              activeToggleColor:
+                                  const Color.fromARGB(255, 107, 221, 69),
                               inactiveToggleColor: AppConstants().ltDarkGrey,
                               inactiveColor: AppConstants().ltWhiteGrey,
                               activeColor: AppConstants().ltWhiteGrey,
@@ -225,9 +243,11 @@ class NotificationSettingsView extends StatelessWidget {
                               toggleSize: 26.w,
                               padding: 0.w,
                               borderRadius: 16.r,
-                              value: notificationSettingsController.likedStatus.value,
+                              value: notificationSettingsController
+                                  .likedStatus.value,
                               onToggle: (val) {
-                                notificationSettingsController.likedStatus.value = val;
+                                notificationSettingsController
+                                    .likedStatus.value = val;
                               },
                             ),
                           ),
@@ -263,7 +283,8 @@ class NotificationSettingsView extends StatelessWidget {
                             width: 44.w,
                             height: 28.h,
                             child: FlutterSwitch(
-                              activeToggleColor: const Color.fromARGB(255, 107, 221, 69),
+                              activeToggleColor:
+                                  const Color.fromARGB(255, 107, 221, 69),
                               inactiveToggleColor: AppConstants().ltDarkGrey,
                               inactiveColor: AppConstants().ltWhiteGrey,
                               activeColor: AppConstants().ltWhiteGrey,
@@ -271,9 +292,11 @@ class NotificationSettingsView extends StatelessWidget {
                               toggleSize: 26.w,
                               padding: 0.w,
                               borderRadius: 16.r,
-                              value: notificationSettingsController.addedStoryStatus.value,
+                              value: notificationSettingsController
+                                  .addedStoryStatus.value,
                               onToggle: (val) {
-                                notificationSettingsController.addedStoryStatus.value = val;
+                                notificationSettingsController
+                                    .addedStoryStatus.value = val;
                               },
                             ),
                           ),
@@ -307,7 +330,8 @@ class NotificationSettingsView extends StatelessWidget {
                       button2TextColor: AppConstants().ltWhite,
                       button2Width: Get.width,
                       buttonCount: 2,
-                      discription1: "Bildirim ayarlarınızda yaptığınız değişiklikler kaydedilsin mi?",
+                      discription1:
+                          "Bildirim ayarlarınızda yaptığınız değişiklikler kaydedilsin mi?",
                       onPressed1: () {
                         Get.back();
                         Get.back();

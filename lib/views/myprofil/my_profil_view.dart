@@ -75,8 +75,6 @@ class _MyProfilViewState extends State<MyProfilView> {
                         response.data!.carInformations!.cartypetousercartypes!
                             .carType!);
 
-                    print(
-                        "PROFİFFL FOLLOWWW -> ${jsonEncode(response.data!.followingCount)}");
                     return response;
                   }),
                   builder: (context, snapshot) {
@@ -93,61 +91,12 @@ class _MyProfilViewState extends State<MyProfilView> {
                       //     "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}";
                       // mapPageController.myUserId.value =
                       //     snapshot.data!.data!.users!.id!;
-                      return Scaffold(
-                        key: myProfilePageDrawerController
-                            .myProfilePageScaffoldKey,
-                        appBar: AppBarGenel(
-                          leading: GestureDetector(
-                            onTap: () {
-                              myProfilePageDrawerController
-                                  .openMyProfilePageScaffoldDrawer();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 20.w,
-                                right: 5.h,
-                              ),
-                              child: SvgPicture.asset(
-                                height: 25.h,
-                                width: 25.w,
-                                'assets/icons/open-drawer-icon.svg',
-                                color: AppConstants().ltLogoGrey,
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "${snapshot.data!.data!.users!.name} ${snapshot.data!.data!.users!.surname}",
-                            style: TextStyle(
-                              fontFamily: "Sfbold",
-                              fontSize: 20.sp,
-                              color: AppConstants().ltBlack,
-                            ),
-                          ),
-                          actions: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed('/settings');
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 20.w,
-                                ),
-                                child: SvgPicture.asset(
-                                  height: 32.h,
-                                  width: 32.w,
-                                  'assets/icons/settings.svg',
-                                  color: AppConstants().ltLogoGrey,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        drawer: NavigationDrawerWidget(),
-                        body: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ProfileHeaderWidget(
+                      return SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: ProfileHeaderWidget(
                                 profilePictureUrl:
                                     snapshot.data!.data!.users!.profilePicture!,
                                 coverPictureUrl:
@@ -168,704 +117,1460 @@ class _MyProfilViewState extends State<MyProfilView> {
                                   );
                                 },
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 12.w,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 12.w,
+                              ),
+                              child: Text(
+                                "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontFamily: 'Sfbold',
+                                  color: AppConstants().ltLogoGrey,
+                                  fontSize: 20.sp,
                                 ),
-                                child: Text(
-                                  "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontFamily: 'Sfbold',
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 20.sp,
+                              ),
+                            ),
+                            1.h.spaceY,
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 12.w,
+                              ),
+                              child: Text(
+                                "@${snapshot.data!.data!.users!.username!}",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: AppConstants().ltLogoGrey,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                            12.h.spaceY,
+                            snapshot.hasData
+                                ? snapshot.data!.data!.carInformations == null
+                                    ? const UserVehicleInfosWidget(
+                                        vehicleType: "",
+                                        vehicleBrand: "",
+                                        vehicleModel: "",
+                                      )
+                                    : UserVehicleInfosWidget(
+                                        vehicleType: snapshot
+                                                .data!
+                                                .data!
+                                                .carInformations!
+                                                .cartypetousercartypes!
+                                                .carType ??
+                                            "",
+                                        vehicleBrand: snapshot.data!.data!
+                                                .carInformations!.carBrand ??
+                                            "",
+                                        vehicleModel: snapshot.data!.data!
+                                                .carInformations!.carModel ??
+                                            "",
+                                      )
+                                : const SizedBox(),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            FollowersCountRowWidget(
+                              followersCount:
+                                  snapshot.data!.data!.followerCount.toString(),
+                              followedCount: snapshot.data!.data!.followingCount
+                                  .toString(),
+                              routesCount:
+                                  snapshot.data!.data!.routeCount.toString(),
+                              onTapFollowers: () {
+                                connectionsController.user =
+                                    snapshot.data!.data!.users!;
+                                connectionsController.followerCount =
+                                    snapshot.data!.data!.followerCount!;
+                                connectionsController.followingCount =
+                                    snapshot.data!.data!.followingCount!;
+                                connectionsController.routeCount =
+                                    snapshot.data!.data!.routeCount!;
+                                Get.toNamed(NavigationConstants.connectionView);
+                              },
+                              onTapFollowed: () {
+                                connectionsController.user =
+                                    snapshot.data!.data!.users!;
+                                connectionsController.followerCount =
+                                    snapshot.data!.data!.followerCount!;
+                                connectionsController.followingCount =
+                                    snapshot.data!.data!.followingCount!;
+                                connectionsController.routeCount =
+                                    snapshot.data!.data!.routeCount!;
+                                Get.toNamed(NavigationConstants.connectionView);
+                              },
+                              onTapRoutes: () {
+                                connectionsController.user =
+                                    snapshot.data!.data!.users!;
+                                connectionsController.followerCount =
+                                    snapshot.data!.data!.followerCount!;
+                                connectionsController.followingCount =
+                                    snapshot.data!.data!.followingCount!;
+                                connectionsController.routeCount =
+                                    snapshot.data!.data!.routeCount!;
+                                Get.toNamed(NavigationConstants.connectionView);
+                              },
+                            ),
+                            24.h.spaceY,
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 14.w,
+                                    right: 10.w,
                                   ),
-                                ),
-                              ),
-                              1.h.spaceY,
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 12.w,
-                                ),
-                                child: Text(
-                                  "@${snapshot.data!.data!.users!.username!}",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: AppConstants().ltLogoGrey,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                              12.h.spaceY,
-                              snapshot.hasData
-                                  ? snapshot.data!.data!.carInformations == null
-                                      ? const UserVehicleInfosWidget(
-                                          vehicleType: "",
-                                          vehicleBrand: "",
-                                          vehicleModel: "",
-                                        )
-                                      : UserVehicleInfosWidget(
-                                          vehicleType: snapshot
-                                                  .data!
-                                                  .data!
-                                                  .carInformations!
-                                                  .cartypetousercartypes!
-                                                  .carType ??
-                                              "",
-                                          vehicleBrand: snapshot.data!.data!
-                                                  .carInformations!.carBrand ??
-                                              "",
-                                          vehicleModel: snapshot.data!.data!
-                                                  .carInformations!.carModel ??
-                                              "",
-                                        )
-                                  : const SizedBox(),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              FollowersCountRowWidget(
-                                followersCount: snapshot
-                                    .data!.data!.followerCount
-                                    .toString(),
-                                followedCount: snapshot
-                                    .data!.data!.followingCount
-                                    .toString(),
-                                routesCount:
-                                    snapshot.data!.data!.routeCount.toString(),
-                                onTapFollowers: () {
-                                  connectionsController.user =
-                                      snapshot.data!.data!.users!;
-                                  connectionsController.followerCount =
-                                      snapshot.data!.data!.followerCount!;
-                                  connectionsController.followingCount =
-                                      snapshot.data!.data!.followingCount!;
-                                  connectionsController.routeCount =
-                                      snapshot.data!.data!.routeCount!;
-                                  Get.toNamed(
-                                      NavigationConstants.connectionView);
-                                },
-                                onTapFollowed: () {
-                                  connectionsController.user =
-                                      snapshot.data!.data!.users!;
-                                  connectionsController.followerCount =
-                                      snapshot.data!.data!.followerCount!;
-                                  connectionsController.followingCount =
-                                      snapshot.data!.data!.followingCount!;
-                                  connectionsController.routeCount =
-                                      snapshot.data!.data!.routeCount!;
-                                  Get.toNamed(
-                                      NavigationConstants.connectionView);
-                                },
-                                onTapRoutes: () {
-                                  connectionsController.user =
-                                      snapshot.data!.data!.users!;
-                                  connectionsController.followerCount =
-                                      snapshot.data!.data!.followerCount!;
-                                  connectionsController.followingCount =
-                                      snapshot.data!.data!.followingCount!;
-                                  connectionsController.routeCount =
-                                      snapshot.data!.data!.routeCount!;
-                                  Get.toNamed(
-                                      NavigationConstants.connectionView);
-                                },
-                              ),
-                              24.h.spaceY,
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 14.w,
-                                      right: 10.w,
-                                    ),
-                                    child: CustomButtonDesign(
-                                      text: 'Profili Düzenle',
-                                      textColor: AppConstants().ltWhite,
-                                      color: AppConstants().ltDarkGrey,
-                                      width: 348.w,
-                                      height: 50.h,
-                                      onpressed: () {
-                                        //Get.toNamed(NavigationConstants.profileSettings);
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20.r),
-                                              topRight: Radius.circular(20.r),
-                                            ),
+                                  child: CustomButtonDesign(
+                                    text: 'Profili Düzenle',
+                                    textColor: AppConstants().ltWhite,
+                                    color: AppConstants().ltDarkGrey,
+                                    width: 348.w,
+                                    height: 50.h,
+                                    onpressed: () {
+                                      //Get.toNamed(NavigationConstants.profileSettings);
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20.r),
+                                            topRight: Radius.circular(20.r),
                                           ),
-                                          context: context,
-                                          builder: (builder) {
-                                            return SizedBox(
-                                              height: Get.height / 2,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 32,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 16,
-                                                        vertical: 8),
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        await Get.toNamed(
-                                                            NavigationConstants
-                                                                .profileSettings);
-                                                      },
-                                                      child:
-                                                          const ListTileWidget(
-                                                        iconPath:
-                                                            'assets/icons/profil-icon.svg',
-                                                        title:
-                                                            "Profil Ayarları",
-                                                        subTitle:
-                                                            "Kişisel bilgilerinizi güncelleyin",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed(
+                                        ),
+                                        context: context,
+                                        builder: (builder) {
+                                          return SizedBox(
+                                            height: Get.height / 2,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 32,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 8),
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      await Get.toNamed(
                                                           NavigationConstants
-                                                              .vehicleSettings);
+                                                              .profileSettings);
                                                     },
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 8),
-                                                      child: ListTileWidget(
-                                                        iconPath:
-                                                            'assets/icons/truck.svg',
-                                                        title:
-                                                            "Araç Bilgilerini Düzenle",
-                                                        subTitle:
-                                                            "Kayıtlı aracınızın bilgilerini düzenleyin",
-                                                      ),
+                                                    child: const ListTileWidget(
+                                                      iconPath:
+                                                          'assets/icons/profil-icon.svg',
+                                                      title: "Profil Ayarları",
+                                                      subTitle:
+                                                          "Kişisel bilgilerinizi güncelleyin",
                                                     ),
                                                   ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed('/settings');
-                                                    },
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 8),
-                                                      child: ListTileWidget(
-                                                        iconPath:
-                                                            'assets/icons/settings.svg',
-                                                        title: "Genel Ayarlar",
-                                                        subTitle:
-                                                            "Genel ayarlarınızı düzenleyin",
-                                                      ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        NavigationConstants
+                                                            .vehicleSettings);
+                                                  },
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 16,
+                                                            vertical: 8),
+                                                    child: ListTileWidget(
+                                                      iconPath:
+                                                          'assets/icons/truck.svg',
+                                                      title:
+                                                          "Araç Bilgilerini Düzenle",
+                                                      subTitle:
+                                                          "Kayıtlı aracınızın bilgilerini düzenleyin",
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      iconPath: '',
-                                    ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed('/settings');
+                                                  },
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 16,
+                                                            vertical: 8),
+                                                    child: ListTileWidget(
+                                                      iconPath:
+                                                          'assets/icons/settings.svg',
+                                                      title: "Genel Ayarlar",
+                                                      subTitle:
+                                                          "Genel ayarlarınızı düzenleyin",
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    iconPath: '',
                                   ),
-                                  // Padding(
-                                  //   padding: EdgeInsets.only(
-                                  //     right: 14.w,
-                                  //   ),
-                                  //   child: CustomButtonDesign(
-                                  //     text: '...',
-                                  //     textColor: AppConstants().ltWhite,
-                                  //     color: AppConstants().ltDarkGrey,
-                                  //     width: 50.w,
-                                  //     height: 50.h,
-                                  //     onpressed: () {
-                                  //       print("KANKSS");
-                                  //     },
-                                  //     iconPath: '',
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 14.w,
                                 ),
-                                child: CustomButtonDesign(
-                                  text: 'Yeni Rota Oluştur',
-                                  textColor: AppConstants().ltWhite,
-                                  color: AppConstants().ltMainRed,
-                                  width: 348.w,
-                                  height: 50.h,
-                                  onpressed: () {
-                                    bottomNavigationBarController
-                                        .selectedIndex.value = 1;
-                                    mapPageController.addMarkerIcon(
-                                        markerID: "myLocationMarker",
-                                        location: LatLng(
-                                            getMyCurrentLocationController
-                                                .myLocationLatitudeDo.value,
-                                            getMyCurrentLocationController
-                                                .myLocationLongitudeDo.value));
-                                  },
-                                  iconPath: 'assets/icons/plus-add-icon.svg',
-                                ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(
+                                //     right: 14.w,
+                                //   ),
+                                //   child: CustomButtonDesign(
+                                //     text: '...',
+                                //     textColor: AppConstants().ltWhite,
+                                //     color: AppConstants().ltDarkGrey,
+                                //     width: 50.w,
+                                //     height: 50.h,
+                                //     onpressed: () {
+                                //       print("KANKSS");
+                                //     },
+                                //     iconPath: '',
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
                               ),
-                              10.h.spaceY,
-                              SizedBox(
-                                height: 32.h,
+                              child: CustomButtonDesign(
+                                text: 'Yeni Rota Oluştur',
+                                textColor: AppConstants().ltWhite,
+                                color: AppConstants().ltMainRed,
+                                width: 348.w,
+                                height: 50.h,
+                                onpressed: () {
+                                  bottomNavigationBarController
+                                      .selectedIndex.value = 1;
+                                  mapPageController.addMarkerIcon(
+                                      markerID: "myLocationMarker",
+                                      location: LatLng(
+                                          getMyCurrentLocationController
+                                              .myLocationLatitudeDo.value,
+                                          getMyCurrentLocationController
+                                              .myLocationLongitudeDo.value));
+                                },
+                                iconPath: 'assets/icons/plus-add-icon.svg',
                               ),
-                              snapshot.data!.data!.posts!.result!.isNotEmpty
-                                  ? ListView.builder(
-                                      padding: EdgeInsets
-                                          .zero, //This deletes spaces.
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: snapshot
-                                          .data!.data!.posts!.result!.length,
-                                      itemBuilder: (context, index) {
-                                        return (snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .media!
-                                                    .isNotEmpty ||
-                                                snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .text! !=
-                                                    "default text")
-                                            ? PostFlowWidget(
-                                                deletePostOnTap: () {
-                                                  GeneralServicesTemp()
-                                                      .makeDeleteWithoutBody(
-                                                    EndPoint.deletePost +
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .posts!
-                                                            .result![index]
-                                                            .post!
-                                                            .id!
-                                                            .toString(),
-                                                    {
-                                                      'Authorization':
-                                                          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                                                      'Content-Type':
-                                                          'application/json',
-                                                    },
-                                                  ).then((value) {
-                                                    var response =
-                                                        DeletePostResponse
-                                                            .fromJson(
-                                                                json.decode(
-                                                                    value!));
-                                                    if (response.success == 1) {
-                                                      print(
-                                                          "KENDİ PROFİLİMDEN GÖNDERİ SİLDİM");
-                                                      snapshot.data!.data!
-                                                          .posts!.result!
-                                                          .removeAt(index);
+                            ),
+                            10.h.spaceY,
+                            SizedBox(
+                              height: 32.h,
+                            ),
+                            snapshot.data!.data!.posts!.result!.isNotEmpty
+                                ? ListView.builder(
+                                    padding:
+                                        EdgeInsets.zero, //This deletes spaces.
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot
+                                        .data!.data!.posts!.result!.length,
+                                    itemBuilder: (context, index) {
+                                      return (snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .media!
+                                                  .isNotEmpty ||
+                                              snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .text! !=
+                                                  "default text")
+                                          ? PostFlowWidget(
+                                              deletePostOnTap: () {
+                                                GeneralServicesTemp()
+                                                    .makeDeleteWithoutBody(
+                                                  EndPoint.deletePost +
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .posts!
+                                                          .result![index]
+                                                          .post!
+                                                          .id!
+                                                          .toString(),
+                                                  {
+                                                    'Authorization':
+                                                        'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                                    'Content-Type':
+                                                        'application/json',
+                                                  },
+                                                ).then((value) {
+                                                  var response =
+                                                      DeletePostResponse
+                                                          .fromJson(json
+                                                              .decode(value!));
+                                                  if (response.success == 1) {
+                                                    print(
+                                                        "KENDİ PROFİLİMDEN GÖNDERİ SİLDİM");
+                                                    snapshot.data!.data!.posts!
+                                                        .result!
+                                                        .removeAt(index);
 
-                                                      Get.back();
-                                                      UiHelper.showSuccessSnackBar(
-                                                          context,
-                                                          "Başarıyla Gönderiniz Silindi");
+                                                    Get.back();
+                                                    UiHelper.showSuccessSnackBar(
+                                                        context,
+                                                        "Başarıyla Gönderiniz Silindi");
 
-                                                      // mapPageController.markers
-                                                      //     .clear();
+                                                    // mapPageController.markers
+                                                    //     .clear();
 
-                                                      // mapPageController
-                                                      //     .polylines
-                                                      //     .clear();
+                                                    // mapPageController
+                                                    //     .polylines
+                                                    //     .clear();
 
-                                                      setState(() {});
-                                                    } else {
-                                                      Get.back();
-                                                      UiHelper.showWarningSnackBar(
-                                                          context,
-                                                          "Bir hata ile karşılaşıldı Lütfen Tekrar Deneyiniz.");
-                                                    }
-                                                  });
-                                                },
-                                                deletePost: true,
-                                                didILiked: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .didILiked ??
-                                                    0,
-                                                postId: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .id!,
-                                                onlyPost: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute ==
-                                                    null,
-                                                centerImageUrl: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .media!,
-                                                subtitle: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .text!,
-                                                name:
-                                                    "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
-                                                userId: snapshot
-                                                    .data!.data!.users!.id!,
-                                                userProfilePhoto: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .users!
-                                                    .profilePicture!,
-                                                locationName: snapshot
-                                                            .data!
-                                                            .data!
-                                                            .posts!
-                                                            .result![index]
-                                                            .post!
-                                                            .postroute !=
-                                                        null
-                                                    ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
-                                                    : "",
-                                                beforeHours: timeago.format(
-                                                    snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .createdAt!,
-                                                    locale: "tr"),
-                                                commentCount: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .commentNum
-                                                    .toString(),
-                                                firstCommentName:
-                                                    "Furkan Semiz",
-                                                firstCommentTitle:
-                                                    "Akşam 8 de yola çıkacağım",
-                                                firstLikeName: "Furkan Semiz",
-                                                firstLikeUrl: "",
-                                                othersLikeCount: (snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .likedNum!)
-                                                    .toString(),
-                                                secondLikeUrl:
-                                                    "snapshot.data!.data[index].secondLikeUrl",
-                                                thirdLikeUrl:
-                                                    "snapshot.data!.data[index].thirdLikeUrl",
-                                                haveTag: true,
-                                                usersTagged: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .postpostlabels,
-                                                haveEmotion: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .postemojis!
-                                                    .isNotEmpty,
-                                                emotion: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis!
-                                                        .isNotEmpty
-                                                    ? snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis![0]
-                                                        .emojis!
-                                                        .emoji
-                                                    : null,
-                                                emotionContent: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis!
-                                                        .isNotEmpty
-                                                    ? snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis![0]
-                                                        .emojis!
-                                                        .name
-                                                    : null,
-                                                likedStatus: 1,
-                                                selectedRouteId: !snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute
-                                                        .isNull
-                                                    ? snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute!
-                                                        .id
-                                                    : 0,
-                                                selectedRouteUserId: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .userId,
-                                              )
-                                            : OnlyRouteWidget(
-                                                deletePost: true,
-                                                onTap: () {
-                                                  selectedRouteController
-                                                      .selectedRouteId
-                                                      .value = 1;
-                                                  selectedRouteController
-                                                      .selectedRouteUserId
-                                                      .value = 1;
-                                                  Get.toNamed(
-                                                      NavigationConstants
-                                                          .routeDetails);
-                                                },
-                                                didILiked: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .didILiked ??
-                                                    0,
-                                                routeContent: "",
-                                                // "${snapshot
-                                                //         .data!
-                                                //         .data!
-                                                //         .posts!
-                                                //         .result![index]
-                                                //         .post!
-                                                //         .postroute!
-                                                //         .startingCity!} -> ${snapshot
-                                                //         .data!
-                                                //         .data!
-                                                //         .posts!
-                                                //         .result![index]
-                                                //         .post!
-                                                //         .postroute!
-                                                //         .endingCity!}",
-                                                routeEndDate: "",
-                                                routeStartDate: "",
-                                                postId: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .id!,
-                                                onlyPost: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postroute ==
-                                                    null,
-                                                centerImageUrl: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .media!,
-                                                subtitle: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .text!,
-                                                name:
-                                                    "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
-                                                userId: snapshot
-                                                    .data!.data!.users!.id!,
-                                                userProfilePhoto: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .users!
-                                                    .profilePicture!,
-                                                locationName: snapshot
-                                                            .data!
-                                                            .data!
-                                                            .posts!
-                                                            .result![index]
-                                                            .post!
-                                                            .postroute !=
-                                                        null
-                                                    ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
-                                                    : "",
-                                                beforeHours: timeago.format(
-                                                    snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .createdAt!,
-                                                    locale: "tr"),
-                                                commentCount: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .commentNum
-                                                    .toString(),
-                                                firstCommentName:
-                                                    "Furkan Semiz",
-                                                firstCommentTitle:
-                                                    "Akşam 8 de yola çıkacağım",
-                                                firstLikeName: "Furkan Semiz",
-                                                firstLikeUrl: "",
-                                                othersLikeCount: (snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .likedNum!)
-                                                    .toString(),
-                                                secondLikeUrl:
-                                                    "snapshot.data!.data[index].secondLikeUrl",
-                                                thirdLikeUrl:
-                                                    "snapshot.data!.data[index].thirdLikeUrl",
-                                                haveTag: true,
-                                                usersTagged: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .postpostlabels,
-                                                haveEmotion: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .postemojis!
-                                                    .isNotEmpty,
-                                                emotion: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis!
-                                                        .isNotEmpty
-                                                    ? snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis![0]
-                                                        .emojis!
-                                                        .emoji
-                                                    : null,
-                                                emotionContent: snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis!
-                                                        .isNotEmpty
-                                                    ? snapshot
-                                                        .data!
-                                                        .data!
-                                                        .posts!
-                                                        .result![index]
-                                                        .post!
-                                                        .postemojis![0]
-                                                        .emojis!
-                                                        .name
-                                                    : null,
-                                                likedStatus: 1,
-                                                selectedRouteId: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .id!,
-                                                selectedRouteUserId: snapshot
-                                                    .data!
-                                                    .data!
-                                                    .posts!
-                                                    .result![index]
-                                                    .post!
-                                                    .id!,
-                                              );
-                                      },
-                                    )
-                                  : const Center(
-                                      child: Text("Gönderi bulunamadı"),
-                                    ),
-                            ],
-                          ),
+                                                    setState(() {});
+                                                  } else {
+                                                    Get.back();
+                                                    UiHelper.showWarningSnackBar(
+                                                        context,
+                                                        "Bir hata ile karşılaşıldı Lütfen Tekrar Deneyiniz.");
+                                                  }
+                                                });
+                                              },
+                                              deletePost: true,
+                                              didILiked: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .didILiked ??
+                                                  0,
+                                              postId: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .id!,
+                                              onlyPost: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postroute ==
+                                                  null,
+                                              centerImageUrl: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .media!,
+                                              subtitle: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .text!,
+                                              name:
+                                                  "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                                              userId: snapshot
+                                                  .data!.data!.users!.id!,
+                                              userProfilePhoto: snapshot.data!
+                                                  .data!.users!.profilePicture!,
+                                              locationName: snapshot
+                                                          .data!
+                                                          .data!
+                                                          .posts!
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute !=
+                                                      null
+                                                  ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
+                                                  : "",
+                                              beforeHours: timeago.format(
+                                                  snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .createdAt!,
+                                                  locale: "tr"),
+                                              commentCount: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .commentNum
+                                                  .toString(),
+                                              firstCommentName: "Furkan Semiz",
+                                              firstCommentTitle:
+                                                  "Akşam 8 de yola çıkacağım",
+                                              firstLikeName: "Furkan Semiz",
+                                              firstLikeUrl: "",
+                                              othersLikeCount: (snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .likedNum!)
+                                                  .toString(),
+                                              secondLikeUrl:
+                                                  "snapshot.data!.data[index].secondLikeUrl",
+                                              thirdLikeUrl:
+                                                  "snapshot.data!.data[index].thirdLikeUrl",
+                                              haveTag: true,
+                                              usersTagged: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels,
+                                              haveEmotion: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .postemojis!
+                                                  .isNotEmpty,
+                                              emotion: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .emoji
+                                                  : null,
+                                              emotionContent: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .name
+                                                  : null,
+                                              likedStatus: 1,
+                                              selectedRouteId: !snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postroute
+                                                      .isNull
+                                                  ? snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postroute!
+                                                      .id
+                                                  : 0,
+                                              selectedRouteUserId: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .userId,
+                                            )
+                                          : OnlyRouteWidget(
+                                              deletePost: true,
+                                              onTap: () {
+                                                selectedRouteController
+                                                    .selectedRouteId.value = 1;
+                                                selectedRouteController
+                                                    .selectedRouteUserId
+                                                    .value = 1;
+                                                Get.toNamed(NavigationConstants
+                                                    .routeDetails);
+                                              },
+                                              didILiked: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .didILiked ??
+                                                  0,
+                                              routeContent: "",
+                                              // "${snapshot
+                                              //         .data!
+                                              //         .data!
+                                              //         .posts!
+                                              //         .result![index]
+                                              //         .post!
+                                              //         .postroute!
+                                              //         .startingCity!} -> ${snapshot
+                                              //         .data!
+                                              //         .data!
+                                              //         .posts!
+                                              //         .result![index]
+                                              //         .post!
+                                              //         .postroute!
+                                              //         .endingCity!}",
+                                              routeEndDate: "",
+                                              routeStartDate: "",
+                                              postId: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .id!,
+                                              onlyPost: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postroute ==
+                                                  null,
+                                              centerImageUrl: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .media!,
+                                              subtitle: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .text!,
+                                              name:
+                                                  "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                                              userId: snapshot
+                                                  .data!.data!.users!.id!,
+                                              userProfilePhoto: snapshot.data!
+                                                  .data!.users!.profilePicture!,
+                                              locationName: snapshot
+                                                          .data!
+                                                          .data!
+                                                          .posts!
+                                                          .result![index]
+                                                          .post!
+                                                          .postroute !=
+                                                      null
+                                                  ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
+                                                  : "",
+                                              beforeHours: timeago.format(
+                                                  snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .createdAt!,
+                                                  locale: "tr"),
+                                              commentCount: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .commentNum
+                                                  .toString(),
+                                              firstCommentName: "Furkan Semiz",
+                                              firstCommentTitle:
+                                                  "Akşam 8 de yola çıkacağım",
+                                              firstLikeName: "Furkan Semiz",
+                                              firstLikeUrl: "",
+                                              othersLikeCount: (snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .likedNum!)
+                                                  .toString(),
+                                              secondLikeUrl:
+                                                  "snapshot.data!.data[index].secondLikeUrl",
+                                              thirdLikeUrl:
+                                                  "snapshot.data!.data[index].thirdLikeUrl",
+                                              haveTag: true,
+                                              usersTagged: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .postpostlabels,
+                                              haveEmotion: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .postemojis!
+                                                  .isNotEmpty,
+                                              emotion: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .emoji
+                                                  : null,
+                                              emotionContent: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis!
+                                                      .isNotEmpty
+                                                  ? snapshot
+                                                      .data!
+                                                      .data!
+                                                      .posts!
+                                                      .result![index]
+                                                      .post!
+                                                      .postemojis![0]
+                                                      .emojis!
+                                                      .name
+                                                  : null,
+                                              likedStatus: 1,
+                                              selectedRouteId: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .id!,
+                                              selectedRouteUserId: snapshot
+                                                  .data!
+                                                  .data!
+                                                  .posts!
+                                                  .result![index]
+                                                  .post!
+                                                  .id!,
+                                            );
+                                    },
+                                  )
+                                : const Center(
+                                    child: Text("Gönderi bulunamadı"),
+                                  ),
+                          ],
                         ),
                       );
+
+                      //  Scaffold(
+                      //   key: myProfilePageDrawerController
+                      //       .myProfilePageScaffoldKey,
+                      //   appBar: AppBarGenel(
+                      //     leading: GestureDetector(
+                      //       onTap: () {
+                      //         myProfilePageDrawerController
+                      //             .openMyProfilePageScaffoldDrawer();
+                      //       },
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(
+                      //           left: 20.w,
+                      //           right: 5.h,
+                      //         ),
+                      //         child: SvgPicture.asset(
+                      //           height: 25.h,
+                      //           width: 25.w,
+                      //           'assets/icons/open-drawer-icon.svg',
+                      //           color: AppConstants().ltLogoGrey,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     title: Text(
+                      //       "${snapshot.data!.data!.users!.name} ${snapshot.data!.data!.users!.surname}",
+                      //       style: TextStyle(
+                      //         fontFamily: "Sfbold",
+                      //         fontSize: 20.sp,
+                      //         color: AppConstants().ltBlack,
+                      //       ),
+                      //     ),
+                      //     actions: [
+                      //       GestureDetector(
+                      //         onTap: () {
+                      //           Get.toNamed('/settings');
+                      //         },
+                      //         child: Padding(
+                      //           padding: EdgeInsets.only(
+                      //             right: 20.w,
+                      //           ),
+                      //           child: SvgPicture.asset(
+                      //             height: 32.h,
+                      //             width: 32.w,
+                      //             'assets/icons/settings.svg',
+                      //             color: AppConstants().ltLogoGrey,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   drawer: NavigationDrawerWidget(),
+                      //   body: SingleChildScrollView(
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         ProfileHeaderWidget(
+                      //           profilePictureUrl:
+                      //               snapshot.data!.data!.users!.profilePicture!,
+                      //           coverPictureUrl:
+                      //               snapshot.data!.data!.users!.banner!,
+                      //           isMyProfile: true,
+                      //           onTapEditProfilePicture: () {
+                      //             showDialog(
+                      //               context: context,
+                      //               builder: (BuildContext context) =>
+                      //                   const EditProfilePhoto(),
+                      //             );
+                      //           },
+                      //           onTapEditCoverPicture: () {
+                      //             showDialog(
+                      //               context: context,
+                      //               builder: (BuildContext context) =>
+                      //                   const EditBannerPhoto(),
+                      //             );
+                      //           },
+                      //         ),
+                      //         Padding(
+                      //           padding: EdgeInsets.only(
+                      //             left: 12.w,
+                      //           ),
+                      //           child: Text(
+                      //             "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                      //             textAlign: TextAlign.start,
+                      //             style: TextStyle(
+                      //               fontFamily: 'Sfbold',
+                      //               color: AppConstants().ltLogoGrey,
+                      //               fontSize: 20.sp,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         1.h.spaceY,
+                      //         Padding(
+                      //           padding: EdgeInsets.only(
+                      //             left: 12.w,
+                      //           ),
+                      //           child: Text(
+                      //             "@${snapshot.data!.data!.users!.username!}",
+                      //             textAlign: TextAlign.start,
+                      //             style: TextStyle(
+                      //               color: AppConstants().ltLogoGrey,
+                      //               fontSize: 14.sp,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         12.h.spaceY,
+                      //         snapshot.hasData
+                      //             ? snapshot.data!.data!.carInformations == null
+                      //                 ? const UserVehicleInfosWidget(
+                      //                     vehicleType: "",
+                      //                     vehicleBrand: "",
+                      //                     vehicleModel: "",
+                      //                   )
+                      //                 : UserVehicleInfosWidget(
+                      //                     vehicleType: snapshot
+                      //                             .data!
+                      //                             .data!
+                      //                             .carInformations!
+                      //                             .cartypetousercartypes!
+                      //                             .carType ??
+                      //                         "",
+                      //                     vehicleBrand: snapshot.data!.data!
+                      //                             .carInformations!.carBrand ??
+                      //                         "",
+                      //                     vehicleModel: snapshot.data!.data!
+                      //                             .carInformations!.carModel ??
+                      //                         "",
+                      //                   )
+                      //             : const SizedBox(),
+                      //         SizedBox(
+                      //           height: 16.h,
+                      //         ),
+                      //         FollowersCountRowWidget(
+                      //           followersCount: snapshot
+                      //               .data!.data!.followerCount
+                      //               .toString(),
+                      //           followedCount: snapshot
+                      //               .data!.data!.followingCount
+                      //               .toString(),
+                      //           routesCount:
+                      //               snapshot.data!.data!.routeCount.toString(),
+                      //           onTapFollowers: () {
+                      //             connectionsController.user =
+                      //                 snapshot.data!.data!.users!;
+                      //             connectionsController.followerCount =
+                      //                 snapshot.data!.data!.followerCount!;
+                      //             connectionsController.followingCount =
+                      //                 snapshot.data!.data!.followingCount!;
+                      //             connectionsController.routeCount =
+                      //                 snapshot.data!.data!.routeCount!;
+                      //             Get.toNamed(
+                      //                 NavigationConstants.connectionView);
+                      //           },
+                      //           onTapFollowed: () {
+                      //             connectionsController.user =
+                      //                 snapshot.data!.data!.users!;
+                      //             connectionsController.followerCount =
+                      //                 snapshot.data!.data!.followerCount!;
+                      //             connectionsController.followingCount =
+                      //                 snapshot.data!.data!.followingCount!;
+                      //             connectionsController.routeCount =
+                      //                 snapshot.data!.data!.routeCount!;
+                      //             Get.toNamed(
+                      //                 NavigationConstants.connectionView);
+                      //           },
+                      //           onTapRoutes: () {
+                      //             connectionsController.user =
+                      //                 snapshot.data!.data!.users!;
+                      //             connectionsController.followerCount =
+                      //                 snapshot.data!.data!.followerCount!;
+                      //             connectionsController.followingCount =
+                      //                 snapshot.data!.data!.followingCount!;
+                      //             connectionsController.routeCount =
+                      //                 snapshot.data!.data!.routeCount!;
+                      //             Get.toNamed(
+                      //                 NavigationConstants.connectionView);
+                      //           },
+                      //         ),
+                      //         24.h.spaceY,
+                      //         Row(
+                      //           children: [
+                      //             Padding(
+                      //               padding: EdgeInsets.only(
+                      //                 left: 14.w,
+                      //                 right: 10.w,
+                      //               ),
+                      //               child: CustomButtonDesign(
+                      //                 text: 'Profili Düzenle',
+                      //                 textColor: AppConstants().ltWhite,
+                      //                 color: AppConstants().ltDarkGrey,
+                      //                 width: 348.w,
+                      //                 height: 50.h,
+                      //                 onpressed: () {
+                      //                   //Get.toNamed(NavigationConstants.profileSettings);
+                      //                   showModalBottomSheet(
+                      //                     isScrollControlled: true,
+                      //                     shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.only(
+                      //                         topLeft: Radius.circular(20.r),
+                      //                         topRight: Radius.circular(20.r),
+                      //                       ),
+                      //                     ),
+                      //                     context: context,
+                      //                     builder: (builder) {
+                      //                       return SizedBox(
+                      //                         height: Get.height / 2,
+                      //                         child: Column(
+                      //                           crossAxisAlignment:
+                      //                               CrossAxisAlignment.center,
+                      //                           children: [
+                      //                             const SizedBox(
+                      //                               height: 32,
+                      //                             ),
+                      //                             Padding(
+                      //                               padding: const EdgeInsets
+                      //                                   .symmetric(
+                      //                                   horizontal: 16,
+                      //                                   vertical: 8),
+                      //                               child: GestureDetector(
+                      //                                 onTap: () async {
+                      //                                   await Get.toNamed(
+                      //                                       NavigationConstants
+                      //                                           .profileSettings);
+                      //                                 },
+                      //                                 child:
+                      //                                     const ListTileWidget(
+                      //                                   iconPath:
+                      //                                       'assets/icons/profil-icon.svg',
+                      //                                   title:
+                      //                                       "Profil Ayarları",
+                      //                                   subTitle:
+                      //                                       "Kişisel bilgilerinizi güncelleyin",
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                             GestureDetector(
+                      //                               onTap: () {
+                      //                                 Get.toNamed(
+                      //                                     NavigationConstants
+                      //                                         .vehicleSettings);
+                      //                               },
+                      //                               child: const Padding(
+                      //                                 padding:
+                      //                                     EdgeInsets.symmetric(
+                      //                                         horizontal: 16,
+                      //                                         vertical: 8),
+                      //                                 child: ListTileWidget(
+                      //                                   iconPath:
+                      //                                       'assets/icons/truck.svg',
+                      //                                   title:
+                      //                                       "Araç Bilgilerini Düzenle",
+                      //                                   subTitle:
+                      //                                       "Kayıtlı aracınızın bilgilerini düzenleyin",
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                             GestureDetector(
+                      //                               onTap: () {
+                      //                                 Get.toNamed('/settings');
+                      //                               },
+                      //                               child: const Padding(
+                      //                                 padding:
+                      //                                     EdgeInsets.symmetric(
+                      //                                         horizontal: 16,
+                      //                                         vertical: 8),
+                      //                                 child: ListTileWidget(
+                      //                                   iconPath:
+                      //                                       'assets/icons/settings.svg',
+                      //                                   title: "Genel Ayarlar",
+                      //                                   subTitle:
+                      //                                       "Genel ayarlarınızı düzenleyin",
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                           ],
+                      //                         ),
+                      //                       );
+                      //                     },
+                      //                   );
+                      //                 },
+                      //                 iconPath: '',
+                      //               ),
+                      //             ),
+                      //             // Padding(
+                      //             //   padding: EdgeInsets.only(
+                      //             //     right: 14.w,
+                      //             //   ),
+                      //             //   child: CustomButtonDesign(
+                      //             //     text: '...',
+                      //             //     textColor: AppConstants().ltWhite,
+                      //             //     color: AppConstants().ltDarkGrey,
+                      //             //     width: 50.w,
+                      //             //     height: 50.h,
+                      //             //     onpressed: () {
+                      //             //       print("KANKSS");
+                      //             //     },
+                      //             //     iconPath: '',
+                      //             //   ),
+                      //             // ),
+                      //           ],
+                      //         ),
+                      //         SizedBox(
+                      //           height: 10.h,
+                      //         ),
+                      //         Padding(
+                      //           padding: EdgeInsets.symmetric(
+                      //             horizontal: 14.w,
+                      //           ),
+                      //           child: CustomButtonDesign(
+                      //             text: 'Yeni Rota Oluştur',
+                      //             textColor: AppConstants().ltWhite,
+                      //             color: AppConstants().ltMainRed,
+                      //             width: 348.w,
+                      //             height: 50.h,
+                      //             onpressed: () {
+                      //               bottomNavigationBarController
+                      //                   .selectedIndex.value = 1;
+                      //               mapPageController.addMarkerIcon(
+                      //                   markerID: "myLocationMarker",
+                      //                   location: LatLng(
+                      //                       getMyCurrentLocationController
+                      //                           .myLocationLatitudeDo.value,
+                      //                       getMyCurrentLocationController
+                      //                           .myLocationLongitudeDo.value));
+                      //             },
+                      //             iconPath: 'assets/icons/plus-add-icon.svg',
+                      //           ),
+                      //         ),
+                      //         10.h.spaceY,
+                      //         SizedBox(
+                      //           height: 32.h,
+                      //         ),
+                      //         snapshot.data!.data!.posts!.result!.isNotEmpty
+                      //             ? ListView.builder(
+                      //                 padding: EdgeInsets
+                      //                     .zero, //This deletes spaces.
+                      //                 scrollDirection: Axis.vertical,
+                      //                 shrinkWrap: true,
+                      //                 physics:
+                      //                     const NeverScrollableScrollPhysics(),
+                      //                 itemCount: snapshot
+                      //                     .data!.data!.posts!.result!.length,
+                      //                 itemBuilder: (context, index) {
+                      //                   return (snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .media!
+                      //                               .isNotEmpty ||
+                      //                           snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .text! !=
+                      //                               "default text")
+                      //                       ? PostFlowWidget(
+                      //                           deletePostOnTap: () {
+                      //                             GeneralServicesTemp()
+                      //                                 .makeDeleteWithoutBody(
+                      //                               EndPoint.deletePost +
+                      //                                   snapshot
+                      //                                       .data!
+                      //                                       .data!
+                      //                                       .posts!
+                      //                                       .result![index]
+                      //                                       .post!
+                      //                                       .id!
+                      //                                       .toString(),
+                      //                               {
+                      //                                 'Authorization':
+                      //                                     'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                      //                                 'Content-Type':
+                      //                                     'application/json',
+                      //                               },
+                      //                             ).then((value) {
+                      //                               var response =
+                      //                                   DeletePostResponse
+                      //                                       .fromJson(
+                      //                                           json.decode(
+                      //                                               value!));
+                      //                               if (response.success == 1) {
+                      //                                 print(
+                      //                                     "KENDİ PROFİLİMDEN GÖNDERİ SİLDİM");
+                      //                                 snapshot.data!.data!
+                      //                                     .posts!.result!
+                      //                                     .removeAt(index);
+
+                      //                                 Get.back();
+                      //                                 UiHelper.showSuccessSnackBar(
+                      //                                     context,
+                      //                                     "Başarıyla Gönderiniz Silindi");
+
+                      //                                 // mapPageController.markers
+                      //                                 //     .clear();
+
+                      //                                 // mapPageController
+                      //                                 //     .polylines
+                      //                                 //     .clear();
+
+                      //                                 setState(() {});
+                      //                               } else {
+                      //                                 Get.back();
+                      //                                 UiHelper.showWarningSnackBar(
+                      //                                     context,
+                      //                                     "Bir hata ile karşılaşıldı Lütfen Tekrar Deneyiniz.");
+                      //                               }
+                      //                             });
+                      //                           },
+                      //                           deletePost: true,
+                      //                           didILiked: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .didILiked ??
+                      //                               0,
+                      //                           postId: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .id!,
+                      //                           onlyPost: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postroute ==
+                      //                               null,
+                      //                           centerImageUrl: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .media!,
+                      //                           subtitle: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .text!,
+                      //                           name:
+                      //                               "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                      //                           userId: snapshot
+                      //                               .data!.data!.users!.id!,
+                      //                           userProfilePhoto: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .users!
+                      //                               .profilePicture!,
+                      //                           locationName: snapshot
+                      //                                       .data!
+                      //                                       .data!
+                      //                                       .posts!
+                      //                                       .result![index]
+                      //                                       .post!
+                      //                                       .postroute !=
+                      //                                   null
+                      //                               ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
+                      //                               : "",
+                      //                           beforeHours: timeago.format(
+                      //                               snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .createdAt!,
+                      //                               locale: "tr"),
+                      //                           commentCount: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .commentNum
+                      //                               .toString(),
+                      //                           firstCommentName:
+                      //                               "Furkan Semiz",
+                      //                           firstCommentTitle:
+                      //                               "Akşam 8 de yola çıkacağım",
+                      //                           firstLikeName: "Furkan Semiz",
+                      //                           firstLikeUrl: "",
+                      //                           othersLikeCount: (snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .likedNum!)
+                      //                               .toString(),
+                      //                           secondLikeUrl:
+                      //                               "snapshot.data!.data[index].secondLikeUrl",
+                      //                           thirdLikeUrl:
+                      //                               "snapshot.data!.data[index].thirdLikeUrl",
+                      //                           haveTag: true,
+                      //                           usersTagged: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .postpostlabels,
+                      //                           haveEmotion: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .postemojis!
+                      //                               .isNotEmpty,
+                      //                           emotion: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis!
+                      //                                   .isNotEmpty
+                      //                               ? snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis![0]
+                      //                                   .emojis!
+                      //                                   .emoji
+                      //                               : null,
+                      //                           emotionContent: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis!
+                      //                                   .isNotEmpty
+                      //                               ? snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis![0]
+                      //                                   .emojis!
+                      //                                   .name
+                      //                               : null,
+                      //                           likedStatus: 1,
+                      //                           selectedRouteId: !snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postroute
+                      //                                   .isNull
+                      //                               ? snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postroute!
+                      //                                   .id
+                      //                               : 0,
+                      //                           selectedRouteUserId: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .userId,
+                      //                         )
+                      //                       : OnlyRouteWidget(
+                      //                           deletePost: true,
+                      //                           onTap: () {
+                      //                             selectedRouteController
+                      //                                 .selectedRouteId
+                      //                                 .value = 1;
+                      //                             selectedRouteController
+                      //                                 .selectedRouteUserId
+                      //                                 .value = 1;
+                      //                             Get.toNamed(
+                      //                                 NavigationConstants
+                      //                                     .routeDetails);
+                      //                           },
+                      //                           didILiked: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .didILiked ??
+                      //                               0,
+                      //                           routeContent: "",
+                      //                           // "${snapshot
+                      //                           //         .data!
+                      //                           //         .data!
+                      //                           //         .posts!
+                      //                           //         .result![index]
+                      //                           //         .post!
+                      //                           //         .postroute!
+                      //                           //         .startingCity!} -> ${snapshot
+                      //                           //         .data!
+                      //                           //         .data!
+                      //                           //         .posts!
+                      //                           //         .result![index]
+                      //                           //         .post!
+                      //                           //         .postroute!
+                      //                           //         .endingCity!}",
+                      //                           routeEndDate: "",
+                      //                           routeStartDate: "",
+                      //                           postId: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .id!,
+                      //                           onlyPost: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postroute ==
+                      //                               null,
+                      //                           centerImageUrl: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .media!,
+                      //                           subtitle: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .text!,
+                      //                           name:
+                      //                               "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}",
+                      //                           userId: snapshot
+                      //                               .data!.data!.users!.id!,
+                      //                           userProfilePhoto: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .users!
+                      //                               .profilePicture!,
+                      //                           locationName: snapshot
+                      //                                       .data!
+                      //                                       .data!
+                      //                                       .posts!
+                      //                                       .result![index]
+                      //                                       .post!
+                      //                                       .postroute !=
+                      //                                   null
+                      //                               ? "${snapshot.data!.data!.posts!.result![index].post!.postroute!.startingCity} - ${snapshot.data!.data!.posts!.result![index].post!.postroute!.endingCity}"
+                      //                               : "",
+                      //                           beforeHours: timeago.format(
+                      //                               snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .createdAt!,
+                      //                               locale: "tr"),
+                      //                           commentCount: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .commentNum
+                      //                               .toString(),
+                      //                           firstCommentName:
+                      //                               "Furkan Semiz",
+                      //                           firstCommentTitle:
+                      //                               "Akşam 8 de yola çıkacağım",
+                      //                           firstLikeName: "Furkan Semiz",
+                      //                           firstLikeUrl: "",
+                      //                           othersLikeCount: (snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .likedNum!)
+                      //                               .toString(),
+                      //                           secondLikeUrl:
+                      //                               "snapshot.data!.data[index].secondLikeUrl",
+                      //                           thirdLikeUrl:
+                      //                               "snapshot.data!.data[index].thirdLikeUrl",
+                      //                           haveTag: true,
+                      //                           usersTagged: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .postpostlabels,
+                      //                           haveEmotion: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .postemojis!
+                      //                               .isNotEmpty,
+                      //                           emotion: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis!
+                      //                                   .isNotEmpty
+                      //                               ? snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis![0]
+                      //                                   .emojis!
+                      //                                   .emoji
+                      //                               : null,
+                      //                           emotionContent: snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis!
+                      //                                   .isNotEmpty
+                      //                               ? snapshot
+                      //                                   .data!
+                      //                                   .data!
+                      //                                   .posts!
+                      //                                   .result![index]
+                      //                                   .post!
+                      //                                   .postemojis![0]
+                      //                                   .emojis!
+                      //                                   .name
+                      //                               : null,
+                      //                           likedStatus: 1,
+                      //                           selectedRouteId: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .id!,
+                      //                           selectedRouteUserId: snapshot
+                      //                               .data!
+                      //                               .data!
+                      //                               .posts!
+                      //                               .result![index]
+                      //                               .post!
+                      //                               .id!,
+                      //                         );
+                      //                 },
+                      //               )
+                      //             : const Center(
+                      //                 child: Text("Gönderi bulunamadı"),
+                      //               ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // );
                     }
                   });
             },

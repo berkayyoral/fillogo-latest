@@ -25,13 +25,12 @@ class SetCustomMarkerIconController extends GetxController {
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    print("cartypem");
     ByteData data = await rootBundle.load(path);
-    print("cartypem data -> $data");
+
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: 130);
     ui.FrameInfo fi = await codec.getNextFrame();
-    print("cartype getby ");
+
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
@@ -62,13 +61,14 @@ class SetCustomMarkerIconController extends GetxController {
         await getBytesFromAsset('assets/icons/myFriendLocationIcon.png', 100);
   }
 
-  setCustomMarkerIcon3({bool isOffVisibility = false}) async {
+  Future<Uint8List?> setCustomMarkerIcon3(
+      {bool isOffVisibility = false}) async {
     String? myCarType =
         LocaleManager.instance.getString(PreferencesKeys.carType);
 
     isOffVisibility =
         LocaleManager.instance.getBool(PreferencesKeys.isVisibility) ?? false;
-    print(" iconcont visib -> ${isOffVisibility}");
+
     String iconPath;
     if (myCarType != null) {
       if (!isOffVisibility) {
@@ -84,13 +84,13 @@ class SetCustomMarkerIconController extends GetxController {
                 ? 'assets/icons/myLocationTruck.png'
                 : 'assets/icons/myLocationMotorcycle.png';
       }
-      print("VİSİVİBİLTRMARKER iconpath -> ${iconPath}");
+
       mayLocationIcon = await getBytesFromAsset(iconPath, 100);
     } else {
       mayLocationIcon =
           await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
     }
-
+    return mayLocationIcon;
     // await getBytesFromAsset('assets/icons/myLocationIcon.png', 100);
   }
 

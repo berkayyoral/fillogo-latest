@@ -29,8 +29,6 @@ class ConnectionController extends GetxController {
     String? pass =
         LocaleManager.instance.getString(PreferencesKeys.currentuserpassword);
     if (result != ConnectivityResult.none) {
-      print(
-          "DEBUGMODEM HATA CHECKC BAĞLANTI -> ${LocaleManager.instance.getBool(PreferencesKeys.firstLogin)}");
       Get.offAndToNamed(
         pass != null
             ? NavigationConstants.bottomNavigationBar

@@ -76,12 +76,11 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     initializeNotifications();
-    print("NOTİFYCMM noldu kk->");
+
     super.onInit();
   }
 
   void initializeNotifications() async {
-    print("NOTİFYCMM noldu 1->");
     final InitializationSettings initializationSettings =
         InitializationSettings(
       android: _androidInitializationSettings,
