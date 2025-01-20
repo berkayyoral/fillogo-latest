@@ -20,7 +20,8 @@ import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_alert
 import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder2/geocoder2.dart';
+// import 'package:geocoder2/geocoder2.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart';
@@ -73,58 +74,119 @@ class CreateRouteController extends GetxController implements PolylineService {
   var dateTimeFormatLast = DateTime.now().obs;
   Rx<DateTime?> pickedDate = DateTime.now().obs;
 
-  getRouteInfo({bool isStartLocation = true}) async {
+  ///package geocoder2
+  // getRouteInfo({bool isStartLocation = true}) async {
+  //   try {
+  //     MfuController mfuController = Get.find();
+  //     GeoData data = await Geocoder2.getDataFromCoordinates(
+  //         latitude: isStartLocation
+  //             ? startRouteLocation.value.latitude
+  //             : finishRouteLocation.value.latitude,
+  //         longitude: isStartLocation
+  //             ? startRouteLocation.value.longitude
+  //             : finishRouteLocation.value.longitude,
+  //         googleMapApiKey: AppConstants.googleMapsApiKey);
+  //     if (isStartLocation) {
+  //       startRouteLocation.value = LatLng(data.latitude, data.longitude);
+  //       startRouteAdress.value = data.address;
+  //       startRouteCity.value = data.state;
+  //       if (data.state.isNotEmpty) {
+  //         await getRoute(
+  //             startRouteLocation.value.latitude,
+  //             startRouteLocation.value.longitude,
+  //             finishRouteLocation.value.latitude,
+  //             finishRouteLocation.value.longitude);
+  //       }
+  //     } else {
+  //       finishRouteLocation.value = LatLng(data.latitude, data.longitude);
+  //       finishRouteAdress.value = data.address;
+  //       finishRouteCity.value = data.state;
+  //       mfuController.sehirler.value =
+  //           "${startRouteCity.value} -> ${finishRouteCity.value}";
+  //       if (data.state.isNotEmpty) {
+  //         await getRoute(
+  //             startRouteLocation.value.latitude,
+  //             startRouteLocation.value.longitude,
+  //             finishRouteLocation.value.latitude,
+  //             finishRouteLocation.value.longitude);
+  //       }
+  //       // await getPolyline(
+  //       //     startRouteLocation.value.latitude,
+  //       //     startRouteLocation.value.longitude,
+  //       //     finishRouteLocation.value.latitude,
+  //       //     finishRouteLocation.value.longitude);
+  //       // calculatedRouteDistance = GetPolylineService().calculateDistance(
+  //       //     startRouteLocation.value.latitude,
+  //       //     finishRouteLocation.value.latitude,
+  //       //     finishRouteLocation.value.latitude,
+  //       //     finishRouteLocation.value.longitude);
+  //     }
+  //   } catch (e) {
+  //     ("CREATEROUTECONTROLLER GET CİTY ERROR -> $e");
+  //   }
+  // }
+
+  Future<void> getRouteInfo({bool isStartLocation = true}) async {
     try {
       MfuController mfuController = Get.find();
-      GeoData data = await Geocoder2.getDataFromCoordinates(
-          latitude: isStartLocation
-              ? startRouteLocation.value.latitude
-              : finishRouteLocation.value.latitude,
-          longitude: isStartLocation
-              ? startRouteLocation.value.longitude
-              : finishRouteLocation.value.longitude,
-          googleMapApiKey: AppConstants.googleMapsApiKey);
-      if (isStartLocation) {
-        startRouteLocation.value = LatLng(data.latitude, data.longitude);
-        startRouteAdress.value = data.address;
-        startRouteCity.value = data.state;
-        if (data.state.isNotEmpty) {
-          await getRoute(
+
+      // Koordinatları belirle
+      double latitude = isStartLocation
+          ? startRouteLocation.value.latitude
+          : finishRouteLocation.value.latitude;
+
+      double longitude = isStartLocation
+          ? startRouteLocation.value.longitude
+          : finishRouteLocation.value.longitude;
+
+      // Geocoding ile adres bilgisi al
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        String address =
+            "${place.subLocality}, ${place.street}, ${place.locality}, ${place.administrativeArea}";
+        String city = place.administrativeArea ?? "";
+
+        if (isStartLocation) {
+          // Başlangıç konumu bilgilerini güncelle
+          startRouteLocation.value = LatLng(latitude, longitude);
+          startRouteAdress.value = address;
+          startRouteCity.value = city;
+
+          if (city.isNotEmpty) {
+            await getRoute(
               startRouteLocation.value.latitude,
               startRouteLocation.value.longitude,
               finishRouteLocation.value.latitude,
-              finishRouteLocation.value.longitude);
+              finishRouteLocation.value.longitude,
+            );
+          }
+        } else {
+          // Bitiş konumu bilgilerini güncelle
+          finishRouteLocation.value = LatLng(latitude, longitude);
+          finishRouteAdress.value = address;
+          finishRouteCity.value = city;
+
+          // Şehir bilgisini güncelle
+          mfuController.sehirler.value =
+              "${startRouteCity.value} -> ${finishRouteCity.value}";
+
+          if (city.isNotEmpty) {
+            await getRoute(
+              startRouteLocation.value.latitude,
+              startRouteLocation.value.longitude,
+              finishRouteLocation.value.latitude,
+              finishRouteLocation.value.longitude,
+            );
+          }
         }
       } else {
-        finishRouteLocation.value = LatLng(data.latitude, data.longitude);
-        finishRouteAdress.value = data.address;
-        finishRouteCity.value = data.state;
-
-        mfuController.sehirler.value =
-            "${startRouteCity.value} -> ${finishRouteCity.value}";
-
-        if (data.state.isNotEmpty) {
-          await getRoute(
-              startRouteLocation.value.latitude,
-              startRouteLocation.value.longitude,
-              finishRouteLocation.value.latitude,
-              finishRouteLocation.value.longitude);
-        }
-
-        // await getPolyline(
-        //     startRouteLocation.value.latitude,
-        //     startRouteLocation.value.longitude,
-        //     finishRouteLocation.value.latitude,
-        //     finishRouteLocation.value.longitude);
-
-        // calculatedRouteDistance = GetPolylineService().calculateDistance(
-        //     startRouteLocation.value.latitude,
-        //     finishRouteLocation.value.latitude,
-        //     finishRouteLocation.value.latitude,
-        //     finishRouteLocation.value.longitude);
+        print("No address found for the provided coordinates.");
       }
     } catch (e) {
-      ("CREATEROUTECONTROLLER GET CİTY ERROR -> $e");
+      print("CREATEROUTECONTROLLER GET CITY ERROR -> $e");
     }
   }
 
@@ -164,7 +226,7 @@ class CreateRouteController extends GetxController implements PolylineService {
       PolylineService()
           .getRoute(startLat, startLng, endLat, endLng)
           .then((value) async {
-        if (value!.routes != null) {
+        if (value!.routes != null && value.routes!.length > 0) {
           await getPolyline(startLat, startLng, endLat, endLng);
 
           calculatedRouteDistance.value =
@@ -329,25 +391,11 @@ class CreateRouteController extends GetxController implements PolylineService {
         "",
         'Lütfen Çıkış Tarihi giriniz.',
       );
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text(
-      //       'Lütfen Çıkış Tarihi giriniz.',
-      //     ),
-      //   ),
-      // );
     } else if (arrivalController.value.text.isEmpty) {
       Get.snackbar(
         "",
         'Lütfen Varış Tarihi giriniz.',
       );
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text(
-      //       'Lütfen Varış Tarihi giriniz.',
-      //     ),
-      //   ),
-      // );
     } else {
       try {
         UiHelper.showLoadingAnimation();
@@ -389,7 +437,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                   PostCreateRouteResponseModel.fromJson(jsonDecode(value));
               if (response.success == 1) {
                 createPostPageController.routeId.value = response.data![0].id!;
-
+                print(
+                    "CREATEROUTE ROUTEIDD 1 -> ${createPostPageController.routeId.value} // ${response.data![0].id!}");
                 int startMinute =
                     DateTime.parse(dateTimeFormatDeparture.value).minute - 5;
                 int endMinute =
@@ -471,6 +520,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                                           return datePart;
                                         }
 
+                                        print(
+                                            "CREATEROUTE ROUTEIDD controllerdialog -> ${createPostPageController.routeId.value}");
                                         await Get.dialog(RouteAlertDialog()
                                             .showShareRouteAllertDialog(
                                           "${startRouteCity.value} -> ${finishRouteCity.value}",
@@ -483,7 +534,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                                           dateTimeFormatArrival.value
                                               .toString()
                                               .substring(0, 11),
-                                          0,
+                                          createPostPageController
+                                              .routeId.value,
                                         ));
 
                                         BottomNavigationBarController
@@ -529,7 +581,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                                             arrivalController.value.text
                                                 .toString()
                                                 .substring(0, 11),
-                                            0));
+                                            createPostPageController
+                                                .routeId.value));
 
                                     await mapPageMController.getMyRoutes(
                                         isStartRoute: false);
@@ -579,6 +632,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                 );
               } else if (response.success == -1) {
                 createPostPageController.routeId.value = response.data![0].id!;
+                print(
+                    "CREATEROUTE ROUTEIDD 2 -> ${createPostPageController.routeId.value} // ${response.data![0].id!}");
 
                 Get.dialog(
                   RouteAlertDialog()
@@ -586,6 +641,8 @@ class CreateRouteController extends GetxController implements PolylineService {
                 );
               } else {
                 createPostPageController.routeId.value = response.data![0].id!;
+                print(
+                    "CREATEROUTE ROUTEIDD 3 -> ${createPostPageController.routeId.value} // ${response.data![0].id!}");
                 Get.snackbar("",
                     'Bir hata oluştu... Lütfen daha sonra tekrar deneyiniz.');
 

@@ -66,15 +66,15 @@ class SearchProfileCard extends StatelessWidget {
                           fontSize: 14.sp,
                         ),
                       ), // fullname
-                      2.h.spaceY,
-                      Text(
-                        "Yolculuklar: $allRoute",
-                        style: TextStyle(
-                          color: AppConstants().ltDarkGrey,
-                          fontFamily: 'Sflight',
-                          fontSize: 12.sp,
-                        ),
-                      ), // is follow
+                      // 2.h.spaceY,
+                      // Text(
+                      //   "Yolculuklar: $allRoute",
+                      //   style: TextStyle(
+                      //     color: AppConstants().ltDarkGrey,
+                      //     fontFamily: 'Sflight',
+                      //     fontSize: 12.sp,
+                      //   ),
+                      // ), // is follow
                     ],
                   ),
                 ],

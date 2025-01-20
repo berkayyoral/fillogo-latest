@@ -73,7 +73,7 @@ class MapPageViewM extends StatelessWidget {
                                 .myLocationLatitudeDo.value
                                 .toString());
                         print(
-                            "NEWMAP Haritanın merkezi: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
+                            "NEWMAP Haritanın merkezi1: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
 
                         if (count < 7) {
                           mapPageMController.shouldUpdateLocation.value = false;

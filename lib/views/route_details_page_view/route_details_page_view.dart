@@ -177,7 +177,9 @@ class RouteDetailsPageView extends StatelessWidget {
                         style: TextStyle(color: AppConstants().ltMainRed),
                       ),
                       Text(
-                        "${selectedRouteController.matchedOn!.city} / ${selectedRouteController.matchedOn!.district}",
+                        selectedRouteController.matchedOn != null
+                            ? "${selectedRouteController.matchedOn!.city} / ${selectedRouteController.matchedOn!.district}"
+                            : "",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],

@@ -604,18 +604,11 @@ class CreatePostPageView extends StatelessWidget {
                 textColor: AppConstants().ltWhite,
                 onpressed: () async {
                   homeController.isLoading.value = true;
+                  print(
+                      "POOSSTTTNEWW 3 bef -> ${createPostPageController.routeId.value}");
                   createPostPageController.routeId.value == 0;
                   print(
-                      "POOSSTTTNEWW 3 -> ${createPostPageController.routeId.value}");
-
-                  // Get.back();
-                  Get.back();
-                  if (isHomepage) {
-                    // Get.back(result: detail);
-                    Get.toNamed(NavigationConstants.bottomNavigationBar);
-                  } else {
-                    Get.back();
-                  }
+                      "POOSSTTTNEWW 3 aft -> ${createPostPageController.routeId.value}");
 
                   Get.find<HomeController>().update(["homePage"]);
                   Get.find<HomeController>().update(["comment"]);
@@ -652,7 +645,16 @@ class CreatePostPageView extends StatelessWidget {
                   Get.find<HomeController>().update(["comment"]);
                   Get.find<HomeController>().update(["homePagem"]);
                   Get.find<HomeController>().update(["like"]);
+                  homeController.update();
 
+                  // Get.back();
+                  Get.back();
+                  if (isHomepage) {
+                    // Get.back(result: detail);
+                    Get.toNamed(NavigationConstants.bottomNavigationBar);
+                  } else {
+                    Get.back();
+                  }
                   homeController.isLoading.value = false;
                 },
                 iconPath: '',

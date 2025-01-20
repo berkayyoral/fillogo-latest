@@ -85,8 +85,10 @@ class _ChatCreateViewState extends State<ChatCreateView> {
                                 itemCount: snapshot.data!.data![0].searchResult!
                                     .result!.length,
                                 itemBuilder: (context, index) {
+                                  ;
                                   var user = snapshot.data!.data![0]
                                       .searchResult!.result![index];
+                                  print("USERRRRR -> ${jsonEncode(user)}");
                                   return snapshot.data!.data!.isEmpty
                                       ? const Text("Bir sorun oluştu")
                                       : SearchProfileCard(
@@ -95,7 +97,7 @@ class _ChatCreateViewState extends State<ChatCreateView> {
                                           },
                                           nickName: user.username!,
                                           name: user.name!,
-                                          allRoute: user.routeCount!,
+                                          allRoute: 1, //user.routeCount!,
                                           profilPhoto: user.profilePicture,
                                         );
                                 },

@@ -9,13 +9,10 @@ import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
-import 'package:fillogo/views/create_new_route_view/create_new_route_view.dart';
-import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_info_widget.dart';
 import 'package:fillogo/views/route_calculate_view/controller/route_calculate_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
-import 'package:fillogo/widgets/navigation_drawer.dart';
-import 'package:flutter/material.dart';
-import 'package:geocoder2/geocoder2.dart';
+// import 'package:geocoder2/geocoder2.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -1514,6 +1511,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 text: 'Rotayı Paylaş',
                 textColor: AppConstants().ltWhite,
                 onpressed: () {
+                  print("PAYLAŞCAMMMMMM GÖNDERİ SAYFASINA GİDİYORUM");
                   bottomNavigationBarController.selectedIndex.value = 0;
                   Get.back();
                   Get.back();
@@ -1783,88 +1781,156 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     );
   }
 
-  Future _displayPredictionFinishLocation(
+  Future<void> _displayPredictionFinishLocation(
       Prediction placeInfo, BuildContext context) async {
-    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
-        .getDetailsByPlaceId(placeInfo.placeId!);
-
-    var placeId = placeInfo.placeId;
-
-    GeoData data = await Geocoder2.getDataFromCoordinates(
-        latitude: detail.result.geometry!.location.lat,
-        longitude: detail.result.geometry!.location.lng,
-        googleMapApiKey: AppConstants.googleMapsApiKey);
-
-    createRouteController.createRouteFinishAddress.value = data.address;
-    createRouteController.finishCity.value = data.state;
-
-    createRouteController.createRouteFinishLatitude.value = data.latitude;
-
-    createRouteController.createRouteFinishLongitude.value = data.longitude;
-    createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
-
-    if (createRouteController.finishCity.value != "") {}
-    log("Finish");
-    // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-    //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
-    //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-    //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-    //     createRouteController.startCity.value != "" &&
-    //     createRouteController.finishCity.value != "") {
-    //   log("createRouteController createRouteController.startCity:  ${createRouteController.startCity.value}");
-    //   log("createRouteController createRouteController.finishCity:  ${createRouteController.finishCity.value}");
-    //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-    //       GetRouteSearchByCityRequestModel(
-    //           startLocation: createRouteController.startCity.value,
-    //           endLocation: createRouteController.finishCity.value,
-    //           departureDate: DateFormat('yyyy-MM-dd')
-    //               .format(searchRouteController.selectedDate.value),
-    //           carType: searchRouteController.carTypeList);
-    //   GeneralServicesTemp()
-    //       .makePostRequest(
-    //     EndPoint.routesSearchByCitys,
-    //     routeSearchByCityRequestModel,
-    //     ServicesConstants.appJsonWithToken,
-    //   )
-    //       .then((value) async {
-    //     final response =
-    //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-    //     print("createRouteController response1 -> ${jsonEncode(response)}");
-    //     createRouteController.searchByCityDatum.value = response.data![0];
-    //   });
-    //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-
-    // createRouteController.calculateLevel.value = 2;
-    // }
-    // await getSearhRoute(context);
+    try {
+      // Yer detaylarını al
+      PlacesDetailsResponse detail = await createRouteController
+          .googleMapsPlaces
+          .getDetailsByPlaceId(placeInfo.placeId!);
+      // Koordinatları al
+      double latitude = detail.result.geometry!.location.lat;
+      double longitude = detail.result.geometry!.location.lng;
+      // Geocoding ile adres bilgisi al
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        // Adres bilgilerini ata
+        createRouteController.createRouteFinishAddress.value =
+            "${place.street}, ${place.locality}, ${place.administrativeArea}";
+        createRouteController.finishCity.value = place.administrativeArea ?? "";
+        // Koordinatları güncelle
+        createRouteController.createRouteFinishLatitude.value = latitude;
+        createRouteController.createRouteFinishLongitude.value = longitude;
+        createRouteController.finishLatLong = LatLng(latitude, longitude);
+        if (createRouteController.finishCity.value.isNotEmpty) {
+          log("Finish location set successfully.");
+        }
+      } else {
+        log("No address found for the provided coordinates.");
+      }
+      // Gerekli işlemler burada yapılabilir
+      log("Finish location -> City: ${createRouteController.finishCity.value}, "
+          "Address: ${createRouteController.createRouteFinishAddress.value}");
+    } catch (e) {
+      log("Error in _displayPredictionFinishLocation: $e");
+    }
   }
 
-  Future _displayPredictionStartLocation(
+  Future<void> _displayPredictionStartLocation(
       Prediction placeInfo, BuildContext context) async {
-    PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
-        .getDetailsByPlaceId(placeInfo.placeId!);
-
-    var placeId = placeInfo.placeId;
-    createRouteController.createRouteStartLatitude.value =
-        detail.result.geometry!.location.lat;
-    createRouteController.createRouteStartLongitude.value =
-        detail.result.geometry!.location.lng;
-
-    GeoData data = await Geocoder2.getDataFromCoordinates(
-        latitude: createRouteController.createRouteStartLatitude.value,
-        longitude: createRouteController.createRouteStartLongitude.value,
-        googleMapApiKey: AppConstants.googleMapsApiKey);
-
-    createRouteController.createRouteStartAddress.value = data.address;
-    createRouteController.startCity.value = data.state;
-    createRouteController.createRouteStartLatitude.value = data.latitude;
-    createRouteController.createRouteStartLatitude.value = data.latitude;
-    createRouteController.createRouteStartLongitude.value = data.longitude;
-    createRouteController.createRouteStartLongitude.value = data.longitude;
-    createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
-
-    log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
+    try {
+      // Place ID'den yer detaylarını al
+      PlacesDetailsResponse detail = await createRouteController
+          .googleMapsPlaces
+          .getDetailsByPlaceId(placeInfo.placeId!);
+      // Yer bilgilerini al ve koordinatları ata
+      createRouteController.createRouteStartLatitude.value =
+          detail.result.geometry!.location.lat;
+      createRouteController.createRouteStartLongitude.value =
+          detail.result.geometry!.location.lng;
+      // Geocoding kullanarak adres bilgisi al
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        createRouteController.createRouteStartLatitude.value,
+        createRouteController.createRouteStartLongitude.value,
+      );
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        // Adres ve şehir bilgilerini ata
+        createRouteController.createRouteStartAddress.value =
+            "${place.street}, ${place.locality}, ${place.administrativeArea}";
+        createRouteController.startCity.value = place.administrativeArea ?? "";
+        // Koordinat bilgilerini güncelle
+        createRouteController.startLatLong = LatLng(
+          createRouteController.createRouteStartLatitude.value,
+          createRouteController.createRouteStartLongitude.value,
+        );
+        // createRouteController.createRouteStartLatitude.value = data.latitude;
+        // createRouteController.createRouteStartLatitude.value = data.latitude;
+        // createRouteController.createRouteStartLongitude.value = data.longitude;
+        // createRouteController.createRouteStartLongitude.value = data.longitude;
+        // createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
+        log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
+      } else {
+        log("No address found for the provided coordinates.");
+      }
+    } catch (e) {
+      log("Error in _displayPredictionStartLocation: $e");
+    }
   }
+
+  // Future _displayPredictionFinishLocation(
+  //     Prediction placeInfo, BuildContext context) async {
+  //   PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
+  //       .getDetailsByPlaceId(placeInfo.placeId!);
+  //   var placeId = placeInfo.placeId;
+  //   GeoData data = await Geocoder2.getDataFromCoordinates(
+  //       latitude: detail.result.geometry!.location.lat,
+  //       longitude: detail.result.geometry!.location.lng,
+  //       googleMapApiKey: AppConstants.googleMapsApiKey);
+  //   createRouteController.createRouteFinishAddress.value = data.address;
+  //   createRouteController.finishCity.value = data.state;
+  //   createRouteController.createRouteFinishLatitude.value = data.latitude;
+  //   createRouteController.createRouteFinishLongitude.value = data.longitude;
+  //   createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
+  //   if (createRouteController.finishCity.value != "") {}
+  //   log("Finish");
+  //   // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
+  //   //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
+  //   //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
+  //   //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
+  //   //     createRouteController.startCity.value != "" &&
+  //   //     createRouteController.finishCity.value != "") {
+  //   //   log("createRouteController createRouteController.startCity:  ${createRouteController.startCity.value}");
+  //   //   log("createRouteController createRouteController.finishCity:  ${createRouteController.finishCity.value}");
+  //   //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+  //   //       GetRouteSearchByCityRequestModel(
+  //   //           startLocation: createRouteController.startCity.value,
+  //   //           endLocation: createRouteController.finishCity.value,
+  //   //           departureDate: DateFormat('yyyy-MM-dd')
+  //   //               .format(searchRouteController.selectedDate.value),
+  //   //           carType: searchRouteController.carTypeList);
+  //   //   GeneralServicesTemp()
+  //   //       .makePostRequest(
+  //   //     EndPoint.routesSearchByCitys,
+  //   //     routeSearchByCityRequestModel,
+  //   //     ServicesConstants.appJsonWithToken,
+  //   //   )
+  //   //       .then((value) async {
+  //   //     final response =
+  //   //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+  //   //     print("createRouteController response1 -> ${jsonEncode(response)}");
+  //   //     createRouteController.searchByCityDatum.value = response.data![0];
+  //   //   });
+  //   //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
+  //   // createRouteController.calculateLevel.value = 2;
+  //   // }
+  //   // await getSearhRoute(context);
+  // }
+
+  // Future _displayPredictionStartLocation(
+  //     Prediction placeInfo, BuildContext context) async {
+  //   PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
+  //       .getDetailsByPlaceId(placeInfo.placeId!);
+  //   var placeId = placeInfo.placeId;
+  //   createRouteController.createRouteStartLatitude.value =
+  //       detail.result.geometry!.location.lat;
+  //   createRouteController.createRouteStartLongitude.value =
+  //       detail.result.geometry!.location.lng;
+  //   GeoData data = await Geocoder2.getDataFromCoordinates(
+  //       latitude: createRouteController.createRouteStartLatitude.value,
+  //       longitude: createRouteController.createRouteStartLongitude.value,
+  //       googleMapApiKey: AppConstants.googleMapsApiKey);
+  //   createRouteController.createRouteStartAddress.value = data.address;
+  //   createRouteController.startCity.value = data.state;
+  //   createRouteController.createRouteStartLatitude.value = data.latitude;
+  //   createRouteController.createRouteStartLatitude.value = data.latitude;
+  //   createRouteController.createRouteStartLongitude.value = data.longitude;
+  //   createRouteController.createRouteStartLongitude.value = data.longitude;
+  //   createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
+  //   log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
+  // }
 
   InkWell filterOptionWidget({required String logo, required int index}) {
     SearchRouteController routeController = Get.put(SearchRouteController());

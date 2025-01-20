@@ -529,6 +529,9 @@ class RouteAlertDialog {
                   createPostPageController.routeContent.value = routeContent!;
                   createPostPageController.routeStartDate.value = startDate!;
                   createPostPageController.routeEndDate.value = endDate!;
+                  createPostPageController.routeId.value = routeId;
+                  print(
+                      "CREATEROUTE ROUTEIDD alertdialog -> ${createPostPageController.routeId.value}");
 
                   bottomNavigationBarController.selectedIndex.value = 1;
                   if (mapPageMController != null) {
