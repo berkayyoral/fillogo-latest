@@ -272,35 +272,37 @@ class ChatMessageView extends StatelessWidget {
                                                   chatMessagesController
                                                           .chatMessages.length -
                                                       1
-                                              ? Obx(
-                                                  () => Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      child: Text(
-                                                        (currentUserId ==
-                                                                chatMessagesController
-                                                                    .chatMessages
-                                                                    .last
-                                                                    .sender!
-                                                                    .id)
-                                                            ? (globalChatController
-                                                                            .messageSeen ==
-                                                                        "seen" &&
-                                                                    globalChatController
-                                                                            .messageSeenChatId ==
-                                                                        chatController
-                                                                            .chatId)
-                                                                ? "Görüldü"
-                                                                : ""
-                                                            : "",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
+                                              ? const SizedBox()
+                                              // Obx(
+                                              //     () => Padding(
+                                              //       padding:
+                                              //           const EdgeInsets.all(
+                                              //               8.0),
+                                              //       child: Align(
+                                              //         alignment:
+                                              //             Alignment.bottomRight,
+                                              //         child: Text(
+                                              //           (currentUserId ==
+                                              //                   chatMessagesController
+                                              //                       .chatMessages
+                                              //                       .last
+                                              //                       .sender!
+                                              //                       .id)
+                                              //               ? (globalChatController
+                                              //                               .messageSeen ==
+                                              //                           "seen" &&
+                                              //                       globalChatController
+                                              //                               .messageSeenChatId ==
+                                              //                           chatController
+                                              //                               .chatId)
+                                              //                   ? "Görüldü"
+                                              //                   : ""
+                                              //               : "",
+                                              //         ),
+                                              //       ),
+                                              //     ),
+                                              //   )
+
                                               : const SizedBox()
                                         ],
                                       );
@@ -316,19 +318,19 @@ class ChatMessageView extends StatelessWidget {
                 },
               ),
             ),
-            chatController.receiverUser.id !=
-                    chatMessagesController.typingUserId
-                ? Obx(
-                    () => Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(left: 16.w, bottom: 5.h),
-                          child: chatMessagesController.typing
-                              ? const Text("Yazıyor...")
-                              : const SizedBox()),
-                    ),
-                  )
-                : const SizedBox(),
+            // chatController.receiverUser.id !=
+            //         chatMessagesController.typingUserId
+            //     ? Obx(
+            //         () => Align(
+            //           alignment: Alignment.bottomLeft,
+            //           child: Padding(
+            //               padding: EdgeInsets.only(left: 16.w, bottom: 5.h),
+            //               child: chatMessagesController.typing
+            //                   ? const Text("Yazıyor...")
+            //                   : const SizedBox()),
+            //         ),
+            //       )
+            //     : const SizedBox(),
             Padding(
               padding: EdgeInsets.only(
                 bottom: 24.h,
