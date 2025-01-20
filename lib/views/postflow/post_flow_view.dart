@@ -426,7 +426,7 @@ class PostFlowView extends StatelessWidget {
                                               separatorBuilder:
                                                   (context, index) {
                                                 if (((index) % 5 == 0)) {
-                                                  return const AdMobWidget();
+                                                  return const SizedBox(); //const AdMobWidget();
                                                 } else {
                                                   return const SizedBox();
                                                 }

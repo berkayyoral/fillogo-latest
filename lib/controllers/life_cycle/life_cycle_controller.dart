@@ -75,7 +75,8 @@ class LifeCycleController extends GetxController with WidgetsBindingObserver {
       log("paused and inactive life cycle");
       SocketService.instance().socket.emit("offline");
       SocketService.instance().socket.emit("remove-chat-user", {
-        "userId": LocaleManager.instance.getInt(PreferencesKeys.currentUserId)!,
+        "userId":
+            LocaleManager.instance.getInt(PreferencesKeys.currentUserId) ?? 0,
       });
       print(
           "LİFECYCLE SHOW -> ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");

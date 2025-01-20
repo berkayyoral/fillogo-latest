@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'export.dart';
 import 'services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -16,7 +16,7 @@ import 'package:timeago/timeago.dart' as timeago;
 void main() async {
   timeago.setLocaleMessages('tr', TurkishMessages());
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  // MobileAds.instance.initialize();
   await LocaleManager.instance.preferencesInit();
   // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();

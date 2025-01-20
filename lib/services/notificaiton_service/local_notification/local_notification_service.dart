@@ -14,21 +14,27 @@ class LocalNotificationService {
     print("NOTİFYCMM BURDAYIM");
     AndroidInitializationSettings androidInitializationSettings =
         const AndroidInitializationSettings('ic_stat_notifications');
+    // final DarwinInitializationSettings initializationSettingsDarwin =
+    //     DarwinInitializationSettings(
+    //   requestAlertPermission: true,
+    //   requestBadgePermission: true,
+    //   requestSoundPermission: true,
+    //   onDidReceiveLocalNotification:
+    //       (int id, String? title, String? body, String? payload) async {
+    //     print("NOTİFYCMM darwincim}");
+    //     ReceivedNotification(
+    //       id: id,
+    //       title: title,
+    //       body: body,
+    //       payload: payload,
+    //     );
+    //   },
+    // );
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      onDidReceiveLocalNotification:
-          (int id, String? title, String? body, String? payload) async {
-        print("NOTİFYCMM darwincim}");
-        ReceivedNotification(
-          id: id,
-          title: title,
-          body: body,
-          payload: payload,
-        );
-      },
     );
     InitializationSettings initializationSettings = InitializationSettings(
       android: androidInitializationSettings,
