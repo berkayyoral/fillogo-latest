@@ -27,6 +27,7 @@ class SocketService {
     socket.onConnectError((data) => log('Connect Error: $data'));
     socket.onDisconnect((data) => log('Socket.IO server disconnected'));
   }
+
   static SocketService? _singeton = SocketService._();
 
   static SocketService instance() {

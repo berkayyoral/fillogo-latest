@@ -23,9 +23,13 @@ class ActiveRouteInfoWidget extends StatelessWidget {
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height:
-                  mapPageMController.finishRouteButton.value ? 180.h : 110.h,
-              padding: EdgeInsets.all(12.w),
+              height: mapPageMController.isFinishRoute.value
+                  ? 100.h
+                  : mapPageMController.finishRouteButton.value
+                      ? 180.h
+                      : 110.h,
+              width: Get.width, // - 10.w,
+              padding: EdgeInsets.all(8.w),
               constraints: BoxConstraints(maxHeight: 170.h, minHeight: 100.h),
               decoration: BoxDecoration(
                 color: AppConstants().ltWhite.withOpacity(0.95),
@@ -34,41 +38,126 @@ class ActiveRouteInfoWidget extends StatelessWidget {
                   topRight: Radius.circular(12.r),
                 ),
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: mapPageMController.isFinishRoute.value
+                  ? Row(
                       children: [
-                        mapPageMController.finishRouteButton.value
-                            ? Text(
-                                mapPageMController.myActivesRoutes!.isNotEmpty
-                                    ? "${DateFormat('HH:mm').format(DateTime(
-                                        2023,
-                                        1,
-                                        1,
-                                        (mapPageMController.myActivesRoutes![0]
-                                                .arrivalDate.hour) +
-                                            3,
-                                        mapPageMController.myActivesRoutes![0]
-                                            .arrivalDate.minute,
-                                      ))} varış"
-                                    : "",
-                                style: TextStyle(
-                                  color: AppConstants().ltLogoGrey,
-                                  fontFamily: "SfBold",
-                                  fontSize: 28.sp,
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: Text(
+                                  "Hedefinize ulaştınız!",
+                                  style: TextStyle(
+                                    letterSpacing: -1,
+                                    fontSize: 22.sp,
+                                    color: AppConstants().ltMainRed,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              )
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  richTextWidget(
-                                      title: "varış",
-                                      textInfo: mapPageMController
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "VARIŞ : ${DateFormat('HH:mm').format(DateTime(
+                                    2023,
+                                    1,
+                                    1,
+                                    DateTime.now().hour,
+                                    DateTime.now().minute,
+                                  ))} ",
+                                  style: TextStyle(
+                                    letterSpacing: -1,
+                                    color: AppConstants().ltLogoGrey,
+                                    fontFamily: "SfBold",
+                                    fontSize: 20.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: InkWell(
+                            onTap: () async {
+                              mapPageMController.isLoading.value = true;
+                              print("MESAFEMM: rota bitti tamam dedim");
+                              mapPageMController.isThereActiveRoute.value =
+                                  false;
+                              mapPageMController.isFinishRoute.value = false;
+                              BerkayController berkayController =
+                                  Get.find<BerkayController>();
+                              berkayController.isAlreadyHaveRoute = false.obs;
+
+                              Get.snackbar(
+                                "Rota tamamlandı!",
+                                "Başarılı rotanız başarıyla bitirilmiştir.",
+                                snackPosition: SnackPosition.BOTTOM,
+                                colorText: AppConstants().ltMainRed,
+                              );
+
+                              mapPageMController.markers.clear();
+                              mapPageMController.addMarkerIcon(
+                                  markerID: "myLocationMarker",
+                                  location: LatLng(
+                                      mapPageMController
+                                          .myLocationLatitudeDo.value,
+                                      mapPageMController
+                                          .myLocationLongitudeDo.value));
+
+                              mapPageMController.polylines.clear();
+                              mapPageMController.polylineCoordinates.clear();
+                              mapPageMController.getMyRoutes();
+                              mapPageMController.update();
+
+                              await mapPageMController.getUsersOnArea(
+                                  carTypeFilter:
+                                      mapPageMController.carTypeList);
+                              mapPageMController.getMyLocationInMap();
+
+                              mapPageMController.myActivesRoutes.value
+                                  .removeWhere((element) =>
+                                      element.id ==
+                                      mapPageMController.myActivesRoutes[0].id);
+                              mapPageMController.isFinishRoute.value = false;
+                              // finishActiveRouteOperation(
+                              //     mapPageMController, context);
+                              // mapPageMController.isThereActiveRoute.value =
+                              //     false;
+                              mapPageMController.isLoading.value = false;
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: AppConstants().ltMainRed,
+                              ),
+                              child: Text(
+                                "Tamam",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: -1,
+                                    color: Colors.white,
+                                    fontSize: 20.sp),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              mapPageMController.finishRouteButton.value
+                                  ? Text(
+                                      mapPageMController
                                               .myActivesRoutes!.isNotEmpty
-                                          ? DateFormat('HH:mm').format(DateTime(
+                                          ? "${DateFormat('HH:mm').format(DateTime(
                                               2023,
                                               1,
                                               1,
@@ -81,219 +170,255 @@ class ActiveRouteInfoWidget extends StatelessWidget {
                                                   .myActivesRoutes![0]
                                                   .arrivalDate
                                                   .minute,
-                                            ))
-                                          : ""),
-                                  18.w.horizontalSpace,
-                                  richTextWidget(
-                                      title: "dakika",
-                                      textInfo: mapPageMController
-                                              .myActivesRoutes!.isNotEmpty
-                                          ? (mapPageMController
-                                                  .myActivesRoutes![0]
-                                                  .arrivalDate
-                                                  .difference(DateTime.now())
-                                                  .inMinutes)
-                                              .toString()
-                                          : ""),
-                                  18.w.horizontalSpace,
-                                  richTextWidget(
-                                      title: "km",
-                                      textInfo: mapPageMController
-                                              .myActivesRoutes!.isNotEmpty
-                                          ? mapPageMController
-                                              .myActivesRoutes![0].distance
-                                              .toString()
-                                          : "")
-                                ],
-                              ),
-                        GestureDetector(
-                          onTap: () {
-                            mapPageMController.finishRouteButton.value =
-                                !mapPageMController.finishRouteButton.value;
-                          },
-                          child: CircleAvatar(
-                            radius: 24,
-                            backgroundColor:
-                                AppConstants().ltWhiteGrey.withOpacity(1),
-                            child: Icon(
-                              mapPageMController.finishRouteButton.value
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
-                              color: AppConstants().ltDarkGrey,
-                              size: 42,
+                                            ))} varış"
+                                          : "",
+                                      style: TextStyle(
+                                        color: AppConstants().ltLogoGrey,
+                                        fontFamily: "SfBold",
+                                        fontSize: 28.sp,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        richTextWidget(
+                                            title: "varış",
+                                            textInfo: mapPageMController
+                                                    .myActivesRoutes!.isNotEmpty
+                                                ? DateFormat('HH:mm')
+                                                    .format(DateTime(
+                                                    2023,
+                                                    1,
+                                                    1,
+                                                    (mapPageMController
+                                                            .myActivesRoutes![0]
+                                                            .arrivalDate
+                                                            .hour) +
+                                                        3,
+                                                    mapPageMController
+                                                        .myActivesRoutes![0]
+                                                        .arrivalDate
+                                                        .minute,
+                                                  ))
+                                                : ""),
+                                        18.w.horizontalSpace,
+                                        richTextWidget(
+                                            title: "dakika",
+                                            textInfo: mapPageMController
+                                                    .myActivesRoutes!.isNotEmpty
+                                                ? (mapPageMController
+                                                        .myActivesRoutes![0]
+                                                        .arrivalDate
+                                                        .difference(
+                                                            DateTime.now())
+                                                        .inMinutes)
+                                                    .toString()
+                                                : ""),
+                                        18.w.horizontalSpace,
+                                        richTextWidget(
+                                            title: "km",
+                                            textInfo: mapPageMController
+                                                    .myActivesRoutes!.isNotEmpty
+                                                ? mapPageMController
+                                                    .myActivesRoutes![0]
+                                                    .distance
+                                                    .toString()
+                                                : "")
+                                      ],
+                                    ),
+                              GestureDetector(
+                                onTap: () {
+                                  mapPageMController.finishRouteButton.value =
+                                      !mapPageMController
+                                          .finishRouteButton.value;
+                                  // mapPageMController.isThereActiveRoute.value =
+                                  //     mapPageMController.finishRouteButton.value
+                                  //         ? true
+                                  //         : false;
+                                  print(
+                                      "AKTİFROTAMVARMI 2-> ${mapPageMController.isThereActiveRoute.value} / ${mapPageMController.finishRouteButton.value}");
+                                },
+                                child: CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor:
+                                      AppConstants().ltWhiteGrey.withOpacity(1),
+                                  child: Icon(
+                                    !mapPageMController.finishRouteButton.value
+                                        ? Icons.keyboard_arrow_up
+                                        : Icons.keyboard_arrow_down,
+                                    color: AppConstants().ltDarkGrey,
+                                    size: 42,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        16.h.verticalSpace,
+                        Visibility(
+                          visible: mapPageMController.finishRouteButton.value,
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.w),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/route-icon.svg',
+                                        color: AppConstants().ltMainRed,
+                                        height: 32.h,
+                                        width: 32.w,
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 2.h),
+                                          child: Text(
+                                            'Rota',
+                                            style: TextStyle(
+                                              color: AppConstants().ltDarkGrey,
+                                              fontFamily: 'Sflight',
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 4.h),
+                                          child: Obx(
+                                            () => Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  mapPageMController
+                                                      .myActivesRoutes[0]
+                                                      .startingCity,
+                                                  style: TextStyle(
+                                                    color: AppConstants()
+                                                        .ltLogoGrey,
+                                                    fontFamily: 'Sfmedium',
+                                                    fontSize: 14.sp,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  ' -> ',
+                                                  style: TextStyle(
+                                                    color: AppConstants()
+                                                        .ltLogoGrey,
+                                                    fontFamily: 'Sfmedium',
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  mapPageMController
+                                                      .myActivesRoutes[0]
+                                                      .endingCity,
+                                                  style: TextStyle(
+                                                    color: AppConstants()
+                                                        .ltLogoGrey,
+                                                    fontFamily: 'Sfmedium',
+                                                    fontSize: 14.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 350.w,
+                                  height: 40.h,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      finishActiveRouteOperation(
+                                          mapPageMController, context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppConstants().ltMainRed,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Rotayı Bitir",
+                                      style: TextStyle(
+                                        fontFamily: "SfSemibold",
+                                        fontSize: 20.sp,
+                                        color: AppConstants().ltWhite,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         )
                       ],
                     ),
-                  ),
-                  16.h.verticalSpace,
-                  Visibility(
-                    visible: mapPageMController.finishRouteButton.value,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                child: SvgPicture.asset(
-                                  'assets/icons/route-icon.svg',
-                                  color: AppConstants().ltMainRed,
-                                  height: 32.h,
-                                  width: 32.w,
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 2.h),
-                                    child: Text(
-                                      'Rota',
-                                      style: TextStyle(
-                                        color: AppConstants().ltDarkGrey,
-                                        fontFamily: 'Sflight',
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 4.h),
-                                    child: Obx(
-                                      () => Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            mapPageMController
-                                                .myActivesRoutes[0]
-                                                .startingCity,
-                                            style: TextStyle(
-                                              color: AppConstants().ltLogoGrey,
-                                              fontFamily: 'Sfmedium',
-                                              fontSize: 14.sp,
-                                            ),
-                                          ),
-                                          Text(
-                                            ' -> ',
-                                            style: TextStyle(
-                                              color: AppConstants().ltLogoGrey,
-                                              fontFamily: 'Sfmedium',
-                                              fontSize: 12.sp,
-                                            ),
-                                          ),
-                                          Text(
-                                            mapPageMController
-                                                .myActivesRoutes[0].endingCity,
-                                            style: TextStyle(
-                                              color: AppConstants().ltLogoGrey,
-                                              fontFamily: 'Sfmedium',
-                                              fontSize: 14.sp,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 350.w,
-                            height: 40.h,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                mapPageMController.isLoading.value = true;
-                                mapPageMController.isThereActiveRoute.value =
-                                    false;
-                                GeneralServicesTemp().makePatchRequest(
-                                  EndPoint.activateRoute,
-                                  ActivateRouteRequestModel(
-                                      routeId: mapPageMController
-                                          .myActivesRoutes![0].id),
-                                  {
-                                    "Content-type": "application/json",
-                                    'Authorization':
-                                        'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                                  },
-                                ).then((value) async {
-                                  mapPageMController.isLoading.value = true;
-                                  ActivateRouteResponseModel response =
-                                      ActivateRouteResponseModel.fromJson(
-                                          jsonDecode(value!));
-                                  if (response.success == 1) {
-                                    BerkayController berkayController =
-                                        Get.find<BerkayController>();
-                                    berkayController.isAlreadyHaveRoute =
-                                        false.obs;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Başarılı rotanız başarıyla bitirilmiştir."),
-                                      ),
-                                    );
-
-                                    mapPageMController.markers.clear();
-                                    mapPageMController.addMarkerIcon(
-                                        markerID: "myLocationMarker",
-                                        location: LatLng(
-                                            mapPageMController
-                                                .currentLocationController
-                                                .myLocationLatitudeDo
-                                                .value,
-                                            mapPageMController
-                                                .currentLocationController
-                                                .myLocationLongitudeDo
-                                                .value));
-
-                                    mapPageMController.polylines.clear();
-                                    mapPageMController.polylineCoordinates
-                                        .clear();
-                                    mapPageMController.getMyRoutes();
-                                    mapPageMController.update();
-                                  }
-
-                                  await mapPageMController.getUsersOnArea(
-                                      carTypeFilter:
-                                          mapPageMController.carTypeList);
-                                  mapPageMController.getMyLocationInMap();
-
-                                  mapPageMController.myActivesRoutes.value
-                                      .removeWhere((element) =>
-                                          element.id ==
-                                          mapPageMController
-                                              .myActivesRoutes[0].id);
-                                  mapPageMController.isLoading.value = false;
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppConstants().ltMainRed,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                              ),
-                              child: Text(
-                                "Rotayı Bitir",
-                                style: TextStyle(
-                                  fontFamily: "SfSemibold",
-                                  fontSize: 20.sp,
-                                  color: AppConstants().ltWhite,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
             ),
           )
         : Container());
+  }
+
+  void finishActiveRouteOperation(
+      MapPageMController mapPageMController, BuildContext context) {
+    mapPageMController.isLoading.value = true;
+    mapPageMController.isThereActiveRoute.value = false;
+    print("MESAFEMM: rota bitti tamamdan sonra");
+    GeneralServicesTemp().makePatchRequest(
+      EndPoint.activateRoute,
+      ActivateRouteRequestModel(
+          routeId: mapPageMController.myActivesRoutes![0].id),
+      {
+        "Content-type": "application/json",
+        'Authorization':
+            'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+      },
+    ).then((value) async {
+      mapPageMController.isLoading.value = false;
+      ActivateRouteResponseModel response =
+          ActivateRouteResponseModel.fromJson(jsonDecode(value!));
+      if (response.success == 1) {
+        BerkayController berkayController = Get.find<BerkayController>();
+        berkayController.isAlreadyHaveRoute = false.obs;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Başarılı rotanız başarıyla bitirilmiştir."),
+          ),
+        );
+
+        mapPageMController.markers.clear();
+        mapPageMController.addMarkerIcon(
+            markerID: "myLocationMarker",
+            location: LatLng(mapPageMController.myLocationLatitudeDo.value,
+                mapPageMController.myLocationLongitudeDo.value));
+
+        mapPageMController.polylines.clear();
+        mapPageMController.polylineCoordinates.clear();
+        mapPageMController.getMyRoutes();
+        mapPageMController.update();
+      }
+
+      await mapPageMController.getUsersOnArea(
+          carTypeFilter: mapPageMController.carTypeList);
+      mapPageMController.getMyLocationInMap();
+
+      mapPageMController.myActivesRoutes.value.removeWhere(
+          (element) => element.id == mapPageMController.myActivesRoutes[0].id);
+      mapPageMController.isLoading.value = false;
+    });
   }
 
   RichText richTextWidget({required String title, required String textInfo}) {

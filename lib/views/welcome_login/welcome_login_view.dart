@@ -104,6 +104,7 @@ class WelcomeLoginView extends StatelessWidget {
   }
 
   Widget getWidget(int pageOrder) {
+    print("LOGİNİÇİNUSERINFO pageorder -> ${pageOrder}");
     switch (pageOrder) {
       case 0:
         return RouteLoginOrRegister();

@@ -34,6 +34,8 @@
 	<string>Hesabınıza profil fotoğrafı, postlarınıza da resim çekebilmek için izninize ihtiyacımız var.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Rotanızı canlı olarak haritadan görebilmek ve arkadaşlarınızla paylaşabilmek için bu izne ihtiyacımız var.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Yön bilgisi için hareket verisi gerekli.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Anlık rota oluşturup haritadan yolculuğunuzu görüntüleyebilmeniz için bu izne ihtiyacımız var.</string>
 	<key>NSMicrophoneUsageDescription</key>

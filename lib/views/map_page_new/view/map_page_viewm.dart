@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
@@ -10,7 +13,12 @@ import 'package:fillogo/views/map_page_new/view/widgets/map_view/car_filter_widg
 import 'package:fillogo/views/map_page_new/view/widgets/map_view/visibility_status_widget.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/matching_routes/matching_routes_button.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../controllers/berkay_controller/berkay_controller.dart';
+import '../../../models/routes_models/activate_route_model.dart';
+import '../../../services/general_sevices_template/general_services.dart';
 
 // konsolu "NEWMAP" ile takip edebiliriz
 class MapPageViewM extends StatelessWidget {
@@ -19,12 +27,29 @@ class MapPageViewM extends StatelessWidget {
   final NotificationController notificationController = Get.find();
   final GeneralDrawerController mapPageDrawerController =
       Get.find<GeneralDrawerController>();
-  final GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  LatLng? _currentMapCenter;
+
+  bool isChangeZoom = false;
+  // final GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
 
   @override
   Widget build(BuildContext context) {
     mapPageMController.context = context;
+//       StreamSubscription<Position> positionStream = Geolocator.getPositionStream().listen((Position position) {
+//   // mapPageMController.currentLocationController.myLocation = LatLng(position.latitude, position.longitude);
+
+//   // Haritanın merkezini otomatik olarak güncelleyin
+//   mapPageMController.mapController?.animateCamera(
+//     CameraUpdate.newLatLng(
+//       LatLng(position.latitude, position.longitude),
+//     ),
+//   );
+
+//   // Kullanıcı ilerledikçe ilerleme durumunu kontrol edin
+//   mapPageMController.checkProgressOnRoute(position);
+// });
+
     return Stack(
       children: [
         ///MAP
@@ -36,59 +61,152 @@ class MapPageViewM extends StatelessWidget {
                     height: mapPageMController.isCreateRoute.value
                         ? 270.h
                         : Get.height,
-                    child: GoogleMap(
-                      onMapCreated: (GoogleMapController controller) {
-                        mapPageMController.mapController = controller;
-                      },
-                      initialCameraPosition: CameraPosition(
-                        bearing: 90,
-                        tilt: 45,
-                        target: LatLng(
-                          getMyCurrentLocationController
-                              .myLocationLatitudeDo.value,
-                          getMyCurrentLocationController
-                              .myLocationLongitudeDo.value,
-                        ),
-                        zoom: 15,
-                      ),
-                      onCameraMoveStarted: () async {},
-                      onCameraMove: (position) {},
-                      onCameraIdle: () async {
-                        LatLngBounds bounds = await mapPageMController
-                            .mapController!
-                            .getVisibleRegion();
-                        LatLng center = LatLng(
-                          (bounds.northeast.latitude +
-                                  bounds.southwest.latitude) /
-                              2,
-                          (bounds.northeast.longitude +
-                                  bounds.southwest.longitude) /
-                              2,
-                        );
-
-                        ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
-                        int count = getSameDigitsCount(
-                            center.latitude.toString(),
-                            mapPageMController.currentLocationController
-                                .myLocationLatitudeDo.value
-                                .toString());
-                        print(
-                            "NEWMAP Haritanın merkezi1: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
-
-                        if (count < 7) {
+                    child: RawGestureDetector(
+                      gestures: {},
+                      behavior: HitTestBehavior.opaque,
+                      // onPanDown: (details) {
+                      //   print(
+                      //       "KULLANICIMIKAMERAMI DOKUNDU ${mapPageMController.shouldUpdateLocation.value}");
+                      // },
+                      child: Listener(
+                        onPointerDown: (_) {
                           mapPageMController.shouldUpdateLocation.value = false;
-                        }
-                      },
-                      markers:
-                          Set<Marker>.from(mapPageMController.markers.value),
-                      polylines:
-                          Set<Polyline>.of(mapPageMController.polylines.value),
-                      myLocationEnabled: true,
-                      compassEnabled: false,
-                      myLocationButtonEnabled: false,
-                      mapType: MapType.normal,
-                      zoomGesturesEnabled: true,
-                      zoomControlsEnabled: false,
+                          print(
+                              "KULLANICIMIKAMERAMI DOKUNDU ${mapPageMController.shouldUpdateLocation.value}");
+                        },
+                        onPointerUp: (_) {
+                          print(
+                              "KULLANICIMIKAMERAMI DOKUNMADI ${mapPageMController.shouldUpdateLocation.value}");
+                        },
+                        child: GoogleMap(
+                          onMapCreated: (GoogleMapController controller) {
+                            mapPageMController.mapController = controller;
+                          },
+                          style: mapPageMController.myMapStyle,
+                          initialCameraPosition: CameraPosition(
+                              bearing: mapPageMController.currentHeading.value,
+                              tilt: mapPageMController.isThereActiveRoute.value
+                                  ? 90
+                                  : 45, //tilt***
+                              target: LatLng(
+                                mapPageMController.myLocationLatitudeDo.value,
+                                mapPageMController.myLocationLongitudeDo.value,
+                              ),
+                              zoom: mapPageMController.zoom.value //*** 15,
+                              ),
+                          onCameraMoveStarted: () async {
+                            // mapPageMController.shouldUpdateLocation.value = false;
+                            print(
+                                "KULLANICIMIKAMERAMI STARTED ${mapPageMController.shouldUpdateLocation.value}");
+                          },
+                          onCameraMove: (position) async {
+                            print(
+                                "KULLANICIMIKAMERAMI MOVE ${mapPageMController.shouldUpdateLocation.value}");
+                            double currentZoom = position.zoom;
+                            _currentMapCenter = position.target;
+                            // mapPageMController.shouldUpdateLocation.value = false;
+
+                            if (currentZoom != mapPageMController.zoom.value) {
+                              isChangeZoom = true;
+                            } else {
+                              isChangeZoom = false;
+                            }
+                            if (currentZoom > mapPageMController.zoom.value) {
+                              print(
+                                  "MESAFEMMHAREKET KAÇ Harita yakınlaştırıldı! Yeni zoom seviyesi: $currentZoom");
+                            } else if (currentZoom <
+                                mapPageMController.zoom.value) {
+                              print(
+                                  "MESAFEMMHAREKET KAÇ Harita uzaklaştırıldı! Yeni zoom seviyesi: $currentZoom");
+                            }
+
+                            // Sonraki hareket için zoom seviyesini kaydet
+                            mapPageMController.zoom.value = currentZoom;
+                            LatLngBounds bounds = await mapPageMController
+                                .mapController!
+                                .getVisibleRegion();
+                            LatLng center = LatLng(
+                              (bounds.northeast.latitude +
+                                      bounds.southwest.latitude) /
+                                  2,
+                              (bounds.northeast.longitude +
+                                      bounds.southwest.longitude) /
+                                  2,
+                            );
+                          },
+                          onCameraIdle: () async {
+                            double distanceInMeters =
+                                Geolocator.distanceBetween(
+                              mapPageMController.myLocationLatitudeDo.value,
+                              mapPageMController.myLocationLongitudeDo.value,
+                              _currentMapCenter!.latitude,
+                              _currentMapCenter!.longitude,
+                            );
+                            double countLati = getSameDigitsCount(
+                                _currentMapCenter!.latitude.toString(),
+                                mapPageMController.myLocationLatitudeDo.value
+                                    .toString());
+                            // double countLong = getSameDigitsCount(
+                            //     position.target.longitude.toString(),
+                            //     mapPageMController.myLocationLongitudeDo.value
+                            //         .toString());
+
+                            print("MESAFEMM COUNTTT ->  $distanceInMeters / ");
+                            if (distanceInMeters > 20) {
+                              // mapPageMController.shouldUpdateLocation.value = false;
+                              print(
+                                  "MESAFEMM COUNTT ->  $countLati /  COUN SHOULD f-> ${mapPageMController.shouldUpdateLocation.value}");
+                            } else {
+                              // mapPageMController.shouldUpdateLocation.value = true;
+                              print(
+                                  "MESAFEMM COUNTT ****->  $countLati /  COUN SHOULD t-> ${mapPageMController.shouldUpdateLocation.value}");
+                            }
+
+                            // print("HAREKETTETT -< ");
+
+                            // if (mapPageMController.shouldUpdateLocation.value) {
+                            //   mapPageMController.getMyLocationInMap();
+                            //   LatLngBounds bounds = await mapPageMController
+                            //       .mapController!
+                            //       .getVisibleRegion();
+                            //   LatLng center = LatLng(
+                            //     (bounds.northeast.latitude +
+                            //             bounds.southwest.latitude) /
+                            //         2,
+                            //     (bounds.northeast.longitude +
+                            //             bounds.southwest.longitude) /
+                            //         2,
+                            //   );
+
+                            //   ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
+                            //   int count = getSameDigitsCount(
+                            //       center.latitude.toString(),
+                            //       mapPageMController.myLocationLatitudeDo.value
+                            //           .toString());
+
+                            //   print(
+                            //       "NEWMAP Haritanın merkezi1: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.myLocationLatitudeDo.value}, ${mapPageMController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
+
+                            //   if (count < 6) {
+                            //     // mapPageMController.shouldUpdateLocation.value =
+                            //     //     false;
+                            //   }
+                            // } else {
+                            //   print("HAREKET YOK");
+                            // }
+                          },
+                          markers: Set<Marker>.from(
+                              mapPageMController.markers.value),
+                          polylines: Set<Polyline>.of(
+                              mapPageMController.polylines.value),
+                          myLocationEnabled: true,
+                          compassEnabled: false,
+                          myLocationButtonEnabled: false,
+                          mapType: MapType.normal,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: false,
+                        ),
+                      ),
                     ),
                   );
           },
@@ -100,8 +218,8 @@ class MapPageViewM extends StatelessWidget {
         ///GÖRÜNÜRLÜK-MÜSAİTLİK BİLGİSİ
         const VisibilityStatusWidget(),
 
-        /// ORTALA BUTONU
-        // getMapCenter(),
+        // ORTALA BUTONU
+        getMapCenter(),
 
         /// ORTALAMA BUTONU (sağ üstteki)
         getMyLocationButton(
@@ -243,7 +361,6 @@ class MapPageViewM extends StatelessWidget {
     //                                   bounds.southwest.longitude) /
     //                               2,
     //                         );
-
     //                         ///Haritayı hareket ettirince görünen yerin ortasındaki konumla kendi konumumu karşılaştırır / burda sadece latitude değerlerini karşılaştırdık
     //                         int count = getSameDigitsCount(
     //                             center.latitude.toString(),
@@ -252,7 +369,6 @@ class MapPageViewM extends StatelessWidget {
     //                                 .toString());
     //                         print(
     //                             "NEWMAP Haritanın merkezi: ${center.latitude}, ${center.longitude}\n\t NEWMAP Haritanın merkezi: ${mapPageMController.currentLocationController.myLocationLatitudeDo.value}, ${mapPageMController.currentLocationController.myLocationLongitudeDo.value}\n\t SAME ->NEWMAP COUNT -> $count");
-
     //                         if (count < 7) {
     //                           mapPageMController.shouldUpdateLocation.value =
     //                               false;
@@ -272,25 +388,18 @@ class MapPageViewM extends StatelessWidget {
     //                   );
     //           },
     //         ),
-
     //         ///ARAÇ TÜRÜ FİLTRESİ
     //         CarFilterOptionWidget(mapPageMController: mapPageMController),
-
     //         ///GÖRÜNÜRLÜK-MÜSAİTLİK BİLGİSİ
     //         const VisibilityStatusWidget(),
-
     //         /// ORTALA BUTONU
     //         // getMapCenter(),
-
     //         /// ORTALAMA BUTONU (sağ üstteki)
     //         getMyLocationButton(
     //             isActiveRoute:
     //                 mapPageMController.isThereActiveRoute.value ? true : false),
-
     //         CreateRouteView(isCreateRoute: mapPageMController.isCreateRoute),
-
     //         ActiveRouteInfoWidget(context: context),
-
     //         const MatchingRoutesButton(isMatchingRoute: true),
     //         const MatchingRoutesWidget(),
     //       ],
@@ -302,7 +411,10 @@ class MapPageViewM extends StatelessWidget {
   Obx getMapCenter() {
     return Obx(
       () {
-        return mapPageMController.shouldUpdateLocation.value
+        print(
+            "MESAFEMM SHOULDUPTADE ORTALADIM -> ${mapPageMController.shouldUpdateLocation.value}");
+        return mapPageMController.shouldUpdateLocation.value ||
+                !mapPageMController.isThereActiveRoute.value
             ? Container()
             : Positioned(
                 bottom: mapPageMController.isThereActiveRoute.value
@@ -313,6 +425,8 @@ class MapPageViewM extends StatelessWidget {
                 left: 6.w,
                 child: InkWell(
                   onTap: () async {
+                    print("MESAFEMM ORTALADIM *********");
+
                     mapPageMController.getMyLocationInMap();
                   },
                   child: Container(
@@ -353,13 +467,18 @@ class MapPageViewM extends StatelessWidget {
   }
 
   getMyLocationButton({required bool isActiveRoute}) {
-    return Obx(() => mapPageMController.isCreateRoute.value
+    return Obx(() => mapPageMController.isCreateRoute.value ||
+            mapPageMController.isThereActiveRoute.value
         ? Container()
         : Positioned(
             top: 330.h,
             right: 5.w,
             child: InkWell(
               onTap: () async {
+                mapPageMController.clickCenterButton.value = true;
+                print(
+                    "HAREKETETT -> ${mapPageMController.shouldUpdateLocation.value}");
+
                 mapPageMController.getMyLocationInMap();
                 mapPageMController.getUsersOnArea(
                     carTypeFilter: mapPageMController.carTypeList);
@@ -392,13 +511,14 @@ class MapPageViewM extends StatelessWidget {
           ));
   }
 
-  int getSameDigitsCount(String str1, String str2) {
+  double getSameDigitsCount(String str1, String str2) {
     int minLength = str1.length < str2.length ? str1.length : str2.length;
-    int count = 0;
+    double count = 0;
 
     for (int i = 0; i < minLength; i++) {
       if (str1[i] == str2[i]) {
         count++;
+        // print("SAMEMMİ -> ${str1[i]}/${str2[i]} -> cout - $count");
       } else {
         break;
       }
@@ -406,4 +526,48 @@ class MapPageViewM extends StatelessWidget {
 
     return count;
   }
+}
+
+void finishActiveRouteOperation(
+    MapPageMController mapPageMController, BuildContext context) {
+  // mapPageMController.isLoading.value = true;
+  // mapPageMController.isThereActiveRoute.value = false;
+  print("AKTİFROTAMVARMI 3-> ${mapPageMController.isThereActiveRoute.value}");
+  GeneralServicesTemp().makePatchRequest(
+    EndPoint.activateRoute,
+    ActivateRouteRequestModel(
+        routeId: mapPageMController.myActivesRoutes![0].id),
+    {
+      "Content-type": "application/json",
+      'Authorization':
+          'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+    },
+  ).then((value) async {
+    // mapPageMController.isLoading.value = true;
+    ActivateRouteResponseModel response =
+        ActivateRouteResponseModel.fromJson(jsonDecode(value!));
+    if (response.success == 1) {
+      print("MESAFEMM: rota bitti ");
+    } else {
+      print("MESAFEMM: rota bitemedi ");
+    }
+
+    mapPageMController.myActivesRoutes.value.removeWhere(
+        (element) => element.id == mapPageMController.myActivesRoutes[0].id);
+  });
+}
+
+LatLng findCenterOfCoordinates(List<LatLng> points) {
+  double totalLat = 0;
+  double totalLng = 0;
+
+  for (var point in points) {
+    totalLat += point.latitude;
+    totalLng += point.longitude;
+  }
+
+  return LatLng(
+    totalLat / points.length,
+    totalLng / points.length,
+  );
 }

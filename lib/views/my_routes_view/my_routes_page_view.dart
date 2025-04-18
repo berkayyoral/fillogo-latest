@@ -26,8 +26,8 @@ class MyRoutesPageView extends StatelessWidget {
 
   // MapPageController mapPageController = Get.find<MapPageController>();
   final MapPageMController mapPageController = Get.find();
-  final GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // final GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
 
   final DateFormat inputFormat = DateFormat('dd.MM.yyyy');
 
@@ -174,10 +174,10 @@ class MyRoutesPageView extends StatelessWidget {
                                                                                       bearing: 90,
                                                                                       tilt: 45,
                                                                                       target: LatLng(
-                                                                                        getMyCurrentLocationController.myLocationLatitudeDo.value,
-                                                                                        getMyCurrentLocationController.myLocationLongitudeDo.value,
+                                                                                        mapPageController.myLocationLatitudeDo.value,
+                                                                                        mapPageController.myLocationLongitudeDo.value,
                                                                                       ),
-                                                                                      zoom: 14,
+                                                                                      zoom: mapPageController.zoom.value, //*** 14,
                                                                                     );
 
                                                                                     mapPageController.myActivesRoutes.removeWhere((item) => item.id == mapPageController.myActivesRoutes[i].id);
@@ -192,6 +192,7 @@ class MyRoutesPageView extends StatelessWidget {
                                                                                     mapPageController.polylines.clear();
                                                                                     mapPageController.polylineCoordinates.clear();
                                                                                     mapPageController.isThereActiveRoute.value = false;
+                                                                                    print("AKTİFROTAMVARMI 4-> ${mapPageController.isThereActiveRoute.value}");
                                                                                   } else {
                                                                                     Get.back(closeOverlays: true);
                                                                                     Get.snackbar("Bir hata ile karşılaşıldı!", "Lütfen tekrar deneyiniz.", snackPosition: SnackPosition.BOTTOM, colorText: AppConstants().ltBlack);

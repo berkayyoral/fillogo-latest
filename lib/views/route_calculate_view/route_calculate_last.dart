@@ -19,6 +19,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
+import '../map_page_new/controller/map_pagem_controller.dart';
 import '../map_page_view/components/active_friends_list_display.dart';
 import 'components/create_route_controller.dart';
 
@@ -37,8 +38,9 @@ class RouteCalculateLastView extends StatelessWidget {
 
   final SetCustomMarkerIconController customMarkerIconController = Get.find();
 
-  final GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // final GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
+  MapPageMController mapPageMController = Get.put(MapPageMController());
 
   final NotificationController notificationController =
       Get.put(NotificationController());
@@ -50,10 +52,10 @@ class RouteCalculateLastView extends StatelessWidget {
   Widget build(BuildContext context) {
     CameraPosition initialLocation = CameraPosition(
       target: LatLng(
-        getMyCurrentLocationController.myLocationLatitudeDo.value,
-        getMyCurrentLocationController.myLocationLongitudeDo.value,
+        mapPageMController.myLocationLatitudeDo.value,
+        mapPageMController.myLocationLongitudeDo.value,
       ),
-      zoom: 15.0,
+      zoom: mapPageMController.zoom.value, //***  15.0,
     );
     return SafeArea(
       child: GetBuilder<CreateeRouteController>(
@@ -65,12 +67,8 @@ class RouteCalculateLastView extends StatelessWidget {
             width: Get.width,
             height: Get.height,
             child: Obx(
-              () => ((getMyCurrentLocationController
-                              .myLocationLatitudeDo.value ==
-                          0.0) &&
-                      (getMyCurrentLocationController
-                              .myLocationLongitudeDo.value ==
-                          0.0))
+              () => ((mapPageMController.myLocationLatitudeDo.value == 0.0) &&
+                      (mapPageMController.myLocationLongitudeDo.value == 0.0))
                   ? const Center(
                       child:
                           CircularProgressIndicator()) //UiHelper.loadingAnimationWidget(context)
@@ -92,9 +90,9 @@ class RouteCalculateLastView extends StatelessWidget {
                               createRouteController.addMarkerFunction(
                                 const MarkerId("myCurrentMarker"),
                                 LatLng(
-                                    getMyCurrentLocationController
+                                    mapPageMController
                                         .myLocationLatitudeDo.value,
-                                    getMyCurrentLocationController
+                                    mapPageMController
                                         .myLocationLongitudeDo.value),
                                 'myCurrentMarker',
                                 "",
@@ -111,12 +109,13 @@ class RouteCalculateLastView extends StatelessWidget {
                                   child: GoogleMap(
                                     initialCameraPosition: CameraPosition(
                                       target: LatLng(
-                                        getMyCurrentLocationController
+                                        mapPageMController
                                             .myLocationLatitudeDo.value,
-                                        getMyCurrentLocationController
+                                        mapPageMController
                                             .myLocationLongitudeDo.value,
                                       ),
-                                      zoom: 15.0,
+                                      zoom: mapPageMController
+                                          .zoom.value, //*** 15.0,
                                     ),
                                     markers: Set<Marker>.from(
                                         createRouteController.markers.value),
@@ -415,16 +414,15 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       Get.put(SearchRouteController());
   @override
   Widget build(BuildContext context) {
-    GetMyCurrentLocationController getMyCurrentLocationController =
-        Get.find<GetMyCurrentLocationController>();
+    // GetMyCurrentLocationController getMyCurrentLocationController =
+    //     Get.find<GetMyCurrentLocationController>();
+    MapPageMController mapPageMController = Get.find();
     if (calculateLevel == 1) {
-      return _calculateLevelTwo(
-          context, mapController, getMyCurrentLocationController);
+      return _calculateLevelTwo(context, mapController, mapPageMController);
     } else if (calculateLevel == 2) {
       return _calculateLevelThree(context);
     } else {
-      return _calculateLevelTwo(
-          context, mapController, getMyCurrentLocationController);
+      return _calculateLevelTwo(context, mapController, mapPageMController);
     }
   }
 
@@ -490,9 +488,10 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   // }
 
   Widget _calculateLevelTwo(
-      BuildContext context,
-      Completer<GoogleMapController> mapController,
-      GetMyCurrentLocationController getMyCurrentLocationController) {
+    BuildContext context,
+    Completer<GoogleMapController> mapController,
+    MapPageMController getMyCurrentLocationController,
+  ) {
     return Obx(() => Stack(
           children: [
             Visibility(
@@ -641,14 +640,16 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                       createRouteController.mapController.animateCamera(
                         CameraUpdate.newCameraPosition(
                           CameraPosition(
-                            bearing: 90,
-                            tilt: 45,
+                            bearing: getMyCurrentLocationController
+                                .currentHeading.value, //90
+                            tilt: 60, //tilt***
                             target: LatLng(
                                 getMyCurrentLocationController
                                     .myLocationLatitudeDo.value,
                                 getMyCurrentLocationController
                                     .myLocationLongitudeDo.value),
-                            zoom: 14,
+                            zoom: getMyCurrentLocationController
+                                .zoom.value, //*** 14,
                           ),
                         ),
                       );
@@ -708,10 +709,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: searchRouteController.showOnlyMap.value,
+              // visible: searchRouteController.showOnlyMap.value,
               child: Positioned(
-                top: 50.h,
-                right: 10.w,
+                top: searchRouteController.showOnlyMap.value ? 50.h : 290.h,
+                right: searchRouteController.showOnlyMap.value ? 10.w : 165.w,
+                left: searchRouteController.showOnlyMap.value ? null : 165.h,
                 child: InkWell(
                   onTap: () {
                     searchRouteController.showOnlyMap.value =
@@ -737,7 +739,9 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                         end: Alignment.center,
                       ),
                     ),
-                    child: Icon(Icons.arrow_drop_down),
+                    child: Icon(searchRouteController.showOnlyMap.value
+                        ? Icons.arrow_drop_down
+                        : Icons.arrow_drop_up),
                   ),
                 ),
               ),
@@ -1365,15 +1369,16 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   }
 
   Future<void> getSearchRoute(BuildContext context) async {
-    GetMyCurrentLocationController getMyCurrentLocationController =
-        Get.find<GetMyCurrentLocationController>();
+    // GetMyCurrentLocationController getMyCurrentLocationController =
+    //     Get.find<GetMyCurrentLocationController>();
+    MapPageMController mapPageMController = Get.find();
     searchRouteController.fillCarTypeList();
     createRouteController.searchByCityDatum.clear();
     createRouteController.markers.clear();
     createRouteController.addMarkerFunction(
       MarkerId(const MarkerId('myMarker').value),
-      LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value,
-          getMyCurrentLocationController.myLocationLongitudeDo.value),
+      LatLng(mapPageMController.myLocationLatitudeDo.value,
+          mapPageMController.myLocationLongitudeDo.value),
       "",
       "",
       BitmapDescriptor.fromBytes(

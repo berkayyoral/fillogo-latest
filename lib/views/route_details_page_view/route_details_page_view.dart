@@ -29,8 +29,9 @@ class RouteDetailsPageView extends StatelessWidget {
 
   final RouteDetailsPageController routeDetailsPageController =
       Get.find<RouteDetailsPageController>();
-  final GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // final GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
+  MapPageMController mapPageMController = Get.find();
   final SelectedRouteController selectedRouteController =
       Get.find<SelectedRouteController>();
   final BottomNavigationBarController bottomNavigationBarController =
@@ -40,12 +41,13 @@ class RouteDetailsPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("MATCHEDon -> ${jsonEncode(selectedRouteController.matchedOn)}");
     CameraPosition initialLocation = CameraPosition(
-      target: LatLng(
-        getMyCurrentLocationController.myLocationLatitudeDo.value,
-        getMyCurrentLocationController.myLocationLongitudeDo.value,
-      ),
-      zoom: 14.0,
+      target: LatLng(39.0000, 35.0000
+          // mapPageMController.myLocationLatitudeDo.value,
+          // mapPageMController.myLocationLongitudeDo.value,
+          ),
+      zoom: 5.0,
     );
     return Scaffold(
       appBar: AppBarGenel(

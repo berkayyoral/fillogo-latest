@@ -465,8 +465,8 @@ class RouteAlertDialog {
     BottomNavigationBarController bottomNavigationBarController =
         Get.find<BottomNavigationBarController>();
     CreatePostPageController createPostPageController = Get.find();
-    GetMyCurrentLocationController getMyCurrentLocationController =
-        Get.find<GetMyCurrentLocationController>();
+    // GetMyCurrentLocationController getMyCurrentLocationController =
+    //     Get.find<GetMyCurrentLocationController>();
     return AlertDialog(
       title: Text(
         'Tebrikler',
@@ -576,12 +576,10 @@ class RouteAlertDialog {
                   googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                        zoom: 13.5,
+                        zoom: mapPageMController.zoom.value, //*** 13.5,
                         target: LatLng(
-                          getMyCurrentLocationController
-                              .myLocationLatitudeDo.value,
-                          getMyCurrentLocationController
-                              .myLocationLongitudeDo.value,
+                          mapPageMController.myLocationLatitudeDo.value,
+                          mapPageMController.myLocationLongitudeDo.value,
                         ),
                       ),
                     ),

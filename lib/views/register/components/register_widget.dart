@@ -68,10 +68,11 @@ class RegisterWidget extends StatelessWidget {
           ),
           CustomTextField(
             onChanged: (value) {
-              if (!isAlphabetic(value)) {
-                nameController.text =
-                    nameController.text.substring(0, value.length - 1);
-              }
+              // if (!isAlphabetic(value)) {
+              //   print("VALL2 ${value}");
+              //   nameController.text =
+              //       nameController.text.substring(0, value.length - 1);
+              // }
             },
             labelText: 'İsim',
             keyboardType: TextInputType.name,
@@ -80,10 +81,10 @@ class RegisterWidget extends StatelessWidget {
           ),
           CustomTextField(
             onChanged: (value) {
-              if (!isAlphabetic(value)) {
-                nameController.text =
-                    nameController.text.substring(0, value.length - 1);
-              }
+              // if (!isAlphabetic(value)) {
+              //   nameController.text =
+              //       nameController.text.substring(0, value.length - 1);
+              // }
             },
             textInputAction: TextInputAction.next,
             labelText: 'Soyisim',

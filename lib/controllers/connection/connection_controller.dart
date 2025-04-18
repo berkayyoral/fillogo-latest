@@ -29,7 +29,7 @@ class ConnectionController extends GetxController {
     String? pass =
         LocaleManager.instance.getString(PreferencesKeys.currentuserpassword);
     if (result != ConnectivityResult.none) {
-      Get.offAndToNamed(
+      Get.toNamed(
         pass != null
             ? NavigationConstants.bottomNavigationBar
             : firstLogin != null

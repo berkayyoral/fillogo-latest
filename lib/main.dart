@@ -33,7 +33,7 @@ void main() async {
       ? NavigationConstants.welcomelogin
       : NavigationConstants.onboardone;
   //
-
+  print("LOGİNİÇİNUSERINFO  initial-> ${initialRoute}");
   // yerelde kayıtlı username ve passwordu çeker. null gelirse '' şeklinde kalır
   String? userCredentials =
       LocaleManager.instance.getCryptedData(PreferencesKeys.userCredentials) ??
@@ -42,6 +42,7 @@ void main() async {
 
   // login isteği atar, success 1 dönerse inital route => bottomNavigationBar
   if (userCredentials != '') {
+    print("LOGİNİÇİNUSERINFO -> ${userCredentials}");
     await GeneralServicesTemp()
         .makePostRequest(
       EndPoint.login,
@@ -52,17 +53,15 @@ void main() async {
       ServicesConstants.appJsonWithoutAuth,
     )
         .then((value) {
-      print("VİSİORAVA GİRİŞ");
+      print("LOGİNİÇİNUSERINFO GİRİŞ ${value}");
       if (value != null) {
         final response = LoginResponseModel.fromJson(jsonDecode(value));
+        print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL ${jsonEncode(response)}");
         if (response.success == 1) {
           LocaleManager.instance.setBool(PreferencesKeys.isVisibility,
               !response.data![0].user!.isInvisible!);
           LocaleManager.instance.setBool(PreferencesKeys.isAvability,
               response.data![0].user!.isAvailable!);
-          print(
-              "VİSİORAVA A -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)} // ${response.data![0].user!.isInvisible}");
-
           LocaleManager.instance.setInt(
               PreferencesKeys.currentUserId, response.data![0].user!.id!);
           LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,
@@ -86,6 +85,9 @@ void main() async {
               .socket
               .emit("new-user-add", response.data![0].user!.id!);
           initialRoute = NavigationConstants.bottomNavigationBar;
+        } else {
+          print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL burda");
+          Get.snackbar("Hatalı giriş", "");
         }
       }
     });

@@ -1262,10 +1262,10 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-01-20T12:15:58.574125Z",
+  "generated": "2025-04-18T11:18:15.948640Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",
-  "flutterVersion": "3.27.2",
+  "flutterVersion": "3.27.3",
   "pubCache": "file:///Users/istechsoft/.pub-cache"
 }

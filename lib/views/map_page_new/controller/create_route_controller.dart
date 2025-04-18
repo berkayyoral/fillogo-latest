@@ -30,8 +30,8 @@ class CreateRouteController extends GetxController implements PolylineService {
   @override
   Future<void> onInit() async {
     startRouteLocation.value = LatLng(
-        currentLocationController.myLocationLatitudeDo.value,
-        currentLocationController.myLocationLongitudeDo.value);
+        mapPageMController.myLocationLatitudeDo.value,
+        mapPageMController.myLocationLongitudeDo.value);
     await getRouteInfo();
     setDate();
     super.onInit();
@@ -41,8 +41,8 @@ class CreateRouteController extends GetxController implements PolylineService {
   ScrollController scrollController = ScrollController();
 
   MapPageMController mapPageMController = Get.find();
-  GetMyCurrentLocationController currentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // GetMyCurrentLocationController currentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
@@ -292,6 +292,7 @@ class CreateRouteController extends GetxController implements PolylineService {
           } else {
             zoom = 5;
           }
+          mapPageMController.zoom.value = zoom;
           mapPageMController.mapController!.animateCamera(
             CameraUpdate.newCameraPosition(
               CameraPosition(

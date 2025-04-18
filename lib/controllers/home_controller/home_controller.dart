@@ -84,8 +84,8 @@ class HomeController extends GetxController {
     for (int i = 0; i < response.data![0].result!.length; i++) {
       snapshotList.add(response.data![0].result![i]);
     }
-    update(["homePage"]);
-    update(["homePagem"]);
+    // update(["homePage"]);
+    // update(["homePagem"]);
   }
 
   @override

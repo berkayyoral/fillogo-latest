@@ -44,8 +44,8 @@ class _MyProfilViewState extends State<MyProfilView> {
 
   // MapPageController mapPageController = Get.find<MapPageController>();
   MapPageMController mapPageController = Get.find();
-  GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
 
   ConnectionsController connectionsController = Get.find();
 
@@ -110,7 +110,8 @@ class _MyProfilViewState extends State<MyProfilView> {
                                 .cartypetousercartypes!.carType!);
                       }
                       if (!snapshot.hasData) {
-                        return const CircularProgressIndicator.adaptive();
+                        return Center(
+                            child: const CircularProgressIndicator.adaptive());
                       } else {
                         // mapPageController.myNameAndSurname.value =
                         //     "${snapshot.data!.data!.users!.name!} ${snapshot.data!.data!.users!.surname!}";
@@ -386,9 +387,9 @@ class _MyProfilViewState extends State<MyProfilView> {
                                     mapPageController.addMarkerIcon(
                                         markerID: "myLocationMarker",
                                         location: LatLng(
-                                            getMyCurrentLocationController
+                                            mapPageController
                                                 .myLocationLatitudeDo.value,
-                                            getMyCurrentLocationController
+                                            mapPageController
                                                 .myLocationLongitudeDo.value));
                                   },
                                   iconPath: 'assets/icons/plus-add-icon.svg',

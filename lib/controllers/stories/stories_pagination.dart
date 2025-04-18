@@ -9,8 +9,8 @@ import '../../export.dart';
 class StoriesPaginationController extends GetxController {
   @override
   Future<void> onInit() async {
-    await addList(1);
-    fillList();
+    // await addList(1);
+    // fillList();
     super.onInit();
   }
 
@@ -42,7 +42,7 @@ class StoriesPaginationController extends GetxController {
       }
       //print("totalPage.value 1 = " + totalPage.value.toString());
       totalPage.value = response.data![0].stories!.pagination!.totalPage!;
-      print("a = ${totalPage.value}");
+      print("STORYVİEWTOTALPAGE = ${totalPage.value}");
       //print("totalPage.value 2 = " + totalPage.value.toString());
 
       update(["userStories"]);
@@ -79,7 +79,6 @@ class StoriesPaginationController extends GetxController {
         //totalPage.value = response.data![0].stories!.pagination!.totalPage!;
         //print("totalPage.value 2 = " + totalPage.value.toString());
         snapshotList.add(response.data![0].stories!.result![0]);
-        print(snapshotList[i]!.url);
       }
 
       update(["userStories"]);

@@ -258,6 +258,8 @@ class StartOrRouteRouteDialog {
                               mapPageController.markers.clear();
                               mapPageController.isThereActiveRoute.value =
                                   false;
+                              print(
+                                  "AKTİFROTAMVARMI 1-> ${mapPageController.isThereActiveRoute.value}");
                               mapPageController.getMyRoutes();
                               mapPageController.getUsersOnArea(
                                   carTypeFilter: mapPageController.carTypeList);

@@ -39,12 +39,13 @@ class ProfileHeaderWidget extends StatelessWidget {
                 ),
               ],
               image: DecorationImage(
-                  alignment: Alignment.center,
-                  image: NetworkImage(
-                    coverPictureUrl ??
-                        'https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/stories%2F1690375016005_image_cropper_B9E5E237-22E9-4850-929B-0B5A133F2023-66909-00029AF97736A997.jpg?alt=media&token=fc9dd12c-bd38-4a12-9cd8-dfbcec06d7c1',
-                  ),
-                  fit: BoxFit.cover),
+                alignment: Alignment.center,
+                image: NetworkImage(
+                  coverPictureUrl ??
+                      'https://firebasestorage.googleapis.com/v0/b/fillogo-8946b.appspot.com/o/stories%2F1690375016005_image_cropper_B9E5E237-22E9-4850-929B-0B5A133F2023-66909-00029AF97736A997.jpg?alt=media&token=fc9dd12c-bd38-4a12-9cd8-dfbcec06d7c1',
+                ),
+                fit: BoxFit.cover,
+              ),
               color: AppConstants().ltWhite,
               //borderRadius: BorderRadius.circular(0.r),
             ),

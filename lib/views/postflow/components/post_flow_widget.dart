@@ -137,35 +137,6 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                     bottom: 10.h,
                   ),
                   child: GestureDetector(
-                    // onTap: () async {
-                    //   UserStoriesResponse? response =
-                    //       await GeneralServicesTemp().makeGetRequest(
-                    //           "/stories/user-stories/$userId?page=${1}", {
-                    //     "Content-type": "application/json",
-                    //     'Authorization':
-                    //         'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                    //   }).then((value) {
-                    //     if (value != null) {
-                    //       return UserStoriesResponse.fromJson(
-                    //           json.decode(value));
-                    //     }
-                    //     return null;
-                    //   });
-                    //   if (response == null) {
-                    //     return;
-                    //   }
-                    //   if (response.success == 1) {
-                    //     return Get.toNamed('/storyPageView', arguments: userId);
-                    //   }
-                    //   // Get.toNamed('/storyPageView');
-                    //   if (mapPageController.myUserId.value != userId) {
-                    //     Get.toNamed(NavigationConstants.otherprofiles,
-                    //         arguments: userId);
-                    //   } else {
-                    //     //   //Get.back();
-                    //     bottomNavigationBarController.selectedIndex.value = 3;
-                    //   }
-                    // },
                     child: ProfilePhoto(
                       onTap: () {
                         if (LocaleManager.instance
@@ -1100,40 +1071,6 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               ),
             ),
           ),
-          // Visibility(
-          //   visible: haveTag,
-          //   child: RichText(
-          //     textAlign: TextAlign.left,
-          //     text: TextSpan(
-          //       children: [
-          //         TextSpan(
-          //           text: " ile",
-          //           style: TextStyle(
-          //               fontFamily: "Sflight",
-          //               fontSize: 13.sp,
-          //               color: AppConstants().ltLogoGrey),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Visibility(
-          //   visible: haveTag,
-          //   child: RichText(
-          //     textAlign: TextAlign.left,
-          //     text: TextSpan(
-          //       children: [
-          //         TextSpan(
-          //           text: " birlikte  ",
-          //           style: TextStyle(
-          //               fontFamily: "Sflight",
-          //               fontSize: 13.sp,
-          //               color: AppConstants().ltLogoGrey),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           Visibility(
             visible: haveEmotion,
             child: CircleAvatar(
@@ -1152,28 +1089,6 @@ class EmotionAndTagStringCreate extends StatelessWidget {
               ),
             ),
           ),
-          // Visibility(
-          //   visible: haveEmotion,
-          //   child: Text(
-          //     "  $emotionContent",
-          //     style: TextStyle(
-          //       fontFamily: "Sflight",
-          //       fontSize: 13.sp,
-          //       color: AppConstants().ltLogoGrey,
-          //     ),
-          //   ),
-          // ),
-          // Visibility(
-          //   visible: haveEmotion,
-          //   child: Text(
-          //     " hissediyor",
-          //     style: TextStyle(
-          //       fontFamily: "Sflight",
-          //       fontSize: 13.sp,
-          //       color: AppConstants().ltLogoGrey,
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

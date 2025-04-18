@@ -14,8 +14,8 @@ class NavigationDrawerWidget extends StatelessWidget {
       Get.find<BottomNavigationBarController>();
 
   final MapPageMController mapPageController = Get.find<MapPageMController>();
-  final GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // final GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             title: 'Profilim',
             onTap: () async {
               bottomnavBarKey!.currentState!.closeDrawer();
-              await _drawerControlIndex();
+              // await _drawerControlIndex();
               bottomNavigationBarController.selectedIndex.value = 3;
             },
           ),
@@ -136,7 +136,9 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
+              bottomnavBarKey!.currentState!.closeDrawer();
               _drawerControlIndex();
+              print("bnne ${drawerControl.bottomnavBarKey.currentState}");
             },
             child: SvgPicture.asset(
               height: 36.w,
@@ -161,6 +163,7 @@ class NavigationDrawerWidget extends StatelessWidget {
   }
 
   _drawerControlIndex() {
+    print("İNDEX -> ${drawerControl.generalDrawerPageController}");
     if (drawerControl.generalDrawerPageController == 1) {
       drawerControl.closePostFlowScaffoldDrawer();
     } else if (drawerControl.generalDrawerPageController == 2) {
@@ -169,7 +172,7 @@ class NavigationDrawerWidget extends StatelessWidget {
       drawerControl.closeRouteCalculatePageScaffoldDrawer();
     } else if (drawerControl.generalDrawerPageController == 4) {
       drawerControl.closeMyProfilePageScaffoldDrawer();
-    }
+    } else {}
   }
 }
 

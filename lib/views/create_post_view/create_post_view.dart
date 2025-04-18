@@ -497,99 +497,100 @@ class CreatePostPageView extends StatelessWidget {
               color: AppConstants().ltLogoGrey,
             ),
           ),
-          Text(
-            "",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-          Text(
-            "Paylaşımızını diğer uygulamalarda paylaşmak ister misiniz?",
-            style: TextStyle(
-              fontFamily: 'Sfregular',
-              fontSize: 14.sp,
-              color: AppConstants().ltLogoGrey,
-            ),
-          ),
-          Obx(() => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      socialController.facebookTap.value =
-                          !socialController.facebookTap.value;
-                    },
-                    child: SizedBox(
-                      width: 50,
-                      child: SvgPicture.asset(
-                        "assets/icons/facebook-icon.svg",
-                        height: 48.h,
-                        width: 48.w,
-                        color: socialController.facebookTap.value == true
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltDarkGrey,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      socialController.instagramTap.value =
-                          !socialController.instagramTap.value;
-                    },
-                    child: SizedBox(
-                      width: 50,
-                      child: SvgPicture.asset(
-                        "assets/icons/instagram.svg",
-                        height: 48.h,
-                        width: 48.w,
-                        color: socialController.instagramTap.value == true
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltDarkGrey,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      socialController.twitterTap.value =
-                          !socialController.twitterTap.value;
-                    },
-                    child: SizedBox(
-                      width: 50,
-                      child: SvgPicture.asset(
-                        "assets/icons/twitter.svg",
-                        height: 48.h,
-                        width: 48.w,
-                        color: socialController.twitterTap.value == true
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltDarkGrey,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      socialController.tiktokTap.value =
-                          !socialController.tiktokTap.value;
-                    },
-                    child: SizedBox(
-                      width: 50,
-                      child: SvgPicture.asset(
-                        "assets/icons/tiktok.svg",
-                        height: 48.h,
-                        width: 48.w,
-                        color: socialController.tiktokTap.value == true
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltDarkGrey,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  )
-                ],
-              ))
+          // *** PAYLAŞIMINIZI DİĞER UYGULAMALARDA
+          // Text(
+          //   "",
+          //   style: TextStyle(
+          //     fontFamily: 'Sfregular',
+          //     fontSize: 14.sp,
+          //     color: AppConstants().ltLogoGrey,
+          //   ),
+          // ),
+          // Text(
+          //   "Paylaşımınızı diğer uygulamalarda paylaşmak ister misiniz?",
+          //   style: TextStyle(
+          //     fontFamily: 'Sfregular',
+          //     fontSize: 14.sp,
+          //     color: AppConstants().ltLogoGrey,
+          //   ),
+          // ),
+          // Obx(() => Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //       children: [
+          //         GestureDetector(
+          //           onTap: () {
+          //             socialController.facebookTap.value =
+          //                 !socialController.facebookTap.value;
+          //           },
+          //           child: SizedBox(
+          //             width: 50,
+          //             child: SvgPicture.asset(
+          //               "assets/icons/facebook-icon.svg",
+          //               height: 48.h,
+          //               width: 48.w,
+          //               color: socialController.facebookTap.value == true
+          //                   ? AppConstants().ltMainRed
+          //                   : AppConstants().ltDarkGrey,
+          //               fit: BoxFit.scaleDown,
+          //             ),
+          //           ),
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             socialController.instagramTap.value =
+          //                 !socialController.instagramTap.value;
+          //           },
+          //           child: SizedBox(
+          //             width: 50,
+          //             child: SvgPicture.asset(
+          //               "assets/icons/instagram.svg",
+          //               height: 48.h,
+          //               width: 48.w,
+          //               color: socialController.instagramTap.value == true
+          //                   ? AppConstants().ltMainRed
+          //                   : AppConstants().ltDarkGrey,
+          //               fit: BoxFit.scaleDown,
+          //             ),
+          //           ),
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             socialController.twitterTap.value =
+          //                 !socialController.twitterTap.value;
+          //           },
+          //           child: SizedBox(
+          //             width: 50,
+          //             child: SvgPicture.asset(
+          //               "assets/icons/twitter.svg",
+          //               height: 48.h,
+          //               width: 48.w,
+          //               color: socialController.twitterTap.value == true
+          //                   ? AppConstants().ltMainRed
+          //                   : AppConstants().ltDarkGrey,
+          //               fit: BoxFit.scaleDown,
+          //             ),
+          //           ),
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             socialController.tiktokTap.value =
+          //                 !socialController.tiktokTap.value;
+          //           },
+          //           child: SizedBox(
+          //             width: 50,
+          //             child: SvgPicture.asset(
+          //               "assets/icons/tiktok.svg",
+          //               height: 48.h,
+          //               width: 48.w,
+          //               color: socialController.tiktokTap.value == true
+          //                   ? AppConstants().ltMainRed
+          //                   : AppConstants().ltDarkGrey,
+          //               fit: BoxFit.scaleDown,
+          //             ),
+          //           ),
+          //         )
+          //       ],
+          //     ))
         ],
       ),
       actions: <Widget>[
@@ -621,8 +622,9 @@ class CreatePostPageView extends StatelessWidget {
                   // MapPageController mapPageController =
                   //     Get.find<MapPageController>();
                   MapPageMController mapPageController = Get.find();
-                  GetMyCurrentLocationController
-                      getMyCurrentLocationController = Get.find();
+                  // GetMyCurrentLocationController
+                  //     getMyCurrentLocationController = Get.find();
+                  MapPageMController mapPageMController = Get.find();
                   createPostPageController.clearPostCreateInfoController();
                   createPostPageController.routeId.value = 0;
                   // Get.toNamed(NavigationConstants.bottomNavigationBar);
@@ -631,12 +633,10 @@ class CreatePostPageView extends StatelessWidget {
                   googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                        zoom: 15,
+                        zoom: mapPageMController.zoom.value,
                         target: LatLng(
-                          getMyCurrentLocationController
-                              .myLocationLatitudeDo.value,
-                          getMyCurrentLocationController
-                              .myLocationLongitudeDo.value,
+                          mapPageMController.myLocationLatitudeDo.value,
+                          mapPageMController.myLocationLongitudeDo.value,
                         ),
                       ),
                     ),

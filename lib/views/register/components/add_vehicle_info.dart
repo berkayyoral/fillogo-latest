@@ -73,9 +73,12 @@ class AddVehicleInfoWidget extends StatelessWidget {
                       .makeGetRequest(EndPoint.getCarTypes, {
                     "Content-type": "application/json",
                   }).then((value) {
+                    print("LOGİNİÇİNUSERINFO addvehicle val-> ${value}");
                     return GetCarTypesResponse.fromJson(json.decode(value!));
                   }),
                   builder: (context, snapshot) {
+                    print(
+                        "LOGİNİÇİNUSERINFO addvehicle res-> ${jsonEncode(snapshot.data)}");
                     if (snapshot.hasData) {
                       return SizedBox(
                         height: 100,
@@ -222,6 +225,7 @@ class AddVehicleInfoWidget extends StatelessWidget {
                         context, 'Geçerli bir plaka giriniz');
                   } else {
                     UiHelper.showLoadingAnimation();
+                    print("NAME -> ${registerController.nameController}");
                     GeneralServicesTemp()
                         .makePostRequest(
                       EndPoint.register,
@@ -239,6 +243,8 @@ class AddVehicleInfoWidget extends StatelessWidget {
                         if (value != null) {
                           final response =
                               RegisterResponseModel.fromJson(jsonDecode(value));
+                          print(
+                              "RESPONSSE ->  ${response.success}/${response.message} ");
                           if (response.success == 1) {
                             await GeneralServicesTemp()
                                 .makePostRequest(
@@ -381,6 +387,12 @@ class AddVehicleInfoWidget extends StatelessWidget {
                                 }
                               }
                             });
+                          } else if (response.success == -2) {
+                            Get.back();
+                            Get.snackbar("Başarısız.", "Bu mail zaten kayıtlı.",
+                                snackPosition: SnackPosition.BOTTOM);
+                          } else {
+                            print("LOGİNİÇİNUSERINFO addvehicle olmadım");
                           }
                         }
                       },

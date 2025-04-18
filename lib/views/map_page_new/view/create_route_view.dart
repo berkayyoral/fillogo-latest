@@ -62,9 +62,9 @@ class CreateRouteView extends StatelessWidget {
                             mapPageMController.addMarkerIcon(
                                 markerID: "myLocationMarker",
                                 location: LatLng(
-                                    mapPageMController.currentLocationController
+                                    mapPageMController
                                         .myLocationLatitudeDo.value,
-                                    mapPageMController.currentLocationController
+                                    mapPageMController
                                         .myLocationLongitudeDo.value));
                             createRouteController.clearFinishRouteInfo();
                           },
@@ -110,14 +110,10 @@ class CreateRouteView extends StatelessWidget {
                               "") {
                             createRouteController.startRouteLocation.value =
                                 LatLng(
-                                    createRouteController
-                                        .currentLocationController
-                                        .myLocationLatitudeDo
-                                        .value,
-                                    createRouteController
-                                        .currentLocationController
-                                        .myLocationLongitudeDo
-                                        .value);
+                                    createRouteController.mapPageMController
+                                        .myLocationLatitudeDo.value,
+                                    createRouteController.mapPageMController
+                                        .myLocationLongitudeDo.value);
                             createRouteController.getRouteInfo();
                           }
                         }

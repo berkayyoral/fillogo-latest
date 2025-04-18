@@ -162,7 +162,6 @@ class RouteDetailsPageController extends GetxController {
           myPolylines.clear();
           ownerPolylineCoordinates.clear();
           ownerPolylines.clear();
-          print("GETROUTEDETA,İL İD -> ${routeId}");
           GetRouteDetailsByIdResponseModel responseBody =
               GetRouteDetailsByIdResponseModel.fromJson(
             convert.jsonDecode(value!),

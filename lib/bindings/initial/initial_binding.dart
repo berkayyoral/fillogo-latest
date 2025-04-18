@@ -28,13 +28,13 @@ class InitialBinding implements Bindings {
   @override
   void dependencies() async {
     Get.put(SetCustomMarkerIconController());
-    Get.put(GetMyCurrentLocationController());
+    // Get.put(GetMyCurrentLocationController());
     Get.put(ConnectionController());
     Get.put(BerkayController());
     Get.put(CreateeRouteController());
     // Get.put(MapPageController());
     Get.put(MfuController());
-    Get.put(GoogleMapsGeneralWidgetsController());
+    // Get.put(GoogleMapsGeneralWidgetsController());
     Get.put(GeneralDrawerController());
     Get.put(BottomNavigationBarController());
     Get.put(SelectedRouteController());

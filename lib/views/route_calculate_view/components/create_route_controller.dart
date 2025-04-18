@@ -40,8 +40,9 @@ class CreateeRouteController extends GetxController implements PolylineService {
   GoogleMapsPlaces googleMapsPlaces =
       GoogleMapsPlaces(apiKey: AppConstants.googleMapsApiKey);
 
-  GetMyCurrentLocationController getMyCurrentLocationController =
-      Get.find<GetMyCurrentLocationController>();
+  // GetMyCurrentLocationController getMyCurrentLocationController =
+  //     Get.find<GetMyCurrentLocationController>();
+  MapPageMController mapPageMController = Get.put(MapPageMController());
 
   RxSet<Marker> markers = <Marker>{}.obs;
   final RxSet<Polyline> polylines = <Polyline>{}.obs;
@@ -120,8 +121,8 @@ class CreateeRouteController extends GetxController implements PolylineService {
     generalPolylineEncode.value = "";
     addMarkerFunction(
       MarkerId(const MarkerId('myMarker').value),
-      LatLng(getMyCurrentLocationController.myLocationLatitudeDo.value,
-          getMyCurrentLocationController.myLocationLongitudeDo.value),
+      LatLng(mapPageMController.myLocationLatitudeDo.value,
+          mapPageMController.myLocationLongitudeDo.value),
       "",
       "",
       BitmapDescriptor.fromBytes(
@@ -271,8 +272,8 @@ class CreateeRouteController extends GetxController implements PolylineService {
           CameraPosition(
             zoom: 15.0,
             target: LatLng(
-              getMyCurrentLocationController.myLocationLatitudeDo.value,
-              getMyCurrentLocationController.myLocationLongitudeDo.value,
+              mapPageMController.myLocationLatitudeDo.value,
+              mapPageMController.myLocationLongitudeDo.value,
             ),
           ),
         ),
@@ -374,8 +375,11 @@ class CreateeRouteController extends GetxController implements PolylineService {
   }
 
   void getRouteInMap() {
+    print("MESAFEMM buna bastım");
     double zoom = 5;
-
+    if (distanceMeters < 1) {
+      zoom = 20;
+    }
     if (distanceMeters < 3) {
       zoom = 18;
     } else if (distanceMeters < 10) {
@@ -398,8 +402,8 @@ class CreateeRouteController extends GetxController implements PolylineService {
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          bearing: 0,
-          tilt: 180,
+          bearing: mapPageMController.currentHeading.value,
+          tilt: 60, //tilt***
           target: middRoute.value,
           // LatLng(mid.latitude, 34.261775
           //     //     // getMyCurrentLocationController.myLocationLatitudeDo.value,

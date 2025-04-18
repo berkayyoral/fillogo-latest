@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Custom GPX Generator" xmlns="http://www.topografix.com/GPX/1/1">
+    <trk>
+        <name>İstanbul - Sakarya Route</name>
+        <trkseg>
+            <trkpt lat="41.0082" lon="28.9784"><name>İstanbul</name></trkpt>
+            <trkpt lat="40.9916" lon="30.5405"><name>Sapanca</name></trkpt>
+            <trkpt lat="40.7713" lon="30.4185"><name>Sakarya</name></trkpt>
+        </trkseg>
+    </trk>
+</gpx>

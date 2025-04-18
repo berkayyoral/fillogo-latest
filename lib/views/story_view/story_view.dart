@@ -7,6 +7,7 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/models/stories/delete_story.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:story_view/story_view.dart';
 
@@ -20,7 +21,7 @@ class StoriesView extends StatefulWidget {
 class _StoriesViewState extends State<StoriesView> {
   final storyController = StoryController();
 
-  StoriesPaginationController storiesController =
+  StoriesPaginationController storiesPaginationontroller =
       Get.put(StoriesPaginationController());
 
   CreatePostPageController createPostPageController = Get.find();
@@ -28,6 +29,7 @@ class _StoriesViewState extends State<StoriesView> {
   BottomNavigationBarController bottomNavigationBarController =
       Get.find<BottomNavigationBarController>();
 
+  StoriesController storiesController = Get.put(StoriesController());
   @override
   void dispose() {
     super.dispose();
@@ -36,18 +38,18 @@ class _StoriesViewState extends State<StoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.find();
+    HomeController homeController = Get.put(HomeController());
     return Scaffold(
         body: GetBuilder<StoriesPaginationController>(
             id: "userStories",
             initState: (state) async {
-              storiesController.userId.value = userId;
-              storiesController.snapshotList.value.clear();
-              await storiesController.addList(1);
-              await storiesController.fillList();
+              storiesPaginationontroller.userId.value = userId;
+              storiesPaginationontroller.snapshotList.value.clear();
+              await storiesPaginationontroller.addList(1);
+              await storiesPaginationontroller.fillList();
             },
             builder: (_) {
-              if (storiesController.snapshotList.isEmpty) {
+              if (storiesPaginationontroller.snapshotList.isEmpty) {
                 return const Center(child: CircularProgressIndicator());
               }
               return Stack(
@@ -57,20 +59,46 @@ class _StoriesViewState extends State<StoriesView> {
                     child: StoryView(
                       controller: storyController,
                       storyItems: List.generate(
-                          storiesController.snapshotList.length, (index) {
-                        print("STORYVİEWWW");
-                        print(
-                            "STORYVİEWWW viewww ${storiesController.snapshotList[index]!.id}");
-                        //https://res.cloudinary.com/dmpfzfgrb/image/upload/v1688989683/post/1/1688989682790.jpg
+                          storiesPaginationontroller.snapshotList.length,
+                          (index) {
                         return StoryItem(
+                          // SizedBox(
+                          //   height: Get.height,
+                          //   width: Get.width,
+                          //   child: Image.network(
+                          //     storiesPaginationontroller
+                          //         .snapshotList[index]!.url
+                          //         .toString(),
+                          //     fit: BoxFit.cover,
+                          //   ),
+                          // ),
                           SizedBox(
                             height: Get.height,
                             width: Get.width,
-                            child: Image.network(
-                              storiesController.snapshotList[index]!.url
-                                  .toString(),
-                              fit: BoxFit.cover,
-                            ),
+                            child: Obx(() => storiesPaginationontroller
+                                    .isLoading.value
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                        color: AppConstants().ltMainRed),
+                                  )
+                                : Image.network(
+                                    storiesPaginationontroller
+                                        .snapshotList[index]!.url
+                                        .toString(),
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppConstants().ltMainRed,
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Center(child: Icon(Icons.error));
+                                    },
+                                  )),
                           ),
                           duration: const Duration(
                             seconds: 15,
@@ -100,7 +128,8 @@ class _StoriesViewState extends State<StoriesView> {
                       onVerticalSwipeComplete: (p0) {
                         LocaleManager.instance
                                     .getInt(PreferencesKeys.currentUserId) !=
-                                storiesController.snapshotList[0]!.stories!.id
+                                storiesPaginationontroller
+                                    .snapshotList[0]!.stories!.id
                             ? null
                             : showModalBottomSheet(
                                 context: context,
@@ -111,8 +140,8 @@ class _StoriesViewState extends State<StoriesView> {
                                       child: ListView.builder(
                                           physics:
                                               const AlwaysScrollableScrollPhysics(),
-                                          itemCount:
-                                              storiesController.totalPage.value,
+                                          itemCount: storiesPaginationontroller
+                                              .totalPage.value,
                                           itemBuilder: (context, index) {
                                             return Container(
                                               margin: const EdgeInsets.all(6),
@@ -132,7 +161,7 @@ class _StoriesViewState extends State<StoriesView> {
                                                             BorderRadius
                                                                 .circular(16),
                                                         child: Image.network(
-                                                          storiesController
+                                                          storiesPaginationontroller
                                                               .snapshotList[
                                                                   index]!
                                                               .url
@@ -151,14 +180,15 @@ class _StoriesViewState extends State<StoriesView> {
                                                       color: AppConstants()
                                                           .ltMainRed,
                                                       onPressed: () {
-                                                        print(storiesController
-                                                            .snapshotList[
-                                                                index]!
-                                                            .id);
+                                                        print(
+                                                            storiesPaginationontroller
+                                                                .snapshotList[
+                                                                    index]!
+                                                                .id);
 
                                                         GeneralServicesTemp()
                                                             .makeDeleteWithoutBody(
-                                                          "${EndPoint.deleteStory}${storiesController.snapshotList[index]!.id}",
+                                                          "${EndPoint.deleteStory}${storiesPaginationontroller.snapshotList[index]!.id}",
                                                           {
                                                             'Authorization':
                                                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
@@ -198,6 +228,8 @@ class _StoriesViewState extends State<StoriesView> {
                                                             print(
                                                                 response.data);
                                                           }
+                                                          storiesController
+                                                              .getMyStory();
                                                         });
                                                       },
                                                       child: Text(
@@ -228,7 +260,8 @@ class _StoriesViewState extends State<StoriesView> {
                   ),
                   LocaleManager.instance
                               .getInt(PreferencesKeys.currentUserId) ==
-                          storiesController.snapshotList[0]!.stories!.id
+                          storiesPaginationontroller
+                              .snapshotList[0]!.stories!.id
                       ? const SizedBox()
                       : Visibility(
                           visible: false,
@@ -329,7 +362,8 @@ class _StoriesViewState extends State<StoriesView> {
                               children: [
                                 ProfilePhoto(
                                   onTap: () {
-                                    if (storiesController.userId.value ==
+                                    if (storiesPaginationontroller
+                                            .userId.value ==
                                         LocaleManager.instance.getInt(
                                             PreferencesKeys.currentUserId)) {
                                       Get.back();
@@ -338,13 +372,13 @@ class _StoriesViewState extends State<StoriesView> {
                                     } else {
                                       Get.toNamed(
                                           NavigationConstants.otherprofiles,
-                                          arguments:
-                                              storiesController.userId.value);
+                                          arguments: storiesPaginationontroller
+                                              .userId.value);
                                     }
                                   },
                                   height: 48.h,
                                   width: 48.w,
-                                  url: storiesController
+                                  url: storiesPaginationontroller
                                       .snapshotList[0]!.stories!.profilePicture
                                       .toString(),
                                 ),
@@ -352,7 +386,7 @@ class _StoriesViewState extends State<StoriesView> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Text(
-                                    "${storiesController.snapshotList[0]!.stories!.name} ${storiesController.snapshotList[0]!.stories!.surname}",
+                                    "${storiesPaginationontroller.snapshotList[0]!.stories!.name} ${storiesPaginationontroller.snapshotList[0]!.stories!.surname}",
                                     style: TextStyle(
                                       color: AppConstants().ltWhite,
                                       fontFamily: 'Sfregular',
@@ -363,7 +397,7 @@ class _StoriesViewState extends State<StoriesView> {
                               ],
                             ),
                             const Spacer(),
-                            storiesController.userId.value !=
+                            storiesPaginationontroller.userId.value !=
                                     LocaleManager.instance
                                         .getInt(PreferencesKeys.currentUserId)
                                 ? const SizedBox()
@@ -378,8 +412,10 @@ class _StoriesViewState extends State<StoriesView> {
                                                 child: ListView.builder(
                                                     physics:
                                                         const AlwaysScrollableScrollPhysics(),
-                                                    itemCount: storiesController
-                                                        .snapshotList.length,
+                                                    itemCount:
+                                                        storiesPaginationontroller
+                                                            .snapshotList
+                                                            .length,
                                                     itemBuilder:
                                                         (context, index) {
                                                       return Container(
@@ -405,7 +441,7 @@ class _StoriesViewState extends State<StoriesView> {
                                                                               16),
                                                                   child: Image
                                                                       .network(
-                                                                    storiesController
+                                                                    storiesPaginationontroller
                                                                         .snapshotList[
                                                                             index]!
                                                                         .url
@@ -431,11 +467,11 @@ class _StoriesViewState extends State<StoriesView> {
                                                                   print(
                                                                       "STORYVİEWWW DELEETEE");
                                                                   print(
-                                                                      "storyyidd ${storiesController.snapshotList[index]!.id}");
+                                                                      "storyyidd ${storiesPaginationontroller.snapshotList[index]!.id}");
 
                                                                   GeneralServicesTemp()
                                                                       .makeDeleteWithoutBody(
-                                                                    "${EndPoint.deleteStory}${storiesController.snapshotList[index]!.id}",
+                                                                    "${EndPoint.deleteStory}${storiesPaginationontroller.snapshotList[index]!.id}",
                                                                     {
                                                                       'Authorization':
                                                                           'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
@@ -474,6 +510,8 @@ class _StoriesViewState extends State<StoriesView> {
                                                                       print(response
                                                                           .data);
                                                                     }
+                                                                    storiesController
+                                                                        .getMyStory();
                                                                   });
                                                                 },
                                                                 child: Text(

@@ -91,7 +91,9 @@ class BottomNavigationBarView extends StatelessWidget {
           leading: GestureDetector(
             onTap: () {
               // postFlowDrawerController.openPostFlowScaffoldDrawer();
+
               bottomnavBarKey.currentState!.openDrawer();
+              print("BSTATE -> ${bottomnavBarKey.currentState}");
             },
             child: Padding(
               padding: EdgeInsets.only(

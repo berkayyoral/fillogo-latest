@@ -48,7 +48,7 @@ class _EditBannerPhotoState extends State<EditBannerPhoto> {
                 imageFile = await BussinessHelper.pickImage(
                   context,
                   ImageSource.camera,
-                  [CropAspectRatioPreset.ratio4x3],
+                  [CropAspectRatioPreset.ratio16x9],
                   const CropAspectRatio(ratioX: 4, ratioY: 3),
                 ).then((value) {
                   return value;
