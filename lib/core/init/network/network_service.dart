@@ -68,7 +68,9 @@ class NetworkService {
     } else if (response.statusCode == 401) {
       // TODO logout ve token' ı sil
     } else if (response.statusCode == 408) {
-      return Get.offAndToNamed(NavigationConstants.connectionError);
+      Get.snackbar("İnternet bağlantınızı kontrol edin.", "",
+          snackPosition: SnackPosition.BOTTOM);
+      // return Get.offAndToNamed(NavigationConstants.connectionError);
     } else {
       // Hata mesajını ekrana göster Get.Snackbar()
       return jsonBodyParser<T>(model, response.body);

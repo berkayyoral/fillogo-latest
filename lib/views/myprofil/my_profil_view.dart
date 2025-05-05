@@ -425,7 +425,7 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                         .result![index]
                                                         .post!
                                                         .text! !=
-                                                    "default text")
+                                                    "")
                                             ? PostFlowWidget(
                                                 deletePostOnTap: () {
                                                   GeneralServicesTemp()

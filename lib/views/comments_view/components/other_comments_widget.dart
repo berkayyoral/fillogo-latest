@@ -74,19 +74,19 @@ class OtherComments extends StatelessWidget {
                 color: AppConstants().ltDarkGrey,
               ),
             ),
-            15.w.spaceX,
-            Text(likeCount.toString(),
-                style: TextStyle(
-                    fontFamily: "Sfmedium",
-                    fontSize: 12.sp,
-                    color: AppConstants().ltDarkGrey)),
-            Text(
-              " beğenme",
-              style: TextStyle(
-                  fontFamily: "Sfmedium",
-                  fontSize: 12.sp,
-                  color: AppConstants().ltDarkGrey),
-            ),
+            // 15.w.spaceX,
+            // Text(likeCount.toString(),
+            //     style: TextStyle(
+            //         fontFamily: "Sfmedium",
+            //         fontSize: 12.sp,
+            //         color: AppConstants().ltDarkGrey)),
+            // Text(
+            //   " beğenme",
+            //   style: TextStyle(
+            //       fontFamily: "Sfmedium",
+            //       fontSize: 12.sp,
+            //       color: AppConstants().ltDarkGrey),
+            // ),
           ],
         ),
       ),

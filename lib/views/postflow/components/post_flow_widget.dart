@@ -230,30 +230,34 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
         ),
       ),
       10.h.spaceY,
-      SizedBox(
-        width: Get.width,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 8.h,
-          ),
-          child: RichText(
-            textAlign: TextAlign.left,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: widget.subtitle,
-                  style: TextStyle(
-                    fontFamily: "Sfregular",
-                    fontSize: 14.sp,
-                    color: AppConstants().ltLogoGrey,
+      widget.subtitle != ""
+          ? widget.subtitle != "default text"
+              ? SizedBox(
+                  width: Get.width,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    child: RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: widget.subtitle,
+                            style: TextStyle(
+                              fontFamily: "Sfregular",
+                              fontSize: 14.sp,
+                              color: AppConstants().ltLogoGrey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+                )
+              : Container()
+          : Container(),
       10.h.spaceY,
       Visibility(
         visible: widget.centerImageUrl.isNotEmpty,

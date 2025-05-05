@@ -54,36 +54,56 @@ class BussinessHelper {
     return null;
   }
 
-  static Future<PlatformFile?> pickFile(BuildContext context) async {
+  static Future<PlatformFile?> pickFile(BuildContext context,
+      {bool isStory = false}) async {
     UiHelper.showLoadingAnimation();
-    final response = await FilePicker.platform.pickFiles(
-      type: FileType.media,
-      withData: false,
-      allowMultiple: false,
-    );
 
+    log("STORYATCAM girdim}");
+    final ImagePicker picker = ImagePicker();
+    final response = await picker.pickMedia();
+
+    //  final response2 = await FilePicker.platform.pickFiles(
+    //   type: FileType.media,
+    //   withData: false,
+    //   allowMultiple: false,
+    // );
+
+    log("STORYATCAM resp -> ${response}");
     if (response != null) {
-      final file = response.files.first;
+      log("STORYATCAM res dolu -> ${response}");
+
+      final File selectedfile = File(response.path);
+      final int selectedfileSize = await selectedfile.length();
+
+      final PlatformFile platformFile = PlatformFile(
+        name: response.name,
+        path: response.path,
+        size: selectedfileSize,
+      );
+
+      final file = platformFile;
       final fileName = file.name;
       final filePath = file.path!;
       final fileSize = file.size;
-
+      log("STORYATCAM FİLENAMME -> ${fileName}");
+      final extension = fileName.toLowerCase();
       if (fileName.endsWith('.png') ||
           fileName.endsWith('.jpg') ||
           fileName.endsWith('.mp4') ||
+          fileName.endsWith('.mov') ||
           fileName.endsWith('.jpeg')) {
-        if (fileSize > 20000000) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                  'Dosya boyutu çok yüksek. Dosya en fazla 20MB olabilir.'),
-            ),
-          );
-          Get.back();
-          return null;
-        }
+        // if (fileSize > 20000000) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text(
+        //           'Dosya boyutu çok yüksek. Dosya en fazla 20MB olabilir.'),
+        //     ),
+        //   );
+        //   Get.back();
+        //   return null;
+        // }
 
-        if (!fileName.endsWith('.mp4')) {
+        if (!fileName.endsWith('.mp4') && !fileName.endsWith('.mov')) {
           log('Resim Boyutu: ${(fileSize * (1 / 1000000))} MB - $fileName');
 
           CroppedFile? croppedFile = await ImageCropper().cropImage(
@@ -136,13 +156,26 @@ class BussinessHelper {
           );
 
           if (media != null) {
-            log('Sıkıştırılmış Video Boyutu: ${media.filesize}');
-            Get.back();
-            return PlatformFile(
-              name: media.file!.path.split('/').last,
-              size: media.filesize!,
-              path: media.file!.path,
-            );
+            log('Sıkıştırılmış Video Boyutu: ${media.filesize} / sn -> ${(media.duration! / 1000)}');
+            if ((media.duration! / 1000) > (isStory ? 15 : 60)) {
+              log('Sıkıştırılmış yüksek saniye');
+              Get.back();
+              Get.snackbar("Video çok uzun.",
+                  "${isStory ? "Hikayeler 15 saniyeden" : "Videolar 1 dakikadan"} uzun olamaz.",
+                  snackPosition: SnackPosition.BOTTOM,
+                  colorText: AppConstants().ltMainRed);
+
+              return null;
+            } else {
+              print(
+                  "Video süresi uygun: ${media.duration!.seconds.inSeconds} saniye");
+              Get.back();
+              return PlatformFile(
+                name: media.file!.path.split('/').last,
+                size: media.filesize!,
+                path: media.file!.path,
+              );
+            }
           } else {
             return file;
           }

@@ -44,8 +44,8 @@ class VisibilityStatusWidget extends StatelessWidget {
                             {
                               "visible":
                                   !mapPageMController.isRouteVisibilty.value,
-                              "available":
-                                  mapPageMController.isRouteAvability.value
+                              "available": true,
+                              // mapPageMController.isRouteAvability.value
                             },
                             {
                               "Content-type": "application/json",
@@ -57,7 +57,7 @@ class VisibilityStatusWidget extends StatelessWidget {
                                 !mapPageMController.isRouteVisibilty.value;
 
                             print(
-                                "VİSİBİLTİRYY M -> ${mapPageMController.isRouteVisibilty.value}");
+                                "VİSİORAVA VİSİBİLTİRYY M -> $value / ${mapPageMController.isRouteVisibilty.value}");
                             mapPageMController.markers.value.clear();
 
                             if (mapPageMController.isRouteVisibilty.value) {
@@ -91,7 +91,7 @@ class VisibilityStatusWidget extends StatelessWidget {
                                     mapPageMController.isRouteVisibilty.value)
                                 .then((value) {
                               print(
-                                  "VİSİVİBİLTRMARKER değişti -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
+                                  "VİSİORAVA VİSİVİBİLTRMARKER değişti -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
                             });
 
                             await customMarkerIconController
@@ -112,32 +112,33 @@ class VisibilityStatusWidget extends StatelessWidget {
                       }),
                     ),
 
-                    Expanded(
-                      child: visibilityOrAvabilityWidget(
-                          mapPageMController, context, isForVisibility: false,
-                          onTap: () async {
-                        mapPageMController.isRouteAvability.value =
-                            !mapPageMController.isRouteAvability.value;
+                    // Expanded(
+                    //   child: visibilityOrAvabilityWidget(
+                    //       mapPageMController, context, isForVisibility: false,
+                    //       onTap: () async {
+                    //     mapPageMController.isRouteAvability.value =
+                    //         !mapPageMController.isRouteAvability.value;
 
-                        await GeneralServicesTemp().makePostRequest(
-                          EndPoint.updateStatus,
-                          {
-                            "available":
-                                mapPageMController.isRouteAvability.value,
-                          },
-                          {
-                            "Content-type": "application/json",
-                            'Authorization':
-                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                          },
-                        ).then((value) => print("AVABİLİTY değişti"));
+                    //     await GeneralServicesTemp().makePostRequest(
+                    //       EndPoint.updateStatus,
+                    //       {
+                    //         "available":
+                    //             mapPageMController.isRouteAvability.value,
+                    //       },
+                    //       {
+                    //         "Content-type": "application/json",
+                    //         'Authorization':
+                    //             'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                    //       },
+                    //     ).then((value) =>
+                    //         print("VİSİORAVA AVABİLİTY değişti $value"));
 
-                        Get.snackbar("Başarılı!",
-                            "Müsaitlik bilginiz ${mapPageMController.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}.",
-                            snackPosition: SnackPosition.BOTTOM,
-                            colorText: AppConstants().ltBlack);
-                      }),
-                    ),
+                    //     Get.snackbar("Başarılı!",
+                    //         "Müsaitlik bilginiz ${mapPageMController.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}.",
+                    //         snackPosition: SnackPosition.BOTTOM,
+                    //         colorText: AppConstants().ltBlack);
+                    //   }),
+                    // ),
 
                     const Spacer()
                   ],
@@ -196,14 +197,15 @@ class VisibilityStatusWidget extends StatelessWidget {
                   ),
                 ),
                 ButtonTitleWidget(
-                  title: isForVisibility
-                      ? mapPageMController.isRouteVisibilty.value
-                          ? "\tGörünür Olma\t"
-                          : "\t\t\t\tGörünür Ol\t\t\t\t"
-                      : mapPageMController.isRouteAvability.value
-                          ? "\tMüsait\t"
-                          : "\tMüsait Değil\t",
-                )
+                    title:
+                        // isForVisibility?
+                        mapPageMController.isRouteVisibilty.value
+                            ? "\tGörünür Olma\t"
+                            : "\t\t\t\tGörünür Ol\t\t\t\t"
+                    // : mapPageMController.isRouteAvability.value
+                    //     ? "\tMüsait\t"
+                    //     : "\tMüsait Değil\t",
+                    )
               ],
             ),
           ),

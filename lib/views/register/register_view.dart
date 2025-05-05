@@ -110,7 +110,7 @@ class RegisterView extends StatelessWidget {
       case 1:
         return AddVehicleInfoWidget();
       default:
-        return RegisterWidget();
+        return getWidget(pageOrder);
     }
   }
 }

@@ -107,7 +107,7 @@ class RegisterWidget extends StatelessWidget {
                       AppConstants().ltMainRed.withOpacity(0.1)),
                 ),
                 child: Text(
-                  'Göster',
+                  !obscureText.value ? "Gizle" : 'Göster',
                   style: TextStyle(
                     fontFamily: FontConstants.sfMedium,
                     fontSize: 10.sp,
@@ -137,7 +137,11 @@ class RegisterWidget extends StatelessWidget {
                     passwordController.value.text;
                 registerController.emailController.value = userEmail;
                 registerController.containerHeight.value = 540.h;
-                registerController.processCounter.value++;
+                print(
+                    "REGİSTERPROSESCOUNT ilk -> ${registerController.processCounter.value}");
+                registerController.processCounter.value = 1;
+                print(
+                    "REGİSTERPROSESCOUNT son -> ${registerController.processCounter.value}");
                 LocaleManager.instance.setString(
                     PreferencesKeys.currentUserName, nameController.value.text);
                 LocaleManager.instance.setString(

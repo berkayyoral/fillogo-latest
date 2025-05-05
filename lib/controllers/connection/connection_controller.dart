@@ -11,6 +11,7 @@ class ConnectionController extends GetxController {
 
   connectionListen() {
     connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      print("CHECHCON list -> ${result}");
       if (result == ConnectivityResult.none
           // &&
           //     Get.currentRoute != NavigationConstants.connectionError
@@ -28,16 +29,18 @@ class ConnectionController extends GetxController {
         LocaleManager.instance.getBool(PreferencesKeys.firstLogin);
     String? pass =
         LocaleManager.instance.getString(PreferencesKeys.currentuserpassword);
+    print("CHECHCON _-> ${result}");
     if (result != ConnectivityResult.none) {
-      Get.toNamed(
-        pass != null
-            ? NavigationConstants.bottomNavigationBar
-            : firstLogin != null
-                ? firstLogin == true
-                    ? NavigationConstants.onboardone
-                    : NavigationConstants.bottomNavigationBar
-                : NavigationConstants.onboardone,
-      );
+      Get.back();
+      // Get.toNamed(
+      //   pass != null
+      //       ? NavigationConstants.bottomNavigationBar
+      //       : firstLogin != null
+      //           ? firstLogin == true
+      //               ? NavigationConstants.onboards
+      //               : NavigationConstants.bottomNavigationBar
+      //           : NavigationConstants.onboards,
+      // );
     } else {
       Get.snackbar('ConnectionError'.tr, 'YouAreNotConnectedToTheInternet'.tr,
           backgroundColor: Colors.black.withOpacity(0.5));

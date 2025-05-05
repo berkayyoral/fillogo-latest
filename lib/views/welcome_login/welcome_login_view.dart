@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:fillogo/controllers/welcome_login/welcome_login_controller.dart';
@@ -5,6 +6,9 @@ import 'package:fillogo/views/welcome_login/components/compare_verification_widg
 import 'package:fillogo/views/welcome_login/components/route_login_or_register_widget.dart';
 import 'package:fillogo/views/welcome_login/components/send_verification_widget.dart';
 import '../../export.dart';
+import '../../models/user/welcome_login/route_login_or_register_model.dart';
+import '../../services/general_sevices_template/general_services.dart';
+import '../../widgets/custom_red_button.dart';
 
 class WelcomeLoginView extends StatelessWidget {
   WelcomeLoginView({Key? key}) : super(key: key);
@@ -70,23 +74,16 @@ class WelcomeLoginView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 5,
-                  sigmaY: 5,
-                ),
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Obx(
                   () {
                     return AnimatedContainer(
-                      duration: const Duration(
-                        milliseconds: 400,
-                      ),
+                      duration: const Duration(milliseconds: 400),
                       width: welcomeLoginController.containerWidth.value,
                       height: welcomeLoginController.containerHeight.value,
                       color: Colors.black.withOpacity(0.4),
                       child: AnimatedSwitcher(
-                        duration: const Duration(
-                          milliseconds: 600,
-                        ),
+                        duration: const Duration(milliseconds: 600),
                         switchInCurve: Curves.easeInCubic,
                         child: getWidget(
                           welcomeLoginController.processCounter.value,
@@ -104,7 +101,7 @@ class WelcomeLoginView extends StatelessWidget {
   }
 
   Widget getWidget(int pageOrder) {
-    print("LOGİNİÇİNUSERINFO pageorder -> ${pageOrder}");
+    print("PAGEORDERNE -> ${pageOrder}");
     switch (pageOrder) {
       case 0:
         return RouteLoginOrRegister();
@@ -113,7 +110,7 @@ class WelcomeLoginView extends StatelessWidget {
       case 2:
         return CompareVerificationCode();
       default:
-        return RouteLoginOrRegister();
+        return getWidget(pageOrder);
     }
   }
 }

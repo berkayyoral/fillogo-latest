@@ -3,6 +3,7 @@ import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddNewPropertyCreatePost extends StatefulWidget {
   const AddNewPropertyCreatePost({super.key});

@@ -18,6 +18,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert';
 
+import '../../../controllers/bottom_navigation_bar_controller.dart';
 import '../../../models/routes_models/activate_route_model.dart';
 
 class MapPageMController extends GetxController implements MapPageService {
@@ -156,7 +157,7 @@ class MapPageMController extends GetxController implements MapPageService {
           polylineCoordinates[0].longitude,
         );
         print("POLYLİNEİLKÇİZGİMESAFE -> ${distanceInMeters}");
-        if (distanceInMeters > 30) {
+        if (distanceInMeters > 20 && distanceInMeters < 40) {
           //distanceInMeters > 20 && distanceInMeters < 40
           polylineCoordinates.removeAt(0);
         } else {}
@@ -238,8 +239,8 @@ class MapPageMController extends GetxController implements MapPageService {
           isThereActiveRoute.value = myActivesRoutes.isNotEmpty ? true : false;
 
           if (isThereActiveRoute.value) {
-            isRouteVisibilty.value = !myActivesRoutes.first.isInvisible;
-            isRouteAvability.value = myActivesRoutes.first.isAvailable;
+            // isRouteVisibilty.value = true; //!myActivesRoutes.first.isInvisible;
+            // isRouteAvability.value = myActivesRoutes.first.isAvailable;
             if (isStartRoute) {
               polyline = await PolylineService().getPolyline(
                   myLocationLatitudeDo.value,
@@ -307,6 +308,7 @@ class MapPageMController extends GetxController implements MapPageService {
     Uint8List? iconByteData =
         await customMarkerIconController.setCustomMarkerIcon3();
     // await customMarkerIconController.setCustomMarkerIcon3();
+
     if (customMarkerIconController.mayLocationIcon != null) {
       iconByteData = markerID == "myLocationMarker"
           ? customMarkerIconController.mayLocationIcon!
@@ -331,6 +333,9 @@ class MapPageMController extends GetxController implements MapPageService {
     );
   }
 
+  BottomNavigationBarController bottomNavigationBarController =
+      Get.put(BottomNavigationBarController());
+
   ///Harita hareketlerini dinler
   void _startLocationUpdates() {
     positionSubscription =
@@ -342,62 +347,39 @@ class MapPageMController extends GetxController implements MapPageService {
       myLocationLatitudeDo.value = position.latitude;
       myLocationLongitudeDo.value = position.longitude;
       myLocation = position;
+
+      mapCenter.value = LatLng(
+          position.latitude +
+              (isThereActiveRoute.value ? currentBearing.value : 0),
+          position.longitude);
+      markers
+          .removeWhere((marker) => marker.markerId.value == 'myLocationMarker');
+      addMarkerIcon(
+        markerID: "myLocationMarker",
+        location:
+            LatLng(myLocationLatitudeDo.value, myLocationLongitudeDo.value),
+      );
       print(
           "KAMERAHAREKETİ HEAD - ${position.heading} / ${position.headingAccuracy}");
       try {
-        markers.removeWhere(
-            (marker) => marker.markerId.value == 'myLocationMarker');
-        addMarkerIcon(
-          markerID: "myLocationMarker",
-          location:
-              LatLng(myLocationLatitudeDo.value, myLocationLongitudeDo.value),
-        );
-
         ///Haritaya dokunulduğunda CameraPosition'un direkt bulunulan konumuna gelmemesi için ///
         print(
             "MESAFEMM ONCAMERAMOVE LİSTENN -> ${shouldUpdateLocation.value} / $isListenMap / $mapController");
         updateFinishRouteInfo();
-
-        // LatLng currentLocation = LatLng(position.latitude, position.longitude);
-        // if (currentSegmentIndex >= polylineCoordinates.length - 1) return;
-        // LatLng point1 = polylineCoordinates[currentSegmentIndex];
-        // LatLng point2 = polylineCoordinates[currentSegmentIndex + 1];
-        // double distance =
-        //     distanceToLineSegment(currentLocation, point1, point2);
-        // if (distance <= 10) {
-        //   print("ROTADIŞI Rotadasın ✅");
-        // } else if (Geolocator.distanceBetween(
-        //       currentLocation.latitude,
-        //       currentLocation.longitude,
-        //       point2.latitude,
-        //       point2.longitude,
-        //     ) <=
-        //     1) {
-        //   currentSegmentIndex++;
-        //   print("ROTADIŞI Bir sonraki segmente geçildi 🔁");
-        // } else {
-        //   print("ROTADIŞI Rota dışı! ❌");
-        // }
-
         checkProgressOnRoute2(LatLng(position.latitude, position.longitude));
-        // if (isOffRoute(LatLng(position.latitude, position.longitude),
-        //     polylineCoordinates, 1)) {
-        //   // Rota dışına çıktı
-        //   Get.snackbar("Uyarı", "Rota dışına çıktınız!",
-        //       backgroundColor: Colors.red, colorText: Colors.white);
-        // }
 
         if (shouldUpdateLocation.value && isListenMap) {
           LatLng newLatLng = LatLng(
               position.latitude +
                   (isThereActiveRoute.value ? currentBearing.value : 0),
               position.longitude);
+          mapCenter.value = newLatLng;
           // LatLng newLatLng = LatLng(
           //     position.latitude + (isThereActiveRoute.value ? 0.0008 : 0),
           //     position.longitude);
+          if (bottomNavigationBarController.selectedIndex.value == 1) {}
           if (mapCenter.value != newLatLng) {
             try {
-              mapCenter.value = newLatLng;
               if (isThereActiveRoute.value) {
                 getCameraUpdate();
                 if (isFinishRoute.value) {
@@ -792,7 +774,7 @@ class MapPageMController extends GetxController implements MapPageService {
       );
       print("MESAFEMM: $distanceInMeters metre");
 
-      if (distanceInMeters < 30) {
+      if (distanceInMeters < 35) {
         print("MESAFEMM durdu: $distanceInMeters metre");
         isFinishRoute.value = true;
 

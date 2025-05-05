@@ -1,5 +1,6 @@
 import 'package:fillogo/export.dart';
 import 'package:flutter/gestures.dart';
+
 class OnboardOneView extends StatelessWidget {
   OnboardOneView(
       {Key? key,

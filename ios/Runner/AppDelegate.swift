@@ -3,10 +3,13 @@ import OneSignalFramework
 import flutter_local_notifications
 import Flutter
 import GoogleMaps
+// import CoreLocation
 
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
+  //  let locationManager = CLLocationManager() // ← EKLE
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -14,6 +17,7 @@ import GoogleMaps
     //  FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
     //      GeneratedPluginRegistrant.register(with: registry)
     //  }
+      // locationManager.requestWhenInUseAuthorization() 
       GeneratedPluginRegistrant.register(with: self);
 //       if #available(iOS 10.0, *) {
 //   UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate

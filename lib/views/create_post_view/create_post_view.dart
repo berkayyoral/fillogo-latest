@@ -2,7 +2,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
 import 'package:fillogo/controllers/home_controller/home_controller.dart';
@@ -252,6 +253,7 @@ class CreatePostPageView extends StatelessWidget {
                       text: 'Gönderi Oluştur',
                       textColor: AppConstants().ltWhite,
                       onpressed: () async {
+                        print("GÖNDERİOLUŞRURE");
                         if (createPostPageController.haveDiscription.value ==
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
@@ -286,6 +288,10 @@ class CreatePostPageView extends StatelessWidget {
                               ? map['file'] = mediaPickerController.media
                               : null;
 
+                          mediaPickerController.media != null
+                              ? map['file'] = mediaPickerController.media
+                              : null;
+
                           // mediaPickerController.media != null
                           //     ? map['postMedia'] = await MultipartFile.fromFile(
                           //         mediaPickerController.media!.path!,
@@ -303,12 +309,9 @@ class CreatePostPageView extends StatelessWidget {
                           //         ),
                           //       )
                           //     : null;
-                          log("map = $map");
-                          log("platform = ${mediaPickerController.media}");
+
                           // Map<String, dynamic> formData1 = {
-                          //   'postDescription': "a",
-                          //   'postMedia': mediaPickerController.media
-                          // };
+
                           await GeneralServicesTemp()
                               .makePostRequestWithFormData(
                                   '/posts/create-post', map, {
@@ -316,6 +319,7 @@ class CreatePostPageView extends StatelessWidget {
                             'Authorization':
                                 'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
                           }).then((value) {
+                            log("MULTİPARTREQUESTplatformumum responsem -> ${jsonEncode(value)}");
                             if (value != null) {
                               final response = PostCreateResponse.fromJson(
                                   jsonDecode(value));
@@ -323,6 +327,7 @@ class CreatePostPageView extends StatelessWidget {
                                 if (bottomNavigationBarController
                                         .selectedIndex.value ==
                                     1) {
+                                  log("platformumum  response -> ${jsonEncode(response)}");
                                   bottomNavigationBarController
                                       .selectedIndex.value = 1;
                                   homeController.currentPage.value = 1;
@@ -347,6 +352,7 @@ class CreatePostPageView extends StatelessWidget {
                                 UiHelper.showWarningSnackBar(context,
                                     'Bir hata oluştu. Tekrar deneyiniz.');
                               }
+                              mediaPickerController.media = null;
                             }
                           });
 

@@ -9,7 +9,7 @@ class AuthenticationView extends StatelessWidget {
     return Scaffold(
       appBar: AppBarGenel(
         leading: InkWell(
-          onTap: () => Get.offAndToNamed(NavigationConstants.welcomelogin),
+          onTap: () => Get.back(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SvgPicture.asset(
@@ -64,7 +64,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -84,7 +85,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -104,7 +106,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -124,7 +127,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -144,7 +148,8 @@ class AuthenticationView extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(

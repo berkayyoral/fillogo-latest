@@ -14,10 +14,14 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    loginController.userEmail.value = Get.arguments[0];
-    loginController.userName.value = Get.arguments[1];
-    loginController.userSurName.value = Get.arguments[2];
-    loginController.userProfilePicture.value = Get.arguments[3];
+    print("ARGUMENTS -> ${Get.arguments}");
+    if (Get.arguments != null) {
+      loginController.userEmail.value = Get.arguments[0];
+      loginController.userName.value = Get.arguments[1];
+      loginController.userSurName.value = Get.arguments[2];
+      loginController.userProfilePicture.value = Get.arguments[3];
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(

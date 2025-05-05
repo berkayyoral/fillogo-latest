@@ -86,12 +86,10 @@ class RouteLoginOrRegister extends StatelessWidget {
               )
                   .then(
                 (value) {
-                  print("LOGİNİÇİNUSERINFO register oldu mu-> ${value}");
+                  print("REGİSTERRESPONSE VAL -> ${jsonEncode(value)} ");
                   if (value != null) {
                     response = RouteLoginOrRegisterResponseModel.fromJson(
                         json.decode(value.trimLeft().trimRight()));
-                    print(
-                        "LOGİNİÇİNUSERINFO register oldu mu res-> ${jsonEncode(response)}");
 
                     if (response.success == 1) {
                       Get.back();

@@ -974,6 +974,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "smooth_page_indicator",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/smooth_page_indicator-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "socket_io_client",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/socket_io_client-3.0.2",
       "packageUri": "lib/",
@@ -1191,9 +1197,9 @@
     },
     {
       "name": "video_player",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player-2.9.2",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player-2.9.5",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "video_player_android",
@@ -1218,6 +1224,18 @@
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_player_web-2.3.3",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "video_thumbnail",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/video_thumbnail-0.5.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "visibility_detector",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/visibility_detector-0.4.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "vm_service",
@@ -1262,7 +1280,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-04-18T11:18:15.948640Z",
+  "generated": "2025-05-05T13:58:23.141266Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",

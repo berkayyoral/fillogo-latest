@@ -29,7 +29,7 @@ class InitialBinding implements Bindings {
   void dependencies() async {
     Get.put(SetCustomMarkerIconController());
     // Get.put(GetMyCurrentLocationController());
-    Get.put(ConnectionController());
+    // Get.put(ConnectionController());
     Get.put(BerkayController());
     Get.put(CreateeRouteController());
     // Get.put(MapPageController());

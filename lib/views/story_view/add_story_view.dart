@@ -8,6 +8,7 @@ import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
+import 'package:fillogo/widgets/video_player_widget.dart';
 
 import '../../export.dart';
 
@@ -25,7 +26,7 @@ class _AddStoryViewState extends State<AddStoryView> {
 
   StoriesController storiesController = Get.put(StoriesController());
   HomeController homeController = Get.put(HomeController());
-  var imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,107 +52,125 @@ class _AddStoryViewState extends State<AddStoryView> {
           ),
         ),
       ),
-      body: Obx(() => storiesController.isLoading.value
-          ? Center(
-              child: CircularProgressIndicator(color: AppConstants().ltMainRed),
-            )
-          : Stack(
-              children: [
-                mediaPickerController.isMediaPicked != false
-                    ? SizedBox(
-                        height: Get.height,
-                        width: Get.width,
-                        child: Image.file(
-                          File(mediaPickerController.media!.path!),
-                          fit: BoxFit.cover,
-                        ))
-                    : Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RedButton(
-                              text: 'Galeriden Fotoğraf/Video Yükle',
-                              onpressed: () async {
-                                mediaPickerController.media =
-                                    await BussinessHelper.pickFile(context)
-                                        .then((value) {
-                                  if (value != null) {
-                                    Logger().e("Yes Picked");
+      body: Obx(() {
+        log("STORYATCAM SEÇTİM Mİ -> ${mediaPickerController.isMediaPicked} / ${mediaPickerController.media}");
+        return storiesController.isLoading.value
+            ? Center(
+                child:
+                    CircularProgressIndicator(color: AppConstants().ltMainRed),
+              )
+            : Stack(
+                children: [
+                  mediaPickerController.isMediaPicked != false
+                      ? SizedBox(
+                          height: Get.height,
+                          width: Get.width,
+                          child: mediaPickerController.media!.name
+                                  .contains(".mp4")
+                              ? VideoPlayerWidget(
+                                  file:
+                                      File(mediaPickerController.media!.path!),
+                                )
+                              : Image.file(
+                                  File(mediaPickerController.media!.path!),
+                                  fit: BoxFit.cover,
+                                ))
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RedButton(
+                                text: 'Galeriden Fotoğraf/Video Yükle',
+                                onpressed: () async {
+                                  mediaPickerController.media =
+                                      await BussinessHelper.pickFile(context,
+                                              isStory: true)
+                                          .then((value) {
+                                    if (value != null) {
+                                      log("STORYATCAM");
 
-                                    //log('file picked ${value.name}');
-                                    mediaPickerController.isMediaPicked = true;
+                                      //log('file picked ${value.name}');
+                                      mediaPickerController.isMediaPicked =
+                                          true;
 
-                                    if (value.name.split('.').last == 'mp4') {
-                                      mediaPickerController.isVideo = true;
+                                      if (value.name.split('.').last == 'mp4') {
+                                        mediaPickerController.isVideo = true;
+                                      } else {
+                                        mediaPickerController.isVideo = false;
+                                      }
                                     } else {
                                       mediaPickerController.isVideo = false;
                                     }
+                                    print("value = $value");
+
+                                    return value;
+                                  });
+
+                                  setState(() {});
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                  mediaPickerController.isMediaPicked != false
+                      ? Positioned(
+                          bottom: 12.h,
+                          left: 16.w,
+                          right: 16.w,
+                          child: RedButton(
+                            text: 'Paylaş',
+                            onpressed: () async {
+                              storiesController.isLoading.value = true;
+
+                              Map<String, dynamic> formData1 = {
+                                'file': mediaPickerController.media
+                              };
+                              await GeneralServicesTemp()
+                                  .makePostRequestWithFormData(
+                                EndPoint.createStories,
+                                formData1,
+                                {
+                                  "Content-Type": "multipart/form-data",
+                                  'Authorization':
+                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                                },
+                              ).then((value) {
+                                log("STORYATCAM VALUE ${value.toString()}");
+                                if (value != null) {
+                                  final response = CreateStoryResponse.fromJson(
+                                      jsonDecode(value));
+                                  if (response.success == 1) {
+                                    homeController.update();
+                                    Get.back();
+
+                                    Get.snackbar(
+                                        'Hikaye başarıyla eklendi...', "",
+                                        colorText: AppConstants().ltBlack,
+                                        snackPosition: SnackPosition.BOTTOM);
+
+                                    storiesController.getMyStory();
+                                    createPostPageController
+                                        .isAddNewStory.value = true;
                                   } else {
-                                    mediaPickerController.isVideo = false;
+                                    Get.back();
+                                    Get.snackbar(
+                                        "Hikayeniz paylaşılamadı. Lütfen tekrar deneyiniz",
+                                        "",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        colorText: AppConstants().ltMainRed);
                                   }
-                                  print("value = $value");
-
-                                  imageFile = value;
-                                  return value;
-                                });
-
-                                setState(() {});
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                mediaPickerController.isMediaPicked != false
-                    ? Positioned(
-                        bottom: 12.h,
-                        left: 16.w,
-                        right: 16.w,
-                        child: RedButton(
-                          text: 'Paylaş',
-                          onpressed: () async {
-                            storiesController.isLoading.value = true;
-
-                            Map<String, dynamic> formData1 = {
-                              'file': mediaPickerController.media
-                            };
-                            await GeneralServicesTemp()
-                                .makePostRequestWithFormData(
-                              EndPoint.createStories,
-                              formData1,
-                              {
-                                "Content-Type": "multipart/form-data",
-                                'Authorization':
-                                    'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                              },
-                            ).then((value) {
-                              log(value.toString());
-                              if (value != null) {
-                                final response = CreateStoryResponse.fromJson(
-                                    jsonDecode(value));
-                                if (response.success == 1) {
-                                  homeController.update();
-                                  Get.back();
-
-                                  Get.snackbar(
-                                      'Hikaye başarıyla eklendi...', "",
-                                      colorText: AppConstants().ltBlack,
-                                      snackPosition: SnackPosition.BOTTOM);
-
-                                  storiesController.getMyStory();
-                                  createPostPageController.isAddNewStory.value =
-                                      true;
                                 }
-                              }
-                            });
-                            mediaPickerController.media = null;
-                            await storiesController.getMyStory();
-                            storiesController.isLoading.value = false;
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
-            )),
+                              });
+                              mediaPickerController.media = null;
+                              await storiesController.getMyStory();
+                              storiesController.isLoading.value = false;
+                            },
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              );
+      }),
     );
   }
 }

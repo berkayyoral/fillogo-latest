@@ -246,17 +246,19 @@ class GeneralServicesTemp {
     resultNotifier.value = RequestLoadInProgress();
     final headers = postHeaders;
     var request = http.MultipartRequest('POST', url)..headers.addAll(headers!);
-    formData!.forEach((key, value) async {
+
+    for (int i = 0; i < formData!.length; i++) {
+      final key = formData.keys.elementAt(i);
+      final value = formData[key];
       if (value is PlatformFile) {
+        final safeFilename = value.name;
         if (value.name.endsWith('.mp4')) {
           request.files.add(
             await http.MultipartFile.fromPath(
-              'postMedia',
+              'file',
               value.path!,
-              contentType: parser.MediaType(
-                'video',
-                value.path!.split('.').last,
-              ),
+              filename: value.name,
+              contentType: parser.MediaType('video', 'mp4'),
             ),
           );
         } else {
@@ -264,6 +266,7 @@ class GeneralServicesTemp {
             await http.MultipartFile.fromPath(
               'file',
               value.path!,
+              filename: safeFilename,
               contentType: parser.MediaType(
                 'image',
                 value.path!.split('.').last,
@@ -274,8 +277,41 @@ class GeneralServicesTemp {
       } else {
         request.fields[key] = value.toString();
       }
-    });
-    var response = await request.send();
+    }
+
+    // formData!.forEach((key, value) async {
+    //   log("MULTİPARTREQUEST valuname ${value.name} / ${value.name.substring(0, 250) + ".mp4"} / ${value.name.endsWith('.mp4')}");
+
+    //   if (value is PlatformFile) {
+    //     log("MULTİPARTREQUEST valuname endvish ${value.name.endsWith('.mp4')}");
+    //     if (value.name.endsWith('.mp4')) {
+    //       request.files.add(
+    //         await http.MultipartFile.fromPath(
+    //           'file',
+    //           value.path!,
+    //           filename: value.name, //.substring(0, 250) + ".mp4",
+    //           contentType: parser.MediaType('video', 'mp4'),
+    //         ),
+    //       );
+    //     } else {
+    //       request.files.add(
+    //         await http.MultipartFile.fromPath(
+    //           'file',
+    //           value.path!,
+    //           contentType: parser.MediaType(
+    //             'image',
+    //             value.path!.split('.').last,
+    //           ),
+    //         ),
+    //       );
+    //     }
+    //   } else {
+    //     request.fields[key] = value.toString();
+    //   }
+    // });
+
+    print("MULTİPARTREQUEST -> ${request}");
+    StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
       log(responseBody.toString());

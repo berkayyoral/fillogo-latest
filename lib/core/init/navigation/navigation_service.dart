@@ -41,49 +41,62 @@ import 'package:fillogo/views/story_view/add_story_view.dart';
 import 'package:fillogo/views/welcome_login/components/route_login_or_register_widget.dart';
 import 'package:fillogo/widgets/buttom_navigation_bar.dart';
 
+import '../../../views/onboard_view/splash_view.dart';
+import '../../../views/onboard_view/onboard_view.dart';
 import '../../../views/route_details_page_view/components/route_details_page_bindings.dart';
 import '../../../views/route_details_page_view/components/selected_route_controller.dart';
 
 class NavigationService {
   static List<GetPage> routes = [
     GetPage(
-      name: NavigationConstants.onboardone,
-      page: () => OnboardOneView(
-        nextText: "İleri",
-        centerText:
-            "FilloGO ile beraber \n yola çıkan veya çıkacak olan\n arkadaşlarınızı görebilirsiniz. \n Gönderiler paylaşabilirsiniz.",
-        nextTap: () {
-          Get.offAndToNamed(NavigationConstants.onboardtwo);
-        },
-        skip: () => Get.offAndToNamed(NavigationConstants.onboardthree),
-        imagePath: 'assets/images/2-1.png',
-      ),
+      transition: Transition.cupertino,
+      name: NavigationConstants.splashScreen,
+      page: () => const SplashScreen(),
     ),
     GetPage(
-      name: NavigationConstants.onboardtwo,
-      page: () => OnboardOneView(
-        nextText: "İleri",
-        centerText:
-            "Rotadaki arkadaşlarınızı\ngörebilir, onlarla iletişime geçebilirsiniz.\nGittiğiniz yerlerden paylaşım\nyapabilir,\nanılar oluşturabilirsiniz.",
-        skip: () => Get.offAndToNamed(NavigationConstants.onboardthree),
-        imagePath: 'assets/images/3-1.png',
-        nextTap: () {
-          Get.offAndToNamed(NavigationConstants.onboardthree);
-        },
-      ),
+      transition: Transition.cupertino,
+      name: NavigationConstants.onboards,
+      page: () => OnboardPages(),
     ),
-    GetPage(
-      name: NavigationConstants.onboardthree,
-      page: () => OnboardOneView(
-        nextText: "Yolculuğa Başla",
-        imagePath: 'assets/images/4-1.png',
-        nextTap: () async {
-          Get.offAndToNamed(NavigationConstants.welcomelogin);
-        },
-        centerText:
-            "Şimdi bu maceranın\nbir parçası ol ve\nuygulamamıza katılarak\narkadaşlarınla ve diğer sürücülerle\nbağlantı kur.",
-      ),
-    ),
+    // GetPage(
+    //   name: NavigationConstants.onboardone,
+    //   page: () => OnboardOneView(
+    //     nextText: "İleri",
+    //     centerText:
+    //         "FilloGO ile beraber \n yola çıkan veya çıkacak olan\n arkadaşlarınızı görebilirsiniz. \n Gönderiler paylaşabilirsiniz.",
+    //     nextTap: () {
+    //       Get.offAndToNamed(NavigationConstants.onboardtwo);
+    //     },
+    //     skip: () => Get.offAndToNamed(NavigationConstants.onboardthree),
+    //     imagePath: 'assets/images/2-1.png',
+    //   ),
+    // ),
+    // GetPage(
+    //   name: NavigationConstants.onboardtwo,
+    //   page: () => OnboardOneView(
+    //     nextText: "İleri",
+    //     centerText:
+    //         "Rotadaki arkadaşlarınızı\ngörebilir, onlarla iletişime geçebilirsiniz.\nGittiğiniz yerlerden paylaşım\nyapabilir,\nanılar oluşturabilirsiniz.",
+    //     skip: () => Get.offAndToNamed(NavigationConstants.onboardthree),
+    //     imagePath: 'assets/images/3-1.png',
+    //     nextTap: () {
+    //       Get.offAndToNamed(NavigationConstants.onboardthree);
+    //     },
+    //   ),
+    // ),
+    // GetPage(
+    //   name: NavigationConstants.onboardthree,
+    //   page: () => OnboardOneView(
+    //     nextText: "Yolculuğa Başla",
+    //     imagePath: 'assets/images/4-1.png',
+    //     nextTap: () async {
+    //       Get.offAndToNamed(NavigationConstants.welcomelogin);
+    //     },
+    //     centerText:
+    //         "Şimdi bu maceranın\nbir parçası ol ve\nuygulamamıza katılarak\narkadaşlarınla ve diğer sürücülerle\nbağlantı kur.",
+    //   ),
+    // ),
+
     GetPage(
       name: NavigationConstants.bottomNavigationBar,
       page: () => BottomNavigationBarView(),

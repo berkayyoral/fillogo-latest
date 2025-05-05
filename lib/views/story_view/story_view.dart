@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/home_controller/home_controller.dart';
@@ -8,8 +10,12 @@ import 'package:fillogo/models/stories/delete_story.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
+import 'package:fillogo/widgets/post_video_player_widget.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
+import 'package:fillogo/widgets/video_player_widget.dart';
 import 'package:story_view/story_view.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class StoriesView extends StatefulWidget {
   const StoriesView({super.key});
@@ -39,6 +45,7 @@ class _StoriesViewState extends State<StoriesView> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController());
+    final duration = 15;
     return Scaffold(
         body: GetBuilder<StoriesPaginationController>(
             id: "userStories",
@@ -62,43 +69,45 @@ class _StoriesViewState extends State<StoriesView> {
                           storiesPaginationontroller.snapshotList.length,
                           (index) {
                         return StoryItem(
-                          // SizedBox(
-                          //   height: Get.height,
-                          //   width: Get.width,
-                          //   child: Image.network(
-                          //     storiesPaginationontroller
-                          //         .snapshotList[index]!.url
-                          //         .toString(),
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          // ),
                           SizedBox(
                             height: Get.height,
                             width: Get.width,
-                            child: Obx(() => storiesPaginationontroller
-                                    .isLoading.value
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                        color: AppConstants().ltMainRed),
-                                  )
-                                : Image.network(
-                                    storiesPaginationontroller
-                                        .snapshotList[index]!.url
-                                        .toString(),
-                                    fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppConstants().ltMainRed,
+                            child: Obx(
+                              () => storiesPaginationontroller.isLoading.value
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                          color: AppConstants().ltMainRed),
+                                    )
+                                  : storiesPaginationontroller
+                                          .snapshotList[index]!.url!
+                                          .contains(".mp4")
+                                      ? // burda video gösterilecek
+                                      StoryVideoPlayerWidget(
+                                          videoUrl: storiesPaginationontroller
+                                              .snapshotList[index]!.url!,
+                                        )
+                                      : Image.network(
+                                          storiesPaginationontroller
+                                              .snapshotList[index]!.url
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppConstants().ltMainRed,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Center(
+                                                child: Icon(Icons.error));
+                                          },
                                         ),
-                                      );
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Center(child: Icon(Icons.error));
-                                    },
-                                  )),
+                            ),
                           ),
                           duration: const Duration(
                             seconds: 15,
@@ -125,6 +134,15 @@ class _StoriesViewState extends State<StoriesView> {
                       // onStoryShow: (b) {
                       //   //print("Showing a story");
                       // },
+                      onStoryShow: (storyItem, index) {
+                        print("Yeni hikaye gösteriliyor: ${index}");
+
+                        // Yeni video başlatma
+                        if (storiesPaginationontroller.snapshotList[index]!.url!
+                            .contains(".mp4")) {
+                          // storyItem.controller.play();  // Yeni videoyu başlat
+                        }
+                      },
                       onVerticalSwipeComplete: (p0) {
                         LocaleManager.instance
                                     .getInt(PreferencesKeys.currentUserId) !=
@@ -439,16 +457,36 @@ class _StoriesViewState extends State<StoriesView> {
                                                                       BorderRadius
                                                                           .circular(
                                                                               16),
-                                                                  child: Image
-                                                                      .network(
-                                                                    storiesPaginationontroller
-                                                                        .snapshotList[
-                                                                            index]!
-                                                                        .url
-                                                                        .toString(),
-                                                                    fit: BoxFit
-                                                                        .fitHeight,
-                                                                  ),
+                                                                  child: storiesPaginationontroller
+                                                                          .snapshotList[
+                                                                              index]!
+                                                                          .url!
+                                                                          .contains(
+                                                                              ".mp4")
+                                                                      ? Stack(
+                                                                          alignment:
+                                                                              Alignment.center,
+                                                                          children: [
+                                                                            Container(
+                                                                              width: double.infinity,
+                                                                              height: 200,
+                                                                              color: Colors.black12,
+                                                                              child: Icon(Icons.videocam, size: 50, color: Colors.grey),
+                                                                            ),
+                                                                            Icon(Icons.play_circle_fill,
+                                                                                size: 64,
+                                                                                color: Colors.white),
+                                                                          ],
+                                                                        )
+                                                                      : Image
+                                                                          .network(
+                                                                          storiesPaginationontroller
+                                                                              .snapshotList[index]!
+                                                                              .url
+                                                                              .toString(),
+                                                                          fit: BoxFit
+                                                                              .fitHeight,
+                                                                        ),
                                                                 ),
                                                               ),
                                                             ),
@@ -560,5 +598,74 @@ class _StoriesViewState extends State<StoriesView> {
                 ],
               );
             }));
+  }
+
+  Future<Uint8List?> getVideoThumbnail(String videoUrl) async {
+    final uint8list = await VideoThumbnail.thumbnailData(
+      video: videoUrl,
+      imageFormat: ImageFormat.JPEG,
+      maxWidth: 128, // thumbnail genişliği
+      quality: 75,
+    );
+    return uint8list;
+  }
+}
+
+class StoryVideoPlayerWidget extends StatefulWidget {
+  final String videoUrl;
+  const StoryVideoPlayerWidget({Key? key, required this.videoUrl})
+      : super(key: key);
+
+  @override
+  State<StoryVideoPlayerWidget> createState() => _StoryVideoPlayerWidgetState();
+}
+
+class _StoryVideoPlayerWidgetState extends State<StoryVideoPlayerWidget> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePlayer();
+  }
+
+  @override
+  void didUpdateWidget(covariant StoryVideoPlayerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Eğer video URL değişmişse, yeniden başlat
+    if (oldWidget.videoUrl != widget.videoUrl) {
+      _controller.pause();
+      _controller.seekTo(Duration.zero);
+      _initializePlayer();
+    }
+  }
+
+  void _initializePlayer() {
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play(); // Videoyu otomatik başlat
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Belleği temizle
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: _controller.value.size.width,
+              height: _controller.value.size.height,
+              child: VideoPlayer(_controller),
+            ),
+          )
+        : Center(child: CircularProgressIndicator());
   }
 }

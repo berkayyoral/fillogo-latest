@@ -1,4 +1,6 @@
 class NavigationConstants {
+  static const splashScreen = "/splashScreen";
+  static const onboards = "/onboards";
   static const testFiles = "/testfiles";
   static const onboardone = "/onboardone";
   static const onboardtwo = "/onboardtwo";

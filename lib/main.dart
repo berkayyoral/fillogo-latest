@@ -22,76 +22,74 @@ void main() async {
   SocketService.instance().connect();
 
   await OneSignalManager.setupOneSignal();
-  // OneSignalNotificationService();
-  // OneSignalNotificationService().handleClickNotification();
-  //HttpOverrides.global = MyHttpOverrides();
 
   // onboard daha önce görüldüyse initial route => welcome login,
-  bool isOnboardViewed =
-      LocaleManager.instance.getBool(PreferencesKeys.isOnboardViewed) ?? false;
-  String initialRoute = isOnboardViewed
-      ? NavigationConstants.welcomelogin
-      : NavigationConstants.onboardone;
-  //
-  print("LOGİNİÇİNUSERINFO  initial-> ${initialRoute}");
-  // yerelde kayıtlı username ve passwordu çeker. null gelirse '' şeklinde kalır
-  String? userCredentials =
-      LocaleManager.instance.getCryptedData(PreferencesKeys.userCredentials) ??
-          '';
+  // bool isOnboardViewed =
+  //     LocaleManager.instance.getBool(PreferencesKeys.isOnboardViewed) ?? false;
+  // String initialRoute = isOnboardViewed
+  //     ? NavigationConstants.welcomelogin
+  //     : NavigationConstants.onboardone;
+  // //
+  // print("LOGİNİÇİNUSERINFO  initial-> ${initialRoute}");
+  // // yerelde kayıtlı username ve passwordu çeker. null gelirse '' şeklinde kalır
+  // String? userCredentials =
+  //     LocaleManager.instance.getCryptedData(PreferencesKeys.userCredentials) ??
+  //         '';
   //
 
   // login isteği atar, success 1 dönerse inital route => bottomNavigationBar
-  if (userCredentials != '') {
-    print("LOGİNİÇİNUSERINFO -> ${userCredentials}");
-    await GeneralServicesTemp()
-        .makePostRequest(
-      EndPoint.login,
-      LoginRequestModel(
-        phoneNumberOrMail: userCredentials.split('+').first,
-        password: userCredentials.split('+').last,
-      ),
-      ServicesConstants.appJsonWithoutAuth,
-    )
-        .then((value) {
-      print("LOGİNİÇİNUSERINFO GİRİŞ ${value}");
-      if (value != null) {
-        final response = LoginResponseModel.fromJson(jsonDecode(value));
-        print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL ${jsonEncode(response)}");
-        if (response.success == 1) {
-          LocaleManager.instance.setBool(PreferencesKeys.isVisibility,
-              !response.data![0].user!.isInvisible!);
-          LocaleManager.instance.setBool(PreferencesKeys.isAvability,
-              response.data![0].user!.isAvailable!);
-          LocaleManager.instance.setInt(
-              PreferencesKeys.currentUserId, response.data![0].user!.id!);
-          LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,
-              response.data![0].user!.username!);
-          LocaleManager.instance.setInt(
-              PreferencesKeys.currentUserId, response.data![0].user!.id!);
-          LocaleManager.instance.setString(
-              PreferencesKeys.currentUserProfilPhoto,
-              response.data![0].user!.profilePicture ??
-                  'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png');
-          LocaleManager.instance.setString(
-            PreferencesKeys.accessToken,
-            response.data![0].tokens!.accessToken!,
-          );
-          LocaleManager.instance.setString(
-            PreferencesKeys.refreshToken,
-            response.data![0].tokens!.refreshToken!,
-          );
+  // if (userCredentials != '') {
+  //   print("LOGİNMAİNRES userCredentials -> ${userCredentials}");
+  //   await GeneralServicesTemp()
+  //       .makePostRequest(
+  //     EndPoint.login,
+  //     LoginRequestModel(
+  //       phoneNumberOrMail: userCredentials.split('+').first,
+  //       password: userCredentials.split('+').last,
+  //     ),
+  //     ServicesConstants.appJsonWithoutAuth,
+  //   )
+  //       .then((value) {
+  //     print("LOGİNMAİNRES GİRİŞ ${value} / $initialRoute");
 
-          SocketService.instance()
-              .socket
-              .emit("new-user-add", response.data![0].user!.id!);
-          initialRoute = NavigationConstants.bottomNavigationBar;
-        } else {
-          print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL burda");
-          Get.snackbar("Hatalı giriş", "");
-        }
-      }
-    });
-  }
+  //     if (value != null) {
+  //       final response = LoginResponseModel.fromJson(jsonDecode(value));
+  //       print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL ${jsonEncode(response)}");
+  //       if (response.success == 1) {
+  //         LocaleManager.instance.setBool(PreferencesKeys.isVisibility,
+  //             !response.data![0].user!.isInvisible!);
+  //         LocaleManager.instance.setBool(PreferencesKeys.isAvability,
+  //             response.data![0].user!.isAvailable!);
+  //         LocaleManager.instance.setInt(
+  //             PreferencesKeys.currentUserId, response.data![0].user!.id!);
+  //         LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,
+  //             response.data![0].user!.username!);
+  //         LocaleManager.instance.setInt(
+  //             PreferencesKeys.currentUserId, response.data![0].user!.id!);
+  //         LocaleManager.instance.setString(
+  //             PreferencesKeys.currentUserProfilPhoto,
+  //             response.data![0].user!.profilePicture ??
+  //                 'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png');
+  //         LocaleManager.instance.setString(
+  //           PreferencesKeys.accessToken,
+  //           response.data![0].tokens!.accessToken!,
+  //         );
+  //         LocaleManager.instance.setString(
+  //           PreferencesKeys.refreshToken,
+  //           response.data![0].tokens!.refreshToken!,
+  //         );
+  //         SocketService.instance()
+  //             .socket
+  //             .emit("new-user-add", response.data![0].user!.id!);
+  //         initialRoute = NavigationConstants.bottomNavigationBar;
+  //       } else {
+  //         initialRoute = NavigationConstants.onboardone;
+  //         print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL burda");
+  //         Get.snackbar("Hatalı giriş", "");
+  //       }
+  //     }
+  //   });
+  // }
   //
 
   bool isDarkMode =
@@ -123,8 +121,8 @@ void main() async {
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
         getPages: NavigationService.routes,
-        initialRoute:
-            initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
+        initialRoute: NavigationConstants
+            .splashScreen, //initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
         initialBinding: InitialBinding(), // Initial binding always run
         theme: AppTheme.instance.lightTheme,
         darkTheme: AppTheme.instance.darkTheme,

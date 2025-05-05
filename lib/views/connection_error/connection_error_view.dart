@@ -3,7 +3,8 @@ import '../../export.dart';
 class ConnectionErrorView extends StatelessWidget {
   ConnectionErrorView({Key? key}) : super(key: key);
 
-  final ConnectionController connectionController = Get.find();
+  final ConnectionController connectionController =
+      Get.put(ConnectionController());
 
   @override
   Widget build(BuildContext context) {

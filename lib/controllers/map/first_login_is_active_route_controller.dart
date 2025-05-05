@@ -80,10 +80,10 @@ class FirstOpenIsActiveRoute extends GetxController {
   }
 
   void getIsActiveRoute() async {
-    String? token =
-        LocaleManager.instance.getString(PreferencesKeys.accessToken);
+    String token =
+        LocaleManager.instance.getString(PreferencesKeys.accessToken) ?? "";
 
-    if (token != null) {
+    if (token != "") {
       await GeneralServicesTemp()
           .makeGetRequest(
         EndPoint.getMyRoutes,
@@ -93,31 +93,32 @@ class FirstOpenIsActiveRoute extends GetxController {
         (value) async {
           GetMyRouteResponseModel? getMyRouteResponseModel =
               GetMyRouteResponseModel.fromJson(convert.json.decode(value!));
-          if (getMyRouteResponseModel
-              .data[0].allRoutes.notStartedRoutes!.isNotEmpty) {
-            checkRoutes(
-                getMyRouteResponseModel.data[0].allRoutes.notStartedRoutes!);
+          if (getMyRouteResponseModel.success == 1) {
+            if (getMyRouteResponseModel
+                .data[0].allRoutes.notStartedRoutes!.isNotEmpty) {
+              checkRoutes(
+                  getMyRouteResponseModel.data[0].allRoutes.notStartedRoutes!);
 
-            // startTimer();
-          }
+              // startTimer();
+            }
+            print(
+                "ROTANIZINBİTİSSAATİ gelecek geldi ->  ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
 
-          print(
-              "ROTANIZINBİTİSSAATİ gelecek geldi ->  ${LocaleManager.instance.getBool(PreferencesKeys.showStartRouteAlert)}");
+            if (getMyRouteResponseModel.data != null &&
+                getMyRouteResponseModel
+                    .data.first.allRoutes.activeRoutes!.isNotEmpty) {
+              isActiveRoute = getMyRouteResponseModel
+                      .data[0].allRoutes.activeRoutes!.isEmpty
+                  ? false
+                  : true;
+              routeFinishDate = getMyRouteResponseModel
+                      .data[0].allRoutes.activeRoutes!.isNotEmpty
+                  ? getMyRouteResponseModel
+                      .data[0].allRoutes.activeRoutes![0].arrivalDate
+                  : DateTime.now();
 
-          if (getMyRouteResponseModel.data != null &&
-              getMyRouteResponseModel
-                  .data.first.allRoutes.activeRoutes!.isNotEmpty) {
-            isActiveRoute =
-                getMyRouteResponseModel.data[0].allRoutes.activeRoutes!.isEmpty
-                    ? false
-                    : true;
-            routeFinishDate = getMyRouteResponseModel
-                    .data[0].allRoutes.activeRoutes!.isNotEmpty
-                ? getMyRouteResponseModel
-                    .data[0].allRoutes.activeRoutes![0].arrivalDate
-                : DateTime.now();
-
-            routeFinishDate = routeFinishDate.add(Duration(hours: 3));
+              routeFinishDate = routeFinishDate.add(Duration(hours: 3));
+            }
           }
         },
       );
