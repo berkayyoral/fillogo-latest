@@ -1,15 +1,16 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/service/polyline_service.dart';
 import 'package:fillogo/views/route_calculate_view/components/route_search_by_city_models.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
+// import 'package:google_maps_webservice/places.dart';
 
 import '../../../controllers/map/get_current_location_and_listen.dart';
 import '../../../controllers/map/marker_icon_controller.dart';
@@ -18,10 +19,21 @@ import '../../../export.dart';
 class CreateeRouteController extends GetxController implements PolylineService {
   @override
   void onInit() async {
+    // // createeRouteController.createRouteStartAddress.value =
+    // createRouteController.startRouteLocation.value = LatLng(
+    //     mapPageMController.myLocationLatitudeDo.value,
+    //     mapPageMController.myLocationLongitudeDo.value);
+
+    // createRouteController.getRouteInfo().then((onValue) {
+    //   createRouteStartAddress.value =
+    //       createRouteController.startRouteAdress.value;
+    //   print("ONVALUEEmsm -> ${createRouteController.startRouteAdress.value}");
+    // });
     mapDisplayAnimationFunc2();
     super.onInit();
   }
 
+  CreateRouteController createRouteController = Get.find();
   late GoogleMapController mapController;
   SetCustomMarkerIconController customMarkerIconController = Get.find();
   var calculateLevel = 1.obs;

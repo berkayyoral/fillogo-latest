@@ -7,11 +7,14 @@ import 'package:fillogo/controllers/map/first_login_is_active_route_controller.d
 import 'package:fillogo/controllers/map/start_or_delete_route_dialog.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/map_page_viewm.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
+import 'package:fillogo/views/route_calculate_view/components/create_route_controller.dart';
 import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../views/route_calculate_view/route_calculate_last.dart';
 
@@ -218,6 +221,26 @@ class BottomNavigationBarView extends StatelessWidget {
                         .add(mapPageMController.polyline!);
                   }
                   // mapPageMController.getMyRoutes();
+                } else if (index == 2) {
+                  CreateeRouteController createeRouteController = Get.find();
+                  CreateRouteController createRouteController = Get.find();
+                  if (createeRouteController.createRouteStartAddress.value ==
+                          "" ||
+                      createRouteController.startRouteAdress.value ==
+                          ", , , ") {
+                    mapPageMController.getMyLocationInMap();
+
+                    createRouteController.startRouteLocation.value = LatLng(
+                        mapPageMController.myLocationLatitudeDo.value,
+                        mapPageMController.myLocationLongitudeDo.value);
+                    createRouteController.getRouteInfo();
+                    createeRouteController.createRouteStartAddress.value =
+                        createRouteController.startRouteAdress.value == ", , , "
+                            ? ""
+                            : createRouteController.startRouteAdress.value;
+                    print(
+                        "CREATETORESTART -> /${createRouteController.startRouteAdress.value}//${createeRouteController.createRouteStartAddress.value}");
+                  }
                 }
               },
               currentIndex: bottomNavigationBarController.selectedIndex.value,

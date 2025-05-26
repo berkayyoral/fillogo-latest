@@ -25,7 +25,7 @@ class BussinessHelper {
     if (pickedFile != null) {
       CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: pickedFile.path,
-        aspectRatioPresets: aspectRatioPresets,
+        // aspectRatioPresets: aspectRatioPresets,
         compressQuality: 90,
         aspectRatio: aspectRatio,
         uiSettings: [
@@ -109,11 +109,11 @@ class BussinessHelper {
           CroppedFile? croppedFile = await ImageCropper().cropImage(
             sourcePath: filePath,
             aspectRatio: const CropAspectRatio(ratioX: 12, ratioY: 16),
-            aspectRatioPresets: [
-              CropAspectRatioPreset.original, // Orijinal oranı korur
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio16x9,
-            ],
+            // aspectRatioPresets: [
+            //   CropAspectRatioPreset.original, // Orijinal oranı korur
+            //   CropAspectRatioPreset.ratio4x3,
+            //   CropAspectRatioPreset.ratio16x9,
+            // ],
             compressQuality: 90,
             uiSettings: [
               AndroidUiSettings(

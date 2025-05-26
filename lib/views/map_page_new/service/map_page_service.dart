@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fillogo/core/constants/app_constants.dart';
@@ -48,7 +49,9 @@ class MapPageService {
           'Authorization':
               'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
         },
-      );
+      ).then((onValue) {
+        log("UPDATELOCATİONUM -> ${jsonEncode(onValue)}");
+      });
     } catch (e) {
       log("MAPPAGESERVİCE error updateLocation  -> $e");
     }

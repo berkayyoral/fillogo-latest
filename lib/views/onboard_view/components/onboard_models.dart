@@ -26,7 +26,7 @@ List<OnboardModels> onboardModels = [
     isJukkaLogo: true,
     title: "FilloGo",
     description:
-        "Rotadaki arkadaaşlarınızı görebilir, onlarla iletişime geçebilirsiniz. Gittiğiniz yerlerden paylaşım yapabilir, anılar oluşturabilirsiniz.",
+        "Rotadaki arkadaşlarınızı görebilir, onlarla iletişime geçebilirsiniz. Gittiğiniz yerlerden paylaşım yapabilir, anılar oluşturabilirsiniz.",
     imgAsset: "assets/images/3-1.png",
   ),
   OnboardModels(

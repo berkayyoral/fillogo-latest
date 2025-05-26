@@ -31,7 +31,7 @@ class InitialBinding implements Bindings {
     // Get.put(GetMyCurrentLocationController());
     // Get.put(ConnectionController());
     Get.put(BerkayController());
-    Get.put(CreateeRouteController());
+
     // Get.put(MapPageController());
     Get.put(MfuController());
     // Get.put(GoogleMapsGeneralWidgetsController());
@@ -52,6 +52,7 @@ class InitialBinding implements Bindings {
     Get.put(NotificationController());
     Get.put(MapPageMController());
     Get.put(CreateRouteController());
+    Get.put(CreateeRouteController());
     // Get.put(HomeController());
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -43,8 +45,8 @@ class VisibilityStatusWidget extends StatelessWidget {
                             EndPoint.updateStatus,
                             {
                               "visible":
-                                  !mapPageMController.isRouteVisibilty.value,
-                              "available": true,
+                                  mapPageMController.isRouteVisibilty.value,
+                              // "available": true,
                               // mapPageMController.isRouteAvability.value
                             },
                             {
@@ -53,11 +55,16 @@ class VisibilityStatusWidget extends StatelessWidget {
                                   'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
                             },
                           ).then((value) async {
+                            final decoded = jsonDecode(value!);
+                            final isInvisible =
+                                decoded["data"][0]["isInvisible"];
+
                             mapPageMController.isRouteVisibilty.value =
                                 !mapPageMController.isRouteVisibilty.value;
 
                             print(
-                                "VİSİORAVA VİSİBİLTİRYY M -> $value / ${mapPageMController.isRouteVisibilty.value}");
+                                "VİSİORAVA VİSİBİLTİRYY M -> ${isInvisible}  / ${mapPageMController.isRouteVisibilty.value}");
+
                             mapPageMController.markers.value.clear();
 
                             if (mapPageMController.isRouteVisibilty.value) {
@@ -82,10 +89,12 @@ class VisibilityStatusWidget extends StatelessWidget {
 
                             mapPageMController.getUsersOnArea(
                                 carTypeFilter: mapPageMController.carTypeList);
+
                             mapPageMController.markers.value.removeWhere(
                                 (marker) =>
                                     marker.markerId.value ==
                                     'myLocationMarker');
+
                             LocaleManager.instance
                                 .setBool(PreferencesKeys.isVisibility,
                                     mapPageMController.isRouteVisibilty.value)
@@ -118,7 +127,6 @@ class VisibilityStatusWidget extends StatelessWidget {
                     //       onTap: () async {
                     //     mapPageMController.isRouteAvability.value =
                     //         !mapPageMController.isRouteAvability.value;
-
                     //     await GeneralServicesTemp().makePostRequest(
                     //       EndPoint.updateStatus,
                     //       {
@@ -132,7 +140,6 @@ class VisibilityStatusWidget extends StatelessWidget {
                     //       },
                     //     ).then((value) =>
                     //         print("VİSİORAVA AVABİLİTY değişti $value"));
-
                     //     Get.snackbar("Başarılı!",
                     //         "Müsaitlik bilginiz ${mapPageMController.isRouteAvability.value ? "Açıldı" : "Kapatıldı"}.",
                     //         snackPosition: SnackPosition.BOTTOM,
@@ -155,8 +162,9 @@ class VisibilityStatusWidget extends StatelessWidget {
     required Future<void> Function() onTap,
   }) {
     return Visibility(
-      visible:
-          isForVisibility ? true : mapPageMController.isRouteVisibilty.value,
+      // visible:
+      //     isForVisibility ? true : mapPageMController.isRouteVisibilty.value,
+      visible: true,
       child: Padding(
         padding: EdgeInsets.only(right: 5.w),
         child: Align(

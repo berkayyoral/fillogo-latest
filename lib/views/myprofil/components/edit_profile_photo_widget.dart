@@ -141,7 +141,7 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
       if (imageFile != null) {
         CroppedFile? croppedFile = await ImageCropper().cropImage(
           sourcePath: imageFile!.path,
-          aspectRatioPresets: [CropAspectRatioPreset.square],
+          // aspectRatioPresets: [CropAspectRatioPreset.square],
           compressQuality: 90,
           aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
           uiSettings: [
@@ -182,7 +182,7 @@ class _EditProfilePhotoState extends State<EditProfilePhoto> {
       if (imageFile != null) {
         CroppedFile? croppedFile = await ImageCropper().cropImage(
           sourcePath: imageFile!.path,
-          aspectRatioPresets: [CropAspectRatioPreset.square],
+          // aspectRatioPresets: [CropAspectRatioPreset.square],
           compressQuality: 90,
           aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
           uiSettings: [

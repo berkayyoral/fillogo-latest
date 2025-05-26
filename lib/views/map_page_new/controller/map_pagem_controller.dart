@@ -114,8 +114,8 @@ class MapPageMController extends GetxController implements MapPageService {
 
     await getMyRoutes().then((value) {});
 
-    // await updateLocation(
-    //     lat: myLocationLatitudeDo.value, long: myLocationLongitudeDo.value);
+    await updateLocation(
+        lat: myLocationLatitudeDo.value, long: myLocationLongitudeDo.value);
 
     bool isLocaleVisi =
         LocaleManager.instance.getBool(PreferencesKeys.isVisibility) ?? false;

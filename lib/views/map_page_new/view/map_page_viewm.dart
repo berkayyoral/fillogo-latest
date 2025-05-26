@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:fillogo/controllers/drawer/drawer_controller.dart';
-import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
@@ -12,11 +10,9 @@ import 'package:fillogo/views/map_page_new/view/widgets/map_view/active_route_in
 import 'package:fillogo/views/map_page_new/view/widgets/map_view/car_filter_widget.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/map_view/visibility_status_widget.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/matching_routes/matching_routes_button.dart';
-import 'package:fillogo/widgets/navigation_drawer.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../controllers/berkay_controller/berkay_controller.dart';
 import '../../../models/routes_models/activate_route_model.dart';
 import '../../../services/general_sevices_template/general_services.dart';
 
@@ -59,7 +55,7 @@ class MapPageViewM extends StatelessWidget {
                 ? const Center(child: CircularProgressIndicator())
                 : Container(
                     height: mapPageMController.isCreateRoute.value
-                        ? 270.h
+                        ? 360.h
                         : Get.height,
                     child: RawGestureDetector(
                       gestures: {},

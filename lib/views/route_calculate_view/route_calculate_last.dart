@@ -9,14 +9,17 @@ import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/get_my_friends_matching_routes.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:fillogo/views/route_calculate_view/controller/route_calculate_controller.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
 // import 'package:geocoder2/geocoder2.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart';
+// import 'package:google_api_headers/google_api_headers.dart';
+// import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart';
 import '../../controllers/map/get_current_location_and_listen.dart';
 import '../map_page_new/controller/map_pagem_controller.dart';
@@ -28,9 +31,10 @@ import 'components/route_search_by_city_models.dart';
 class RouteCalculateLastView extends StatelessWidget {
   RouteCalculateLastView({super.key});
 
-  final CreateeRouteController createRouteController =
+  final CreateeRouteController createeRouteController =
       Get.find<CreateeRouteController>();
 
+  CreateRouteController createRouteController = Get.find();
   //RouteCalculatesViewController currentLocation = Get.find();
 
   final GeneralDrawerController drawerController =
@@ -60,7 +64,7 @@ class RouteCalculateLastView extends StatelessWidget {
     return SafeArea(
       child: GetBuilder<CreateeRouteController>(
         id: "createRouteController",
-        init: createRouteController,
+        init: createeRouteController,
         initState: (_) {},
         builder: (_) {
           return SizedBox(
@@ -77,17 +81,17 @@ class RouteCalculateLastView extends StatelessWidget {
                       children: <Widget>[
                         SizedBox(
                           height:
-                              createRouteController.calculateLevel.value == 2
+                              createeRouteController.calculateLevel.value == 2
                                   ? 350.h
                                   : Get.height,
                           child: GetBuilder<CreateeRouteController>(
-                            init: createRouteController,
+                            init: createeRouteController,
                             initState: (_) async {
                               //await getMyCurrentLocationController.getMyCurrentLocation();
                               SetCustomMarkerIconController controller =
                                   Get.put(SetCustomMarkerIconController());
                               await controller.setCustomMarkerIcon3();
-                              createRouteController.addMarkerFunction(
+                              createeRouteController.addMarkerFunction(
                                 const MarkerId("myCurrentMarker"),
                                 LatLng(
                                     mapPageMController
@@ -118,7 +122,7 @@ class RouteCalculateLastView extends StatelessWidget {
                                           .zoom.value, //*** 15.0,
                                     ),
                                     markers: Set<Marker>.from(
-                                        createRouteController.markers.value),
+                                        createeRouteController.markers.value),
                                     myLocationEnabled: true,
                                     myLocationButtonEnabled: false,
                                     mapType: MapType.normal,
@@ -129,14 +133,14 @@ class RouteCalculateLastView extends StatelessWidget {
                                     polygons: const <Polygon>{},
                                     tileOverlays: const <TileOverlay>{},
                                     polylines: Set<Polyline>.of(
-                                        createRouteController.polylines.value),
+                                        createeRouteController.polylines.value),
                                     onMapCreated:
                                         (GoogleMapController controller) async {
                                       // createRouteController.generalMapController
                                       //     .complete(controller);
                                       // mapCotroller = Completer();
                                       // mapCotroller.complete(controller);
-                                      createRouteController.mapController =
+                                      createeRouteController.mapController =
                                           controller;
                                     },
                                   ),
@@ -164,9 +168,9 @@ class RouteCalculateLastView extends StatelessWidget {
                             },
                             child: RouteCalculateButtomSheet(
                               key: ValueKey<int>(
-                                  createRouteController.calculateLevel.value),
+                                  createeRouteController.calculateLevel.value),
                               calculateLevel:
-                                  createRouteController.calculateLevel.value,
+                                  createeRouteController.calculateLevel.value,
                               mapController: mapCotroller,
                               mapContext: context,
                             ),
@@ -530,7 +534,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 4.w, left: 45.w),
+                                          bottom: 4.w, left: 25.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -924,9 +928,9 @@ class RouteCalculateButtomSheet extends StatelessWidget {
 
   Container searchButtonWidget(BuildContext context) {
     return Container(
-      width: 75.w,
+      width: 45.w,
       height: 35.h,
-      padding: EdgeInsets.all(4.w),
+      padding: EdgeInsets.all(2.w),
       decoration: BoxDecoration(
         color: AppConstants().ltMainRed,
         borderRadius: BorderRadius.circular(5.w),
@@ -952,42 +956,43 @@ class RouteCalculateButtomSheet extends StatelessWidget {
           print(
               "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
         },
-        child: Obx(
-          () => Center(
-            child: Text(
-              searchRouteController.showOnlyMap.value ? "Rota Ara" : "Rota Ara",
-              style: TextStyle(
-                  color: AppConstants().ltWhite,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppConstants().ltWhite),
-            ),
-          ),
-
-          // Container(
-          //   height: 40.w,
-          //   width: 40.w,
-          //   decoration: BoxDecoration(
-          //     color: AppConstants().ltWhite,
-          //     shape: BoxShape.circle,
-          //     boxShadow: [
-          //       BoxShadow(
-          //         color: Colors.black.withOpacity(0.3),
-          //         spreadRadius: 1,
-          //         blurRadius: 3,
-          //         offset: const Offset(0, 2),
-          //       ),
-          //     ],
-          //   ),
-          //   child: Icon(
-          //     !searchRouteController.showOnlyMap.value
-          //         ? Icons.arrow_upward
-          //         : Icons.arrow_downward,
-          //     color: AppConstants().ltMainRed,
-          //   ),
+        child: Center(
+          child: Icon(Icons.search),
+          // child: Text(
+          //   // searchRouteController.showOnlyMap.value ? "Rota Ara" :
+          //   "Rota Ara",
+          //   style: TextStyle(
+          //       color: AppConstants().ltWhite,
+          //       fontSize: 13.sp,
+          //       fontWeight: FontWeight.bold,
+          //       letterSpacing: -1,
+          //       decoration: TextDecoration.underline,
+          //       decorationColor: AppConstants().ltWhite),
           // ),
         ),
+
+        // Container(
+        //   height: 40.w,
+        //   width: 40.w,
+        //   decoration: BoxDecoration(
+        //     color: AppConstants().ltWhite,
+        //     shape: BoxShape.circle,
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: Colors.black.withOpacity(0.3),
+        //         spreadRadius: 1,
+        //         blurRadius: 3,
+        //         offset: const Offset(0, 2),
+        //       ),
+        //     ],
+        //   ),
+        //   child: Icon(
+        //     !searchRouteController.showOnlyMap.value
+        //         ? Icons.arrow_upward
+        //         : Icons.arrow_downward,
+        //     color: AppConstants().ltMainRed,
+        //   ),
+        // ),
       ),
     );
   }
@@ -1286,7 +1291,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     );
   }
 
-  Obx filterCarTypeWidget(BuildContext context) {
+  filterCarTypeWidget(BuildContext context) {
     return Obx(
       () => Container(
         width: 342.w,
@@ -1306,23 +1311,10 @@ class RouteCalculateButtomSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Container(
-                //   padding: EdgeInsets.only(
-                //     left: 12.w,
-                //     bottom: 15,
-                //     top: 15,
-                //   ),
-                //   child: Image.asset(
-                //     'assets/icons/filter.png',
-                //     fit: BoxFit.cover,
-                //     width: 20.w,
-                //     color: AppConstants().ltMainRed,
-                //   ),
-                // ),
                 SizedBox(
-                  width: 330.w,
+                  width: 340.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1332,13 +1324,17 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                         children: [
                           8.w.horizontalSpace,
                           filterOptionWidget(
-                              logo: 'assets/icons/filterTruck.png', index: 1),
+                              text: "Ağır Vasıta",
+                              logo: 'assets/icons/filterTruck.png',
+                              index: 1),
                           18.w.horizontalSpace,
                           filterOptionWidget(
+                              text: "Ticari Araç",
                               logo: 'assets/icons/filterLightCommercial.png',
                               index: 0),
                           18.w.horizontalSpace,
                           filterOptionWidget(
+                              text: "Motorsiklet",
                               logo: 'assets/icons/filterMotorcycle.png',
                               index: 2),
                         ],
@@ -1349,19 +1345,6 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 ),
               ],
             ),
-            // Expanded(
-            //   child: Visibility(
-            //       child: TextButton(
-            //           onPressed: () {
-            //             getSearchRoute(context);
-            //           },
-            //           child: Text(
-            //             "Uygula",
-            //             style: TextStyle(
-            //                 decoration: TextDecoration.underline,
-            //                 color: AppConstants().ltMainRed),
-            //           ))),
-            // )
           ],
         ),
       ),
@@ -1594,7 +1577,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         await _displayPredictionFinishLocation(place!, context);
         final plist = GoogleMapsPlaces(
           apiKey: AppConstants.googleMapsApiKey,
-          apiHeaders: await const GoogleApiHeaders().getHeaders(),
+          // apiHeaders: await const GoogleApiHeaders().getHeaders(),
           //from google_api_headers package
         );
         String placeid = place.placeId ?? "0";
@@ -1766,16 +1749,20 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                     top: 15,
                   ),
                   child: Obx(
-                    () => Text(
-                      createRouteController.createRouteStartAddress.value == ""
-                          ? "Çıkış noktasını giriniz"
-                          : createRouteController.createRouteStartAddress.value,
-                      style: TextStyle(
-                        color: AppConstants().ltLogoGrey,
-                        fontFamily: "SfLight",
-                        fontSize: 12.sp,
-                      ),
-                    ),
+                    () {
+                      return Text(
+                        createRouteController.createRouteStartAddress.value ==
+                                ""
+                            ? "Çıkış noktasını giriniz"
+                            : createRouteController
+                                .createRouteStartAddress.value,
+                        style: TextStyle(
+                          color: AppConstants().ltLogoGrey,
+                          fontFamily: "SfLight",
+                          fontSize: 12.sp,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -1937,7 +1924,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   //   log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
   // }
 
-  InkWell filterOptionWidget({required String logo, required int index}) {
+  InkWell filterOptionWidget(
+      {required String logo, required int index, required String text}) {
     SearchRouteController routeController = Get.put(SearchRouteController());
     return InkWell(
       onTap: () {
@@ -1946,12 +1934,12 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       },
       child: Container(
         height: 40.w,
-        width: 40.w,
+        width: 70.w,
         margin: EdgeInsets.all(1.w),
-        padding: EdgeInsets.all(2.w),
+        padding: EdgeInsets.all(1.w),
         decoration: BoxDecoration(
           color: AppConstants().ltWhiteGrey.withOpacity(0.7),
-          borderRadius: BorderRadius.circular(10.w),
+          borderRadius: BorderRadius.circular(8.w),
           border: routeController.filterSelectedList[index]
               ? Border.all(
                   color: AppConstants()
@@ -1968,11 +1956,20 @@ class RouteCalculateButtomSheet extends StatelessWidget {
           //   end: Alignment.bottomCenter,
           // ),
         ),
-        child: Image.asset(logo,
-            fit: BoxFit.cover,
-            color: routeController.filterSelectedList[index]
-                ? AppConstants().ltMainRed
-                : AppConstants().ltLogoGrey),
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              letterSpacing: -1,
+            ),
+          ),
+        ),
+        //  Image.asset(logo,
+        //     fit: BoxFit.cover,
+        //     color: routeController.filterSelectedList[index]
+        //         ? AppConstants().ltMainRed
+        //         : AppConstants().ltLogoGrey),
       ),
     );
   }

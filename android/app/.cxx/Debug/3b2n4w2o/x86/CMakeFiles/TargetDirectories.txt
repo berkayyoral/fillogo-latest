@@ -1,0 +1,2 @@
+/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/android/app/.cxx/Debug/3b2n4w2o/x86/CMakeFiles/edit_cache.dir
+/Users/istechsoft/Desktop/adsız klasör 2/fillogo-latest/android/app/.cxx/Debug/3b2n4w2o/x86/CMakeFiles/rebuild_cache.dir

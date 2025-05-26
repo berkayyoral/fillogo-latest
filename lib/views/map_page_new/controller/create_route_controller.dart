@@ -1,29 +1,26 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
-import 'package:fillogo/controllers/map/get_current_location_and_listen.dart';
-import 'package:fillogo/controllers/map/marker_icon_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/models/routes_models/create_route_post_models.dart';
-import 'package:fillogo/models/routes_models/delete_route_model.dart';
-import 'package:fillogo/models/routes_models/get_my_routes_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/views/create_post_view/components/mfuController.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/service/polyline_service.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/create_route/route_alert_dialog.dart';
+import 'package:fillogo/views/route_calculate_view/components/create_route_controller.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_models.dart';
 import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
 // import 'package:geocoder2/geocoder2.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
+// import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart';
 
 class CreateRouteController extends GetxController implements PolylineService {
@@ -128,6 +125,9 @@ class CreateRouteController extends GetxController implements PolylineService {
 
   Future<void> getRouteInfo({bool isStartLocation = true}) async {
     try {
+      startRouteLocation.value = LatLng(
+          mapPageMController.myLocationLatitudeDo.value,
+          mapPageMController.myLocationLongitudeDo.value);
       MfuController mfuController = Get.find();
 
       // Koordinatları belirle
@@ -154,6 +154,15 @@ class CreateRouteController extends GetxController implements PolylineService {
           startRouteLocation.value = LatLng(latitude, longitude);
           startRouteAdress.value = address;
           startRouteCity.value = city;
+          print("STARTADRESim -> ${startRouteAdress.value}");
+          CreateeRouteController createeRouteController = Get.find();
+          createeRouteController.createRouteStartAddress.value =
+              startRouteAdress.value;
+          createeRouteController.createRouteStartLatitude.value =
+              startRouteLocation.value.latitude;
+          createeRouteController.createRouteStartLongitude.value =
+              startRouteLocation.value.longitude;
+          createeRouteController.startCity.value = startRouteCity.value;
 
           if (city.isNotEmpty) {
             await getRoute(

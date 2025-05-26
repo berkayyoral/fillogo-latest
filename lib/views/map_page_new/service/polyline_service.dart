@@ -14,9 +14,13 @@ class PolylineService {
     MapPageMController mapPageMController = Get.find();
     try {
       PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
-        AppConstants.googleMapsApiKey,
-        PointLatLng(startLat, startLng),
-        PointLatLng(endLat, endLng),
+        googleApiKey: AppConstants.googleMapsApiKey,
+        request: PolylineRequest(
+          origin: PointLatLng(startLat, startLng),
+          destination: PointLatLng(endLat, endLng),
+          mode: TravelMode.driving,
+          // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
+        ),
       );
 
       if (result.points.isNotEmpty) {
