@@ -3,8 +3,14 @@ import 'package:get/get.dart';
 class SearchRouteController extends GetxController {
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxBool showFilterButton = false.obs;
+  RxBool showFilterOption = false.obs;
   RxList<bool> filterSelectedList = [true, true, true].obs;
   List<String> carTypeList = []; //"Otomobil", "Tır", "Motorsiklet"
+  List<String> filterOptionList = [
+    "Otomobil",
+    "Tır",
+    "Motorsiklet"
+  ]; //"Otomobil", "Tır", "Motorsiklet"
 
   RxBool showOnlyMap = false.obs;
 

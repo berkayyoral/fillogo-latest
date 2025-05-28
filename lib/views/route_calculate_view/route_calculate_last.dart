@@ -35,6 +35,7 @@ class RouteCalculateLastView extends StatelessWidget {
       Get.find<CreateeRouteController>();
 
   CreateRouteController createRouteController = Get.find();
+
   //RouteCalculatesViewController currentLocation = Get.find();
 
   final GeneralDrawerController drawerController =
@@ -107,43 +108,198 @@ class RouteCalculateLastView extends StatelessWidget {
                             },
                             builder: (controller) {
                               return Obx(
-                                () => SizedBox(
-                                  height: Get.height,
-                                  width: Get.width,
-                                  child: GoogleMap(
-                                    initialCameraPosition: CameraPosition(
-                                      target: LatLng(
-                                        mapPageMController
-                                            .myLocationLatitudeDo.value,
-                                        mapPageMController
-                                            .myLocationLongitudeDo.value,
+                                () => Stack(
+                                  alignment: Alignment.centerRight,
+                                  children: [
+                                    SizedBox(
+                                      height: Get.height,
+                                      width: Get.width,
+                                      child: GoogleMap(
+                                        initialCameraPosition: CameraPosition(
+                                          target: LatLng(
+                                            mapPageMController
+                                                .myLocationLatitudeDo.value,
+                                            mapPageMController
+                                                .myLocationLongitudeDo.value,
+                                          ),
+                                          zoom: mapPageMController
+                                              .zoom.value, //*** 15.0,
+                                        ),
+                                        markers: Set<Marker>.from(
+                                            createeRouteController
+                                                .markers.value),
+                                        myLocationEnabled: true,
+                                        myLocationButtonEnabled: false,
+                                        mapType: MapType.normal,
+                                        zoomGesturesEnabled: true,
+                                        zoomControlsEnabled: false,
+                                        onCameraMoveStarted: () {},
+                                        onCameraMove: (p0) {},
+                                        polygons: const <Polygon>{},
+                                        tileOverlays: const <TileOverlay>{},
+                                        polylines: Set<Polyline>.of(
+                                            createeRouteController
+                                                .polylines.value),
+                                        onMapCreated: (GoogleMapController
+                                            controller) async {
+                                          // createRouteController.generalMapController
+                                          //     .complete(controller);
+                                          // mapCotroller = Completer();
+                                          // mapCotroller.complete(controller);
+                                          createeRouteController.mapController =
+                                              controller;
+                                        },
                                       ),
-                                      zoom: mapPageMController
-                                          .zoom.value, //*** 15.0,
                                     ),
-                                    markers: Set<Marker>.from(
-                                        createeRouteController.markers.value),
-                                    myLocationEnabled: true,
-                                    myLocationButtonEnabled: false,
-                                    mapType: MapType.normal,
-                                    zoomGesturesEnabled: true,
-                                    zoomControlsEnabled: false,
-                                    onCameraMoveStarted: () {},
-                                    onCameraMove: (p0) {},
-                                    polygons: const <Polygon>{},
-                                    tileOverlays: const <TileOverlay>{},
-                                    polylines: Set<Polyline>.of(
-                                        createeRouteController.polylines.value),
-                                    onMapCreated:
-                                        (GoogleMapController controller) async {
-                                      // createRouteController.generalMapController
-                                      //     .complete(controller);
-                                      // mapCotroller = Completer();
-                                      // mapCotroller.complete(controller);
-                                      createeRouteController.mapController =
-                                          controller;
-                                    },
-                                  ),
+
+                                    /// GET MY LOCATİON İN MAP
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          right: 10.w, top: 30.h),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            try {
+                                              print("KONUMUMUGETİRs");
+
+                                              // mapPageController.isLoading.value = true;
+
+                                              createeRouteController
+                                                  .mapController
+                                                  .animateCamera(
+                                                CameraUpdate.newCameraPosition(
+                                                  CameraPosition(
+                                                    bearing: mapPageMController
+                                                        .currentHeading
+                                                        .value, //90
+                                                    tilt: 60, //tilt***
+                                                    target: LatLng(
+                                                        mapPageMController
+                                                            .myLocationLatitudeDo
+                                                            .value,
+                                                        mapPageMController
+                                                            .myLocationLongitudeDo
+                                                            .value),
+                                                    zoom: mapPageMController
+                                                        .zoom.value, //*** 14,
+                                                  ),
+                                                ),
+                                              );
+                                            } catch (e) {
+                                              print("KONUMUMUGETİR ERR -> $e");
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 50.w,
+                                            width: 50.w,
+                                            decoration: BoxDecoration(
+                                              color: AppConstants().ltMainRed,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10.w),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/getMyLocationIcon2.svg",
+                                                height: 24.w,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    /// KESİŞEN ROTALAR BUTTONU
+                                    Obx(
+                                      () => Visibility(
+                                        visible: createeRouteController
+                                                .calculateLevel.value ==
+                                            1,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 10.w, top: 90.h),
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                createeRouteController
+                                                    .calculateLevel.value = 2;
+                                              },
+                                              child: Container(
+                                                height: 50.w,
+                                                width: 50.w,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppConstants().ltMainRed,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(16.w),
+                                                  child: SvgPicture.asset(
+                                                    "assets/icons/map-page-list-icon.svg",
+                                                    height: 18.w,
+                                                    color:
+                                                        AppConstants().ltWhite,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Obx(
+                                      () => Visibility(
+                                        visible: createeRouteController
+                                                .middRoute.value.latitude !=
+                                            0,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            right: 10.w,
+                                            top: 150.h,
+                                            // bottom: 100,
+                                          ),
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                try {
+                                                  print("KONUMUMUGETİRs");
+
+                                                  // mapPageController.isLoading.value = true;
+
+                                                  createeRouteController
+                                                      .getRouteInMap();
+                                                } catch (e) {
+                                                  print(
+                                                      "KONUMUMUGETİR ERR -> $e");
+                                                }
+                                              },
+                                              child: Container(
+                                                height: 50.w,
+                                                width: 50.w,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppConstants().ltMainRed,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(10.w),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/route-icon.svg',
+                                                    color:
+                                                        AppConstants().ltWhite,
+                                                    width: 24.w,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },
@@ -154,25 +310,28 @@ class RouteCalculateLastView extends StatelessWidget {
                               // searchRouteController.showOnlyMap.value
                               //     ? Container()
                               //     :
-                              AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              return SlideTransition(
-                                position: Tween<Offset>(
-                                        begin: const Offset(0, 1.2),
-                                        end: const Offset(0, 0))
-                                    .animate(animation),
-                                child: child,
-                              );
-                            },
-                            child: RouteCalculateButtomSheet(
-                              key: ValueKey<int>(
-                                  createeRouteController.calculateLevel.value),
-                              calculateLevel:
-                                  createeRouteController.calculateLevel.value,
-                              mapController: mapCotroller,
-                              mapContext: context,
+                              Positioned(
+                            bottom: 0.h,
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                          begin: const Offset(0, 1.2),
+                                          end: const Offset(0, 0))
+                                      .animate(animation),
+                                  child: child,
+                                );
+                              },
+                              child: RouteCalculateButtomSheet(
+                                key: ValueKey<int>(createeRouteController
+                                    .calculateLevel.value),
+                                calculateLevel:
+                                    createeRouteController.calculateLevel.value,
+                                mapController: mapCotroller,
+                                mapContext: context,
+                              ),
                             ),
                           ),
                         ),
@@ -497,16 +656,17 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     MapPageMController getMyCurrentLocationController,
   ) {
     return Obx(() => Stack(
+          clipBehavior: Clip.none,
           children: [
             Visibility(
                 child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Align(
-                  alignment: Alignment.topCenter,
+                  // alignment: Alignment.topCenter,
                   child: Container(
                     height:
-                        searchRouteController.showOnlyMap.value ? 75.h : 313.h,
+                        searchRouteController.showOnlyMap.value ? 85.h : 333.h,
                     width: Get.width,
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -522,19 +682,19 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned(
-                          top: 12.h,
+                          // bottom: 12.h,
                           child: SizedBox(
                             width: Get.width,
                             child: SingleChildScrollView(
                               child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 16.w, right: 16.w),
+                                padding: EdgeInsets.only(
+                                    left: 10.w, right: 10.w, top: 24.h),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 4.w, left: 25.w),
+                                          bottom: 4.w, left: 8.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -563,6 +723,10 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                                       visible: !searchRouteController
                                           .showOnlyMap.value,
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           _placesAutoComplateTextFieldStart(
                                               context),
@@ -588,134 +752,131 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 ),
               ],
             )),
-            Obx(
-              () => Visibility(
-                visible: createRouteController.middRoute.value.latitude != 0,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 10.w, bottom: 260.h),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () async {
-                        try {
-                          print("KONUMUMUGETİRs");
+            // Obx(
+            //   () => Visibility(
+            //     visible: createRouteController.middRoute.value.latitude != 0,
+            //     child: Padding(
+            //       padding: EdgeInsets.only(right: 10.w, bottom: 260.h),
+            //       child: Align(
+            //         alignment: Alignment.bottomRight,
+            //         child: GestureDetector(
+            //           onTap: () async {
+            //             try {
+            //               print("KONUMUMUGETİRs");
+            //               // mapPageController.isLoading.value = true;
+            //               createRouteController.getRouteInMap();
+            //             } catch (e) {
+            //               print("KONUMUMUGETİR ERR -> $e");
+            //             }
+            //           },
+            //           child: Container(
+            //             height: 50.w,
+            //             width: 50.w,
+            //             decoration: BoxDecoration(
+            //               color: AppConstants().ltMainRed,
+            //               shape: BoxShape.circle,
+            //             ),
+            //             child: Padding(
+            //               padding: EdgeInsets.all(10.w),
+            //               child: SvgPicture.asset(
+            //                 'assets/icons/route-icon.svg',
+            //                 color: AppConstants().ltWhite,
+            //                 width: 24.w,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-                          // mapPageController.isLoading.value = true;
+            // /// GET MY LOCATİON İN MAP
+            // Padding(
+            //   padding: EdgeInsets.only(right: 10.w, bottom: 190.h),
+            //   child: Align(
+            //     alignment: Alignment.bottomRight,
+            //     child: GestureDetector(
+            //       onTap: () async {
+            //         try {
+            //           print("KONUMUMUGETİRs");
+            //           // mapPageController.isLoading.value = true;
+            //           createRouteController.mapController.animateCamera(
+            //             CameraUpdate.newCameraPosition(
+            //               CameraPosition(
+            //                 bearing: getMyCurrentLocationController
+            //                     .currentHeading.value, //90
+            //                 tilt: 60, //tilt***
+            //                 target: LatLng(
+            //                     getMyCurrentLocationController
+            //                         .myLocationLatitudeDo.value,
+            //                     getMyCurrentLocationController
+            //                         .myLocationLongitudeDo.value),
+            //                 zoom: getMyCurrentLocationController
+            //                     .zoom.value, //*** 14,
+            //               ),
+            //             ),
+            //           );
+            //         } catch (e) {
+            //           print("KONUMUMUGETİR ERR -> $e");
+            //         }
+            //       },
+            //       child: Container(
+            //         height: 50.w,
+            //         width: 50.w,
+            //         decoration: BoxDecoration(
+            //           color: AppConstants().ltMainRed,
+            //           shape: BoxShape.circle,
+            //         ),
+            //         child: Padding(
+            //           padding: EdgeInsets.all(10.w),
+            //           child: SvgPicture.asset(
+            //             "assets/icons/getMyLocationIcon2.svg",
+            //             height: 24.w,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Obx(
+            //   () => Visibility(
+            //     visible: createRouteController.calculateLevel.value == 1,
+            //     child: Padding(
+            //       padding: EdgeInsets.only(right: 10.w, bottom: 120.h),
+            //       child: Align(
+            //         alignment: Alignment.bottomRight,
+            //         child: GestureDetector(
+            //           onTap: () async {
+            //             createRouteController.calculateLevel.value = 2;
+            //           },
+            //           child: Container(
+            //             height: 50.w,
+            //             width: 50.w,
+            //             decoration: BoxDecoration(
+            //               color: AppConstants().ltMainRed,
+            //               shape: BoxShape.circle,
+            //             ),
+            //             child: Padding(
+            //               padding: EdgeInsets.all(16.w),
+            //               child: SvgPicture.asset(
+            //                 "assets/icons/map-page-list-icon.svg",
+            //                 height: 18.w,
+            //                 color: AppConstants().ltWhite,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-                          createRouteController.getRouteInMap();
-                        } catch (e) {
-                          print("KONUMUMUGETİR ERR -> $e");
-                        }
-                      },
-                      child: Container(
-                        height: 50.w,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                          color: AppConstants().ltMainRed,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(10.w),
-                          child: SvgPicture.asset(
-                            'assets/icons/route-icon.svg',
-                            color: AppConstants().ltWhite,
-                            width: 24.w,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            /// GET MY LOCATİON İN MAP
-            Padding(
-              padding: EdgeInsets.only(right: 10.w, bottom: 190.h),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: GestureDetector(
-                  onTap: () async {
-                    try {
-                      print("KONUMUMUGETİRs");
-
-                      // mapPageController.isLoading.value = true;
-
-                      createRouteController.mapController.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(
-                            bearing: getMyCurrentLocationController
-                                .currentHeading.value, //90
-                            tilt: 60, //tilt***
-                            target: LatLng(
-                                getMyCurrentLocationController
-                                    .myLocationLatitudeDo.value,
-                                getMyCurrentLocationController
-                                    .myLocationLongitudeDo.value),
-                            zoom: getMyCurrentLocationController
-                                .zoom.value, //*** 14,
-                          ),
-                        ),
-                      );
-                    } catch (e) {
-                      print("KONUMUMUGETİR ERR -> $e");
-                    }
-                  },
-                  child: Container(
-                    height: 50.w,
-                    width: 50.w,
-                    decoration: BoxDecoration(
-                      color: AppConstants().ltMainRed,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10.w),
-                      child: SvgPicture.asset(
-                        "assets/icons/getMyLocationIcon2.svg",
-                        height: 24.w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            Obx(
-              () => Visibility(
-                visible: createRouteController.calculateLevel.value == 1,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 10.w, bottom: 120.h),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () async {
-                        createRouteController.calculateLevel.value = 2;
-                      },
-                      child: Container(
-                        height: 50.w,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                          color: AppConstants().ltMainRed,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(16.w),
-                          child: SvgPicture.asset(
-                            "assets/icons/map-page-list-icon.svg",
-                            height: 18.w,
-                            color: AppConstants().ltWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
             Visibility(
               // visible: searchRouteController.showOnlyMap.value,
               child: Positioned(
-                top: searchRouteController.showOnlyMap.value ? 50.h : 290.h,
+                // top: searchRouteController.showOnlyMap.value ? 50.h : 290.h,
+                top: -15.h,
                 right: searchRouteController.showOnlyMap.value ? 10.w : 165.w,
                 left: searchRouteController.showOnlyMap.value ? null : 165.h,
                 child: InkWell(
@@ -744,8 +905,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                       ),
                     ),
                     child: Icon(searchRouteController.showOnlyMap.value
-                        ? Icons.arrow_drop_down
-                        : Icons.arrow_drop_up),
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down),
                   ),
                 ),
               ),
@@ -903,7 +1064,8 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 createRouteController
-                                    .createRouteControllerClear();
+                                    .createRouteControllerClear(
+                                        isSearchRoute: true);
                               },
                               child: Padding(
                                 padding:
@@ -1292,61 +1454,125 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   }
 
   filterCarTypeWidget(BuildContext context) {
-    return Obx(
-      () => Container(
-        width: 342.w,
-        height: 55.h,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: AppConstants().ltLogoGrey.withOpacity(0.2),
-              spreadRadius: 0.r,
-              blurRadius: 10.r,
-            ),
-          ],
-          color: AppConstants().ltWhite,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 340.w,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          8.w.horizontalSpace,
-                          filterOptionWidget(
-                              text: "Ağır Vasıta",
-                              logo: 'assets/icons/filterTruck.png',
-                              index: 1),
-                          18.w.horizontalSpace,
-                          filterOptionWidget(
-                              text: "Ticari Araç",
-                              logo: 'assets/icons/filterLightCommercial.png',
-                              index: 0),
-                          18.w.horizontalSpace,
-                          filterOptionWidget(
-                              text: "Motorsiklet",
-                              logo: 'assets/icons/filterMotorcycle.png',
-                              index: 2),
-                        ],
+    OverlayEntry? _filterOverlayEntry;
+
+    return Container(
+      width: 340.w,
+      height: 55.h,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppConstants().ltLogoGrey.withOpacity(0.2),
+            spreadRadius: 0.r,
+            blurRadius: 10.r,
+          ),
+        ],
+        color: AppConstants().ltWhite,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 340.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+// Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     8.w.horizontalSpace,
+                    //   filterOptionWidget(
+                    //       text: "Ağır Vasıta",
+                    //       logo: 'assets/icons/filterTruck.png',
+                    //       index: 1),
+                    //   18.w.horizontalSpace,
+                    //   filterOptionWidget(
+                    //       text: "Ticari Araç",
+                    //       logo: 'assets/icons/filterLightCommercial.png',
+                    //       index: 0),
+                    //   18.w.horizontalSpace,
+                    //   filterOptionWidget(
+                    //       text: "Motorsiklet",
+                    //       logo: 'assets/icons/filterMotorcycle.png',
+                    //       index: 2),
+                    // ],
+                    // ),
+                    InkWell(
+                      onTap: () {
+                        // showMultiSelectDialog(context);
+
+                        searchRouteController.showFilterOption.value =
+                            !searchRouteController.showFilterOption.value;
+                        print(
+                            "${searchRouteController.showFilterOption.value}");
+
+                        if (searchRouteController.showFilterOption.value) {
+                          toggleFilterMenu(context, _filterOverlayEntry);
+                        } else {
+                          print("KAPANDI");
+                          _filterOverlayEntry?.remove();
+                          _filterOverlayEntry = null;
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(2.h),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              Icons.filter_list,
+                              color: AppConstants().ltMainRed,
+                            ),
+                            // searchRouteController.showFilterOption.value
+                            //     ? Positioned(
+                            //         top: 0,
+                            //         left: 20.w,
+                            //         child: Container(
+                            //           height: 190.h,
+                            //           width: 150.w,
+                            //           alignment: Alignment.topCenter,
+                            //           decoration: BoxDecoration(
+                            //             color: AppConstants().ltWhite,
+                            //           ),
+                            //           child: Column(
+                            //             children: [
+                            //               filterOptionWidget(
+                            //                   text: "Ağır Vasıta",
+                            //                   logo:
+                            //                       'assets/icons/filterTruck.png',
+                            //                   index: 1),
+                            //               filterOptionWidget(
+                            //                   text: "Ticari Araç",
+                            //                   logo:
+                            //                       'assets/icons/filterLightCommercial.png',
+                            //                   index: 0),
+                            //               filterOptionWidget(
+                            //                   text: "Motorsiklet",
+                            //                   logo:
+                            //                       'assets/icons/filterMotorcycle.png',
+                            //                   index: 2),
+                            //             ],
+                            //           ),
+                            //         ),
+                            //       )
+                            //     : Container(),
+                          ],
+                        ),
                       ),
-                      searchButtonWidget(context)
-                    ],
-                  ),
+                    ),
+                    searchButtonWidget(context)
+                  ],
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -1404,12 +1630,11 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         )
             .then((value) async {
           print("VALUEE -> ${value}");
+          searchRouteController.showOnlyMap.value = true;
           final response =
               GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
           createRouteController.searchByCityDatum.value = response.data![0];
           createRouteController.addNewMarkersForSearchingRoute(context);
-
-          searchRouteController.showOnlyMap.value = true;
         });
         print("VALUEE1 -> ${jsonEncode(res)}");
         // final response =
@@ -1730,7 +1955,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
               padding: EdgeInsets.only(
                 left: 12.w,
                 bottom: 15,
-                top: 15,
+                top: 15.h,
               ),
               child: SvgPicture.asset(
                 'assets/icons/route-icon.svg',
@@ -1852,129 +2077,60 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     }
   }
 
-  // Future _displayPredictionFinishLocation(
-  //     Prediction placeInfo, BuildContext context) async {
-  //   PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
-  //       .getDetailsByPlaceId(placeInfo.placeId!);
-  //   var placeId = placeInfo.placeId;
-  //   GeoData data = await Geocoder2.getDataFromCoordinates(
-  //       latitude: detail.result.geometry!.location.lat,
-  //       longitude: detail.result.geometry!.location.lng,
-  //       googleMapApiKey: AppConstants.googleMapsApiKey);
-  //   createRouteController.createRouteFinishAddress.value = data.address;
-  //   createRouteController.finishCity.value = data.state;
-  //   createRouteController.createRouteFinishLatitude.value = data.latitude;
-  //   createRouteController.createRouteFinishLongitude.value = data.longitude;
-  //   createRouteController.finishLatLong = LatLng(data.latitude, data.longitude);
-  //   if (createRouteController.finishCity.value != "") {}
-  //   log("Finish");
-  //   // if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
-  //   //     (createRouteController.createRouteStartLongitude.value != 0.0) &&
-  //   //     (createRouteController.createRouteFinishLatitude.value != 0.0) &&
-  //   //     (createRouteController.createRouteFinishLongitude.value != 0.0) &&
-  //   //     createRouteController.startCity.value != "" &&
-  //   //     createRouteController.finishCity.value != "") {
-  //   //   log("createRouteController createRouteController.startCity:  ${createRouteController.startCity.value}");
-  //   //   log("createRouteController createRouteController.finishCity:  ${createRouteController.finishCity.value}");
-  //   //   GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-  //   //       GetRouteSearchByCityRequestModel(
-  //   //           startLocation: createRouteController.startCity.value,
-  //   //           endLocation: createRouteController.finishCity.value,
-  //   //           departureDate: DateFormat('yyyy-MM-dd')
-  //   //               .format(searchRouteController.selectedDate.value),
-  //   //           carType: searchRouteController.carTypeList);
-  //   //   GeneralServicesTemp()
-  //   //       .makePostRequest(
-  //   //     EndPoint.routesSearchByCitys,
-  //   //     routeSearchByCityRequestModel,
-  //   //     ServicesConstants.appJsonWithToken,
-  //   //   )
-  //   //       .then((value) async {
-  //   //     final response =
-  //   //         GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-  //   //     print("createRouteController response1 -> ${jsonEncode(response)}");
-  //   //     createRouteController.searchByCityDatum.value = response.data![0];
-  //   //   });
-  //   //   //log(createRouteController.searchByCityDatum![0].endingOpenAdress!);
-  //   // createRouteController.calculateLevel.value = 2;
-  //   // }
-  //   // await getSearhRoute(context);
-  // }
-
-  // Future _displayPredictionStartLocation(
-  //     Prediction placeInfo, BuildContext context) async {
-  //   PlacesDetailsResponse detail = await createRouteController.googleMapsPlaces
-  //       .getDetailsByPlaceId(placeInfo.placeId!);
-  //   var placeId = placeInfo.placeId;
-  //   createRouteController.createRouteStartLatitude.value =
-  //       detail.result.geometry!.location.lat;
-  //   createRouteController.createRouteStartLongitude.value =
-  //       detail.result.geometry!.location.lng;
-  //   GeoData data = await Geocoder2.getDataFromCoordinates(
-  //       latitude: createRouteController.createRouteStartLatitude.value,
-  //       longitude: createRouteController.createRouteStartLongitude.value,
-  //       googleMapApiKey: AppConstants.googleMapsApiKey);
-  //   createRouteController.createRouteStartAddress.value = data.address;
-  //   createRouteController.startCity.value = data.state;
-  //   createRouteController.createRouteStartLatitude.value = data.latitude;
-  //   createRouteController.createRouteStartLatitude.value = data.latitude;
-  //   createRouteController.createRouteStartLongitude.value = data.longitude;
-  //   createRouteController.createRouteStartLongitude.value = data.longitude;
-  //   createRouteController.startLatLong = LatLng(data.latitude, data.longitude);
-  //   log("SEARCHROUTE START -> ${createRouteController.startCity.value} end -> ${createRouteController.finishCity.value}");
-  // }
-
-  InkWell filterOptionWidget(
+  filterOptionWidget(
       {required String logo, required int index, required String text}) {
     SearchRouteController routeController = Get.put(SearchRouteController());
-    return InkWell(
-      onTap: () {
-        routeController.filterSelectedList[index] =
-            !routeController.filterSelectedList[index];
-      },
-      child: Container(
-        height: 40.w,
-        width: 70.w,
-        margin: EdgeInsets.all(1.w),
-        padding: EdgeInsets.all(1.w),
-        decoration: BoxDecoration(
-          color: AppConstants().ltWhiteGrey.withOpacity(0.7),
-          borderRadius: BorderRadius.circular(8.w),
-          border: routeController.filterSelectedList[index]
-              ? Border.all(
-                  color: AppConstants()
-                      .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
-                  width: 2,
-                )
-              : null,
-          // gradient: LinearGradient(
-          //   colors: [
-          //     AppConstants().ltMainRed,
-          //     AppConstants().ltBlack,
-          //   ],
-          //   begin: Alignment.center,
-          //   end: Alignment.bottomCenter,
-          // ),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              letterSpacing: -1,
+    return Obx(() => InkWell(
+          onTap: () {
+            routeController.filterSelectedList[index] =
+                !routeController.filterSelectedList[index];
+            print("İLİSTEM -> ${routeController.filterSelectedList}");
+          },
+          child: Container(
+            height: 40.w,
+            width: 100.w,
+            margin: EdgeInsets.all(1.w),
+            padding: EdgeInsets.all(1.w),
+            decoration: BoxDecoration(
+              color: AppConstants().ltWhiteGrey.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(8.w),
+              border: routeController.filterSelectedList[index]
+                  ? Border.all(
+                      color: AppConstants()
+                          .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
+                      width: 2,
+                    )
+                  : null,
+              // gradient: LinearGradient(
+              //   colors: [
+              //     AppConstants().ltMainRed,
+              //     AppConstants().ltBlack,
+              //   ],
+              //   begin: Alignment.center,
+              //   end: Alignment.bottomCenter,
+              // ),
             ),
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  letterSpacing: -1,
+                ),
+              ),
+            ),
+            //  Image.asset(logo,
+            //     fit: BoxFit.cover,
+            //     color: routeController.filterSelectedList[index]
+            //         ? AppConstants().ltMainRed
+            //         : AppConstants().ltLogoGrey),
           ),
-        ),
-        //  Image.asset(logo,
-        //     fit: BoxFit.cover,
-        //     color: routeController.filterSelectedList[index]
-        //         ? AppConstants().ltMainRed
-        //         : AppConstants().ltLogoGrey),
-      ),
-    );
+        ));
   }
 
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> selectDate(
+    BuildContext context,
+  ) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: searchRouteController.selectedDate.value,
@@ -1987,5 +2143,107 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       searchRouteController.selectedDate.value = pickedDate;
     }
     print("SELECTEDDATE -> ${searchRouteController.selectedDate.value}");
+  }
+
+  void toggleFilterMenu(
+      BuildContext context, OverlayEntry? _filterOverlayEntry) {
+    if (_filterOverlayEntry != null) {
+      _filterOverlayEntry?.remove();
+      _filterOverlayEntry = null;
+      return;
+    }
+
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    _filterOverlayEntry = OverlayEntry(
+      builder: (context) => GestureDetector(
+        onTap: () {
+          // Dışarıya tıklanınca kapanır
+          searchRouteController.showFilterOption.value =
+              !searchRouteController.showFilterOption.value;
+          _filterOverlayEntry?.remove();
+          _filterOverlayEntry = null;
+        },
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          children: [
+            Positioned(
+              left: position.dx + 50.w,
+              bottom: 140.h,
+              // top: position.dy + 150.h,
+              child: Material(
+                elevation: 4,
+                color: Colors.transparent,
+                child: Container(
+                  width: 160.w,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(blurRadius: 5, color: Colors.black26)
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      filterOptionWidget(
+                          text: "Ağır Vasıta",
+                          logo: 'assets/icons/filterTruck.png',
+                          index: 1),
+                      filterOptionWidget(
+                          text: "Ticari Araç",
+                          logo: 'assets/icons/filterLightCommercial.png',
+                          index: 0),
+                      filterOptionWidget(
+                          text: "Motorsiklet",
+                          logo: 'assets/icons/filterMotorcycle.png',
+                          index: 2),
+                      12.verticalSpace,
+                      InkWell(
+                        onTap: () {
+                          searchRouteController.showFilterOption.value =
+                              !searchRouteController.showFilterOption.value;
+                          _filterOverlayEntry?.remove();
+                          _filterOverlayEntry = null;
+                          if (!searchRouteController.showOnlyMap.value ||
+                              createRouteController.calculateLevel.value == 2) {
+                            getSearchRoute(context);
+                          } else {
+                            searchRouteController.showOnlyMap.value = false;
+                          }
+
+                          print(
+                              "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
+                        },
+                        child: Container(
+                          width: 90.w,
+                          decoration: BoxDecoration(
+                            color: AppConstants().ltMainRed,
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Ara",
+                              style: TextStyle(
+                                color: AppConstants().ltWhite,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_filterOverlayEntry!);
   }
 }

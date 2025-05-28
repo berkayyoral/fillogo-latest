@@ -114,18 +114,21 @@ class CreateeRouteController extends GetxController implements PolylineService {
     }
   }
 
-  void createRouteControllerClear() async {
-    searchByCityDatum.clear();
+  void createRouteControllerClear({bool isSearchRoute = false}) async {
     middRoute.value = const LatLng(0, 0);
     calculateLevel.value = 1;
-    createRouteStartAddress.value = "";
-    createRouteStartLatitude.value = 0.0;
-    createRouteStartLongitude.value = 0.0;
+    if (!isSearchRoute) {
+      searchByCityDatum.clear();
+      createRouteStartAddress.value = "";
+      createRouteStartLatitude.value = 0.0;
+      createRouteStartLongitude.value = 0.0;
+    }
+    startCity = "".obs;
+
     createRouteFinishAddress.value = "";
     createRouteFinishLatitude.value = 0.0;
     createRouteFinishLongitude.value = 0.0;
     finishCity = "".obs;
-    startCity = "".obs;
 
     markers.value = {};
     polylines.value = {};

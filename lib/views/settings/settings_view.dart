@@ -7,7 +7,7 @@ import 'package:fillogo/services/permission.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_view/components/map_page_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 import '../../export.dart';
@@ -237,7 +237,7 @@ class SettingsView extends StatelessWidget {
               title: 'Uygulamayı Paylaş',
               subtitle: "FilloGO'yu arkadaşlarınıza önerin",
               onPressed: () {
-                Share.share('Fillogo\'yu hemen indir! https://example.com');
+                // Share.share('Fillogo\'yu hemen indir! https://example.com');
               },
             ),
             SettingsListTile(

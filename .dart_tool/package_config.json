@@ -890,18 +890,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "share_plus",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/share_plus-10.1.4",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
-    },
-    {
-      "name": "share_plus_platform_interface",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/share_plus_platform_interface-5.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
       "name": "shared_preferences",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences-2.5.3",
       "packageUri": "lib/",
@@ -1268,7 +1256,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-05-23T17:48:46.107959Z",
+  "generated": "2025-05-28T06:33:53.625309Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",
