@@ -577,10 +577,11 @@ class CreatePostPageView extends StatelessWidget {
                     await File('${directory.path}/widget_image.png').create();
                 // Get.dialog(Image.memory(imageBytes));
                 await imagePath.writeAsBytes(imageBytes);
-                Share.shareXFiles([XFile(imagePath.path)],
-                    text:
-                        "https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr",
-                    subject: "selam knak");
+                Share.shareXFiles(
+                  [XFile(imagePath.path)],
+                  text:
+                      "https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr",
+                );
 
                 log("SHAREFACE 5");
               }
