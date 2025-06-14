@@ -1,4 +1,7 @@
 # This is a generated file; do not edit or check into version control.
+app_links=/Users/istechsoft/.pub-cache/hosted/pub.dev/app_links-6.4.0/
+app_links_linux=/Users/istechsoft/.pub-cache/hosted/pub.dev/app_links_linux-1.0.3/
+app_links_web=/Users/istechsoft/.pub-cache/hosted/pub.dev/app_links_web-1.0.4/
 connectivity_plus=/Users/istechsoft/.pub-cache/hosted/pub.dev/connectivity_plus-5.0.2/
 file_picker=/Users/istechsoft/.pub-cache/hosted/pub.dev/file_picker-8.3.7/
 file_selector_linux=/Users/istechsoft/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.3+2/
@@ -25,6 +28,7 @@ google_maps_flutter=/Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flut
 google_maps_flutter_android=/Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.16.1/
 google_maps_flutter_ios=/Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.15.2/
 google_maps_flutter_web=/Users/istechsoft/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.12/
+gtk=/Users/istechsoft/.pub-cache/hosted/pub.dev/gtk-2.1.0/
 image_cropper=/Users/istechsoft/.pub-cache/hosted/pub.dev/image_cropper-9.1.0/
 image_cropper_for_web=/Users/istechsoft/.pub-cache/hosted/pub.dev/image_cropper_for_web-6.1.0/
 image_picker=/Users/istechsoft/.pub-cache/hosted/pub.dev/image_picker-1.1.2/
@@ -48,6 +52,7 @@ permission_handler_android=/Users/istechsoft/.pub-cache/hosted/pub.dev/permissio
 permission_handler_apple=/Users/istechsoft/.pub-cache/hosted/pub.dev/permission_handler_apple-9.4.7/
 permission_handler_html=/Users/istechsoft/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.3+5/
 permission_handler_windows=/Users/istechsoft/.pub-cache/hosted/pub.dev/permission_handler_windows-0.2.1/
+share_plus=/Users/istechsoft/.pub-cache/hosted/pub.dev/share_plus-7.2.2/
 shared_preferences=/Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences-2.5.3/
 shared_preferences_android=/Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.10/
 shared_preferences_foundation=/Users/istechsoft/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.4/

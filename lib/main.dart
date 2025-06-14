@@ -23,75 +23,6 @@ void main() async {
 
   await OneSignalManager.setupOneSignal();
 
-  // onboard daha önce görüldüyse initial route => welcome login,
-  // bool isOnboardViewed =
-  //     LocaleManager.instance.getBool(PreferencesKeys.isOnboardViewed) ?? false;
-  // String initialRoute = isOnboardViewed
-  //     ? NavigationConstants.welcomelogin
-  //     : NavigationConstants.onboardone;
-  // //
-  // print("LOGİNİÇİNUSERINFO  initial-> ${initialRoute}");
-  // // yerelde kayıtlı username ve passwordu çeker. null gelirse '' şeklinde kalır
-  // String? userCredentials =
-  //     LocaleManager.instance.getCryptedData(PreferencesKeys.userCredentials) ??
-  //         '';
-  //
-
-  // login isteği atar, success 1 dönerse inital route => bottomNavigationBar
-  // if (userCredentials != '') {
-  //   print("LOGİNMAİNRES userCredentials -> ${userCredentials}");
-  //   await GeneralServicesTemp()
-  //       .makePostRequest(
-  //     EndPoint.login,
-  //     LoginRequestModel(
-  //       phoneNumberOrMail: userCredentials.split('+').first,
-  //       password: userCredentials.split('+').last,
-  //     ),
-  //     ServicesConstants.appJsonWithoutAuth,
-  //   )
-  //       .then((value) {
-  //     print("LOGİNMAİNRES GİRİŞ ${value} / $initialRoute");
-
-  //     if (value != null) {
-  //       final response = LoginResponseModel.fromJson(jsonDecode(value));
-  //       print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL ${jsonEncode(response)}");
-  //       if (response.success == 1) {
-  //         LocaleManager.instance.setBool(PreferencesKeys.isVisibility,
-  //             !response.data![0].user!.isInvisible!);
-  //         LocaleManager.instance.setBool(PreferencesKeys.isAvability,
-  //             response.data![0].user!.isAvailable!);
-  //         LocaleManager.instance.setInt(
-  //             PreferencesKeys.currentUserId, response.data![0].user!.id!);
-  //         LocaleManager.instance.setString(PreferencesKeys.currentUserUserName,
-  //             response.data![0].user!.username!);
-  //         LocaleManager.instance.setInt(
-  //             PreferencesKeys.currentUserId, response.data![0].user!.id!);
-  //         LocaleManager.instance.setString(
-  //             PreferencesKeys.currentUserProfilPhoto,
-  //             response.data![0].user!.profilePicture ??
-  //                 'https://res.cloudinary.com/dmpfzfgrb/image/upload/v1680248743/fillogo/user_yxtelh.png');
-  //         LocaleManager.instance.setString(
-  //           PreferencesKeys.accessToken,
-  //           response.data![0].tokens!.accessToken!,
-  //         );
-  //         LocaleManager.instance.setString(
-  //           PreferencesKeys.refreshToken,
-  //           response.data![0].tokens!.refreshToken!,
-  //         );
-  //         SocketService.instance()
-  //             .socket
-  //             .emit("new-user-add", response.data![0].user!.id!);
-  //         initialRoute = NavigationConstants.bottomNavigationBar;
-  //       } else {
-  //         initialRoute = NavigationConstants.onboardone;
-  //         print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL burda");
-  //         Get.snackbar("Hatalı giriş", "");
-  //       }
-  //     }
-  //   });
-  // }
-  //
-
   bool isDarkMode =
       LocaleManager.instance.getBool(PreferencesKeys.isDarkMode) ??
           Get.isPlatformDarkMode;
@@ -102,6 +33,44 @@ void main() async {
   if (defaultTargetPlatform == TargetPlatform.android) {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
+
+  ///Materialapp router
+  // runApp(
+  //   ScreenUtilInit(
+  //     useInheritedMediaQuery: true,
+  //     designSize: UiHelper.designSize,
+  //     builder: (context, child) => GetMaterialApp.router(
+  //       routerDelegate: Get.rootDelegate,
+  //       routeInformationParser: GetInformationParser(
+  //         initialRoute: NavigationConstants.splashScreen, // İlk açılacak sayfa
+  //       ),
+  //       localizationsDelegates: const [
+  //         GlobalMaterialLocalizations.delegate,
+  //         GlobalWidgetsLocalizations.delegate,
+  //         DefaultCupertinoLocalizations.delegate,
+  //         GlobalCupertinoLocalizations.delegate,
+  //       ],
+  //       supportedLocales: const [
+  //         Locale('en', 'US'), // English
+  //         Locale("tr", "TR"),
+  //       ],
+  //       locale: const Locale("tr", "TR"),
+  //       debugShowCheckedModeBanner: false,
+  //       title: AppConstants.appName,
+  //       getPages: NavigationService.routes,
+
+  //       // initialRoute: NavigationConstants
+  //       //     .splashScreen, //initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
+  //       initialBinding: InitialBinding(), // Initial binding always run
+  //       theme: AppTheme.instance.lightTheme,
+  //       darkTheme: AppTheme.instance.darkTheme,
+  //       themeMode:
+  //           ThemeMode.light, //isDarkMode ? ThemeMode.dark : ThemeMode.light,
+  //       translations: Languages(),
+  //     ),
+  //   ),
+  // );
+
   runApp(
     ScreenUtilInit(
       useInheritedMediaQuery: true,
@@ -168,13 +137,3 @@ class TurkishMessages implements timeago.LookupMessages {
   @override
   String wordSeparator() => ' ';
 }
-
-/*class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}*/
-//a

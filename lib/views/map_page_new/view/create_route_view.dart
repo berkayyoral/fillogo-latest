@@ -24,74 +24,90 @@ class CreateRouteView extends StatelessWidget {
       child: Obx(
         () {
           return isCreateRoute.value
-              ? Container(
-                  height: createRouteController.finishRouteAdress.value != ""
-                      ? createRouteController
-                              .isOpenRouteDetailEntrySection.value
-                          ? 650.h
-                          : 350.h
-                      : 240.h, //240.h,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppConstants().ltLogoGrey.withOpacity(0.2),
-                        spreadRadius: 0.r,
-                        blurRadius: 10.r,
-                      ),
-                    ],
-                    color: AppConstants().ltWhite,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            isCreateRoute.value = false;
-
-                            createRouteController
-                                .isOpenRouteDetailEntrySection.value = false;
-                            createRouteController.routePolyline.value = "";
-                            createRouteController.routePolyline.value = "";
-                            mapPageMController.polylines.clear();
-                            mapPageMController.polylineCoordinates.clear();
-                            mapPageMController.markers.clear();
-                            mapPageMController.addMarkerIcon(
-                                markerID: "myLocationMarker",
-                                location: LatLng(
-                                    mapPageMController
-                                        .myLocationLatitudeDo.value,
-                                    mapPageMController
-                                        .myLocationLongitudeDo.value));
-                            createRouteController.clearFinishRouteInfo();
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.w),
-                            child: SvgPicture.asset(
-                              "assets/icons/close-icon.svg",
-                              width: 32.w,
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    !createRouteController.isOpenRouteDetailEntrySection.value
+                        ? createroute_infotext_widget(isOnlyInfotext: true)
+                        : Container(),
+                    Flexible(
+                      child: Container(
+                        height:
+                            createRouteController.finishRouteAdress.value != ""
+                                ? createRouteController
+                                        .isOpenRouteDetailEntrySection.value
+                                    ? 650.h
+                                    : 380.h
+                                : 240.h,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppConstants().ltLogoGrey.withOpacity(0.2),
+                              spreadRadius: 0.r,
+                              blurRadius: 10.r,
                             ),
-                          ),
+                          ],
+                          color: AppConstants().ltWhite,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  isCreateRoute.value = false;
+
+                                  createRouteController
+                                      .isOpenRouteDetailEntrySection
+                                      .value = false;
+                                  createRouteController.routePolyline.value =
+                                      "";
+                                  createRouteController.routePolyline.value =
+                                      "";
+                                  mapPageMController.polylines.clear();
+                                  mapPageMController.polylineCoordinates
+                                      .clear();
+                                  mapPageMController.markers.clear();
+                                  mapPageMController.addMarkerIcon(
+                                      markerID: "myLocationMarker",
+                                      location: LatLng(
+                                          mapPageMController
+                                              .myLocationLatitudeDo.value,
+                                          mapPageMController
+                                              .myLocationLongitudeDo.value));
+                                  createRouteController.clearFinishRouteInfo();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10.w),
+                                  child: SvgPicture.asset(
+                                    "assets/icons/close-icon.svg",
+                                    width: 32.w,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            !createRouteController
+                                    .isOpenRouteDetailEntrySection.value
+                                ? Column(
+                                    children: [
+                                      selectRouteCities(
+                                          context: context, isStartCity: true),
+                                      selectRouteCities(
+                                          context: context, isStartCity: false)
+                                    ],
+                                  )
+                                : Container(),
+                            createRouteController.finishRouteAdress.value != ""
+                                ? Expanded(child: const CreateRouteInfoWidget())
+                                : Container(),
+                          ],
                         ),
                       ),
-                      !createRouteController.isOpenRouteDetailEntrySection.value
-                          ? Column(
-                              children: [
-                                selectRouteCities(
-                                    context: context, isStartCity: true),
-                                selectRouteCities(
-                                    context: context, isStartCity: false)
-                              ],
-                            )
-                          : Container(),
-                      createRouteController.finishRouteAdress.value != ""
-                          ? const CreateRouteInfoWidget()
-                          : Container(),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : mapPageMController.isThereActiveRoute.value
                   ? Container()
@@ -118,90 +134,7 @@ class CreateRouteView extends StatelessWidget {
                           }
                         }
                       },
-                      child: Container(
-                        margin: EdgeInsets.all(10.w),
-                        padding: EdgeInsets.all(4.w),
-                        height: 190.h,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppConstants().ltLogoGrey.withOpacity(0.1),
-                              spreadRadius: 0.r,
-                              blurRadius: 10.r,
-                            ),
-                          ],
-                          color: AppConstants().ltWhite.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 10.w, left: 50.w),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //  "İyi Günler ${LocaleManager.instance.getString(PreferencesKeys.currentUserName)},"
-                                  Text(
-                                    "Rotanı oluştur paylaşımlı taşımacılığın keyfini çıkar",
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Şimdi rotanı oluşturarak diğer sürücü ve araçlarla rotanı paylaşabilir,seninle aynı rotadaki sürücüleri görebilir ve onlarla iletişim kurabilirsin",
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(5.w),
-                              padding: EdgeInsets.all(4.w),
-                              height: 50.h,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppConstants()
-                                        .ltLogoGrey
-                                        .withOpacity(0.2),
-                                    spreadRadius: 0.r,
-                                    blurRadius: 10.r,
-                                  ),
-                                ],
-                                color: AppConstants().ltWhite,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(8.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/route-icon.svg',
-                                      color: AppConstants().ltMainRed,
-                                      width: 20.w,
-                                    ),
-                                    SizedBox(width: 12.w),
-                                    Text(
-                                      "Rota oluştur",
-                                      style: TextStyle(
-                                        color: AppConstants().ltLogoGrey,
-                                        fontFamily: "SfLight",
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: createroute_infotext_widget(isOnlyInfotext: false),
                     );
         },
       ),
@@ -335,134 +268,93 @@ class CreateRouteView extends StatelessWidget {
         ),
       ),
     );
-    // Obx(() {
-    //   print(
-    //       "CREATEROUTEE selectRouteCities ${createRouteController.isKeyboardVisible.value}");
-    //   return GestureDetector(
-    //     onTap: () async {
-    //       try {
-    //         Prediction? place = await PlacesAutocomplete.show(
-    //             overlayBorderRadius: BorderRadius.circular(8.r),
-    //             textDecoration: InputDecoration(
-    //               labelStyle: TextStyle(
-    //                 color: AppConstants().ltLogoGrey,
-    //                 fontFamily: "SfLight",
-    //                 fontSize: 12.sp,
-    //               ),
-    //             ),
-    //             textStyle: TextStyle(
-    //               color: AppConstants().ltLogoGrey,
-    //               fontFamily: "SfLight",
-    //               fontSize: 12.sp,
-    //             ),
-    //             resultTextStyle: TextStyle(
-    //               color: AppConstants().ltBlack,
-    //               fontFamily: "SfLight",
-    //               fontSize: 12.sp,
-    //             ),
-    //             logo: const SizedBox(height: 0),
-    //             backArrowIcon: Padding(
-    //               padding: EdgeInsets.only(left: 10.w),
-    //               child: SvgPicture.asset(
-    //                 "assets/icons/close-icon.svg",
-    //                 width: 24.w,
-    //               ),
-    //             ),
-    //             hint: isStartCity
-    //                 ? 'Çıkış Noktası Giriniz'
-    //                 : 'Varış Noktası Giriniz',
-    //             context: context,
-    //             apiKey: AppConstants.googleMapsApiKey,
-    //             mode: Mode.overlay,
-    //             types: [],
-    //             strictbounds: false,
-    //             components: [Component(Component.country, 'tr')],
-    //             onError: (err) {
-    //               log("VARIŞ NOKTASI ERR  -> ${err.errorMessage}");
-    //             });
-
-    //         PlacesDetailsResponse detail = await createRouteController
-    //             .googleMapsPlaces
-    //             .getDetailsByPlaceId(place!.placeId!);
-
-    //         if (isStartCity) {
-    //           createRouteController.startRouteLocation.value = LatLng(
-    //               detail.result.geometry!.location.lat,
-    //               detail.result.geometry!.location.lng);
-    //           createRouteController.getRouteInfo();
-    //         } else {
-    //           createRouteController.finishRouteLocation.value = LatLng(
-    //               detail.result.geometry!.location.lat,
-    //               detail.result.geometry!.location.lng);
-
-    //           final addressComponents = detail.result.addressComponents;
-
-    //           for (var component in addressComponents) {
-    //             if (component.types.first == "administrative_area_level_1") {
-    //               createRouteController.finishRouteCity.value =
-    //                   component.longName;
-
-    //               break;
-    //             }
-    //           }
-
-    //           createRouteController.getRouteInfo(isStartLocation: false);
-    //         }
-    //       } catch (e) {
-    //         log("CREATEROUTE ERR-> $e");
-    //       }
-    //     },
-    //     child: Container(
-    //       margin: EdgeInsets.all(10.w),
-    //       padding: EdgeInsets.all(4.w),
-    //       height: 50.h,
-    //       width: 330.w,
-    //       decoration: BoxDecoration(
-    //         boxShadow: [
-    //           BoxShadow(
-    //             color: AppConstants().ltLogoGrey.withOpacity(0.2),
-    //             spreadRadius: 0.r,
-    //             blurRadius: 10.r,
-    //           ),
-    //         ],
-    //         color: AppConstants().ltWhite,
-    //         borderRadius: BorderRadius.circular(8.r),
-    //       ),
-    //       child: Padding(
-    //         padding: EdgeInsets.all(8.w),
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: [
-    //             SvgPicture.asset(
-    //               'assets/icons/route-icon.svg',
-    //               color: AppConstants().ltMainRed,
-    //               width: 20.w,
-    //             ),
-    //             SizedBox(width: 12.w),
-    //             Obx(
-    //               () => Expanded(
-    //                 child: Text(
-    //                   isStartCity
-    //                       ? createRouteController.startRouteAdress.value != ""
-    //                           ? createRouteController.startRouteAdress.value
-    //                           : "Çıkış noktasını giriniz..."
-    //                       : createRouteController.finishRouteAdress.value != ""
-    //                           ? createRouteController.finishRouteAdress.value
-    //                           : "Varış Noktasını Giriniz...",
-    //                   style: TextStyle(
-    //                     color: AppConstants().ltLogoGrey,
-    //                     fontFamily: "SfLight",
-    //                     fontSize: 12.sp,
-    //                     overflow: TextOverflow.ellipsis,
-    //                   ),
-    //                 ),
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // });
   }
+}
+
+Container createroute_infotext_widget({required bool isOnlyInfotext}) {
+  return Container(
+    margin: EdgeInsets.all(10.w),
+    padding: EdgeInsets.all(4.w),
+    height: isOnlyInfotext ? 120.h : 225.h,
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: AppConstants().ltLogoGrey.withOpacity(0.1),
+          spreadRadius: 0.r,
+          blurRadius: 10.r,
+        ),
+      ],
+      color: AppConstants().ltWhite.withOpacity(0.8),
+      borderRadius: BorderRadius.circular(8.r),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              EdgeInsets.only(top: 10.w, left: isOnlyInfotext ? 30.w : 50.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //  "İyi Günler ${LocaleManager.instance.getString(PreferencesKeys.currentUserName)},"
+              Text(
+                "Rotanı oluştur paylaşımlı taşımacılığın keyfini çıkar",
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+              ),
+              isOnlyInfotext
+                  ? Container()
+                  : Text(
+                      "Şimdi rotanı oluşturarak diğer sürücü ve araçlarla rotanı paylaşabilir,seninle aynı rotadaki sürücüleri görebilir ve onlarla iletişim kurabilirsin",
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                      ),
+                    ),
+            ],
+          ),
+        ),
+        isOnlyInfotext
+            ? Container()
+            : Container(
+                margin: EdgeInsets.all(5.w),
+                padding: EdgeInsets.all(4.w),
+                height: 50.h,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppConstants().ltLogoGrey.withOpacity(0.2),
+                      spreadRadius: 0.r,
+                      blurRadius: 10.r,
+                    ),
+                  ],
+                  color: AppConstants().ltWhite,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(8.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/route-icon.svg',
+                        color: AppConstants().ltMainRed,
+                        width: 20.w,
+                      ),
+                      SizedBox(width: 12.w),
+                      Text(
+                        "Rota oluştur",
+                        style: TextStyle(
+                          color: AppConstants().ltLogoGrey,
+                          fontFamily: "SfLight",
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+      ],
+    ),
+  );
 }

@@ -30,6 +30,7 @@ import 'package:shared_preferences_foundation/shared_preferences_foundation.dart
 import 'package:sqflite_darwin/sqflite_darwin.dart';
 import 'package:url_launcher_ios/url_launcher_ios.dart';
 import 'package:video_player_avfoundation/video_player_avfoundation.dart';
+import 'package:app_links_linux/app_links_linux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector_linux/file_selector_linux.dart';
@@ -37,6 +38,7 @@ import 'package:flutter_local_notifications_linux/flutter_local_notifications_li
 import 'package:image_picker_linux/image_picker_linux.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider_linux/path_provider_linux.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences_linux/shared_preferences_linux.dart';
 import 'package:url_launcher_linux/url_launcher_linux.dart';
 import 'package:file_picker/file_picker.dart';
@@ -54,6 +56,7 @@ import 'package:file_selector_windows/file_selector_windows.dart';
 import 'package:image_picker_windows/image_picker_windows.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider_windows/path_provider_windows.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences_windows/shared_preferences_windows.dart';
 import 'package:url_launcher_windows/url_launcher_windows.dart';
 
@@ -282,6 +285,15 @@ class _PluginRegistrant {
 
     } else if (Platform.isLinux) {
       try {
+        AppLinksPluginLinux.registerWith();
+      } catch (err) {
+        print(
+          '`app_links_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
         ConnectivityPlusLinuxPlugin.registerWith();
       } catch (err) {
         print(
@@ -340,6 +352,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`path_provider_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        SharePlusLinuxPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -495,6 +516,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`path_provider_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        SharePlusWindowsPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }

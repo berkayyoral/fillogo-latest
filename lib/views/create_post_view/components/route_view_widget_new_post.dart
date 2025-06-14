@@ -31,7 +31,7 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     log("CREATEPOST ROUTE ${createPostPageController.routeContent}");
     return Container(
-      height: 70.h,
+      height: 90.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(
@@ -90,51 +90,51 @@ class RouteViewWidgetNewPostPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 2.w,
-                            left: 4.w,
-                            right: 4.w,
-                          ),
-                          child: Text(
-                            routeStartDate,
-                            style: TextStyle(
-                              fontFamily: 'Sflight',
-                              fontSize: 14.sp,
-                              color: AppConstants().ltDarkGrey,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(),
-                          child: Text(
-                            '-',
-                            style: TextStyle(
-                              fontFamily: 'Sflight',
-                              fontSize: 14.sp,
-                              color: AppConstants().ltDarkGrey,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 2.w,
-                            left: 4.w,
-                            right: 10.w,
-                          ),
-                          child: Text(
-                            routeEndDate,
-                            style: TextStyle(
-                              fontFamily: 'Sflight',
-                              fontSize: 14.sp,
-                              color: AppConstants().ltDarkGrey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Padding(
+                    //       padding: EdgeInsets.only(
+                    //         top: 2.w,
+                    //         left: 4.w,
+                    //         right: 4.w,
+                    //       ),
+                    //       child: Text(
+                    //         routeStartDate,
+                    //         style: TextStyle(
+                    //           fontFamily: 'Sflight',
+                    //           fontSize: 14.sp,
+                    //           color: AppConstants().ltDarkGrey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(),
+                    //       child: Text(
+                    //         '-',
+                    //         style: TextStyle(
+                    //           fontFamily: 'Sflight',
+                    //           fontSize: 14.sp,
+                    //           color: AppConstants().ltDarkGrey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: EdgeInsets.only(
+                    //         top: 2.w,
+                    //         left: 4.w,
+                    //         right: 10.w,
+                    //       ),
+                    //       child: Text(
+                    //         routeEndDate,
+                    //         style: TextStyle(
+                    //           fontFamily: 'Sflight',
+                    //           fontSize: 14.sp,
+                    //           color: AppConstants().ltDarkGrey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ],

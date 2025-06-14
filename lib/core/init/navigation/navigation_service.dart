@@ -54,6 +54,10 @@ class NavigationService {
       page: () => const SplashScreen(),
     ),
     GetPage(
+      name: NavigationConstants.routeLoginOrRegister,
+      page: () => RouteLoginOrRegister(),
+    ),
+    GetPage(
       transition: Transition.cupertino,
       name: NavigationConstants.onboards,
       page: () => OnboardPages(),
@@ -96,14 +100,9 @@ class NavigationService {
     //         "Şimdi bu maceranın\nbir parçası ol ve\nuygulamamıza katılarak\narkadaşlarınla ve diğer sürücülerle\nbağlantı kur.",
     //   ),
     // ),
-
     GetPage(
       name: NavigationConstants.bottomNavigationBar,
       page: () => BottomNavigationBarView(),
-    ),
-    GetPage(
-      name: NavigationConstants.routeLoginOrRegister,
-      page: () => RouteLoginOrRegister(),
     ),
     GetPage(
       name: NavigationConstants.welcomelogin,

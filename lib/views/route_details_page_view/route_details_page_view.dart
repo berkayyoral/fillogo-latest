@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fillogo/controllers/berkay_controller/berkay_controller.dart';
 import 'package:fillogo/controllers/map/marker_icon_controller.dart';
+import 'package:fillogo/controllers/share_media/share_media_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/routes_models/activate_route_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -123,14 +124,17 @@ class RouteDetailsPageView extends StatelessWidget {
                             color: AppConstants().ltLogoGrey,
                           ),
                         ),
-                        Text(
-                          "${routeDetailsPageController.ownerRouteCarType.carBrand} / ${routeDetailsPageController.ownerRouteCarType.carModel}",
-                          style: TextStyle(
-                            fontFamily: 'Sfmedium',
-                            fontSize: 12.sp,
-                            color: AppConstants().ltDarkGrey,
-                          ),
-                        ),
+                        routeDetailsPageController.ownerRouteCarType.carBrand !=
+                                ""
+                            ? Text(
+                                "${routeDetailsPageController.ownerRouteCarType.carBrand} / ${routeDetailsPageController.ownerRouteCarType.carModel}",
+                                style: TextStyle(
+                                  fontFamily: 'Sfmedium',
+                                  fontSize: 12.sp,
+                                  color: AppConstants().ltDarkGrey,
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                   ],

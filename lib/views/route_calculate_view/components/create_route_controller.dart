@@ -122,8 +122,8 @@ class CreateeRouteController extends GetxController implements PolylineService {
       createRouteStartAddress.value = "";
       createRouteStartLatitude.value = 0.0;
       createRouteStartLongitude.value = 0.0;
+      startCity = "".obs;
     }
-    startCity = "".obs;
 
     createRouteFinishAddress.value = "";
     createRouteFinishLatitude.value = 0.0;

@@ -104,7 +104,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     .socket
                     .emit("new-user-add", response.data![0].user!.id!);
                 Get.toNamed(NavigationConstants.bottomNavigationBar);
+                // Get.rootDelegate
+                //     .toNamed(NavigationConstants.bottomNavigationBar);
               } else {
+                Get.toNamed(NavigationConstants.welcomelogin);
                 print("LOGİNİÇİNUSERINFO GİRİŞ NULDEĞİL burda");
               }
             }

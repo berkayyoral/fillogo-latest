@@ -71,6 +71,7 @@ class MapPageMController extends GetxController implements MapPageService {
       false.obs; //aktif rotam varsa rotayı bitir butonu görünsün mü
 
   ///GÖRÜNÜRLÜK VE MÜSAİTLİK
+  RxBool isLoadingVisibilty = false.obs;
   RxBool isRouteVisibilty = true.obs;
   RxBool isRouteAvability = true.obs;
 

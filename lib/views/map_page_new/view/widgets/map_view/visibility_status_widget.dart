@@ -28,97 +28,101 @@ class VisibilityStatusWidget extends StatelessWidget {
                     /// GÖRÜNÜRLÜK
                     Expanded(
                       child: visibilityOrAvabilityWidget(
-                          mapPageMController, context, isForVisibility: true,
-                          onTap: () async {
-                        SetCustomMarkerIconController
-                            customMarkerIconController = Get.find();
+                        mapPageMController,
+                        context,
+                        isForVisibility: true,
+                        onTap: () async {
+                          SetCustomMarkerIconController
+                              customMarkerIconController = Get.find();
 
-                        print(
-                            "AKTİFROTAM -> ${mapPageMController.isThereActiveRoute.value}");
-                        if (mapPageMController.isThereActiveRoute.value) {
-                          Get.snackbar("Başarısız!",
-                              "Aktif rotanız varken görünürlük bilginiz kapatılamaz",
-                              snackPosition: SnackPosition.BOTTOM,
-                              colorText: AppConstants().ltBlack);
-                        } else {
-                          await GeneralServicesTemp().makePostRequest(
-                            EndPoint.updateStatus,
-                            {
-                              "visible":
-                                  mapPageMController.isRouteVisibilty.value,
-                              // "available": true,
-                              // mapPageMController.isRouteAvability.value
-                            },
-                            {
-                              "Content-type": "application/json",
-                              'Authorization':
-                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
-                            },
-                          ).then((value) async {
-                            final decoded = jsonDecode(value!);
-                            final isInvisible =
-                                decoded["data"][0]["isInvisible"];
-
-                            mapPageMController.isRouteVisibilty.value =
-                                !mapPageMController.isRouteVisibilty.value;
-
+                          if (mapPageMController.isLoadingVisibilty.value) {
+                            print("VİSİBİLİTYTIK LANAMAZ");
+                          } else {
+                            print("VİSİBİLİTYTIK LANDI");
+                            mapPageMController.isLoadingVisibilty.value = true;
+                            Get.closeCurrentSnackbar();
                             print(
-                                "VİSİORAVA VİSİBİLTİRYY M -> ${isInvisible}  / ${mapPageMController.isRouteVisibilty.value}");
-
-                            mapPageMController.markers.value.clear();
-
-                            if (mapPageMController.isRouteVisibilty.value) {
-                              mapPageMController.filterSelectedList.value = [
-                                true,
-                                true,
-                                true
-                              ];
-                              mapPageMController.carTypeList = [
-                                "Otomobil",
-                                "Tır",
-                                "Motorsiklet"
-                              ];
+                                "AKTİFROTAM -> ${mapPageMController.isThereActiveRoute.value}");
+                            if (mapPageMController.isThereActiveRoute.value) {
+                              Get.snackbar("Başarısız!",
+                                  "Aktif rotanız varken görünürlük bilginiz kapatılamaz",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  colorText: AppConstants().ltBlack);
                             } else {
-                              mapPageMController.carTypeList.clear();
-                              mapPageMController.filterSelectedList.value = [
-                                false,
-                                false,
-                                false
-                              ];
+                              await GeneralServicesTemp().makePostRequest(
+                                EndPoint.updateStatus,
+                                {
+                                  "visible":
+                                      mapPageMController.isRouteVisibilty.value,
+                                  // "available": true,
+                                  // mapPageMController.isRouteAvability.value
+                                },
+                                {
+                                  "Content-type": "application/json",
+                                  'Authorization':
+                                      'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}'
+                                },
+                              ).then((value) async {
+                                final decoded = jsonDecode(value!);
+                                final isInvisible =
+                                    decoded["data"][0]["isInvisible"];
+
+                                mapPageMController.isRouteVisibilty.value =
+                                    !mapPageMController.isRouteVisibilty.value;
+
+                                print(
+                                    "VİSİORAVA VİSİBİLTİRYY M -> ${isInvisible}  / ${mapPageMController.isRouteVisibilty.value}");
+
+                                mapPageMController.markers.value.clear();
+
+                                if (mapPageMController.isRouteVisibilty.value) {
+                                  mapPageMController.filterSelectedList.value =
+                                      [true, true, true];
+                                  mapPageMController.carTypeList = [
+                                    "Otomobil",
+                                    "Tır",
+                                    "Motorsiklet"
+                                  ];
+                                } else {
+                                  mapPageMController.carTypeList.clear();
+                                  mapPageMController.filterSelectedList.value =
+                                      [false, false, false];
+                                }
+
+                                mapPageMController.getUsersOnArea(
+                                    carTypeFilter:
+                                        mapPageMController.carTypeList);
+
+                                mapPageMController.markers.value.removeWhere(
+                                    (marker) =>
+                                        marker.markerId.value ==
+                                        'myLocationMarker');
+
+                                LocaleManager.instance
+                                    .setBool(
+                                        PreferencesKeys.isVisibility,
+                                        mapPageMController
+                                            .isRouteVisibilty.value)
+                                    .then((value) {});
+
+                                await customMarkerIconController
+                                    .setCustomMarkerIcon3(
+                                        isOffVisibility: mapPageMController
+                                            .isRouteVisibilty.value);
+
+                                mapPageMController.addMarkerIcon(
+                                    markerID: "myLocationMarker");
+                                Get.closeCurrentSnackbar();
+                                Get.snackbar("Başarılı!",
+                                    "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}.",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    colorText: AppConstants().ltBlack);
+                              });
                             }
-
-                            mapPageMController.getUsersOnArea(
-                                carTypeFilter: mapPageMController.carTypeList);
-
-                            mapPageMController.markers.value.removeWhere(
-                                (marker) =>
-                                    marker.markerId.value ==
-                                    'myLocationMarker');
-
-                            LocaleManager.instance
-                                .setBool(PreferencesKeys.isVisibility,
-                                    mapPageMController.isRouteVisibilty.value)
-                                .then((value) {
-                              print(
-                                  "VİSİORAVA VİSİVİBİLTRMARKER değişti -> ${LocaleManager.instance.getBool(PreferencesKeys.isVisibility)}");
-                            });
-
-                            await customMarkerIconController
-                                .setCustomMarkerIcon3(
-                                    isOffVisibility: mapPageMController
-                                        .isRouteVisibilty.value);
-
-                            mapPageMController.addMarkerIcon(
-                                markerID: "myLocationMarker");
-                            Get.snackbar("Başarılı!",
-                                "Görünürlüğünüz ${mapPageMController.isRouteVisibilty.value ? "Açıldı" : "Kapatıldı"}.",
-                                snackPosition: SnackPosition.BOTTOM,
-                                colorText: AppConstants().ltBlack);
-                            print(
-                                "VİSİBİLİTY değişti  visib -> ${mapPageMController.isRouteVisibilty.value} avabil -> ${mapPageMController.isRouteAvability.value} re -> ${value}");
-                          });
-                        }
-                      }),
+                            mapPageMController.isLoadingVisibilty.value = false;
+                          }
+                        },
+                      ),
                     ),
 
                     // Expanded(

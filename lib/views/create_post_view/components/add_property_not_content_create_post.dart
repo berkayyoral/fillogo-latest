@@ -92,42 +92,42 @@ class AddNewPropertyNotContentCreatePost extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(
-                20.w,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed('/createPostPageAddTags');
-                },
-                child: SvgPicture.asset(
-                  'assets/icons/add-tag-icon.svg',
-                  height: 28.w,
-                  width: 28.w,
-                  color: (createPostPageController.haveTag.value == 1)
-                      ? AppConstants().ltMainRed
-                      : AppConstants().ltLogoGrey,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(
-                20.w,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed('/createPostPageAddEmotion');
-                },
-                child: SvgPicture.asset(
-                  'assets/icons/add-emotion-icon.svg',
-                  height: 28.w,
-                  width: 28.w,
-                  color: (createPostPageController.isSelectedEmotion.value)
-                      ? AppConstants().ltMainRed
-                      : AppConstants().ltLogoGrey,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.all(
+            //     20.w,
+            //   ),
+            //   child: InkWell(
+            //     onTap: () {
+            //       Get.toNamed('/createPostPageAddTags');
+            //     },
+            //     child: SvgPicture.asset(
+            //       'assets/icons/add-tag-icon.svg',
+            //       height: 28.w,
+            //       width: 28.w,
+            //       color: (createPostPageController.haveTag.value == 1)
+            //           ? AppConstants().ltMainRed
+            //           : AppConstants().ltLogoGrey,
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.all(
+            //     20.w,
+            //   ),
+            //   child: InkWell(
+            //     onTap: () {
+            //       Get.toNamed('/createPostPageAddEmotion');
+            //     },
+            //     child: SvgPicture.asset(
+            //       'assets/icons/add-emotion-icon.svg',
+            //       height: 28.w,
+            //       width: 28.w,
+            //       color: (createPostPageController.isSelectedEmotion.value)
+            //           ? AppConstants().ltMainRed
+            //           : AppConstants().ltLogoGrey,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

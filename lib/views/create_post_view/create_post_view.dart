@@ -2,6 +2,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:fillogo/controllers/share_media/share_media_controller.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
@@ -41,6 +44,10 @@ import 'package:fillogo/widgets/custom_button_design.dart';
 import 'package:fillogo/widgets/profilePhoto.dart';
 import 'package:fillogo/widgets/video_player_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/init/ui_helper/ui_helper.dart';
 
@@ -64,6 +71,9 @@ class CreatePostPageView extends StatelessWidget {
       Get.find<GeneralDrawerController>();
   bool isHomepage = Get.arguments ?? false;
   HomePostDetail? detail;
+
+  final ScreenshotController screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -312,49 +322,130 @@ class CreatePostPageView extends StatelessWidget {
 
                           // Map<String, dynamic> formData1 = {
 
-                          await GeneralServicesTemp()
-                              .makePostRequestWithFormData(
-                                  '/posts/create-post', map, {
-                            "Content-Type": "multipart/form-data",
-                            'Authorization':
-                                'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
-                          }).then((value) {
-                            log("MULTİPARTREQUESTplatformumum responsem -> ${jsonEncode(value)}");
-                            if (value != null) {
-                              final response = PostCreateResponse.fromJson(
-                                  jsonDecode(value));
-                              if (response.success == 1) {
-                                if (bottomNavigationBarController
-                                        .selectedIndex.value ==
-                                    1) {
-                                  log("platformumum  response -> ${jsonEncode(response)}");
-                                  bottomNavigationBarController
-                                      .selectedIndex.value = 1;
-                                  homeController.currentPage.value = 1;
-                                  homeController.scrollOffset.value = 600;
-                                  homeController.snapshotList.clear();
-                                  homeController.fillList(1);
-                                } else {
-                                  bottomNavigationBarController
-                                      .selectedIndex.value = 0;
-                                  homeController.currentPage.value = 1;
-                                  homeController.scrollOffset.value = 600;
-                                  homeController.snapshotList.clear();
-                                  homeController.fillList(1);
-                                }
+                          if (createPostPageController.routeId.value != 0) {
+                            print("ROTAPAYLAŞIMIM");
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: Text(
+                                        'Tebrikler!',
+                                        style: TextStyle(
+                                          fontFamily: 'Sfsemibold',
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: -1,
+                                          color: AppConstants().ltBlack,
+                                        ),
+                                      ),
+                                      content: Text(
+                                        "Rotanız başarıyla oluşturuldu.",
+                                        style: TextStyle(
+                                          fontFamily: 'Sfregular',
+                                          fontSize: 16.sp,
+                                          letterSpacing: -1,
+                                          color: AppConstants()
+                                              .ltLogoGrey
+                                              .withAlpha(150),
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        Text(
+                                          "Yeni rotanızı duvarınızda yayınlamak ve sosyal medyanızda arkadaşlarınızla paylaşmak ister misiniz?",
+                                          style: TextStyle(
+                                            fontFamily: 'Sfregular',
+                                            fontSize: 16.sp,
+                                            letterSpacing: -1,
+                                            color: AppConstants().ltLogoGrey,
+                                          ),
+                                        ),
+                                        24.h.verticalSpace,
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 2.w, vertical: 12.h),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              share_social_media_button(
+                                                  map: map,
+                                                  iconPath:
+                                                      'assets/icons/social_media/fillogo_social.png',
+                                                  text: "FİLLOGO"),
+                                              share_social_media_button(
+                                                  map: map,
+                                                  iconPath:
+                                                      'assets/icons/social_media/facebook.png',
+                                                  text: "FACEBOOK"),
+                                              share_social_media_button(
+                                                  map: map,
+                                                  iconPath:
+                                                      'assets/icons/social_media/twitter.png',
+                                                  text: "TWİTTER"),
+                                              share_social_media_button(
+                                                  map: map,
+                                                  iconPath:
+                                                      'assets/icons/social_media/instagram.png',
+                                                  text: "İNSTAGRAM"),
+                                              // share_social_media_button(
+                                              //     map: map,
+                                              //     iconPath:
+                                              //         'assets/icons/social_media/tiktok.png',
+                                              //     text: "TİKTOK"),
+                                              share_social_media_button(
+                                                  map: map,
+                                                  iconPath:
+                                                      'assets/icons/social_media/whatsapp.png',
+                                                  text: "WHATSAPP"),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ));
+                          } else {
+                            await GeneralServicesTemp()
+                                .makePostRequestWithFormData(
+                                    '/posts/create-post', map, {
+                              "Content-Type": "multipart/form-data",
+                              'Authorization':
+                                  'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+                            }).then((value) {
+                              log("MULTİPARTREQUESTplatformumum responsem -> ${jsonEncode(value)}");
+                              if (value != null) {
+                                final response = PostCreateResponse.fromJson(
+                                    jsonDecode(value));
+                                if (response.success == 1) {
+                                  if (bottomNavigationBarController
+                                          .selectedIndex.value ==
+                                      1) {
+                                    log("platformumum  response -> ${jsonEncode(response)}");
+                                    bottomNavigationBarController
+                                        .selectedIndex.value = 1;
+                                    homeController.currentPage.value = 1;
+                                    homeController.scrollOffset.value = 600;
+                                    homeController.snapshotList.clear();
+                                    homeController.fillList(1);
+                                  } else {
+                                    bottomNavigationBarController
+                                        .selectedIndex.value = 0;
+                                    homeController.currentPage.value = 1;
+                                    homeController.scrollOffset.value = 600;
+                                    homeController.snapshotList.clear();
+                                    homeController.fillList(1);
+                                  }
 
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      showAllertDialogPostSharing(context),
-                                );
-                              } else {
-                                UiHelper.showWarningSnackBar(context,
-                                    'Bir hata oluştu. Tekrar deneyiniz.');
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        showAllertDialogPostSharing(context),
+                                  );
+                                } else {
+                                  UiHelper.showWarningSnackBar(context,
+                                      'Bir hata oluştu. Tekrar deneyiniz.');
+                                }
+                                mediaPickerController.media = null;
                               }
-                              mediaPickerController.media = null;
-                            }
-                          });
+                            });
+                          }
 
                           homeController.isLoading.value = false;
                           // homeController.update();
@@ -394,6 +485,110 @@ class CreatePostPageView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  InkWell share_social_media_button({
+    required String iconPath,
+    required String text,
+    required Map<String, dynamic> map,
+  }) {
+    ShareMediaControlller shareMediaControlller =
+        Get.put(ShareMediaControlller());
+    return InkWell(
+        child: Container(
+          child: Image.asset(
+            iconPath,
+            fit: BoxFit.cover,
+            height: 30.h,
+            color: AppConstants().ltBlack,
+          ),
+        ),
+        onTap: () async {
+          log("SHAREFACE 1");
+          // Get.dialog(shareMediaControlller.getImageInWidget());
+          // await shareMediaControlller.getImageInWidget();
+
+          try {
+            if (text == "FİLLOGO") {
+              print("SHAREFACE 2");
+              await GeneralServicesTemp()
+                  .makePostRequestWithFormData('/posts/create-post', map, {
+                "Content-Type": "multipart/form-data",
+                'Authorization':
+                    'Bearer ${LocaleManager.instance.getString(PreferencesKeys.accessToken)}',
+              }).then((value) {
+                log("MULTİPARTREQUESTplatformumum responsem -> ${jsonEncode(value)}");
+                if (value != null) {
+                  final response =
+                      PostCreateResponse.fromJson(jsonDecode(value));
+                  if (response.success == 1) {
+                    if (bottomNavigationBarController.selectedIndex.value ==
+                        1) {
+                      log("platformumum  response -> ${jsonEncode(response)}");
+                      bottomNavigationBarController.selectedIndex.value = 1;
+                      homeController.currentPage.value = 1;
+                      homeController.scrollOffset.value = 600;
+                      homeController.snapshotList.clear();
+                      homeController.fillList(1);
+                    } else {
+                      bottomNavigationBarController.selectedIndex.value = 0;
+                      homeController.currentPage.value = 1;
+                      homeController.scrollOffset.value = 600;
+                      homeController.snapshotList.clear();
+                      homeController.fillList(1);
+                    }
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (BuildContext context) =>
+                    //       showAllertDialogPostSharing(context),
+                    // );
+                  } else {
+                    Get.snackbar("", 'Bir hata oluştu. Tekrar deneyiniz.');
+                  }
+                  mediaPickerController.media = null;
+                }
+              });
+            } else {
+              log("SHAREFACE 2");
+              // Asset'ten görseli al
+              // final byteData = await rootBundle.load('assets/images/1.png');
+              // print("SHAREFACE 2");
+              // // Geçici dosya oluştur
+              // final tempDir = await getTemporaryDirectory();
+              // final file = await File('${tempDir.path}/gonderi.jpg').create();
+              // await file.writeAsBytes(byteData.buffer.asUint8List());
+              // print("SHAREFACE 3");
+              // // Sistem paylaşımı aç (Facebook dahil)
+              // await Share.shareXFiles(
+              //   [XFile(file.path)],
+              //   text: discriptionTextController.text,
+              // );
+
+              Uint8List? imageBytes =
+                  await shareMediaControlller.getImageInWidget(
+                      routeId: createPostPageController.routeId.value);
+              log("SHAREFACE 33");
+              // await shareMediaControlller
+              //     .captureWidgetToImage(shareMediaControlller.previewContainer);
+              if (imageBytes != null) {
+                log("SHAREFACE 4");
+                final directory = await getTemporaryDirectory();
+                final imagePath =
+                    await File('${directory.path}/widget_image.png').create();
+                // Get.dialog(Image.memory(imageBytes));
+                await imagePath.writeAsBytes(imageBytes);
+                Share.shareXFiles([XFile(imagePath.path)],
+                    text:
+                        "https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr",
+                    subject: "selam knak");
+
+                log("SHAREFACE 5");
+              }
+            }
+          } catch (e) {
+            log("SHARE ERR");
+          }
+        });
   }
 
   AppBarGenel appBar(BuildContext context) {
@@ -450,7 +645,7 @@ class CreatePostPageView extends StatelessWidget {
         ),
       ),
       title: Text(
-        "Gönderi Oluştur",
+        "Gönderi Oluştsur",
         style: TextStyle(
           fontFamily: "Sfbold",
           fontSize: 20.sp,

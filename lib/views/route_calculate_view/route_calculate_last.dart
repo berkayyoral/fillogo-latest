@@ -224,6 +224,9 @@ class RouteCalculateLastView extends StatelessWidget {
                                               onTap: () async {
                                                 createeRouteController
                                                     .calculateLevel.value = 2;
+                                                // searchRouteController
+                                                //     .selectedCarTypeOption
+                                                //     .value = "";
                                               },
                                               child: Container(
                                                 height: 50.w,
@@ -660,13 +663,14 @@ class RouteCalculateButtomSheet extends StatelessWidget {
           children: [
             Visibility(
                 child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Align(
                   // alignment: Alignment.topCenter,
                   child: Container(
                     height:
-                        searchRouteController.showOnlyMap.value ? 85.h : 333.h,
+                        searchRouteController.showOnlyMap.value ? 85.h : 363.h,
                     width: Get.width,
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -680,67 +684,122 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Stack(
+                      alignment: Alignment.center,
                       children: [
                         Positioned(
                           // bottom: 12.h,
-                          child: SizedBox(
-                            width: Get.width,
-                            child: SingleChildScrollView(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 10.w, right: 10.w, top: 24.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: 4.w, left: 8.w),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Farklı konumlarda rota oluşturan sürücüler",
-                                            style: TextStyle(
-                                              fontFamily: "Sflight",
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: AppConstants().ltBlack,
+                          child: InkWell(
+                            onTap: () {
+                              if (searchRouteController.showOnlyMap.value) {
+                                searchRouteController.showOnlyMap.value = false;
+                              }
+                            },
+                            child: SizedBox(
+                              width: Get.width,
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 10.w, right: 10.w, top: 24.h),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: 4.w, left: 8.w),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Farklı konumlarda rota oluşturan sürücüler",
+                                              style: TextStyle(
+                                                fontFamily: "Sflight",
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppConstants().ltBlack,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            "Seçtiğiniz konumlarda rota oluşturan sürücü ve araçları bu sayfada listeliyebilir ve onlarla iletişim kurabilirsiniz",
-                                            style: TextStyle(
-                                              fontFamily: "Sflight",
-                                              fontSize: 12.sp,
-                                              color: AppConstants().ltBlack,
+                                            Text(
+                                              "Seçtiğiniz konumlarda rota oluşturan sürücü ve araçları bu sayfada listeliyebilir ve onlarla iletişim kurabilirsiniz",
+                                              style: TextStyle(
+                                                fontFamily: "Sflight",
+                                                fontSize: 12.sp,
+                                                color: AppConstants().ltBlack,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Visibility(
-                                      visible: !searchRouteController
-                                          .showOnlyMap.value,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _placesAutoComplateTextFieldStart(
-                                              context),
-                                          const SizedBox(height: 10),
-                                          _placesAutoComplateTextFieldFinish(
-                                              context),
-                                          const SizedBox(height: 10),
-                                          datePickerWidget(context),
-                                          const SizedBox(height: 10),
-                                          filterCarTypeWidget(context),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                      Visibility(
+                                        visible: !searchRouteController
+                                            .showOnlyMap.value,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            _placesAutoComplateTextFieldStart(
+                                                context),
+                                            const SizedBox(height: 10),
+                                            _placesAutoComplateTextFieldFinish(
+                                                context),
+                                            const SizedBox(height: 10),
+                                            datePickerWidget(context),
+                                            const SizedBox(height: 10),
+                                            // filterCarTypeWidget(context, false),
+                                            //COMBOBAX
+                                            filterCarTypeCombobax(),
+                                            const SizedBox(height: 10),
+                                            InkWell(
+                                              onTap: () {
+                                                if (!searchRouteController
+                                                        .showOnlyMap.value ||
+                                                    createRouteController
+                                                            .calculateLevel
+                                                            .value ==
+                                                        2) {
+                                                  getSearchRoute(context);
+                                                } else {
+                                                  searchRouteController
+                                                      .showOnlyMap
+                                                      .value = false;
+                                                }
+
+                                                print(
+                                                    "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
+                                              },
+                                              child: Center(
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  width: 150.w,
+                                                  height: 30.h,
+                                                  decoration: BoxDecoration(
+                                                    color: AppConstants()
+                                                        .ltMainRed,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10.r,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    "Ara",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: AppConstants()
+                                                          .ltWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -876,37 +935,42 @@ class RouteCalculateButtomSheet extends StatelessWidget {
               // visible: searchRouteController.showOnlyMap.value,
               child: Positioned(
                 // top: searchRouteController.showOnlyMap.value ? 50.h : 290.h,
-                top: -15.h,
-                right: searchRouteController.showOnlyMap.value ? 10.w : 165.w,
-                left: searchRouteController.showOnlyMap.value ? null : 165.h,
+                top: 5.h,
+                right: searchRouteController.showOnlyMap.value ? 1.w : 1.w,
+                left: searchRouteController.showOnlyMap.value ? 1.w : 1.h,
                 child: InkWell(
                   onTap: () {
                     searchRouteController.showOnlyMap.value =
                         !searchRouteController.showOnlyMap.value;
                   },
                   child: Container(
-                    width: 40.w,
-                    height: 40.w,
-                    padding: EdgeInsets.all(4.w),
+                    width: 100.w,
+                    height: 25.w,
+                    padding: EdgeInsets.all(2.w),
                     decoration: BoxDecoration(
                       color: AppConstants().ltWhite,
-                      borderRadius: BorderRadius.circular(50.r),
+                      borderRadius: BorderRadius.circular(10.r),
                       border: Border.all(
                         color: Colors.white,
                         width: 2,
                       ),
                       gradient: LinearGradient(
                         colors: [
-                          AppConstants().ltMainRed,
-                          AppConstants().ltMainRed
+                          AppConstants().ltWhiteGrey.withAlpha(10),
+                          AppConstants().ltWhiteGrey,
                         ],
                         begin: Alignment.bottomCenter,
                         end: Alignment.center,
                       ),
                     ),
-                    child: Icon(searchRouteController.showOnlyMap.value
-                        ? Icons.arrow_drop_up
-                        : Icons.arrow_drop_down),
+                    child: Center(
+                      child: Icon(
+                        searchRouteController.showOnlyMap.value
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -1088,6 +1152,52 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         ));
   }
 
+  filterCarTypeCombobax() {
+    return DropdownButton<String>(
+      hint: Center(
+        child: Text(
+          "Araç Tipi Seçiniz",
+          textAlign: TextAlign.center,
+        ),
+      ),
+
+      isExpanded: true,
+      // menuWidth: 300.w,
+      // dropdownColor: AppConstants().ltWhite,
+      // dropdownColor: AppConstants().ltMainRed,
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+
+      alignment: AlignmentDirectional.centerStart,
+      value: searchRouteController.selectedCarTypeOption.value == ""
+          ? null
+          : searchRouteController.selectedCarTypeOption.value,
+      items: searchRouteController.filterOptionList.map((String value) {
+        return DropdownMenuItem<String>(
+          alignment: Alignment.center,
+          value: value,
+          child: Center(child: Text(value)),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        searchRouteController.carTypeList.clear();
+        searchRouteController.selectedCarTypeOption.value =
+            newValue ?? "Ticari Araç";
+
+        // if (searchRouteController.selectedCarTypeOption.value ==
+        //     "Ticari Araç") {
+        //   searchRouteController.carTypeList.add("Otomobil");
+        // } else if (searchRouteController.selectedCarTypeOption.value ==
+        //     "Ağır Vasıta") {
+        //   searchRouteController.carTypeList.add("Tır");
+        // } else {
+        //   searchRouteController.carTypeList.add("Motorsiklet");
+        // }
+
+        print("SELECTEDOPTİONCARLİST : ${searchRouteController.carTypeList}");
+      },
+    );
+  }
+
   Container searchButtonWidget(BuildContext context) {
     return Container(
       width: 45.w,
@@ -1222,6 +1332,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: Get.height,
+        width: Get.width,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -1258,38 +1369,96 @@ class RouteCalculateButtomSheet extends StatelessWidget {
             //   ),
             // ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, right: 16.w),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: () {
-                    createRouteController.createRouteControllerClear();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: SvgPicture.asset(
-                      "assets/icons/close-icon.svg",
-                      width: 32.w,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 16.w, right: 16.w),
+            //   child: Align(
+            //     alignment: Alignment.center,
+            //     child: GestureDetector(
+            //       onTap: () {
+            //         createRouteController.createRouteControllerClear();
+            //       },
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 10),
+            //         child: SvgPicture.asset(
+            //           "assets/icons/close-icon.svg",
+            //           width: 32.w,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Positioned(
-              top: 52.h,
+              top: 200.h,
               child: SizedBox(
                 width: Get.width,
                 //height: Get.height,
                 child: Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            createRouteController.createRouteControllerClear(
+                                isSearchRoute: true);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SvgPicture.asset(
+                              "assets/icons/close-icon.svg",
+                              width: 32.w,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     _placesAutoComplateTextFieldStart(context),
                     const SizedBox(height: 10),
                     _placesAutoComplateTextFieldFinish(context),
                     const SizedBox(height: 10),
                     datePickerWidget(context),
                     const SizedBox(height: 10),
-                    filterCarTypeWidget(context),
+                    // filterCarTypeWidget(context, true),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: filterCarTypeCombobax(),
+                    ),
+
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        if (!searchRouteController.showOnlyMap.value ||
+                            createRouteController.calculateLevel.value == 2) {
+                          getSearchRoute(context);
+                        } else {
+                          searchRouteController.showOnlyMap.value = false;
+                        }
+
+                        print(
+                            "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
+                      },
+                      child: Center(
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 150.w,
+                          height: 30.h,
+                          decoration: BoxDecoration(
+                            color: AppConstants().ltMainRed,
+                            borderRadius: BorderRadius.circular(
+                              10.r,
+                            ),
+                          ),
+                          child: Text(
+                            "Ara",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: AppConstants().ltWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     SingleChildScrollView(
                       child: Container(
@@ -1414,6 +1583,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () async {
                     createRouteController.calculateLevel.value = 1;
+                    // searchRouteController.selectedCarTypeOption.value = "";
                     // await getSearchRoute(context);
                     createRouteController
                         .addNewMarkersForSearchingRoute(mapContext);
@@ -1453,7 +1623,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
     );
   }
 
-  filterCarTypeWidget(BuildContext context) {
+  filterCarTypeWidget(BuildContext context, bool isList) {
     OverlayEntry? _filterOverlayEntry;
 
     return Container(
@@ -1512,7 +1682,10 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                             "${searchRouteController.showFilterOption.value}");
 
                         if (searchRouteController.showFilterOption.value) {
-                          toggleFilterMenu(context, _filterOverlayEntry);
+                          toggleFilterMenu(
+                              context: context,
+                              filterOverlayEntry: _filterOverlayEntry,
+                              isList: isList);
                         } else {
                           print("KAPANDI");
                           _filterOverlayEntry?.remove();
@@ -1525,10 +1698,19 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                           clipBehavior: Clip.none,
                           alignment: Alignment.center,
                           children: [
-                            Icon(
-                              Icons.filter_list,
-                              color: AppConstants().ltMainRed,
-                            ),
+                            // Icon(
+                            //   Icons.filter_list,
+                            //   color: AppConstants().ltMainRed,
+                            // ),
+                            Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: Text(
+                                  "Araç Türü Seç",
+                                  style: TextStyle(
+                                    color:
+                                        AppConstants().ltBlack.withAlpha(150),
+                                  ),
+                                )),
                             // searchRouteController.showFilterOption.value
                             //     ? Positioned(
                             //         top: 0,
@@ -1594,58 +1776,76 @@ class RouteCalculateButtomSheet extends StatelessWidget {
         customMarkerIconController.mayLocationIcon!,
       ),
     );
-
+    print(
+        "STARTCİTYİNFO -> ${createRouteController.createRouteStartLatitude.value}// ${createRouteController.createRouteStartLongitude.value} // ${createRouteController.startCity.value}");
     if ((createRouteController.createRouteStartLatitude.value != 0.0) &&
         (createRouteController.createRouteStartLongitude.value != 0.0) &&
         (createRouteController.createRouteFinishLatitude.value != 0.0) &&
         (createRouteController.createRouteFinishLongitude.value != 0.0) &&
         createRouteController.startCity.value != "" &&
         createRouteController.finishCity.value != "") {
-      if (searchRouteController.carTypeList.isEmpty) {
+      print(
+          "ARAÇTURUMNE -> ${searchRouteController.selectedCarTypeOption.value}");
+      if (searchRouteController.selectedCarTypeOption.value == "") {
         Get.snackbar("Arama yapılamadı!", "Lütfen araç türü seçiniz",
             snackPosition: SnackPosition.BOTTOM,
             colorText: AppConstants().ltBlack);
       } else {
-        createRouteController.getRoute(
-            createRouteController.createRouteStartLatitude.value,
-            createRouteController.createRouteStartLongitude.value,
-            createRouteController.createRouteFinishLatitude.value,
-            createRouteController.createRouteFinishLongitude.value);
-        createRouteController.isLoading.value = true;
-        GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
-            GetRouteSearchByCityRequestModel(
-                startLocation: createRouteController.startCity.value,
-                endLocation: createRouteController.finishCity.value,
-                departureDate: DateFormat('yyyy-MM-dd')
-                    .format(searchRouteController.selectedDate.value),
-                carType: searchRouteController.carTypeList);
+        if (searchRouteController.selectedCarTypeOption.value ==
+            "Ticari Araç") {
+          searchRouteController.carTypeList.add("Otomobil");
+        } else if (searchRouteController.selectedCarTypeOption.value ==
+            "Ağır Vasıta") {
+          searchRouteController.carTypeList.add("Tır");
+        } else {
+          searchRouteController.carTypeList.add("Motorsiklet");
+        }
+        if (searchRouteController.carTypeList.isEmpty) {
+          Get.snackbar("Arama yapılamadı!", "Lütfen araç türü seçiniz",
+              snackPosition: SnackPosition.BOTTOM,
+              colorText: AppConstants().ltBlack);
+        } else {
+          createRouteController.getRoute(
+              createRouteController.createRouteStartLatitude.value,
+              createRouteController.createRouteStartLongitude.value,
+              createRouteController.createRouteFinishLatitude.value,
+              createRouteController.createRouteFinishLongitude.value);
+          createRouteController.isLoading.value = true;
+          GetRouteSearchByCityRequestModel routeSearchByCityRequestModel =
+              GetRouteSearchByCityRequestModel(
+                  startLocation: createRouteController.startCity.value,
+                  endLocation: createRouteController.finishCity.value,
+                  departureDate: DateFormat('yyyy-MM-dd')
+                      .format(searchRouteController.selectedDate.value),
+                  carType: searchRouteController.carTypeList);
 
-        print(
-            "SEARCHROUTE start-> ${jsonEncode(routeSearchByCityRequestModel)} FİLTERCARTYPELİST -> ${searchRouteController.carTypeList}");
-        var res = await GeneralServicesTemp()
-            .makePostRequest(
-          EndPoint.routesSearchByCitys,
-          routeSearchByCityRequestModel,
-          ServicesConstants.appJsonWithToken,
-        )
-            .then((value) async {
-          print("VALUEE -> ${value}");
-          searchRouteController.showOnlyMap.value = true;
-          final response =
-              GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
-          createRouteController.searchByCityDatum.value = response.data![0];
-          createRouteController.addNewMarkersForSearchingRoute(context);
-        });
-        print("VALUEE1 -> ${jsonEncode(res)}");
-        // final response =
-        //     GetRouteSearchByCityResponseModel.fromJson(jsonDecode(res));
+          print(
+              "SEARCHROUTE start-> ${jsonEncode(routeSearchByCityRequestModel)} FİLTERCARTYPELİST -> ${searchRouteController.carTypeList}");
+          var res = await GeneralServicesTemp()
+              .makePostRequest(
+            EndPoint.routesSearchByCitys,
+            routeSearchByCityRequestModel,
+            ServicesConstants.appJsonWithToken,
+          )
+              .then((value) async {
+            print("VALUEE -> ${value}");
+            searchRouteController.showOnlyMap.value = true;
+            final response =
+                GetRouteSearchByCityResponseModel.fromJson(jsonDecode(value!));
+            createRouteController.searchByCityDatum.value = response.data![0];
+            createRouteController.addNewMarkersForSearchingRoute(context);
+          });
+          print("VALUEE1 -> ${jsonEncode(res)}");
+          // final response =
+          //     GetRouteSearchByCityResponseModel.fromJson(jsonDecode(res));
 
-        // print("VALUEE2 -> ${jsonEncode(response)}");
-        // createRouteController.searchByCityDatum.value = response.data![0];
-        // createRouteController.addNewMarkersForSearchingRoute(context);
+          // print("VALUEE2 -> ${jsonEncode(response)}");
+          // createRouteController.searchByCityDatum.value = response.data![0];
+          // createRouteController.addNewMarkersForSearchingRoute(context);
 
-        // searchRouteController.showOnlyMap.value = true;
-        createRouteController.isLoading.value = false;
+          // searchRouteController.showOnlyMap.value = true;
+          createRouteController.isLoading.value = false;
+        }
       }
     } else {
       Get.snackbar(
@@ -2086,44 +2286,67 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                 !routeController.filterSelectedList[index];
             print("İLİSTEM -> ${routeController.filterSelectedList}");
           },
-          child: Container(
-            height: 40.w,
-            width: 100.w,
-            margin: EdgeInsets.all(1.w),
-            padding: EdgeInsets.all(1.w),
-            decoration: BoxDecoration(
-              color: AppConstants().ltWhiteGrey.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(8.w),
-              border: routeController.filterSelectedList[index]
-                  ? Border.all(
-                      color: AppConstants()
-                          .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
-                      width: 2,
-                    )
-                  : null,
-              // gradient: LinearGradient(
-              //   colors: [
-              //     AppConstants().ltMainRed,
-              //     AppConstants().ltBlack,
-              //   ],
-              //   begin: Alignment.center,
-              //   end: Alignment.bottomCenter,
-              // ),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  letterSpacing: -1,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.w),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 20.w,
+                    width: 23.w,
+                    margin: EdgeInsets.symmetric(horizontal: 6.w),
+                    // padding: EdgeInsets.symmetric(vertical: 2.w),
+                    decoration: BoxDecoration(
+                      color: AppConstants().ltWhiteGrey.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(2.w),
+                      // border: routeController.filterSelectedList[index]
+                      //     ? Border.all(
+                      //         color: AppConstants()
+                      //             .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
+                      //         width: 2,
+                      //       )
+                      //     : null,
+                      border: Border.all(
+                        color: AppConstants()
+                            .ltMainRed, //const ui.Color.fromARGB(255, 177, 174, 174),
+                        width: 1,
+                      ),
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     AppConstants().ltMainRed,
+                      //     AppConstants().ltBlack,
+                      //   ],
+                      //   begin: Alignment.center,
+                      //   end: Alignment.bottomCenter,
+                      // ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(2.w),
+                      child: routeController.filterSelectedList[index]
+                          ? Icon(
+                              Icons.check,
+                              color: AppConstants().ltMainRed,
+                              size: 20.r,
+                              weight: 12.sp,
+                            )
+                          : null,
+                    ),
+
+                    //  Image.asset(logo,
+                    //     fit: BoxFit.cover,
+                    //     color: routeController.filterSelectedList[index]
+                  ),
                 ),
-              ),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    letterSpacing: -1,
+                  ),
+                ),
+              ],
             ),
-            //  Image.asset(logo,
-            //     fit: BoxFit.cover,
-            //     color: routeController.filterSelectedList[index]
-            //         ? AppConstants().ltMainRed
-            //         : AppConstants().ltLogoGrey),
           ),
         ));
   }
@@ -2146,31 +2369,33 @@ class RouteCalculateButtomSheet extends StatelessWidget {
   }
 
   void toggleFilterMenu(
-      BuildContext context, OverlayEntry? _filterOverlayEntry) {
-    if (_filterOverlayEntry != null) {
-      _filterOverlayEntry?.remove();
-      _filterOverlayEntry = null;
+      {required BuildContext context,
+      required OverlayEntry? filterOverlayEntry,
+      bool isList = false}) {
+    if (filterOverlayEntry != null) {
+      filterOverlayEntry?.remove();
+      filterOverlayEntry = null;
       return;
     }
 
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
 
-    _filterOverlayEntry = OverlayEntry(
+    filterOverlayEntry = OverlayEntry(
       builder: (context) => GestureDetector(
         onTap: () {
           // Dışarıya tıklanınca kapanır
           searchRouteController.showFilterOption.value =
               !searchRouteController.showFilterOption.value;
-          _filterOverlayEntry?.remove();
-          _filterOverlayEntry = null;
+          filterOverlayEntry?.remove();
+          filterOverlayEntry = null;
         },
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
             Positioned(
               left: position.dx + 50.w,
-              bottom: 140.h,
+              bottom: isList ? 330.h : 140.h,
               // top: position.dy + 150.h,
               child: Material(
                 elevation: 4,
@@ -2205,17 +2430,18 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                         onTap: () {
                           searchRouteController.showFilterOption.value =
                               !searchRouteController.showFilterOption.value;
-                          _filterOverlayEntry?.remove();
-                          _filterOverlayEntry = null;
-                          if (!searchRouteController.showOnlyMap.value ||
-                              createRouteController.calculateLevel.value == 2) {
-                            getSearchRoute(context);
-                          } else {
-                            searchRouteController.showOnlyMap.value = false;
-                          }
+                          filterOverlayEntry?.remove();
+                          filterOverlayEntry = null;
 
-                          print(
-                              "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
+                          // if (!searchRouteController.showOnlyMap.value ||
+                          //     createRouteController.calculateLevel.value == 2) {
+                          //   getSearchRoute(context);
+                          // } else {
+                          //   searchRouteController.showOnlyMap.value = false;
+                          // }
+
+                          // print(
+                          //     "showOnlyMap -> ${searchRouteController.showOnlyMap.value}  calculatelevel -> $calculateLevel");
                         },
                         child: Container(
                           width: 90.w,
@@ -2225,7 +2451,7 @@ class RouteCalculateButtomSheet extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "Ara",
+                              "Tamam",
                               style: TextStyle(
                                 color: AppConstants().ltWhite,
                                 fontSize: 16.sp,
@@ -2244,6 +2470,6 @@ class RouteCalculateButtomSheet extends StatelessWidget {
       ),
     );
 
-    Overlay.of(context).insert(_filterOverlayEntry!);
+    Overlay.of(context).insert(filterOverlayEntry!);
   }
 }

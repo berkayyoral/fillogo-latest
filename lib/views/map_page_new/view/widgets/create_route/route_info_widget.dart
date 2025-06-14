@@ -204,15 +204,15 @@ class CreateRouteInfoWidget extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),
-                        fixedSize: Size(342.w, 50.h),
+                        fixedSize: Size(350.w, 50.h),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8.w),
+                        padding: EdgeInsets.all(4.w),
                         child: Text(
                           "Devam Et",
                           style: TextStyle(
                             fontFamily: "Sfsemidold",
-                            fontSize: 16.sp,
+                            fontSize: 12.sp,
                             color: AppConstants().ltWhite,
                           ),
                         ),

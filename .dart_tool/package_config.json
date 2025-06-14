@@ -14,6 +14,30 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "app_links",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/app_links-6.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "app_links_linux",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/app_links_linux-1.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "app_links_platform_interface",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/app_links_platform_interface-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "app_links_web",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/app_links_web-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/archive-4.0.7",
       "packageUri": "lib/",
@@ -416,6 +440,12 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "go_router",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/go_router-15.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
       "name": "google_api_headers",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/google_api_headers-2.0.3",
       "packageUri": "lib/",
@@ -474,6 +504,12 @@
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/grouped_list-6.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "gtk",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/gtk-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "html",
@@ -693,7 +729,7 @@
     },
     {
       "name": "mime",
-      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/mime-2.0.0",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/mime-1.0.6",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -888,6 +924,24 @@
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/sanitize_html-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "screenshot",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/screenshot-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/share_plus-7.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "share_plus_platform_interface",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/share_plus_platform_interface-3.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "shared_preferences",
@@ -1256,7 +1310,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-05-28T06:33:53.625309Z",
+  "generated": "2025-06-14T14:06:05.665843Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",
