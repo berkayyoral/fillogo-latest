@@ -2,7 +2,8 @@ import 'package:fillogo/export.dart';
 
 class AppConstants {
   static const String appName = 'App Name';
-  static String baseURL = "https://fillogo.com/test/api";
+  static String baseURL =
+      "https://104.247.164.154:7000/test/api"; //"https://fillogo.com/test/api";
   static const String fontFamily = 'Sfuidisplay';
   static const String defaultLanguage = 'tr';
   static const int responseTimeout = 60;

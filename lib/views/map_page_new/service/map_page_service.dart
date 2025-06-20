@@ -13,6 +13,7 @@ class MapPageService {
   Future<UsersOnAreaModel?> getUsersOnArea(
       {required List<String> carTypeFilter}) async {
     UsersOnAreaModel? usersOnAreaModel;
+    log("CARFİLTERRR 3 carlsit -${carTypeFilter}");
     try {
       await GeneralServicesTemp().makePostRequest(
         EndPoint.getUsersOnArea,

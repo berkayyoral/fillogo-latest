@@ -22,12 +22,13 @@ import GoogleMaps
 //       if #available(iOS 10.0, *) {
 //   UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
 // }
- // Retrieve the link from parameters
-    if let url = AppLinks.shared.getLink(launchOptions: launchOptions) {
-      // We have a link, propagate it to your Flutter app or not
-      AppLinks.shared.handleLink(url: url)
-      return true // Returning true will stop the propagation to other packages
-    }
+
+//  // Retrieve the link from parameters
+//     if let url = AppLinks.shared.getLink(launchOptions: launchOptions) {
+//       // We have a link, propagate it to your Flutter app or not
+//       AppLinks.shared.handleLink(url: url)
+//       return true // Returning true will stop the propagation to other packages
+//     }
       GMSServices.provideAPIKey("AIzaSyB5n4c5gTUMY3NiWTXCcRhdKl82O7Z_Isw");//AIzaSyAFFLTo2huCvR-HiQTkDIpjJ5Yb-b-erN8 - AIzaSyCxZTC2Aw9oWeyck-hD4D4A7z5A1t-iKdA - AIzaSyCDWUImgRbLnMIz_gbUymkeTzufsqN-jME
     OneSignal.Debug.setLogLevel(.LL_VERBOSE)
      // OneSignal initialization

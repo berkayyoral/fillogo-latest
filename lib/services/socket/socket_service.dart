@@ -14,7 +14,8 @@ class SocketService {
   late IO.Socket socket;
   SocketService._() {
     socket = IO.io(
-      'https://fillogo.com:7000',
+      "wss://104.247.164.154:7000/",
+      //'https://fillogo.com:7000',
       //'ws://172.20.224.1:5000',
       IO.OptionBuilder()
           .setTransports(['websocket'])

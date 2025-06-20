@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:fillogo/views/map_page_new/view/widgets/map_view/button_description_widget.dart';
@@ -15,7 +17,7 @@ class CarFilterOptionWidget extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.topRight,
-                padding: EdgeInsets.only(top: 60.h, right: 5.w),
+                padding: EdgeInsets.only(top: 60.h, right: 12.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -121,6 +123,7 @@ class CarFilterOptionWidget extends StatelessWidget {
                         child: InkWell(
                           onTap: () async {
                             if (mapPageMController.isRouteVisibilty.value) {
+                              log("CARFİLTERRR 1");
                               await mapPageMController.filterButtonOnTap();
                             } else {
                               Get.snackbar("Başarısız!",

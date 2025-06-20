@@ -1130,6 +1130,24 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "uni_links",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/uni_links-0.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "uni_links_platform_interface",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/uni_links_platform_interface-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "uni_links_web",
+      "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/uni_links_web-0.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "universal_io",
       "rootUri": "file:///Users/istechsoft/.pub-cache/hosted/pub.dev/universal_io-2.2.2",
       "packageUri": "lib/",
@@ -1310,7 +1328,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-06-14T14:06:05.665843Z",
+  "generated": "2025-06-20T12:00:10.596739Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///Users/istechsoft/development/flutter",

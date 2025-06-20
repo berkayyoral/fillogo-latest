@@ -55,12 +55,20 @@ class BussinessHelper {
   }
 
   static Future<PlatformFile?> pickFile(BuildContext context,
-      {bool isStory = false}) async {
+      {bool isStory = false, required String type}) async {
+    //type foto, video, galery
     UiHelper.showLoadingAnimation();
 
-    log("STORYATCAM girdim}");
+    log("STORYATCAM girdim} ? -> ${type}");
     final ImagePicker picker = ImagePicker();
-    final response = await picker.pickMedia();
+    // final response = await picker.pickMedia();
+    final XFile? response;
+
+    response = type == "galery"
+        ? await picker.pickMedia()
+        : type == "foto"
+            ? await picker.pickImage(source: ImageSource.camera)
+            : await picker.pickVideo(source: ImageSource.camera);
 
     //  final response2 = await FilePicker.platform.pickFiles(
     //   type: FileType.media,
@@ -91,6 +99,7 @@ class BussinessHelper {
           fileName.endsWith('.jpg') ||
           fileName.endsWith('.mp4') ||
           fileName.endsWith('.mov') ||
+          fileName.endsWith('.MOV') ||
           fileName.endsWith('.jpeg')) {
         // if (fileSize > 20000000) {
         //   ScaffoldMessenger.of(context).showSnackBar(
@@ -103,7 +112,9 @@ class BussinessHelper {
         //   return null;
         // }
 
-        if (!fileName.endsWith('.mp4') && !fileName.endsWith('.mov')) {
+        if (!fileName.endsWith('.mp4') &&
+            !fileName.endsWith('.mov') &&
+            !fileName.endsWith('.MOV')) {
           log('Resim Boyutu: ${(fileSize * (1 / 1000000))} MB - $fileName');
 
           CroppedFile? croppedFile = await ImageCropper().cropImage(

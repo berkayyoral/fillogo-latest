@@ -59,28 +59,146 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
                 ),
                 child: InkWell(
                   onTap: () async {
-                    mediaPickerController.media =
-                        await BussinessHelper.pickFile(context).then((value) {
-                      if (value != null) {
-                        Logger().e("Yes Picked");
-
-                        //log('file picked ${value.name}');
-                        mediaPickerController.isMediaPicked = true;
-                        createPostPageController.havePostPhoto.value = 1;
-
-                        if (value.name.split('.').last == 'mp4') {
-                          mediaPickerController.isVideo = true;
-                        } else {
-                          mediaPickerController.isVideo = false;
-                        }
-                      } else {
-                        mediaPickerController.isVideo = false;
-                      }
-
-                      return value;
-                    });
-
-                    setState(() {});
+                    showModalBottomSheet(
+                      context: context,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                      ),
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 60.w, vertical: 36.h),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  mediaPickerController.media =
+                                      await BussinessHelper.pickFile(context,
+                                              type: "galery")
+                                          .then((value) {
+                                    Get.back();
+                                    if (value != null) {
+                                      Logger().e("Yes Picked");
+                                      //log('file picked ${value.name}');
+                                      mediaPickerController.isMediaPicked =
+                                          true;
+                                      createPostPageController
+                                          .havePostPhoto.value = 1;
+                                      if (value.name.split('.').last == 'mp4') {
+                                        mediaPickerController.isVideo = true;
+                                      } else {
+                                        mediaPickerController.isVideo = false;
+                                      }
+                                    } else {
+                                      mediaPickerController.isVideo = false;
+                                    }
+                                    return value;
+                                  });
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Galeriden Seç",
+                                      style: TextStyle(
+                                        color: AppConstants().ltMainRed,
+                                        letterSpacing: -1,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  mediaPickerController.media =
+                                      await BussinessHelper.pickFile(context,
+                                              type: "foto")
+                                          .then((value) {
+                                    Get.back();
+                                    if (value != null) {
+                                      Logger().e("Yes Picked");
+                                      //log('file picked ${value.name}');
+                                      mediaPickerController.isMediaPicked =
+                                          true;
+                                      createPostPageController
+                                          .havePostPhoto.value = 1;
+                                      if (value.name.split('.').last == 'mp4') {
+                                        mediaPickerController.isVideo = true;
+                                      } else {
+                                        mediaPickerController.isVideo = false;
+                                      }
+                                    } else {
+                                      mediaPickerController.isVideo = false;
+                                    }
+                                    return value;
+                                  });
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Fotoğraf Çek",
+                                      style: TextStyle(
+                                        color: AppConstants().ltMainRed,
+                                        letterSpacing: -1,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  mediaPickerController.media =
+                                      await BussinessHelper.pickFile(context,
+                                              type: "video")
+                                          .then((value) {
+                                    Get.back();
+                                    if (value != null) {
+                                      Logger().e("Yes Picked");
+                                      //log('file picked ${value.name}');
+                                      mediaPickerController.isMediaPicked =
+                                          true;
+                                      createPostPageController
+                                          .havePostPhoto.value = 1;
+                                      if (value.name.split('.').last == 'mp4') {
+                                        mediaPickerController.isVideo = true;
+                                      } else {
+                                        mediaPickerController.isVideo = false;
+                                      }
+                                    } else {
+                                      mediaPickerController.isVideo = false;
+                                    }
+                                    return value;
+                                  });
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Video Çek",
+                                      style: TextStyle(
+                                        color: AppConstants().ltMainRed,
+                                        letterSpacing: -1,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
                   child: Row(
                     children: [

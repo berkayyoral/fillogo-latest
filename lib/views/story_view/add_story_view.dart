@@ -80,33 +80,175 @@ class _AddStoryViewState extends State<AddStoryView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               RedButton(
-                                text: 'Galeriden Fotoğraf/Video Yükle',
+                                text: 'Fotoğraf/Video Yükle',
                                 onpressed: () async {
-                                  mediaPickerController.media =
-                                      await BussinessHelper.pickFile(context,
-                                              isStory: true)
-                                          .then((value) {
-                                    if (value != null) {
-                                      log("STORYATCAM");
-
-                                      //log('file picked ${value.name}');
-                                      mediaPickerController.isMediaPicked =
-                                          true;
-
-                                      if (value.name.split('.').last == 'mp4') {
-                                        mediaPickerController.isVideo = true;
-                                      } else {
-                                        mediaPickerController.isVideo = false;
-                                      }
-                                    } else {
-                                      mediaPickerController.isVideo = false;
-                                    }
-                                    print("value = $value");
-
-                                    return value;
-                                  });
-
-                                  setState(() {});
+                                  showModalBottomSheet(
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(16)),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 60.w, vertical: 36.h),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                mediaPickerController.media =
+                                                    await BussinessHelper
+                                                            .pickFile(context,
+                                                                isStory: true,
+                                                                type: "galery")
+                                                        .then((value) {
+                                                  if (value != null) {
+                                                    Get.back();
+                                                    log("STORYATCAM");
+                                                    //log('file picked ${value.name}');
+                                                    mediaPickerController
+                                                        .isMediaPicked = true;
+                                                    if (value.name
+                                                            .split('.')
+                                                            .last ==
+                                                        'mp4') {
+                                                      mediaPickerController
+                                                          .isVideo = true;
+                                                    } else {
+                                                      mediaPickerController
+                                                          .isVideo = false;
+                                                    }
+                                                  } else {
+                                                    mediaPickerController
+                                                        .isVideo = false;
+                                                  }
+                                                  print("value = $value");
+                                                  return value;
+                                                });
+                                                setState(() {});
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Galeriden Seç",
+                                                    style: TextStyle(
+                                                      color: AppConstants()
+                                                          .ltMainRed,
+                                                      letterSpacing: -1,
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                mediaPickerController.media =
+                                                    await BussinessHelper
+                                                            .pickFile(context,
+                                                                isStory: true,
+                                                                type: "foto")
+                                                        .then((value) {
+                                                  Get.back();
+                                                  if (value != null) {
+                                                    log("STORYATCAM");
+                                                    //log('file picked ${value.name}');
+                                                    mediaPickerController
+                                                        .isMediaPicked = true;
+                                                    if (value.name
+                                                            .split('.')
+                                                            .last ==
+                                                        'mp4') {
+                                                      mediaPickerController
+                                                          .isVideo = true;
+                                                    } else {
+                                                      mediaPickerController
+                                                          .isVideo = false;
+                                                    }
+                                                  } else {
+                                                    mediaPickerController
+                                                        .isVideo = false;
+                                                  }
+                                                  print("value = $value");
+                                                  return value;
+                                                });
+                                                setState(() {});
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Fotoğraf Çek",
+                                                    style: TextStyle(
+                                                      color: AppConstants()
+                                                          .ltMainRed,
+                                                      letterSpacing: -1,
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                mediaPickerController.media =
+                                                    await BussinessHelper
+                                                            .pickFile(context,
+                                                                isStory: true,
+                                                                type: "video")
+                                                        .then((value) {
+                                                  Get.back();
+                                                  if (value != null) {
+                                                    log("STORYATCAM");
+                                                    //log('file picked ${value.name}');
+                                                    mediaPickerController
+                                                        .isMediaPicked = true;
+                                                    if (value.name
+                                                            .split('.')
+                                                            .last ==
+                                                        'mp4') {
+                                                      mediaPickerController
+                                                          .isVideo = true;
+                                                    } else {
+                                                      mediaPickerController
+                                                          .isVideo = false;
+                                                    }
+                                                  } else {
+                                                    mediaPickerController
+                                                        .isVideo = false;
+                                                  }
+                                                  print("value = $value");
+                                                  return value;
+                                                });
+                                                setState(() {});
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Video Çek",
+                                                    style: TextStyle(
+                                                      color: AppConstants()
+                                                          .ltMainRed,
+                                                      letterSpacing: -1,
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             ],

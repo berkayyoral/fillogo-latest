@@ -19,7 +19,7 @@ class VisibilityStatusWidget extends StatelessWidget {
           ? Container()
           : Positioned(
               top: 150.h,
-              right: 0.w,
+              right: 8.w,
               child: Container(
                 height: 270.h,
                 child: Column(

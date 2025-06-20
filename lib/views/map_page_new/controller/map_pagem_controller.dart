@@ -636,7 +636,8 @@ class MapPageMController extends GetxController implements MapPageService {
       {required List<String> carTypeFilter}) async {
     try {
       // isLoading.value = true;
-
+      log("CARFİLTERRR 2");
+      markers.clear();
       await mapPageService
           .getUsersOnArea(carTypeFilter: carTypeFilter)
           .then((value) async {
@@ -664,24 +665,29 @@ class MapPageMController extends GetxController implements MapPageService {
               markerID: usersOnArea[i]!.userId!.toString(),
               location: usersOnArea[i]!.userpostroutes!.isNotEmpty
                   ? LatLng(
-                      usersOnArea[i]!
-                          .userpostroutes!
-                          .first
-                          .polylineDecode!
-                          .first
-                          .first,
-                      usersOnArea[i]!
-                          .userpostroutes!
-                          .first
-                          .polylineDecode!
-                          .first
-                          .last)
+                      usersOnArea[i]!.latitude!,
+                      usersOnArea[i]!.longitude!,
+                    )
+                  // LatLng(
+                  //     usersOnArea[i]!
+                  //         .userpostroutes!
+                  //         .first
+                  //         .polylineDecode!
+                  //         .first
+                  //         .first,
+                  //     usersOnArea[i]!
+                  //         .userpostroutes!
+                  //         .first
+                  //         .polylineDecode!
+                  //         .first
+                  //         .last)
                   : LatLng(
                       usersOnArea[i]!.latitude!,
                       usersOnArea[i]!.longitude!,
                     ),
               carType: carType,
               onTap: () {
+                log("burdaaaaayoıımmmmkullanıcıı2");
                 showModalBottomSheet(
                     context: context,
                     useRootNavigator: false,

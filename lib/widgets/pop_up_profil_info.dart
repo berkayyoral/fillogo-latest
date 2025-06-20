@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fillogo/controllers/bottom_navigation_bar_controller.dart';
 import 'package:fillogo/controllers/homepopup/follow_controller.dart';
@@ -74,6 +75,7 @@ class PopupPrifilInfo extends StatelessWidget {
   ChatController chatController = Get.put(ChatController());
   @override
   Widget build(BuildContext context) {
+    log("usersOnArea[i]!.userId! ->  ${userId}");
     getFollowStatus();
     return SafeArea(
       child: SizedBox(

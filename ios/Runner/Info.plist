@@ -7,8 +7,6 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<key>FlutterDeepLinkingEnabled</key>
-	<false/>
 	<string>Fillogo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -44,6 +42,16 @@
 	<string>Aramalar yaparken sesli bir şekilde arama yapmak istediğiniz için bu izne ihtiyacımız var.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Galerinizdeki fotoğraflardan seçip, post olarak paylaşabilmeniz için bu izine ihtiyacımız var.</string>
+	<key>CFBundleDevelopmentRegion</key>
+  		<array>
+    		<string>tr-TR</string>
+  		</array>
+	<key>CFBundleLocalizations</key>
+  		<array>
+    		<string>tr-TR</string>
+  		</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Uygulama kamera kullanmak istiyor.</string>
 	<key>com.onesignal.onesignalAppId</key>
 	<string>YOUR_ONESIGNAL_APP_ID</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -57,6 +65,21 @@
 	<string>LaunchScreen</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Mevcut konumunuza ulaşmak için konum izninize ihtiyacımız var.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>fillogo55app</string>
+	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+ 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+ 		 <dict>
+   			 <key>CFBundleURLSchemes</key>
+   			 <array>
+     			 <string>fillogo55app</string>
+   			 </array>
+  		</dict>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

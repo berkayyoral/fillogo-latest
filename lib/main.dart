@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:fillogo/controllers/notification/notification_controller.dart';
 import 'package:fillogo/models/user/login/login_model.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
@@ -8,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uni_links/uni_links.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'export.dart';
 import 'services/notificaiton_service/one_signal_notification/one_signal_notification_service.dart';
@@ -20,7 +23,7 @@ void main() async {
   await LocaleManager.instance.preferencesInit();
   // await initializeDateFormatting('tr_TR');
   SocketService.instance().connect();
-
+  HttpOverrides.global = MyHttpOverrides();
   await OneSignalManager.setupOneSignal();
 
   bool isDarkMode =
@@ -34,42 +37,8 @@ void main() async {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
 
-  ///Materialapp router
-  // runApp(
-  //   ScreenUtilInit(
-  //     useInheritedMediaQuery: true,
-  //     designSize: UiHelper.designSize,
-  //     builder: (context, child) => GetMaterialApp.router(
-  //       routerDelegate: Get.rootDelegate,
-  //       routeInformationParser: GetInformationParser(
-  //         initialRoute: NavigationConstants.splashScreen, // İlk açılacak sayfa
-  //       ),
-  //       localizationsDelegates: const [
-  //         GlobalMaterialLocalizations.delegate,
-  //         GlobalWidgetsLocalizations.delegate,
-  //         DefaultCupertinoLocalizations.delegate,
-  //         GlobalCupertinoLocalizations.delegate,
-  //       ],
-  //       supportedLocales: const [
-  //         Locale('en', 'US'), // English
-  //         Locale("tr", "TR"),
-  //       ],
-  //       locale: const Locale("tr", "TR"),
-  //       debugShowCheckedModeBanner: false,
-  //       title: AppConstants.appName,
-  //       getPages: NavigationService.routes,
-
-  //       // initialRoute: NavigationConstants
-  //       //     .splashScreen, //initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
-  //       initialBinding: InitialBinding(), // Initial binding always run
-  //       theme: AppTheme.instance.lightTheme,
-  //       darkTheme: AppTheme.instance.darkTheme,
-  //       themeMode:
-  //           ThemeMode.light, //isDarkMode ? ThemeMode.dark : ThemeMode.light,
-  //       translations: Languages(),
-  //     ),
-  //   ),
-  // );
+  await DeepLinkHandler().init();
+  final hasDeepLink = DeepLinkHandler().initialLinkPhotoId != null;
 
   runApp(
     ScreenUtilInit(
@@ -83,15 +52,17 @@ void main() async {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en', 'US'), // English
+          // Locale('en', 'US'), // English
           Locale("tr", "TR"),
         ],
         locale: const Locale("tr", "TR"),
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
         getPages: NavigationService.routes,
-        initialRoute: NavigationConstants
-            .splashScreen, //initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
+        initialRoute: hasDeepLink
+            ? NavigationConstants.welcomelogin
+            : NavigationConstants.splashScreen,
+        //     NavigationConstants.splashScreen, //initialRoute, // inital route yukarda belirtildiği gibi belirlenir... :)
         initialBinding: InitialBinding(), // Initial binding always run
         theme: AppTheme.instance.lightTheme,
         darkTheme: AppTheme.instance.darkTheme,
@@ -136,4 +107,52 @@ class TurkishMessages implements timeago.LookupMessages {
   String years(int years) => '$years yıl';
   @override
   String wordSeparator() => ' ';
+}
+
+class DeepLinkHandler {
+  static final DeepLinkHandler _instance = DeepLinkHandler._internal();
+  factory DeepLinkHandler() => _instance;
+  DeepLinkHandler._internal();
+
+  String? initialLinkPhotoId; // Gelen linkten alınan photoId
+  StreamSubscription? _sub;
+
+  Future<void> init() async {
+    // İlk açılışta uygulama özel linkle açıldıysa linki al
+    try {
+      final initialUri = await getInitialUri();
+      if (initialUri != null && initialUri.scheme == 'fillogo55app') {
+        initialLinkPhotoId = initialUri.pathSegments.isNotEmpty
+            ? initialUri.pathSegments.first
+            : null;
+      }
+    } catch (e) {
+      print('getInitialUri error: $e');
+    }
+
+    // Sonrasında açılırsa link dinle (isteğe bağlı)
+    _sub = uriLinkStream.listen((Uri? uri) {
+      if (uri != null && uri.scheme == 'fillogo55app') {
+        initialLinkPhotoId =
+            uri.pathSegments.isNotEmpty ? uri.pathSegments.first : null;
+        // Örneğin burada anlık navigasyon yapabilirsin
+        // Get.toNamed('/login');
+      }
+    }, onError: (err) {
+      print('uriLinkStream error: $err');
+    });
+  }
+
+  void dispose() {
+    _sub?.cancel();
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }

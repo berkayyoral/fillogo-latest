@@ -327,15 +327,112 @@ class CreatePostPageView extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                      title: Text(
-                                        'Tebrikler!',
-                                        style: TextStyle(
-                                          fontFamily: 'Sfsemibold',
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: -1,
-                                          color: AppConstants().ltBlack,
-                                        ),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Tebrikler!',
+                                            style: TextStyle(
+                                              fontFamily: 'Sfsemibold',
+                                              fontSize: 24.sp,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: -1,
+                                              color: AppConstants().ltBlack,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () async {
+                                              homeController.isLoading.value =
+                                                  true;
+                                              print(
+                                                  "POOSSTTTNEWW 3 bef -> ${createPostPageController.routeId.value}");
+                                              createPostPageController
+                                                      .routeId.value ==
+                                                  0;
+                                              print(
+                                                  "POOSSTTTNEWW 3 aft -> ${createPostPageController.routeId.value}");
+
+                                              Get.find<HomeController>()
+                                                  .update(["homePage"]);
+                                              Get.find<HomeController>()
+                                                  .update(["comment"]);
+                                              Get.find<HomeController>()
+                                                  .update(["homePagem"]);
+                                              Get.find<HomeController>()
+                                                  .update(["like"]);
+                                              homeController.isRefresh.value =
+                                                  !homeController
+                                                      .isRefresh.value;
+                                              homeController.update([
+                                                "homePage",
+                                                "comment",
+                                                "homePagem",
+                                                "like"
+                                              ]);
+                                              // MapPageController mapPageController =
+                                              //     Get.find<MapPageController>();
+                                              MapPageMController
+                                                  mapPageController =
+                                                  Get.find();
+                                              // GetMyCurrentLocationController
+                                              //     getMyCurrentLocationController = Get.find();
+                                              MapPageMController
+                                                  mapPageMController =
+                                                  Get.find();
+                                              createPostPageController
+                                                  .clearPostCreateInfoController();
+                                              createPostPageController
+                                                  .routeId.value = 0;
+                                              // Get.toNamed(NavigationConstants.bottomNavigationBar);
+                                              GoogleMapController
+                                                  googleMapController =
+                                                  mapPageController
+                                                      .mapController!;
+                                              googleMapController.animateCamera(
+                                                CameraUpdate.newCameraPosition(
+                                                  CameraPosition(
+                                                    zoom: mapPageMController
+                                                        .zoom.value,
+                                                    target: LatLng(
+                                                      mapPageMController
+                                                          .myLocationLatitudeDo
+                                                          .value,
+                                                      mapPageMController
+                                                          .myLocationLongitudeDo
+                                                          .value,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                              Get.find<HomeController>()
+                                                  .update(["homePage"]);
+                                              Get.find<HomeController>()
+                                                  .update(["comment"]);
+                                              Get.find<HomeController>()
+                                                  .update(["homePagem"]);
+                                              Get.find<HomeController>()
+                                                  .update(["like"]);
+                                              homeController.update();
+
+                                              // Get.back();
+                                              Get.back();
+                                              if (isHomepage) {
+                                                // Get.back(result: detail);
+                                                Get.toNamed(NavigationConstants
+                                                    .bottomNavigationBar);
+                                              } else {
+                                                Get.back();
+                                              }
+                                              homeController.isLoading.value =
+                                                  false;
+                                            },
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: AppConstants().ltDarkGrey,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                       content: Text(
                                         "Rotanız başarıyla oluşturuldu.",
@@ -542,6 +639,8 @@ class CreatePostPageView extends StatelessWidget {
                     //   builder: (BuildContext context) =>
                     //       showAllertDialogPostSharing(context),
                     // );
+                    Get.snackbar("Rotanız paylaşıldı", "",
+                        snackPosition: SnackPosition.BOTTOM);
                   } else {
                     Get.snackbar("", 'Bir hata oluştu. Tekrar deneyiniz.');
                   }
@@ -577,10 +676,17 @@ class CreatePostPageView extends StatelessWidget {
                     await File('${directory.path}/widget_image.png').create();
                 // Get.dialog(Image.memory(imageBytes));
                 await imagePath.writeAsBytes(imageBytes);
+                // Uri uri = Uri(
+                //     path:
+                //         "https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr");
+
+                // Share.share(
+                //     'Bakmak isteyebileceğini düşündüğüm fotoğraf: https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr');
+
                 Share.shareXFiles(
                   [XFile(imagePath.path)],
                   text:
-                      "https://apps.apple.com/tr/app/fillogo/id6499439971?l=tr",
+                      "Yeni bir rotaya çıktım https://isTechSoftSoftwareTechnologies.github.io/fillogoapplink/photo.html?id=1",
                 );
 
                 log("SHAREFACE 5");

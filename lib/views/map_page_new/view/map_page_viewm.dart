@@ -467,8 +467,8 @@ class MapPageViewM extends StatelessWidget {
             mapPageMController.isThereActiveRoute.value
         ? Container()
         : Positioned(
-            top: 330.h,
-            right: 5.w,
+            top: 310.h,
+            right: 18.w,
             child: InkWell(
               onTap: () async {
                 mapPageMController.clickCenterButton.value = true;
