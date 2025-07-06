@@ -2,6 +2,8 @@ import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 
+import '../../map_page_new/controller/create_route_controller.dart';
+
 class AddNewPropertyNotContentCreatePost extends StatelessWidget {
   AddNewPropertyNotContentCreatePost({super.key});
 
@@ -75,20 +77,18 @@ class AddNewPropertyNotContentCreatePost extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(
-                20.w,
-              ),
+              padding: EdgeInsets.all(20.w),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed('/createPostPageAddRoute');
+                  CreateRouteController createRouteController = Get.find();
+                  createPostPageController.isLocationPost.value = true;
+                  createRouteController.getRouteInfo();
+                  // Get.toNamed('/createPostPageAddRoute');
                 },
-                child: SvgPicture.asset(
-                  'assets/icons/route-icon.svg',
-                  height: 28.w,
-                  width: 28.w,
-                  color: (createPostPageController.haveRoute.value == 1)
-                      ? AppConstants().ltMainRed
-                      : AppConstants().ltLogoGrey,
+                child: Icon(
+                  Icons.location_on_outlined,
+                  color: AppConstants().ltMainRed,
+                  size: 32.r,
                 ),
               ),
             ),

@@ -28,8 +28,7 @@ class UserOtherProfileResponse {
 
   UserOtherProfileResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data =
-        json['data'] != null ? UserProfilData.fromJson(json['data']) : null;
+    data = json['data'] != null ? UserProfilData.fromJson(json['data']) : null;
     message = json['message'];
   }
 
@@ -195,6 +194,10 @@ class Post {
   int? userID;
   String? text;
   String? media;
+  String? address;
+  double? latitude;
+  double? longitude;
+  bool? isLocation;
   List<Postemojis>? postemojis;
   List<Postpostlabel>? postpostlabels;
   Postroute? postroute;
@@ -206,13 +209,21 @@ class Post {
       this.media,
       this.postemojis,
       this.postpostlabels,
-      this.postroute});
+      this.postroute,
+      this.address,
+      this.isLocation,
+      this.latitude,
+      this.longitude});
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userID = json['userID'];
     text = json['text'];
     media = json['media'] == null ? "" : json["media"];
+    isLocation = json["isLocation"];
+    address = json["address"];
+    latitude = json["latitude"];
+    longitude = json["longitude"];
     if (json['postemojis'] != null) {
       postemojis = <Postemojis>[];
       json['postemojis'].forEach((v) {
@@ -236,12 +247,15 @@ class Post {
     data['userID'] = userID;
     data['text'] = text;
     data['media'] = media;
+    data['address'] = address;
+    data["isLocation"] = isLocation;
+    data["latitude"] = latitude;
+    data["longitude"] = longitude;
     if (postemojis != null) {
       data['postemojis'] = postemojis!.map((v) => v.toJson()).toList();
     }
     if (postpostlabels != null) {
-      data['postpostlabels'] =
-          postpostlabels!.map((v) => v.toJson()).toList();
+      data['postpostlabels'] = postpostlabels!.map((v) => v.toJson()).toList();
     }
     if (postroute != null) {
       data['postroute'] = postroute!.toJson();
@@ -258,8 +272,7 @@ class Postemojis {
 
   Postemojis.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    emojis =
-        json['emojis'] != null ? Emojis.fromJson(json['emojis']) : null;
+    emojis = json['emojis'] != null ? Emojis.fromJson(json['emojis']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -317,33 +330,33 @@ class Userpostlabels {
 }
 
 class Postroute {
-    int? id;
-    String? startingCity;
-    String? endingCity;
+  int? id;
+  String? startingCity;
+  String? endingCity;
 
-    Postroute({
-        this.id,
-        this.startingCity,
-        this.endingCity,
-    });
+  Postroute({
+    this.id,
+    this.startingCity,
+    this.endingCity,
+  });
 
-    factory Postroute.fromRawJson(String str) => Postroute.fromJson(json.decode(str));
+  factory Postroute.fromRawJson(String str) =>
+      Postroute.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(toJson());
 
-    factory Postroute.fromJson(Map<String, dynamic> json) => Postroute(
+  factory Postroute.fromJson(Map<String, dynamic> json) => Postroute(
         id: json["id"],
         startingCity: json["startingCity"],
         endingCity: json["endingCity"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "startingCity": startingCity,
         "endingCity": endingCity,
-    };
+      };
 }
-
 
 class Pagination {
   int? totalRecords;

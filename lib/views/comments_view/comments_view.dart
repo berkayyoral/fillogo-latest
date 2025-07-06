@@ -111,6 +111,9 @@ class _CommentsViewState extends State<CommentsView> {
                             return Column(
                               children: [
                                 PostFlowWidget(
+                                  isLocation: false,
+                                  locationInfo: null,
+                                  locationAddress: "",
                                   deletePost: false,
                                   didILiked:
                                       snapshot.data!.data![0].didILiked ?? 0,

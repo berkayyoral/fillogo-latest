@@ -13,6 +13,9 @@ import 'package:fillogo/models/stories/user_stories.dart';
 import 'package:fillogo/services/general_sevices_template/general_services.dart';
 import 'package:fillogo/services/socket/socket_service.dart';
 import 'package:fillogo/widgets/post_video_player_widget.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
 import '../../../controllers/bottom_navigation_bar_controller.dart';
 import '../../../widgets/popup_post_details.dart';
@@ -52,9 +55,14 @@ class PostFlowWidget extends StatefulWidget {
       required this.selectedRouteId,
       required this.selectedRouteUserId,
       required this.deletePost,
-      this.deletePostOnTap})
+      this.deletePostOnTap,
+      this.isLocation = false,
+      required this.locationAddress,
+      required this.locationInfo})
       : super(key: key);
-
+  final bool isLocation;
+  final LatLng? locationInfo;
+  final String locationAddress;
   final bool onlyPost;
   final String centerImageUrl;
   final String subtitle;
@@ -81,6 +89,7 @@ class PostFlowWidget extends StatefulWidget {
   final int likedStatus;
   final int? selectedRouteId;
   final int? selectedRouteUserId;
+
   bool deletePost;
   Function()? deletePostOnTap;
 
@@ -123,6 +132,13 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
     var likeCount = widget.othersLikeCount.obs;
     var lastLikeCount = int.parse(widget.othersLikeCount).obs;
 
+    // if (widget.isLocation) {
+    //   getRouteInfo(locationInfo: widget.locationInfo!).then((onValue) {
+    //     print("LOCATİONUMONVALUE -> ${onValue}");
+    //     locationAddress.value = onValue ?? "adres yok";
+    //   });
+    // }
+
     return Column(children: [
       FittedBox(
         child: Row(
@@ -139,11 +155,11 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                   child: GestureDetector(
                     child: ProfilePhoto(
                       onTap: () {
+                        print("OTHERPROFİLEiD my -> ${widget.userId}");
                         if (LocaleManager.instance
                                 .getInt(PreferencesKeys.currentUserId)
                                 .toString() ==
                             widget.userId.toString()) {
-                          Get.back();
                           bottomNavigationBarController.selectedIndex.value = 3;
                         } else {
                           Get.toNamed('/otherprofiles',
@@ -167,6 +183,9 @@ class _PostFlowWidgetState extends State<PostFlowWidget> {
                       emotionContent: widget.emotionContent,
                       haveTag: widget.haveTag,
                       haveEmotion: widget.haveEmotion,
+                      locationAdress: widget.locationAddress,
+                      locationInfo:
+                          widget.isLocation ? widget.locationInfo : null,
                     ),
                     Visibility(
                       visible: !widget.onlyPost,
@@ -936,7 +955,11 @@ class EmotionAndTagStringCreate extends StatelessWidget {
     required this.haveTag,
     required this.haveEmotion,
     required this.userId,
+    required this.locationAdress,
+    this.locationInfo,
   });
+  final LatLng? locationInfo;
+  final String? locationAdress;
   final String name;
   final int userId;
   final List<Postpostlabel>? usersTagged;
@@ -970,19 +993,80 @@ class EmotionAndTagStringCreate extends StatelessWidget {
                 bottomNavigationBarController.selectedIndex.value = 3;
               }
             },
-            child: RichText(
-              textAlign: TextAlign.left,
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "$name   ",
-                    style: TextStyle(
-                        fontFamily: "Sfbold",
-                        fontSize: 16.sp,
-                        color: AppConstants().ltLogoGrey),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: name,
+                        style: TextStyle(
+                            fontFamily: "Sfbold",
+                            fontSize: 16.sp,
+                            color: AppConstants().ltLogoGrey),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                locationAdress == null ||
+                        locationInfo == null ||
+                        locationAdress == ", , ,"
+                    ? Container()
+                    : InkWell(
+                        onTap: () {
+                          Get.dialog(
+                            Dialog(
+                              backgroundColor: Colors.white,
+                              insetPadding: const EdgeInsets.all(16),
+                              child: SizedBox(
+                                width: Get.width,
+                                height: 300,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: GoogleMap(
+                                    initialCameraPosition: CameraPosition(
+                                      target: locationInfo!, // Örnek konum
+                                      zoom: 14,
+                                    ),
+                                    markers: {
+                                      Marker(
+                                        markerId: MarkerId('konum'),
+                                        position: locationInfo!,
+                                      ),
+                                    },
+                                    myLocationButtonEnabled: false,
+                                    zoomControlsEnabled: false,
+                                    myLocationEnabled: false,
+                                    onMapCreated: (controller) {},
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: AppConstants().ltDarkGrey,
+                              size: 20.r,
+                            ),
+                            Text(
+                              "${locationAdress}",
+                              style: TextStyle(
+                                  letterSpacing: -1,
+                                  color:
+                                      AppConstants().ltDarkGrey.withAlpha(220)),
+                            ),
+                          ],
+                        ),
+                      ),
+              ],
             ),
           ),
           Visibility(

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:fillogo/controllers/share_media/share_media_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -56,6 +57,8 @@ class CreatePostPageView extends StatelessWidget {
 
   CreatePostPageController createPostPageController =
       Get.find<CreatePostPageController>();
+  MapPageMController mapPageMController = Get.find();
+  CreateRouteController createRouteController = Get.find();
   MediaPickerController mediaPickerController =
       Get.find<MediaPickerController>();
 
@@ -253,6 +256,105 @@ class CreatePostPageView extends StatelessWidget {
                   ),
                 ),
                 Padding(
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 10.h),
+                  child: Obx(
+                    () => !createPostPageController.isLocationPost.value
+                        ? Container()
+                        : Column(
+                            // alignment: Alignment.bottomCenter,
+                            children: [
+                              mediaPickerController.isMediaPicked
+                                  ? Container()
+                                  : Container(
+                                      height: 140.h,
+                                      width: double.maxFinite,
+                                      child: GoogleMap(
+                                        initialCameraPosition: CameraPosition(
+                                          target: LatLng(
+                                              mapPageMController
+                                                  .myLocationLatitudeDo.value,
+                                              mapPageMController
+                                                  .myLocationLongitudeDo
+                                                  .value), // gönderiye ait konum
+                                          zoom: 14,
+                                        ),
+                                        markers: {
+                                          Marker(
+                                            markerId: const MarkerId('konum'),
+                                            position: LatLng(
+                                                mapPageMController
+                                                    .myLocationLatitudeDo.value,
+                                                mapPageMController
+                                                    .myLocationLongitudeDo
+                                                    .value),
+                                            infoWindow: const InfoWindow(
+                                                title: 'Gönderi Konumu'),
+                                          ),
+                                        },
+                                        myLocationEnabled: false,
+                                        myLocationButtonEnabled: false,
+                                        zoomGesturesEnabled: false,
+                                        scrollGesturesEnabled: false,
+                                        rotateGesturesEnabled: false,
+                                        tiltGesturesEnabled: false,
+                                      ),
+                                    ),
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                alignment: Alignment.centerLeft,
+                                height: 60.h,
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(
+                                  color: AppConstants().ltWhite,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(5.r),
+                                      bottomRight: Radius.circular(5.r)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: AppConstants().ltDarkGrey,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        createRouteController
+                                            .startRouteAdress.value,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 16.sp, letterSpacing: -1),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        createPostPageController
+                                            .isLocationPost.value = false;
+                                      },
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: AppConstants().ltDarkGrey,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                ),
+                Padding(
                   padding: EdgeInsets.only(
                     left: 16.w,
                     right: 16.w,
@@ -267,7 +369,8 @@ class CreatePostPageView extends StatelessWidget {
                         if (createPostPageController.haveDiscription.value ==
                                 0 &&
                             createPostPageController.havePostPhoto.value == 0 &&
-                            createPostPageController.haveRoute.value == 0) {
+                            createPostPageController.haveRoute.value == 0 &&
+                            !createPostPageController.isLocationPost.value) {
                           print("gönderioluştur 1");
                         } else {
                           Map<String, dynamic> map = <String, dynamic>{};
@@ -284,9 +387,14 @@ class CreatePostPageView extends StatelessWidget {
                             }
                           }
 
-                          map['postDescription'] =
-                              createPostPageController.routeId.value != 0
-                                  ? "Yeni bir rotaya çıktım"
+                          map['postDescription'] = createPostPageController
+                                      .routeId.value !=
+                                  0
+                              ? "Yeni bir rotaya çıktım"
+                              : discriptionTextController.text.isEmpty &&
+                                      createPostPageController
+                                          .isLocationPost.value
+                                  ? "Konumum : ${createRouteController.startRouteAdress.value}"
                                   : discriptionTextController.text;
 
                           createPostPageController.routeId.value == 0
@@ -300,6 +408,25 @@ class CreatePostPageView extends StatelessWidget {
 
                           mediaPickerController.media != null
                               ? map['file'] = mediaPickerController.media
+                              : null;
+
+                          createPostPageController.isLocationPost.value
+                              ? map["isLocation"] = true
+                              : false;
+
+                          createPostPageController.isLocationPost.value
+                              ? map["latitude"] = createRouteController
+                                  .startRouteLocation.value.latitude
+                              : null;
+
+                          createPostPageController.isLocationPost.value
+                              ? map["longitude"] = createRouteController
+                                  .startRouteLocation.value.longitude
+                              : null;
+
+                          createPostPageController.isLocationPost.value
+                              ? map["address"] =
+                                  createRouteController.startRouteAdress.value
                               : null;
 
                           // mediaPickerController.media != null
@@ -319,7 +446,6 @@ class CreatePostPageView extends StatelessWidget {
                           //         ),
                           //       )
                           //     : null;
-
                           // Map<String, dynamic> formData1 = {
 
                           if (createPostPageController.routeId.value != 0) {
@@ -560,7 +686,8 @@ class CreatePostPageView extends StatelessWidget {
                                   0 &&
                               createPostPageController.havePostPhoto.value ==
                                   0 &&
-                              createPostPageController.haveRoute.value == 0)
+                              createPostPageController.haveRoute.value == 0 &&
+                              !createPostPageController.isLocationPost.value)
                           ? AppConstants().ltDarkGrey
                           : AppConstants().ltMainRed,
                       height: 50.h,
@@ -738,6 +865,7 @@ class CreatePostPageView extends StatelessWidget {
           //     title: 'Taslaklara Kaydet',
           //   ),
           // );
+          createPostPageController.isLocationPost.value = false;
         },
         child: Padding(
           padding: EdgeInsets.only(
@@ -752,7 +880,7 @@ class CreatePostPageView extends StatelessWidget {
         ),
       ),
       title: Text(
-        "Gönderi Oluştsur",
+        "Gönderi Oluştur",
         style: TextStyle(
           fontFamily: "Sfbold",
           fontSize: 20.sp,
@@ -949,6 +1077,7 @@ class CreatePostPageView extends StatelessWidget {
                       ),
                     ),
                   );
+                  createPostPageController.isLocationPost.value = false;
                   Get.find<HomeController>().update(["homePage"]);
                   Get.find<HomeController>().update(["comment"]);
                   Get.find<HomeController>().update(["homePagem"]);

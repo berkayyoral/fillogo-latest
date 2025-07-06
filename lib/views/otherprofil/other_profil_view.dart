@@ -19,6 +19,7 @@ import 'package:fillogo/widgets/followers_count_row_widget.dart';
 import 'package:fillogo/widgets/popup_view_widget.dart';
 import 'package:fillogo/widgets/profile_header_widget.dart';
 import 'package:fillogo/widgets/user_vehicle_infos_widget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OtherProfilsView extends StatefulWidget {
   OtherProfilsView({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
   Widget build(BuildContext context) {
     String followersCount = "";
     otherProfileRequest.userID = Get.arguments ?? 1;
+    print("OTHERPROFİLEiD -> ${otherProfileRequest.userID}");
     return GetBuilder<UserStateController>(
       id: 'like',
       builder: (controller) {
@@ -599,6 +601,55 @@ class _OtherProfilsViewState extends State<OtherProfilsView> {
                                     snapshot.data!.data!.posts!.result!.length,
                                 itemBuilder: (context, index) {
                                   return PostFlowWidget(
+                                    isLocation: snapshot.data!.data!.posts!
+                                            .result![index].post!.isLocation ??
+                                        false,
+                                    locationInfo: snapshot
+                                                    .data!
+                                                    .data!
+                                                    .posts!
+                                                    .result![index]
+                                                    .post!
+                                                    .isLocation ==
+                                                false ||
+                                            snapshot
+                                                    .data!
+                                                    .data!
+                                                    .posts!
+                                                    .result![index]
+                                                    .post!
+                                                    .isLocation ==
+                                                null
+                                        ? null
+                                        : LatLng(
+                                            snapshot.data!.data!.posts!
+                                                .result![index].post!.latitude!,
+                                            snapshot
+                                                .data!
+                                                .data!
+                                                .posts!
+                                                .result![index]
+                                                .post!
+                                                .longitude!),
+                                    locationAddress: snapshot
+                                                    .data!
+                                                    .data!
+                                                    .posts!
+                                                    .result![index]
+                                                    .post!
+                                                    .isLocation ==
+                                                false ||
+                                            snapshot
+                                                    .data!
+                                                    .data!
+                                                    .posts!
+                                                    .result![index]
+                                                    .post!
+                                                    .isLocation ==
+                                                null
+                                        ? ""
+                                        : snapshot.data!.data!.posts!
+                                            .result![index].post!.address!,
                                     deletePost: false,
                                     didILiked: snapshot.data!.data!.posts!
                                             .result![index].didILiked ??

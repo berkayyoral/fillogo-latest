@@ -3,6 +3,8 @@ import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/core/init/bussiness_helper/bussiness_helper.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/views/create_post_view/components/create_post_page_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/create_route_controller.dart';
+import 'package:fillogo/views/map_page_new/controller/map_pagem_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddNewPropertyCreatePost extends StatefulWidget {
@@ -235,26 +237,34 @@ class _AddNewPropertyCreatePostState extends State<AddNewPropertyCreatePost> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // Get.toNamed('/createPostPageAddRoute');
-                    bottomNavigationBarController.changeIndex(1);
-                    Get.toNamed(NavigationConstants.bottomNavigationBar);
+                    CreateRouteController createRouteController = Get.find();
+                    createPostPageController.isLocationPost.value = true;
+                    createRouteController.getRouteInfo();
+
+                    // bottomNavigationBarController.changeIndex(1);
+                    // Get.toNamed(NavigationConstants.bottomNavigationBar);
                   },
                   child: Row(
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/route-icon.svg',
-                        height: 28.w,
-                        width: 28.w,
-                        color: (createPostPageController.haveRoute.value == 1)
-                            ? AppConstants().ltMainRed
-                            : AppConstants().ltLogoGrey,
+                      // SvgPicture.asset(
+                      //   'assets/icons/route-icon.svg',
+                      //   height: 28.w,
+                      //   width: 28.w,
+                      //   color: (createPostPageController.haveRoute.value == 1)
+                      //       ? AppConstants().ltMainRed
+                      //       : AppConstants().ltLogoGrey,
+                      // ),
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: AppConstants().ltDarkGrey,
+                        size: 30.w,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 15.w,
                         ),
                         child: Text(
-                          'Rota ekle',
+                          'Konum ekle',
                           style: TextStyle(
                             fontFamily: 'Sfmedium',
                             fontSize: 14.sp,

@@ -4,12 +4,14 @@ import 'package:fillogo/controllers/home_controller/home_controller.dart';
 import 'package:fillogo/controllers/media/media_controller.dart';
 import 'package:fillogo/export.dart';
 import 'package:fillogo/models/emoji/emoji_response_model.dart';
+import 'package:fillogo/models/routes_models_group/route_calculate_models.dart';
 import 'package:fillogo/models/search/user/search_user_response.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CreatePostPageController extends GetxController {
   File? imageFile;
-
   RxBool isAddNewStory = false.obs;
+  RxBool isLocationPost = false.obs;
   var selectedOption = EmotionData().obs;
 
   setSelectedOption(EmotionData option) {

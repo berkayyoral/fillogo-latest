@@ -15,6 +15,8 @@ import 'package:fillogo/views/postflow/components/story_flow_widget.dart';
 import 'package:fillogo/views/route_details_page_view/components/selected_route_controller.dart';
 import 'package:fillogo/views/testFolder/test19/route_api_services.dart';
 import 'package:fillogo/widgets/share_post_progressbar_widget.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -114,9 +116,15 @@ class PostFlowView extends StatelessWidget {
                                                     .value[index]!.post!.text !=
                                                 "default text")) {
                                           return Obx(() {
-                                            print(
-                                                "PWV POSTFLOW 2 video -> ${jsonEncode(homeContoller.snapshotList.value[0]!.post)}");
-                                            return homeContoller.isDeletePostLoading.value &&
+                                            // print(
+                                            //     "PWV POSTFLOW 2 video -> ${jsonEncode(homeContoller.snapshotList.value[0]!.post)}");
+
+                                            // print(
+                                            //     "LOCATİONUMONVALUE girdim} ind -> ${index} lat -> ${jsonEncode(homeContoller.snapshotList.value[index]!.post.latitude)}");
+
+                                            return homeContoller
+                                                        .isDeletePostLoading
+                                                        .value &&
                                                     homeContoller
                                                             .snapshotList
                                                             .value[index]!
@@ -130,27 +138,27 @@ class PostFlowView extends StatelessWidget {
                                                     child:
                                                         CircularProgressIndicator())
                                                 : PostFlowWidget(
-                                                    deletePost: LocaleManager.instance.getInt(PreferencesKeys.currentUserId) == homeContoller.snapshotList.value[index]!.post!.user!.id!
-                                                        ? true
-                                                        : false,
-                                                    didILiked: homeContoller
-                                                        .snapshotList
-                                                        .value[index]!
-                                                        .didILiked!,
-                                                    postId: homeContoller
-                                                        .snapshotList
-                                                        .value[index]!
-                                                        .post!
-                                                        .id!,
-                                                    onlyPost: homeContoller
-                                                        .snapshotList
-                                                        .value[index]!
-                                                        .onlyPost!,
-                                                    centerImageUrl: homeContoller
-                                                        .snapshotList
-                                                        .value[index]!
-                                                        .post!
-                                                        .media!,
+                                                    isLocation: homeContoller
+                                                            .snapshotList
+                                                            .value[index]!
+                                                            .post
+                                                            .isLocation ??
+                                                        false,
+                                                    locationInfo: homeContoller
+                                                                    .snapshotList
+                                                                    .value[index]!
+                                                                    .post
+                                                                    .isLocation ==
+                                                                false ||
+                                                            homeContoller.snapshotList.value[index]!.post.isLocation == null
+                                                        ? null
+                                                        : LatLng(homeContoller.snapshotList.value[index]!.post.latitude!, homeContoller.snapshotList.value[index]!.post.longitude!),
+                                                    locationAddress: homeContoller.snapshotList.value[index]!.post.isLocation == false || homeContoller.snapshotList.value[index]!.post.isLocation == null ? "" : homeContoller.snapshotList.value[index]!.post.address ?? "",
+                                                    deletePost: LocaleManager.instance.getInt(PreferencesKeys.currentUserId) == homeContoller.snapshotList.value[index]!.post!.user!.id! ? true : false,
+                                                    didILiked: homeContoller.snapshotList.value[index]!.didILiked!,
+                                                    postId: homeContoller.snapshotList.value[index]!.post!.id!,
+                                                    onlyPost: homeContoller.snapshotList.value[index]!.onlyPost!,
+                                                    centerImageUrl: homeContoller.snapshotList.value[index]!.post!.media!,
                                                     deletePostOnTap: () async {
                                                       homeContoller
                                                           .isDeletePostLoading
@@ -443,5 +451,35 @@ class PostFlowView extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<String?> getRouteInfo({required LatLng locationInfo}) async {
+  try {
+    // startRouteLocation.value = LatLng(
+    //     mapPageMController.myLocationLatitudeDo.value,
+    //     mapPageMController.myLocationLongitudeDo.value);
+    // MfuController mfuController = Get.find();
+
+    // Koordinatları belirle
+    double latitude = locationInfo.latitude;
+
+    double longitude = locationInfo.longitude;
+
+    // Geocoding ile adres bilgisi al
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
+
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks.first;
+      String address =
+          "${place.subLocality}, ${place.street}, ${place.locality}, ${place.administrativeArea}";
+
+      return address;
+    } else {
+      print("No address found for the provided coordinates.");
+    }
+  } catch (e) {
+    print("CREATEROUTECONTROLLER GET CITY ERROR -> $e");
   }
 }

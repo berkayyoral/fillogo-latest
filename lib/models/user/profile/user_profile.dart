@@ -268,6 +268,10 @@ class Post {
     this.postemojis,
     this.postpostlabels,
     this.postroute,
+    this.address,
+    this.isLocation,
+    this.latitude,
+    this.longitude,
   });
 
   int? id;
@@ -278,6 +282,10 @@ class Post {
   List<Postemoji>? postemojis;
   List<Postpostlabel>? postpostlabels;
   Postroute? postroute;
+  String? address;
+  double? latitude;
+  double? longitude;
+  bool? isLocation;
 
   factory Post.fromRawJson(String str) => Post.fromJson(json.decode(str));
 
@@ -287,6 +295,10 @@ class Post {
         id: json["id"],
         userId: json["userID"],
         text: json["text"],
+        address: json["address"],
+        isLocation: json["isLocation"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
         media: json["media"] ?? "",
         createdAt: json["createdAt"] == null
             ? null
@@ -309,6 +321,10 @@ class Post {
         "userID": userId,
         "text": text,
         "media": media,
+        "address": address,
+        "isLocation": isLocation,
+        "latitude": latitude,
+        "longitude": longitude,
         "createdAt": createdAt?.toIso8601String(),
         "postemojis": postemojis == null
             ? []
@@ -406,35 +422,34 @@ class Userpostlabels {
 //
 //     final postroute = postrouteFromJson(jsonString);
 
-
 class Postroute {
-    int? id;
-    String? startingCity;
-    String? endingCity;
+  int? id;
+  String? startingCity;
+  String? endingCity;
 
-    Postroute({
-        this.id,
-        this.startingCity,
-        this.endingCity,
-    });
+  Postroute({
+    this.id,
+    this.startingCity,
+    this.endingCity,
+  });
 
-    factory Postroute.fromRawJson(String str) => Postroute.fromJson(json.decode(str));
+  factory Postroute.fromRawJson(String str) =>
+      Postroute.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(toJson());
 
-    factory Postroute.fromJson(Map<String, dynamic> json) => Postroute(
+  factory Postroute.fromJson(Map<String, dynamic> json) => Postroute(
         id: json["id"],
         startingCity: json["startingCity"],
         endingCity: json["endingCity"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "startingCity": startingCity,
         "endingCity": endingCity,
-    };
+      };
 }
-
 
 class Users {
   Users({

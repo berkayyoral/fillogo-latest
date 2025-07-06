@@ -427,6 +427,70 @@ class _MyProfilViewState extends State<MyProfilView> {
                                                         .text! !=
                                                     "")
                                             ? PostFlowWidget(
+                                                isLocation: snapshot
+                                                        .data!
+                                                        .data!
+                                                        .posts!
+                                                        .result![index]
+                                                        .post!
+                                                        .isLocation ??
+                                                    false,
+                                                locationInfo: snapshot
+                                                                .data!
+                                                                .data!
+                                                                .posts!
+                                                                .result![index]
+                                                                .post!
+                                                                .isLocation ==
+                                                            false ||
+                                                        snapshot
+                                                                .data!
+                                                                .data!
+                                                                .posts!
+                                                                .result![index]
+                                                                .post!
+                                                                .isLocation ==
+                                                            null
+                                                    ? null
+                                                    : LatLng(
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .posts!
+                                                            .result![index]
+                                                            .post!
+                                                            .latitude!,
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .posts!
+                                                            .result![index]
+                                                            .post!
+                                                            .longitude!),
+                                                locationAddress: snapshot
+                                                                .data!
+                                                                .data!
+                                                                .posts!
+                                                                .result![index]
+                                                                .post!
+                                                                .isLocation ==
+                                                            false ||
+                                                        snapshot
+                                                                .data!
+                                                                .data!
+                                                                .posts!
+                                                                .result![index]
+                                                                .post!
+                                                                .isLocation ==
+                                                            null
+                                                    ? ""
+                                                    : snapshot
+                                                        .data!
+                                                        .data!
+                                                        .posts!
+                                                        .result![index]
+                                                        .post!
+                                                        .address!,
                                                 deletePostOnTap: () {
                                                   GeneralServicesTemp()
                                                       .makeDeleteWithoutBody(
